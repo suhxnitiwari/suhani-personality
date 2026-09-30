@@ -683,11 +683,15 @@
   #both { padding: 120px 0; }
   #both .intro { max-width: 760px; }
   .both-title { font-size: clamp(44px, 8vw, 88px) !important; }
-  #both .contras { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 48px; }
-  @media (max-width: 760px) { #both .contras { grid-template-columns: 1fr; } }
-  #both .contra { padding: 28px 30px; }
-  #both .contra .ends { font-size: clamp(22px, 2.6vw, 30px); }
-  #both .contra .why { font-size: 16px; min-height: 84px; line-height: 1.55; }
+  /* same 3-column grid as the Loyal / Empathic / Expressive anchors */
+  #both .contras { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 44px; }
+  @media (max-width: 900px) { #both .contras { grid-template-columns: 1fr 1fr; gap: 20px; } }
+  @media (max-width: 600px) { #both .contras { grid-template-columns: 1fr; } }
+  #both .contra { padding: 24px 24px 20px; display: flex; flex-direction: column; }
+  #both .contra .ends { font-size: clamp(19px, 1.9vw, 24px); gap: 10px; }
+  #both .contra .why { font-size: 15px; line-height: 1.5; min-height: 0; flex: 1; }
+  #moreContras { margin-top: 24px; }
+  #both .contra[hidden] { display: none; }
   /* ---------- act dividers ---------- */
   .act { background: #1a0912; border-top: 1px solid rgba(255,79,154,.25); border-bottom: 1px solid rgba(255,79,154,.25); padding: 26px 0; }
   .act .wrap { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
@@ -965,9 +969,10 @@
       <div class="contra reveal" data-c="3"></div>
       <div class="contra reveal" data-c="4"></div>
       <div class="contra reveal" data-c="5"></div>
-      <div class="contra reveal" data-c="6"></div>
-      <div class="contra reveal" data-c="7"></div>
+      <div class="contra reveal extra" data-c="6" hidden></div>
+      <div class="contra reveal extra" data-c="7" hidden></div>
     </div>
+    <button class="more-btn" id="moreContras">See 2 more tensions</button>
   </div>
 </section>
 
@@ -1663,6 +1668,12 @@ document.querySelectorAll('.contra').forEach(el => {
   };
   input.addEventListener('input', update); update();
 });
+
+document.getElementById('moreContras').onclick = e => {
+  const extras = document.querySelectorAll('.contra.extra'), show = extras[0].hidden;
+  extras.forEach(x => { x.hidden = !show; x.classList.add('in'); });
+  e.currentTarget.textContent = show ? 'Show fewer' : 'See 2 more tensions';
+};
 
 // font tester
 const typeIn = document.getElementById('typeIn');

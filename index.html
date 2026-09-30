@@ -975,8 +975,8 @@
   <div class="wrap">
     <div class="intro reveal">
       <div class="kicker"><i>15</i>Pop quiz</div>
-      <h2>How well do you <em>know her?</em></h2>
-      <p>Five questions. Everything you need is somewhere on this page.</p>
+      <h2>What would <em>she do?</em></h2>
+      <p>Six situations. Predict her move. Answers are our best read of her results, not gospel.</p>
     </div>
     <div class="quiz reveal" id="quizBox" aria-live="polite"></div>
   </div>
@@ -1745,30 +1745,31 @@ document.querySelectorAll('#myLL button').forEach(b => b.onclick = () => {
 // quiz
 /* [question, options, index of the right answer, why] */
 const QUIZ = [
-  ['What is her #1 love language?', ['Quality Time', 'Receiving Gifts', 'Words of Affirmation', 'Acts of Service'], 1, 'Receiving Gifts, at 27%. The red gift box was a hint.'],
-  ['What is her #1 CliftonStrength?', ['Achiever', 'Relator', 'Woo', 'Strategic'], 1, 'Relator: a small circle with deep roots.'],
-  ["What's the fastest way to make her day?", ['A surprise vanilla latte', 'A long meeting', 'A last-minute cancel', 'A one-word text'], 0, 'Straight from her: a vanilla latte never misses.'],
-  ['What is her Holland code?', ['RIC', 'ASE', 'SEC', 'IAS'], 1, 'ASE: Artistic, Social, Enterprising. Three neighbors on the hexagon.'],
-  ['Which one gives her the ick?', ['Showing up with a plan', 'Remembering her birthday', '"I\'ll do it later," and never doing it', 'Saying "that was her idea"'], 2, 'Dutifulness 19/20. Her word is her bond.']
+  ["The group chat can't decide where to eat. It has been 40 minutes.", ['Waits patiently for everyone to agree', 'Sends one restaurant, a time, and "see you there"', 'Says "idk, anything works"', 'Mutes the chat'], 1, 'DISC Dominance plus an ESFJ planner. Democracy had its chance.'],
+  ['Someone takes credit for her idea in a meeting.', ['Lets it go, it is fine', 'Smiles, then says "So glad you liked the idea I sent Tuesday"', 'Quits on the spot', 'Writes a passive-aggressive email that night'], 1, 'Honesty #2 and Bravery #6: calm, direct, receipts attached.'],
+  ["It's your birthday. What does she do?", ['Texts "hbd" at 11:58 PM', 'Shows up with a gift based on something you mentioned four months ago', 'Sends a meme', 'Forgets, then makes it up to you'], 1, 'Receiving Gifts is her #1 love language, and Individualization means she was taking notes.'],
+  ['The Medici line is 12 people deep, and she needs her 16 oz hot vanilla latte.', ['Waits calmly and practices gratitude', 'Checks the time twice, then mobile-orders before she reaches the door', 'Gives up on coffee forever', 'Switches to tea'], 1, 'DISC: slow progress drives her up the wall. The latte, however, is non-negotiable.'],
+  ['A friend is about to make a questionable decision.', ['Says nothing. Not her business', 'Tells them the truth, kindly, then helps them fix it', 'Posts a vague story about it', 'Agrees, to avoid drama'], 1, 'Honesty #2, Developer, and Relator #1: loyal enough to be honest.'],
+  ['Her group-project partner has gone silent three days before the deadline.', ['Quietly does the whole thing herself', 'Sends a plan with names, tasks, and deadlines in the group chat', 'Waits and hopes for the best', 'Emails the professor immediately'], 1, 'Organized, Leadership #7, and zero patience for ghosts. Everyone gets a task.']
 ];
 let qi = 0, qScore = 0;
 const quizBox = document.getElementById('quizBox');
 const dots = () => `<div class="q-dots">${QUIZ.map((_, i) => `<i class="${i < qi ? 'done' : ''}"></i>`).join('')}</div>`;
 const renderQ = () => {
   if (qi >= QUIZ.length) {
-    const msg = qScore === 5 ? "Perfect. You're definitely in the inner circle." : qScore >= 3 ? 'Solid. You were paying attention.' : 'Scroll back up. She believes in second chances.';
-    quizBox.innerHTML = `<div class="q-top">${dots()}<span>Done</span></div><div class="q-final">${qScore}/5</div><h3 style="margin-top:10px">${msg}</h3><button class="q-next" id="qAgain">Try again</button>`;
+    const n = QUIZ.length, msg = qScore === n ? 'Inner circle. Bring the latte.' : qScore >= n - 2 ? 'Close-friend energy. She would add you to the group chat.' : qScore >= 2 ? "You've met her. At a party. Once." : 'Have you... met her?';
+    quizBox.innerHTML = `<div class="q-top">${dots()}<span>Done</span></div><div class="q-final">${qScore}/${QUIZ.length}</div><h3 style="margin-top:10px">${msg}</h3><button class="q-next" id="qAgain">Try again</button>`;
     document.getElementById('qAgain').onclick = () => { qi = 0; qScore = 0; renderQ(); };
-    if (qScore === 5) hearts(innerWidth / 2, innerHeight / 2);
+    if (qScore === QUIZ.length) hearts(innerWidth / 2, innerHeight / 2);
     return;
   }
   const [q, opts] = QUIZ[qi];
-  quizBox.innerHTML = `<div class="q-top">${dots()}<span>Question ${qi + 1} of ${QUIZ.length}</span></div><h3>${q}</h3><div class="q-opts">${opts.map((o, i) => `<button data-i="${i}">${o}</button>`).join('')}</div><p class="q-why"></p>`;
+  quizBox.innerHTML = `<div class="q-top">${dots()}<span>Question ${qi + 1} of ${QUIZ.length}</span></div><h3>${q}</h3><div class="q-opts">${opts.map((o, i) => [o, i]).sort(() => Math.random() - .5).map(([o, i]) => `<button data-i="${i}">${o}</button>`).join('')}</div><p class="q-why"></p>`;
   quizBox.querySelectorAll('.q-opts button').forEach(b => b.onclick = () => {
     const [, , right, why] = QUIZ[qi], picked = +b.dataset.i;
     quizBox.querySelectorAll('.q-opts button').forEach(x => { x.disabled = true; if (+x.dataset.i === right) x.classList.add('right'); });
     if (picked === right) qScore++; else b.classList.add('wrong');
-    quizBox.querySelector('.q-why').textContent = (picked === right ? 'Correct. ' : 'Not quite. ') + why;
+    quizBox.querySelector('.q-why').textContent = (picked === right ? 'Called it. ' : 'Not her move. ') + why;
     const next = document.createElement('button'); next.className = 'q-next'; next.textContent = qi === QUIZ.length - 1 ? 'See my score' : 'Next question';
     next.onclick = () => { qi++; renderQ(); };
     quizBox.append(next);
@@ -1970,7 +1971,7 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     ['receipts', 'receipts.js', 'The receipts', 'One data array holds every positive and neutral score from all eleven tests. Tabs re-render the panel from that data, and the bars animate by setting their width on the next animation frame.', ['data-driven UI', 'tabs', 'requestAnimationFrame']],
     ['riasec hexagon', 'hexagon.js', 'RIASEC hexagon', 'Holland\'s hexagon drawn in SVG with trigonometry: each vertex sits at -90° + i × 60°. Her six scores become a radar polygon, and her top three letters (A, S, E) are filled in.', ['SVG', 'cos/sin', 'radar chart']],
     ['compatibility check', 'match.js', 'Compatibility check', 'Each personality letter and love language carries a weight. The score starts at 50 and adds up as you pick, and the reasons list builds itself from the same data. Framed as fun, not science.', ['weighted scoring', 'live updates', 'data-driven copy']],
-    ['quiz', 'quiz.js', 'Pop quiz', 'A small state machine: the question index and score are the only state. Each answer locks the options, reveals the right one, and explains it before moving on.', ['state machine', 'template literals', 'feedback loop']],
+    ['quiz', 'quiz.js', 'Pop quiz', 'Situational predictions instead of trivia. A small state machine: the question index and score are the only state. Each answer locks the options, reveals the right one, and explains it before moving on.', ['state machine', 'template literals', 'feedback loop']],
     ['page-wide touches', 'touches.js', 'Page-wide touches', 'A scroll progress line that ends in a heart, letters that jump, 3D card tilt from pointer position, and a keystroke buffer that listens for secret words.', ['pointer math', 'keyboard buffer', 'CSS masks']],
     ['under the hood', 'hood.js', 'This panel', 'The panel reads this page\'s own <script> at runtime, splits it at comment markers, and syntax-highlights it with a single-regex tokenizer. Live numbers come from requestAnimationFrame and the Performance API, and it only updates while you can see it.', ['self-reading code', 'regex tokenizer', 'Performance API', 'Clipboard API']]
   ].filter(f => chunks[f[0]]);

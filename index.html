@@ -653,6 +653,32 @@
   html.quiz-only #quiz .kicker i { display: none; }
   .share-quiz { margin-top: 18px; }
   .q-share { margin-left: 10px; background: none; color: var(--rose); border: 1px solid var(--rose); }
+  /* ---------- anchors (level 1) + evidence drawer (level 3) ---------- */
+  .anchors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 44px; }
+  @media (max-width: 760px) { .anchors { grid-template-columns: 1fr; gap: 22px; } }
+  .anchor h3 { font: 800 clamp(34px, 4.6vw, 52px) "Playfair Display", serif; line-height: 1; margin-bottom: 12px; }
+  .shell .anchor h3 { color: #ff9dbb; } .core .anchor h3 { color: var(--rose); font-style: italic; }
+  .anchor p { margin: 0; font-size: 15px; line-height: 1.6; }
+  .shell .anchor p { color: var(--shell-muted); } .core .anchor p { color: var(--core-muted); }
+  .anchor { border-top: 2px solid; padding-top: 16px; }
+  .shell .anchor { border-color: rgba(255,79,154,.5); } .core .anchor { border-color: var(--line); }
+  .evidence-drawer { margin-top: 8px; }
+  .ll-insight { margin: 18px 0 0; padding: 16px 18px; border-left: 3px solid var(--rose); background: var(--card); border-radius: 0 16px 16px 0; }
+  .ll-insight b { font: 700 italic 20px "Playfair Display", serif; color: var(--rose); }
+  .ll-insight p { margin: 6px 0 0; font-size: 14px; color: var(--core-muted); }
+  #both { padding: 120px 0; }
+  #both .intro { max-width: 760px; }
+  .both-title { font-size: clamp(44px, 8vw, 88px) !important; }
+  #both .contras { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 48px; }
+  @media (max-width: 760px) { #both .contras { grid-template-columns: 1fr; } }
+  #both .contra { padding: 28px 30px; }
+  #both .contra .ends { font-size: clamp(22px, 2.6vw, 30px); }
+  #both .contra .why { font-size: 16px; min-height: 84px; line-height: 1.55; }
+  /* ---------- act dividers ---------- */
+  .act { background: #1a0912; border-top: 1px solid rgba(255,79,154,.25); border-bottom: 1px solid rgba(255,79,154,.25); padding: 26px 0; }
+  .act .wrap { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+  .act span { font-size: 12px; letter-spacing: .24em; text-transform: uppercase; font-weight: 700; color: #ff4f9a; }
+  .act b { font: italic 600 clamp(22px, 3.4vw, 34px) "Playfair Display", serif; color: #ffe3ec; }
 </style>
 </head>
 <body>
@@ -661,10 +687,10 @@
 <div class="toast" id="toast" role="status"></div>
 <div class="latte" id="latte" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><clipPath id="cupClip"><path d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7z"/></clipPath></defs><path class="steam" d="M48 36c-4-6 4-10 0-16M60 36c-4-6 4-10 0-16M72 36c-4-6 4-10 0-16"/><g clip-path="url(#cupClip)"><rect class="fill" x="20" y="104" width="80" height="60"/></g><path class="cup" d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7zM84 56h6a10 10 0 0 1 0 20h-9M22 110h68"/></svg><p>One vanilla latte, coming right up.</p></div>
 <nav id="nav"><div class="wrap">
-  <div class="ng"><a class="gl" href="#shell">Me</a><span class="gs"><a href="#shell"><b>01</b>Spirit</a><a href="#core"><b>02</b>Heart</a><a href="#both"><b>03</b>Both/And</a><a href="#words"><b>04</b>In a word</a></span></div>
-  <div class="ng"><a class="gl" href="#circle">People</a><span class="gs"><a href="#circle"><b>05</b>Circle</a><a href="#gifts"><b>06</b>Love language</a><a href="#mood"><b>07</b>Mood</a><a href="#icks"><b>08</b>Icks</a><a href="#match"><b>09</b>Match</a></span></div>
-  <div class="ng"><a class="gl" href="#values">Mind</a><span class="gs"><a href="#values"><b>10</b>Values</a><a href="#photos"><b>11</b>Photos</a><a href="#strengths"><b>12</b>Strengths</a><a href="#careers"><b>13</b>Thrive</a><a href="#rip"><b>14</b>Absolutely not</a><a href="#quiz"><b>15</b>Quiz</a></span></div>
-  <div class="ng"><a class="gl" href="#palette">World</a><span class="gs"><a href="#palette"><b>16</b>Style</a><a href="#code"><b>17</b>Code</a></span></div>
+  <div class="ng"><a class="gl" href="#shell">I · Suhani</a><span class="gs"><a href="#shell"><b>01</b>Spirit</a><a href="#core"><b>02</b>Heart</a><a href="#both"><b>03</b>Both/And</a><a href="#strengths"><b>04</b>The pattern</a><a href="#words"><b>05</b>In a word</a></span></div>
+  <div class="ng"><a class="gl" href="#circle">II · Love</a><span class="gs"><a href="#circle"><b>06</b>Circle</a><a href="#gifts"><b>07</b>Love language</a><a href="#mood"><b>08</b>Mood</a><a href="#icks"><b>09</b>Icks</a><a href="#match"><b>10</b>Match</a></span></div>
+  <div class="ng"><a class="gl" href="#values">III · Mind</a><span class="gs"><a href="#values"><b>11</b>Values</a><a href="#photos"><b>12</b>Photos</a><a href="#careers"><b>13</b>Thrive</a><a href="#rip"><b>14</b>Absolutely not</a><a href="#quiz"><b>15</b>Quiz</a></span></div>
+  <div class="ng"><a class="gl" href="#palette">IV · Built</a><span class="gs"><a href="#palette"><b>16</b>Style</a><a href="#code"><b>17</b>Code</a></span></div>
   <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
 </div></nav>
 
@@ -686,6 +712,8 @@
   </div>
 </header>
 
+<div class="act" id="actI"><div class="wrap"><span>Act I</span><b>This is Suhani</b></div></div>
+
 <section class="shell alt" id="shell">
   <div class="wrap">
     <div class="head">
@@ -695,7 +723,10 @@
         <p>Outspoken, driven, and quick to stand up. When something is unfair or someone she loves is threatened, the protector comes out.</p>
       </div>
     </div>
-    <div class="carousel reveal">
+    <div class="anchors reveal"><div class="anchor"><h3>Protective</h3><p>Enneagram 8, DISC Dominance, and Bravery #6 all point the same way: when someone she loves is threatened, she moves first.</p></div><div class="anchor"><h3>Driven</h3><p>Achievement tops her values at 100%, and her Dutifulness is 19/20. She needs to be moving toward something.</p></div><div class="anchor"><h3>Principled</h3><p>Honesty #2, Morality 20/20, Fairness 6.76. Three different tests, one conclusion: her word means something.</p></div></div>
+    <button class="more-btn reveal" data-more="spiritEv" aria-expanded="false">See the evidence</button>
+    <div id="spiritEv" class="evidence-drawer" hidden>
+    <div class="carousel">
       <div class="track">
         <article class="slide"><span class="n">01</span><h3>Protective</h3><p>Takes charge when a group drifts or someone gets treated badly.</p><span class="ev">Enneagram 8 · DISC Dominance</span></article>
         <article class="slide"><span class="n">02</span><h3>Driven</h3><p>Sets high standards and delivers on them, every time.</p><span class="ev">Achievement 100% · Diligence top 10%</span></article>
@@ -705,6 +736,7 @@
         <article class="slide"><span class="n">06</span><h3>A leader</h3><p>Leads by knowing people, not by running systems.</p><span class="ev">VIA Leadership #7</span></article>
       </div>
       <div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div>
+    </div>
     </div>
   </div>
 </section>
@@ -716,7 +748,10 @@
       <h2>What her people know</h2>
       <p>Behind the boss energy is someone who remembers what makes each person special and loves wholeheartedly.</p>
     </div>
-    <div class="carousel reveal">
+    <div class="anchors reveal"><div class="anchor"><h3>Loyal</h3><p>Relator is her #1 strength, and Love is her #1 character strength. A small circle, held onto for life.</p></div><div class="anchor"><h3>Empathic</h3><p>Empathy #2 and 93rd-percentile Agreeableness: she reads a room, and the people in it, fast.</p></div><div class="anchor"><h3>Expressive</h3><p>Creative & Expressive at 91.7% and Artistic 17/20. Feelings come out as things she makes.</p></div></div>
+    <button class="more-btn reveal" data-more="heartEv" aria-expanded="false">See the evidence</button>
+    <div id="heartEv" class="evidence-drawer" hidden>
+    <div class="carousel">
       <div class="track">
         <article class="slide"><span class="n">01</span><h3>Loyal</h3><p>Once you're in, she's in for good. She'll defend you in rooms you're not in.</p><span class="ev">CliftonStrengths #1 Relator</span></article>
         <article class="slide"><span class="n">02</span><h3>Empathic</h3><p>Reads a room, and the people in it, instantly.</p><span class="ev">CliftonStrengths #2 Empathy</span></article>
@@ -727,6 +762,7 @@
       </div>
       <div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div>
     </div>
+    </div>
   </div>
 </section>
 
@@ -734,8 +770,8 @@
   <div class="wrap">
     <div class="intro reveal">
       <div class="kicker"><i>03</i>Contradictions</div>
-      <h2>Not either/or. <em>Both/and.</em></h2>
-      <p>Her results pull in opposite directions. Both sides are true at once. Drag each slider to see how.</p>
+      <h2 class="both-title">Not either/or. <em>Both/and.</em></h2>
+      <p>Most personality tests flatten people into one box. Hers pull in opposite directions, and both sides are true at once. That tension is the most interesting thing about her. Drag each slider to see how.</p>
     </div>
     <div class="contras">
       <div class="contra reveal" data-c="0"></div>
@@ -744,178 +780,16 @@
       <div class="contra reveal" data-c="3"></div>
       <div class="contra reveal" data-c="4"></div>
       <div class="contra reveal" data-c="5"></div>
+      <div class="contra reveal" data-c="6"></div>
+      <div class="contra reveal" data-c="7"></div>
     </div>
-  </div>
-</section>
-
-<section class="core" id="words">
-  <div class="wrap">
-    <div class="intro reveal">
-      <div class="kicker"><i>04</i>If you had to describe her</div>
-      <h2>In one word each</h2>
-      <p>Guess first, then tap to flip.</p>
-    </div>
-    <div class="flips reveal">
-      <button class="flip"><div class="in"><div class="f">Core</div><div class="b">Intense</div></div></button>
-      <button class="flip"><div class="in"><div class="f">As a friend</div><div class="b">Loyal</div></div></button>
-      <button class="flip"><div class="in"><div class="f">As a leader</div><div class="b">Protective</div></div></button>
-      <button class="flip"><div class="in"><div class="f">In love</div><div class="b">Devoted</div></div></button>
-      <button class="flip"><div class="in"><div class="f">At work</div><div class="b">Driven</div></div></button>
-      <button class="flip"><div class="in"><div class="f">Morally</div><div class="b">Principled</div></div></button>
-      <button class="flip"><div class="in"><div class="f">Socially</div><div class="b">Magnetic</div></div></button>
-      <button class="flip"><div class="in"><div class="f">Creatively</div><div class="b">Expressive</div></div></button>
-      <button class="flip"><div class="in"><div class="f">Superpower</div><div class="b">Empathy</div></div></button>
-      <button class="flip"><div class="in"><div class="f">Spirit</div><div class="b">Faithful</div></div></button>
-      <button class="flip"><div class="in"><div class="f">Dream</div><div class="b">Impact</div></div></button>
-      <button class="flip"><div class="in"><div class="f">Archetype</div><div class="b">Guardian</div></div></button>
-    </div>
-    <button class="reveal-all" id="flipAll">Flip them all</button>
-  </div>
-</section>
-
-<section class="core alt" id="circle">
-  <div class="wrap circle-wrap">
-    <div class="circle reveal">
-      <svg viewBox="0 0 400 400" role="group" aria-label="Her circles of people. Tap a ring.">
-        <g class="ringbtn" data-ring="2" tabindex="0" role="button" aria-label="Everyone else"><circle cx="200" cy="200" r="190" fill="transparent" stroke="var(--rose)" stroke-opacity=".5" stroke-dasharray="4 6"/></g>
-        <g class="ringbtn" data-ring="1" tabindex="0" role="button" aria-label="Friends"><circle cx="200" cy="200" r="130" fill="var(--card)" stroke="var(--line)"/></g>
-        <g class="ringbtn on" data-ring="0" tabindex="0" role="button" aria-label="Good friends"><circle cx="200" cy="200" r="66" fill="var(--rose)"/></g>
-        <text id="lab0" x="200" y="206" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">day ones</text>
-        <text id="lab1" x="200" y="100" text-anchor="middle" fill="var(--rose)" font-size="15" font-weight="700">the squad</text>
-        <text id="lab2" x="200" y="36" text-anchor="middle" fill="var(--rose)" font-size="14" font-weight="700">the whole world</text>
-      </svg>
-    </div>
-    <div class="reveal">
-      <div class="kicker"><i>05</i><span id="cKicker">Her inner circle</span></div>
-      <h2 id="cTitle" style="font-size:clamp(32px,5vw,48px);margin:10px 0 8px">Small circle. <em>Deep roots.</em></h2>
-      <p id="cSub" style="color:var(--core-muted);margin:0">The few who get the full version.</p>
-      <div class="ring-info" id="ringInfo" aria-live="polite"></div>
-      <span class="tap-hint" id="cHint">Tap the circles, and keep tapping.</span>
-    </div>
-  </div>
-</section>
-
-<section class="core" id="gifts">
-  <div class="wrap love">
-    <div class="reveal">
-      <div class="kicker"><i>06</i>Her love language</div>
-      <h2 style="font-size:clamp(34px,5.5vw,56px);margin:10px 0 12px">Speak her <em>language.</em></h2>
-      <p style="color:var(--core-muted);margin:0 0 26px">Tap the gift. Then tap any language to learn how to speak it to her.</p>
-      <button class="gift" id="gift" aria-label="Unwrap the gift">
-        <span class="bow"><i></i><i></i></span>
-        <span class="lid"></span>
-        <span class="box"><span class="inside">Receiving Gifts<br><b>27%</b></span></span>
-      </button>
-      <p class="gift-note">Red, the same color her Love Language report gives Receiving Gifts.</p>
-    </div>
-    <div class="reveal">
-      <div class="langs" id="langs">
-        <button data-l="0" class="red"><span>Receiving Gifts</span><b>27%</b><i style="--w:100%"></i></button>
-        <button data-l="1"><span>Words of Affirmation</span><b>23%</b><i style="--w:85%"></i></button>
-        <button data-l="2"><span>Quality Time</span><b>23%</b><i style="--w:85%"></i></button>
-        <button data-l="3"><span>Acts of Service</span><b>20%</b><i style="--w:74%"></i></button>
-        <button data-l="4"><span>Physical Touch</span><b>7%</b><i style="--w:26%"></i></button>
-      </div>
-      <div class="lang-tip" id="langTip" aria-live="polite"><b>Unwrap the gift first.</b><span>Her #1 love language is hiding inside.</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="shell alt" id="mood">
-  <div class="wrap">
-    <div class="intro reveal">
-      <div class="kicker"><i>07</i>Handle with care</div>
-      <h2>The mood <em>meter.</em></h2>
-      <p>Tap anything below to see how she'd probably react, based on how her results read.</p>
-    </div>
-    <div class="meter reveal" aria-live="polite">
-      <div class="face" id="moodFace"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" class="trk"/><circle id="moodRing" cx="32" cy="32" r="27" class="val" pathLength="100" stroke-dasharray="50 100"/></svg><span class="mono" id="moodPct">50%</span></div>
-      <div class="m-main">
-        <div class="mm-top"><b id="moodLabel">Waiting to see what you do.</b></div>
-        <div class="m-bar"><i id="moodBar"></i></div>
-        <p class="m-why" id="moodWhy">Pick something below and see how she'd react.</p>
-      </div>
-      <button class="m-reset" id="moodReset">Reset</button>
-    </div>
-    <div class="moods">
-      <div class="reveal"><h3>How to annoy her</h3><div class="carousel late" id="annoyC"><div class="track mlist" id="annoy"></div><div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div></div></div>
-      <div class="reveal"><h3>How to make her day</h3><div class="carousel late" id="delightC"><div class="track mlist" id="delight"></div><div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="core" id="icks">
-  <div class="wrap">
-    <div class="head">
-      <div class="intro reveal">
-        <div class="kicker"><i>08</i>Instant turn-offs</div>
-        <h2>The <em>ick</em> list.</h2>
-        <p>The people who give her the ick, and the exact moment it happens. Flip a card to see why, and what to do instead.</p>
-      </div>
-      <p class="ick-count mono reveal" id="ickCount">0 icks found</p>
-    </div>
-    <div class="icks reveal" id="ickGrid"></div>
-  </div>
-</section>
-
-<section class="shell alt" id="match">
-  <div class="wrap">
-    <div class="intro reveal">
-      <div class="kicker"><i>09</i>Compatibility check</div>
-      <h2>Would you two <em>click?</em></h2>
-      <p>Pick your personality type and love language. Just for fun, based on how her results read.</p>
-    </div>
-    <div class="match reveal">
-      <div class="m-inputs">
-        <h4>Your type</h4>
-        <div class="pairs" id="mbti"></div>
-        <h4>Your love language</h4>
-        <div class="ll" id="myLL"></div>
-      </div>
-      <div class="m-result" aria-live="polite">
-        <div class="m-score"><span id="mScore">–</span><small>%</small></div>
-        <b id="mVerdict">Pick your type to see.</b>
-        <ul id="mWhy"></ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="shell" id="values">
-  <div class="wrap">
-    <div class="intro reveal">
-      <div class="kicker"><i>10</i>What she lives by</div>
-      <h2>Values, in order</h2>
-      <p>Tap any value to open it.</p>
-    </div>
-    <ol class="values">
-      <li class="reveal"><button><b>Achievement</b><em>100%</em></button><div class="more"><div class="bar"><i style="--w:100%"></i></div><p>Competence and results. She loves setting a goal and seeing it through.</p></div></li>
-      <li class="reveal"><button><b>Security &amp; stability</b><em>100%</em></button><div class="more"><div class="bar"><i style="--w:100%"></i></div><p>Structure, consistency, and a solid plan. This is when she's at her best.</p></div></li>
-      <li class="reveal"><button><b>Her people</b><em>83%</em></button><div class="more"><div class="bar"><i style="--w:83%"></i></div><p>Benevolence toward the people closest to her. She cares about her people more than about "humanity" in general.</p></div></li>
-      <li class="reveal"><button><b>Truth &amp; fairness</b><em>Honesty #2</em></button><div class="more"><div class="bar"><i style="--w:92%"></i></div><p>She tells the truth and stands up for what's right.</p></div></li>
-      <li class="reveal"><button><b>Independence</b><em>83%</em></button><div class="more"><div class="bar"><i style="--w:83%"></i></div><p>Self-direction. She does her best work with room to lead.</p></div></li>
-      <li class="reveal"><button><b>Faith &amp; meaning</b><em>Spirituality #3</em></button><div class="more"><div class="bar"><i style="--w:88%"></i></div><p>A sense of purpose bigger than herself, rooted in faith and tradition.</p></div></li>
-      <li class="reveal"><button><b>Making an impact</b><em>75%</em></button><div class="more"><div class="bar"><i style="--w:75%"></i></div><p>Leaving a mark on the world and on the people around her.</p></div></li>
-    </ol>
-  </div>
-</section>
-
-<section class="shell" id="photos">
-  <div class="wrap photo-wrap">
-    <div class="intro reveal">
-      <div class="kicker"><i>11</i>Snapshots</div>
-      <h2>Life in <em>frames.</em></h2>
-      <p>Tap the stack to shuffle through the polaroids.</p>
-      <p class="mono" id="photoCount" style="margin-top:14px;color:#ff9dbb;font-size:13px"></p>
-    </div>
-    <div class="photo-stack reveal" id="photoStack"></div>
   </div>
 </section>
 
 <section class="shell alt" id="strengths">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>12</i>Signature strengths</div>
+      <div class="kicker"><i>04</i>Signature strengths</div>
       <h2 class="combo" id="combo" aria-live="polite">A <em>creative traditionalist</em> who leads through people</h2>
       <p>Ten different assessments, one person. These five qualities keep showing up. Tap a theme to see the evidence, or an assessment to see what it found.</p>
     </div>
@@ -940,6 +814,175 @@
     </div>
     <div class="rtabs reveal" id="rtabs" role="tablist" aria-label="Tests"></div>
     <div class="rpanel reveal" id="rpanel" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="core" id="words">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>05</i>If you had to describe her</div>
+      <h2>In one word each</h2>
+      <p>Guess first, then tap to flip.</p>
+    </div>
+    <div class="flips reveal">
+      <button class="flip"><div class="in"><div class="f">Core</div><div class="b">Intense</div></div></button>
+      <button class="flip"><div class="in"><div class="f">As a friend</div><div class="b">Loyal</div></div></button>
+      <button class="flip"><div class="in"><div class="f">As a leader</div><div class="b">Protective</div></div></button>
+      <button class="flip"><div class="in"><div class="f">In love</div><div class="b">Devoted</div></div></button>
+      <button class="flip"><div class="in"><div class="f">At work</div><div class="b">Driven</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Morally</div><div class="b">Principled</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Socially</div><div class="b">Magnetic</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Creatively</div><div class="b">Expressive</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Superpower</div><div class="b">Empathy</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Spirit</div><div class="b">Faithful</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Dream</div><div class="b">Impact</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Archetype</div><div class="b">Guardian</div></div></button>
+    </div>
+    <button class="reveal-all" id="flipAll">Flip them all</button>
+  </div>
+</section>
+
+<div class="act" id="actII"><div class="wrap"><span>Act II</span><b>This is how she loves</b></div></div>
+
+<section class="core alt" id="circle">
+  <div class="wrap circle-wrap">
+    <div class="circle reveal">
+      <svg viewBox="0 0 400 400" role="group" aria-label="Her circles of people. Tap a ring.">
+        <g class="ringbtn" data-ring="2" tabindex="0" role="button" aria-label="Everyone else"><circle cx="200" cy="200" r="190" fill="transparent" stroke="var(--rose)" stroke-opacity=".5" stroke-dasharray="4 6"/></g>
+        <g class="ringbtn" data-ring="1" tabindex="0" role="button" aria-label="Friends"><circle cx="200" cy="200" r="130" fill="var(--card)" stroke="var(--line)"/></g>
+        <g class="ringbtn on" data-ring="0" tabindex="0" role="button" aria-label="Good friends"><circle cx="200" cy="200" r="66" fill="var(--rose)"/></g>
+        <text id="lab0" x="200" y="206" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">day ones</text>
+        <text id="lab1" x="200" y="100" text-anchor="middle" fill="var(--rose)" font-size="15" font-weight="700">the squad</text>
+        <text id="lab2" x="200" y="36" text-anchor="middle" fill="var(--rose)" font-size="14" font-weight="700">the whole world</text>
+      </svg>
+    </div>
+    <div class="reveal">
+      <div class="kicker"><i>06</i><span id="cKicker">Her inner circle</span></div>
+      <h2 id="cTitle" style="font-size:clamp(32px,5vw,48px);margin:10px 0 8px">Small circle. <em>Deep roots.</em></h2>
+      <p id="cSub" style="color:var(--core-muted);margin:0">The few who get the full version.</p>
+      <div class="ring-info" id="ringInfo" aria-live="polite"></div>
+      <span class="tap-hint" id="cHint">Tap the circles, and keep tapping.</span>
+    </div>
+  </div>
+</section>
+
+<section class="core" id="gifts">
+  <div class="wrap love">
+    <div class="reveal">
+      <div class="kicker"><i>07</i>Her love language</div>
+      <h2 style="font-size:clamp(34px,5.5vw,56px);margin:10px 0 12px">Speak her <em>language.</em></h2>
+      <p style="color:var(--core-muted);margin:0 0 26px">Tap the gift. Then tap any language to learn how to speak it to her.</p>
+      <button class="gift" id="gift" aria-label="Unwrap the gift">
+        <span class="bow"><i></i><i></i></span>
+        <span class="lid"></span>
+        <span class="box"><span class="inside">Receiving Gifts<br><b>27%</b></span></span>
+      </button>
+      <p class="gift-note">Red, the same color her Love Language report gives Receiving Gifts.</p>
+    </div>
+    <div class="reveal">
+      <div class="langs" id="langs">
+        <button data-l="0" class="red"><span>Receiving Gifts</span><b>27%</b><i style="--w:100%"></i></button>
+        <button data-l="1"><span>Words of Affirmation</span><b>23%</b><i style="--w:85%"></i></button>
+        <button data-l="2"><span>Quality Time</span><b>23%</b><i style="--w:85%"></i></button>
+        <button data-l="3"><span>Acts of Service</span><b>20%</b><i style="--w:74%"></i></button>
+        <button data-l="4"><span>Physical Touch</span><b>7%</b><i style="--w:26%"></i></button>
+      </div>
+      <div class="ll-insight"><b>Love, to her, is tangible.</b><p>Gifts, words, time, and acts all land within 7 points of each other (20–27%): four ways of showing care you can see, hear, or hold. Physical touch, at 7%, is the real outlier.</p></div>
+      <div class="lang-tip" id="langTip" aria-live="polite"><b>Unwrap the gift first.</b><span>Her #1 love language is hiding inside.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="shell alt" id="mood">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>08</i>Handle with care</div>
+      <h2>The mood <em>meter.</em></h2>
+      <p>Tap anything below to see how she'd probably react, based on how her results read.</p>
+    </div>
+    <div class="meter reveal" aria-live="polite">
+      <div class="face" id="moodFace"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" class="trk"/><circle id="moodRing" cx="32" cy="32" r="27" class="val" pathLength="100" stroke-dasharray="50 100"/></svg><span class="mono" id="moodPct">50%</span></div>
+      <div class="m-main">
+        <div class="mm-top"><b id="moodLabel">Waiting to see what you do.</b></div>
+        <div class="m-bar"><i id="moodBar"></i></div>
+        <p class="m-why" id="moodWhy">Pick something below and see how she'd react.</p>
+      </div>
+      <button class="m-reset" id="moodReset">Reset</button>
+    </div>
+    <div class="moods">
+      <div class="reveal"><h3>How to annoy her</h3><div class="carousel late" id="annoyC"><div class="track mlist" id="annoy"></div><div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div></div></div>
+      <div class="reveal"><h3>How to make her day</h3><div class="carousel late" id="delightC"><div class="track mlist" id="delight"></div><div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="core" id="icks">
+  <div class="wrap">
+    <div class="head">
+      <div class="intro reveal">
+        <div class="kicker"><i>09</i>Instant turn-offs</div>
+        <h2>The <em>ick</em> list.</h2>
+        <p>The people who give her the ick, and the exact moment it happens. Flip a card to see why, and what to do instead.</p>
+      </div>
+      <p class="ick-count mono reveal" id="ickCount">0 icks found</p>
+    </div>
+    <div class="icks reveal" id="ickGrid"></div>
+  </div>
+</section>
+
+<section class="shell alt" id="match">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>10</i>Compatibility check</div>
+      <h2>Would you two <em>click?</em></h2>
+      <p>Pick your personality type and love language. Just for fun, based on how her results read.</p>
+    </div>
+    <div class="match reveal">
+      <div class="m-inputs">
+        <h4>Your type</h4>
+        <div class="pairs" id="mbti"></div>
+        <h4>Your love language</h4>
+        <div class="ll" id="myLL"></div>
+      </div>
+      <div class="m-result" aria-live="polite">
+        <div class="m-score"><span id="mScore">–</span><small>%</small></div>
+        <b id="mVerdict">Pick your type to see.</b>
+        <ul id="mWhy"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="act" id="actIII"><div class="wrap"><span>Act III</span><b>This is how her mind works</b></div></div>
+
+<section class="shell" id="values">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>11</i>What she lives by</div>
+      <h2>Values, in order</h2>
+      <p>Tap any value to open it.</p>
+    </div>
+    <ol class="values">
+      <li class="reveal"><button><b>Achievement</b><em>100%</em></button><div class="more"><div class="bar"><i style="--w:100%"></i></div><p>Competence and results. She loves setting a goal and seeing it through.</p></div></li>
+      <li class="reveal"><button><b>Security &amp; stability</b><em>100%</em></button><div class="more"><div class="bar"><i style="--w:100%"></i></div><p>Structure, consistency, and a solid plan. This is when she's at her best.</p></div></li>
+      <li class="reveal"><button><b>Her people</b><em>83%</em></button><div class="more"><div class="bar"><i style="--w:83%"></i></div><p>Benevolence toward the people closest to her. She cares about her people more than about "humanity" in general.</p></div></li>
+      <li class="reveal"><button><b>Truth &amp; fairness</b><em>Honesty #2</em></button><div class="more"><div class="bar"><i style="--w:92%"></i></div><p>She tells the truth and stands up for what's right.</p></div></li>
+      <li class="reveal"><button><b>Independence</b><em>83%</em></button><div class="more"><div class="bar"><i style="--w:83%"></i></div><p>Self-direction. She does her best work with room to lead.</p></div></li>
+      <li class="reveal"><button><b>Faith &amp; meaning</b><em>Spirituality #3</em></button><div class="more"><div class="bar"><i style="--w:88%"></i></div><p>A sense of purpose bigger than herself, rooted in faith and tradition.</p></div></li>
+      <li class="reveal"><button><b>Making an impact</b><em>75%</em></button><div class="more"><div class="bar"><i style="--w:75%"></i></div><p>Leaving a mark on the world and on the people around her.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="shell" id="photos">
+  <div class="wrap photo-wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>12</i>Snapshots</div>
+      <h2>Life in <em>frames.</em></h2>
+      <p>Tap the stack to shuffle through the polaroids.</p>
+      <p class="mono" id="photoCount" style="margin-top:14px;color:#ff9dbb;font-size:13px"></p>
+    </div>
+    <div class="photo-stack reveal" id="photoStack"></div>
   </div>
 </section>
 
@@ -1011,6 +1054,8 @@
     <div class="quiz reveal" id="quizBox" aria-live="polite"></div>
   </div>
 </section>
+
+<div class="act" id="actIV"><div class="wrap"><span>Act IV</span><b>She built a world out of it</b></div></div>
 
 <section class="shell" id="palette">
   <div class="wrap">
@@ -1121,6 +1166,8 @@
     </div>
   </div>
 </section>
+
+
 <div id="xlabel"></div><button id="xexit">Exit X-ray</button>
 
 <footer id="foot">
@@ -1343,12 +1390,14 @@ layoutStack();
 
 // contradictions
 const CONTRAS = [
-  ['Boss energy', 'Warm host', 'DISC Dominance and Enneagram 8 say she takes charge.', 'ESFJ, Relator, and Empathy say she takes care of everyone.', '<b>Both.</b> She leads <i>through</i> her people. That\'s what makes people follow her.', 'DISC D · 8w7 ↔ ESFJ · CliftonStrengths'],
+  ['Boss energy', 'Warm host', 'DISC Dominance and Enneagram 8 say she takes charge.', 'ESFJ, Relator, and Empathy say she takes care of everyone.', '<b>Both.</b> Dominance is how hard she pushes toward an outcome. Agreeableness is how much she considers people along the way. They aren\'t opposites: she leads <i>through</i> her people.', 'DISC D · 8w7 ↔ ESFJ · CliftonStrengths'],
   ['Creative', 'Traditional', 'The Creator: Creative & Expressive at 91.7%.', 'Tradition 67% and Spirituality #3. Rooted in faith, family, and custom.', '<b>Both.</b> A creative traditionalist: fresh ideas with deep roots.', 'MyCareerTest ↔ Schwartz Values · VIA'],
   ['Life of the party', 'Small circle', 'Extraversion 85. Magnetic and so social.', 'Relator #1. A few people get the key to her heart.', '<b>Both.</b> She loves a crowd and trusts a few. Fun with everyone, forever with some.', 'Big Five ↔ CliftonStrengths'],
   ['Loves a plan', 'Hates a rut', 'Orderliness 19/20. Structure is her comfort zone.', '"Routine kills her motivation," says her career test.', '<b>Both.</b> She wants a clear plan she can fill with something new every day.', 'Big Five ↔ MyCareerTest'],
   ['Brutally honest', 'Endlessly kind', 'VIA #2 Honesty. She tells it like it is.', 'VIA #4 Kindness. She takes care of everyone.', '<b>Both.</b> She tells the truth with a whole lot of love. The best kind of friend.', 'VIA Character Strengths'],
-  ['Independent', 'All-in on her people', 'Self-Direction 83%. She does it her way.', 'Benevolence 83% and Love #1. Her people come first.', '<b>Both.</b> Tied at 83%. She runs her own life and shows up for everyone in it.', 'Schwartz Values · VIA']
+  ['Independent', 'All-in on her people', 'Self-Direction 83%. She does it her way.', 'Benevolence 83% and Love #1. Her people come first.', '<b>Both.</b> Tied at 83%. She runs her own life and shows up for everyone in it.', 'Schwartz Values · VIA'],
+  ['Feels everything', 'Decides fast', 'Emotional awareness 19/20: she notices every feeling in the room.', 'DISC Dominance: she makes the call and moves.', '<b>Both.</b> The feeling informs the decision; it doesn\'t slow it down. She feels it fully, then acts.', 'Big Five ↔ DISC'],
+  ['Big dreams', 'Deep roots', 'Achievement 100% and Power 75%. She wants to go far.', 'Security 100% and Tradition 67%. She wants a steady home base.', '<b>Both.</b> She wants to go far, and take home with her.', 'Schwartz Values']
 ];
 document.querySelectorAll('.contra').forEach(el => {
   const [l, r, lw, rw, both, src] = CONTRAS[+el.dataset.c];

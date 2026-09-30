@@ -1208,7 +1208,6 @@ new IntersectionObserver(([e]) => { if (e.isIntersecting) { sayHi.classList.remo
 // icks
 /* [who, the moment, why it's an ick] */
 const ICKS = [
-  ['The waiter-snapper', 'Their food is five minutes late, so they get rude to the server.', 'Kindness is her #4 strength. How someone treats a server tells her everything.'],
   ['The "5 minutes away" friend', 'Texts "almost there!" while still in bed.', 'Honesty #2 plus an ESFJ planner. Just tell her the real time.'],
   ['The "idk, wherever" date', 'Every question gets "idk, you pick," all night.', 'DISC Dominance: she loves decisiveness. Have an opinion.'],
   ['The scroller', "Watches TikToks while she's telling a story.", 'Quality Time is a top love language (23%). Be present or be gone.'],
@@ -1217,7 +1216,10 @@ const ICKS = [
   ['The secret spiller', "Tells her everyone else's business.", "Relator #1: loyalty is everything. If they talk about others, they'll talk about her."],
   ['The birthday forgetter', 'Forgets her birthday, then posts about their own for a week.', 'Individualization + Receiving Gifts (27%). She remembers yours.'],
   ['The group-project ghost', '"I\'ll do my part tonight." It\'s been three days.', 'Dutifulness 19/20. Her word is her bond.'],
-  ['The two-faced sweetheart', 'Sweet to her and rude to everyone else.', 'Fairness and Honesty. How you treat everyone is who you are.']
+  ['The two-faced sweetheart', 'Sweet to her and rude to everyone else.', 'Fairness and Honesty. How you treat everyone is who you are.'],
+  ['The one-word texter', 'Replies "k." to her long, thoughtful message.', 'Words of Affirmation (23%) and Communication in her top 5. Words matter to her.'],
+  ['The fake apologizer', '"Sorry you feel that way."', "Honesty #2. That's not an apology, and she knows it."],
+  ['The empty-handed guest', 'Shows up to her dinner with nothing. Not even a thank-you.', 'ESFJ host plus Receiving Gifts (27%). A little thoughtfulness goes a long way.']
 ];
 const ickGrid = document.getElementById('ickGrid');
 ickGrid.innerHTML = ICKS.map(([who, what, why]) => `<button class="ick"><span class="stamp">ICK</span><span class="who">${who}</span><span class="what">${what}</span><span class="why">${why}</span></button>`).join('');

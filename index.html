@@ -183,6 +183,59 @@
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
   .reveal.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .orb { animation: none; } .reveal { opacity: 1; transform: none; } html { scroll-behavior: auto; } }
+
+  /* ---------- under the hood ---------- */
+  .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  .big-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(217,164,65,.25); border: 1px solid rgba(217,164,65,.25); margin-top: 40px; }
+  .big-stats div { background: var(--shell-2); padding: 22px 18px; }
+  .big-stats b { display: block; font-family: "Playfair Display", serif; font-size: clamp(32px, 5vw, 48px); color: var(--gold); line-height: 1; }
+  .big-stats span { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--shell-muted); }
+  @media (max-width: 640px) { .big-stats { grid-template-columns: 1fr 1fr; } }
+  .term { margin-top: 28px; background: #12060c; border: 1px solid rgba(217,164,65,.25); border-radius: 12px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(0,0,0,.7); }
+  .term-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(255,255,255,.04); border-bottom: 1px solid rgba(217,164,65,.15); font-size: 12px; color: var(--shell-muted); }
+  .term-bar i { width: 11px; height: 11px; border-radius: 50%; background: #e0567f; }
+  .term-bar i:nth-child(2) { background: #d9a441; } .term-bar i:nth-child(3) { background: #7a4a60; }
+  .term-bar .t { margin-left: 8px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .term-bar button { background: none; border: 1px solid rgba(217,164,65,.4); color: var(--gold); font-size: 11px; padding: 3px 10px; border-radius: 99px; }
+  .term-bar button.on { background: var(--gold); color: #12060c; }
+  .monitor { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: rgba(217,164,65,.1); }
+  .monitor div { background: #12060c; padding: 14px 16px; }
+  .monitor small { display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #9c7a89; }
+  .monitor b { font-size: 20px; color: #f7e6ec; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .monitor b em { font-style: normal; color: #9c7a89; font-size: 12px; margin-left: 3px; }
+  .monitor .fps { grid-column: span 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+  .monitor canvas { width: 140px; height: 36px; }
+  .live::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #5ee0a0; margin-right: 6px; animation: pulse2 1.6s infinite; }
+  @keyframes pulse2 { 50% { opacity: .3; } }
+  .explorer { display: grid; grid-template-columns: 230px 1fr; margin-top: 28px; border: 1px solid rgba(217,164,65,.25); border-radius: 12px; overflow: hidden; background: #12060c; }
+  @media (max-width: 760px) { .explorer { grid-template-columns: 1fr; } }
+  .files { border-right: 1px solid rgba(217,164,65,.15); padding: 10px 0; }
+  @media (max-width: 760px) { .files { display: flex; overflow-x: auto; border-right: 0; border-bottom: 1px solid rgba(217,164,65,.15); padding: 0; } }
+  .files button { display: block; width: 100%; text-align: left; background: none; border: 0; border-left: 2px solid transparent; color: #c9a3b3; padding: 9px 16px; font-size: 13px; white-space: nowrap; }
+  .files button:hover { color: #fff; background: rgba(255,255,255,.03); }
+  .files button.on { color: var(--gold); border-left-color: var(--gold); background: rgba(217,164,65,.08); }
+  @media (max-width: 760px) { .files button { border-left: 0; border-bottom: 2px solid transparent; } .files button.on { border-bottom-color: var(--gold); } }
+  .pane { min-width: 0; }
+  .pane-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(217,164,65,.12); }
+  .pane-head h3 { font-size: 26px; color: #f7e6ec; }
+  .pane-head p { margin: 8px 0 12px; color: #c9a3b3; font-size: 15px; max-width: 640px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tags span { font-size: 11px; padding: 3px 9px; border-radius: 4px; background: rgba(224,86,127,.14); color: #ffb3c9; }
+  .code-meta { display: flex; justify-content: space-between; align-items: center; padding: 8px 16px; font-size: 11px; color: #9c7a89; border-bottom: 1px solid rgba(217,164,65,.08); }
+  .code-meta button { background: none; border: 1px solid rgba(217,164,65,.35); color: var(--gold); padding: 3px 10px; border-radius: 4px; font-size: 11px; }
+  .code { display: flex; max-height: 420px; overflow: auto; font-size: 12.5px; line-height: 1.6; }
+  .code .gut { padding: 14px 10px 14px 16px; text-align: right; color: #5a3a4a; user-select: none; white-space: pre; position: sticky; left: 0; background: #12060c; }
+  .code pre { margin: 0; padding: 14px 16px 14px 6px; color: #f3d9e3; white-space: pre; tab-size: 2; }
+  .code .k { color: #ff8fb1; } .code .s { color: #e8c07a; } .code .n { color: #9fd8ff; } .code .c { color: #8a6878; font-style: italic; } .code .f { color: #c7a7ff; }
+  .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .stack span { font-size: 12px; padding: 6px 12px; border: 1px solid rgba(217,164,65,.3); color: var(--shell-muted); border-radius: 2px; }
+  .stack span b { color: var(--gold); font-weight: 500; }
+  html.xray body * { outline: 1px solid rgba(94,224,160,.35); }
+  html.xray body *:hover { outline: 1px solid #5ee0a0; background-color: rgba(94,224,160,.06); }
+  #xlabel { position: fixed; z-index: 50; pointer-events: none; font: 11px ui-monospace, Menlo, monospace; background: #0b1f16; color: #5ee0a0; border: 1px solid #5ee0a0; padding: 3px 8px; border-radius: 4px; display: none; white-space: nowrap; }
+  html.xray #xlabel { display: block; }
+  #xexit { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 50; display: none; background: #5ee0a0; color: #0b1f16; border: 0; padding: 10px 20px; border-radius: 99px; font: 600 13px ui-monospace, Menlo, monospace; }
+  html.xray #xexit { display: block; }
 </style>
 </head>
 <body>
@@ -196,6 +249,7 @@
   <a href="#strengths"><b>06</b>Strengths</a>
   <a href="#careers"><b>07</b>Future</a>
   <a href="#palette"><b>08</b>Palette</a>
+  <a href="#code"><b>09</b>&lt;/&gt; Code</a>
   <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
 </div></nav>
 
@@ -388,6 +442,57 @@
   </div>
 </section>
 
+<section class="shell alt" id="code">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>09</i>Under the hood</div>
+      <h2>How this site was built</h2>
+      <p>One HTML file. No frameworks, no libraries, no build step. Just HTML, CSS, and vanilla JavaScript talking straight to the browser's APIs.</p>
+    </div>
+
+    <div class="big-stats reveal">
+      <div><b>1</b><span>HTML file</span></div>
+      <div><b>0</b><span>Frameworks</span></div>
+      <div><b id="sLines">–</b><span>Lines of JS</span></div>
+      <div><b id="sSize">–</b><span>KB total</span></div>
+    </div>
+
+    <div class="term reveal">
+      <div class="term-bar mono"><i></i><i></i><i></i><span class="t">suhani@portfolio:~$ monitor --live</span><button id="xray">X-ray mode</button></div>
+      <div class="monitor mono">
+        <div class="fps"><div><small class="live">Paint canvas</small><b id="mFps">–</b><b><em>fps</em></b></div><canvas id="spark" width="280" height="72"></canvas></div>
+        <div><small>Paint blobs alive</small><b id="mBlobs">–</b></div>
+        <div><small>DOM nodes</small><b id="mDom">–</b></div>
+        <div><small>Page ready in</small><b id="mLoad">–</b><b><em>ms</em></b></div>
+        <div><small>Scroll depth</small><b id="mScroll">–</b><b><em>%</em></b></div>
+        <div><small>Viewport</small><b id="mView">–</b></div>
+        <div><small>Theme</small><b id="mTheme">–</b></div>
+        <div><small>Dependencies</small><b>0</b></div>
+      </div>
+    </div>
+
+    <div class="explorer reveal">
+      <div class="files mono" id="files" role="tablist" aria-label="Features"></div>
+      <div class="pane">
+        <div class="pane-head"><h3 id="fTitle"></h3><p id="fBlurb"></p><div class="tags mono" id="fTags"></div></div>
+        <div class="code-meta mono"><span id="fMeta"></span><button id="copy">Copy</button></div>
+        <div class="code mono"><div class="gut" id="gut" aria-hidden="true"></div><pre><code id="src"></code></pre></div>
+      </div>
+    </div>
+
+    <div class="stack mono reveal">
+      <span><b>HTML5</b> semantic + &lt;dialog&gt;</span>
+      <span><b>CSS</b> grid · custom properties · scroll-snap · 3D transforms</span>
+      <span><b>JS</b> ES2022, zero dependencies</span>
+      <span><b>Canvas 2D</b> + requestAnimationFrame</span>
+      <span><b>Web APIs</b> IntersectionObserver · Performance · Clipboard</span>
+      <span><b>SVG</b> hand-written</span>
+      <span><b>Git</b> + GitHub Pages</span>
+    </div>
+  </div>
+</section>
+<div id="xlabel"></div><button id="xexit">Exit X-ray</button>
+
 <footer>
   <div class="wrap">
     <span class="sig">Suhani</span>
@@ -401,6 +506,7 @@
 </dialog>
 
 <script>
+// popups
 const INFO = {
   esfj: ["16Personalities", "ESFJ-T · The Consul", "Extraverted, Sensing, Feeling, Judging. Consuls are caring, social, and organized. They hold groups together and want everyone looked after. The -T means she's always pushing to be better.", "She's the host, the planner, and the one giving advice. She loves structure and loves her people."],
   "8w7": ["Enneagram", "Type 8, wing 7", "The Challenger: direct, protective, and a champion of fairness. The 7 wing adds energy, enthusiasm, and an entrepreneurial streak.", "Her 8 and 1 both scored 98%, so she's a protector with a strong moral compass."],
@@ -508,6 +614,7 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
   const COLORS = ['224,86,127', '217,164,65', '255,157,187', '140,40,80'];
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let W, H, blobs = [], last = null, t = 0, idle = true;
+  window.paintStats = { get blobs() { return blobs.length; } };
   const size = () => { const r = devicePixelRatio || 1; W = cv.offsetWidth; H = cv.offsetHeight; cv.width = W * r; cv.height = H * r; ctx.setTransform(r, 0, 0, r, 0, 0); };
   size(); addEventListener('resize', size);
   const add = (x, y, v) => blobs.push({ x, y, r: 6 + Math.min(v, 40) * .6 + Math.random() * 10, a: .55, c: COLORS[Math.random() * COLORS.length | 0], g: .6 + Math.random() * .8 });
@@ -535,6 +642,126 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     requestAnimationFrame(frame);
   };
   frame();
+})();
+
+// under the hood
+(() => {
+  const $ = id => document.getElementById(id);
+  const script = document.querySelector('body script').textContent;
+
+  // split this page's own <script> into chunks at "// name" markers
+  const chunks = {};
+  let cur = null;
+  for (const line of script.split('\n')) {
+    const m = line.match(/^\/\/ (.+)$/);
+    if (m) { cur = m[1]; chunks[cur] = []; }
+    if (cur) chunks[cur].push(line);
+  }
+
+  const FEATURES = [
+    ['paint canvas', 'paint.js', 'Paint canvas', 'A <canvas> redrawn about 60 times a second with requestAnimationFrame. Every pointer move spawns radial-gradient "blobs" that grow and fade, and "lighter" compositing blends overlapping colors like real paint. When nobody is touching it, a Lissajous curve (cos and sin at different speeds) drives an invisible brush.', ['Canvas 2D', 'requestAnimationFrame', 'Pointer Events', 'Lissajous curve', 'devicePixelRatio']],
+    ['carousels', 'carousel.js', 'Carousels', 'CSS scroll-snap does all the physics natively: swipe, momentum, snapping. JavaScript only adds the arrows and dots, and works out the active slide from scrollLeft ÷ slide width.', ['scroll-snap', 'passive listeners', 'scrollTo smooth', 'no library']],
+    ['flip cards', 'flip.js', 'Flip cards', 'Each card has two faces in 3D space. backface-visibility hides the back until rotateY(180deg) turns it around, and a cubic-bezier overshoot makes it bounce. "Flip them all" staggers each card by 70ms × its index.', ['CSS 3D transforms', 'perspective', 'cubic-bezier', 'setTimeout stagger']],
+    ['popups', 'popups.js', 'Popups', 'The native <dialog> element with showModal() gives focus trapping, Esc to close, and a blurred ::backdrop for free. All the text lives in one INFO data object, keyed by each button\'s data-info attribute.', ['<dialog>', '::backdrop', 'data attributes', 'destructuring']],
+    ['inner circle', 'circle.js', 'Inner circle', 'Hand-written SVG. Each ring is a <g role="button" tabindex="0">, so it works with a keyboard (Enter or Space), not just a mouse.', ['SVG', 'ARIA roles', 'keyboard a11y', 'template literals']],
+    ['reveal + nav', 'observer.js', 'Scroll reveal + nav', 'IntersectionObserver tells the page when elements enter the screen, with no scroll math. The same API powers the nav highlight: rootMargin shrinks the viewport to a "hot zone" in the middle of the screen.', ['IntersectionObserver', 'rootMargin', 'unobserve']],
+    ['theme', 'theme.js', 'Light / dark theme', 'Every color is a CSS custom property. Dark mode redefines them under prefers-color-scheme, and the toggle sets data-theme on <html> and remembers your choice in localStorage.', ['CSS variables', 'prefers-color-scheme', 'localStorage', 'try/catch']],
+    ['values accordion', 'accordion.js', 'Values accordion', 'One line of JS toggles a class. CSS animates max-height to open the panel and grows the bar from 0 to a per-item --w custom property.', ['classList.toggle', 'CSS transitions', 'custom properties']],
+    ['under the hood', 'hood.js', 'This panel', 'The panel reads this page\'s own <script> at runtime, splits it at comment markers, and syntax-highlights it with a single-regex tokenizer. Live numbers come from requestAnimationFrame and the Performance API, and it only updates while you can see it.', ['self-reading code', 'regex tokenizer', 'Performance API', 'Clipboard API']]
+  ].filter(f => chunks[f[0]]);
+
+  // tiny syntax highlighter: one regex, five token types
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const TOKENS = /(\/\/.*$)|(`(?:\\.|[^`\\])*`|'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*")|\b(\d+(?:\.\d+)?)\b|\b(const|let|var|function|return|if|else|for|of|in|new|await|async|try|catch|throw|true|false|null|typeof|void|this)\b|\b([a-zA-Z_$][\w$]*)(?=\()/gm;
+  const highlight = src => {
+    let out = '', last = 0;
+    src.replace(TOKENS, (m, c, s, n, k, f, i) => {
+      out += esc(src.slice(last, i)) + `<span class="${c ? 'c' : s ? 's' : n ? 'n' : k ? 'k' : 'f'}">${esc(m)}</span>`;
+      last = i + m.length;
+      return m;
+    });
+    return out + esc(src.slice(last));
+  };
+
+  const files = $('files');
+  let current = '';
+  const show = i => {
+    const [key, file, title, blurb, tags] = FEATURES[i];
+    const code = chunks[key].join('\n').trimEnd();
+    current = code;
+    [...files.children].forEach((b, j) => { b.classList.toggle('on', j === i); b.setAttribute('aria-selected', j === i); });
+    $('fTitle').textContent = title;
+    $('fBlurb').textContent = blurb;
+    $('fTags').innerHTML = tags.map(t => `<span>${esc(t)}</span>`).join('');
+    const n = code.split('\n').length;
+    $('fMeta').textContent = `${file} · ${n} lines · read live from this page's own source`;
+    $('gut').textContent = Array.from({ length: n }, (_, j) => j + 1).join('\n');
+    $('src').innerHTML = highlight(code);
+  };
+  FEATURES.forEach(([, file], i) => {
+    const b = document.createElement('button');
+    b.textContent = file; b.setAttribute('role', 'tab');
+    b.onclick = () => show(i);
+    files.append(b);
+  });
+  show(0);
+  $('copy').onclick = async () => {
+    try { await navigator.clipboard.writeText(current); $('copy').textContent = 'Copied ✓'; }
+    catch { $('copy').textContent = 'Copy failed'; }
+    setTimeout(() => $('copy').textContent = 'Copy', 1500);
+  };
+
+  // static stats
+  const nav0 = performance.getEntriesByType('navigation')[0];
+  const bytes = nav0?.decodedBodySize || new Blob([document.documentElement.outerHTML]).size;
+  $('sLines').textContent = script.split('\n').length;
+  $('sSize').textContent = (bytes / 1024).toFixed(0);
+  // timing is only final after the load event, so read it on the next tick
+  const setLoad = () => setTimeout(() => {
+    const n = performance.getEntriesByType('navigation')[0];
+    $('mLoad').textContent = n ? Math.round(n.domContentLoadedEventEnd) : '–';
+  });
+  document.readyState === 'complete' ? setLoad() : addEventListener('load', setLoad);
+
+  // live monitor: count frames, draw a sparkline, only while visible
+  const spark = $('spark'), sc = spark.getContext('2d'), hist = [];
+  let frames = 0, visible = false, lastT = performance.now();
+  const count = () => { frames++; requestAnimationFrame(count); };
+  requestAnimationFrame(count);
+  new IntersectionObserver(([e]) => visible = e.isIntersecting).observe($('code'));
+  setInterval(() => {
+    const now = performance.now(), fps = Math.round(frames * 1000 / (now - lastT));
+    frames = 0; lastT = now;
+    if (!visible) return;
+    hist.push(fps); if (hist.length > 40) hist.shift();
+    $('mFps').textContent = fps;
+    $('mBlobs').textContent = window.paintStats ? paintStats.blobs : 0;
+    $('mDom').textContent = document.getElementsByTagName('*').length;
+    $('mScroll').textContent = Math.round(scrollY / (document.documentElement.scrollHeight - innerHeight) * 100);
+    $('mView').textContent = `${innerWidth}×${innerHeight}`;
+    $('mTheme').textContent = root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    sc.clearRect(0, 0, 280, 72);
+    sc.beginPath();
+    hist.forEach((v, i) => sc.lineTo(i * 7, 68 - Math.min(v, 120) / 120 * 64));
+    sc.strokeStyle = '#5ee0a0'; sc.lineWidth = 2; sc.stroke();
+  }, 500);
+
+  // x-ray mode: outline every element, label what's under the cursor
+  const label = $('xlabel');
+  const xr = on => { root.classList.toggle('xray', on); $('xray').classList.toggle('on', on); };
+  $('xray').onclick = () => xr(!root.classList.contains('xray'));
+  $('xexit').onclick = () => xr(false);
+  addEventListener('keydown', e => { if (e.key === 'Escape') xr(false); });
+  addEventListener('mousemove', e => {
+    if (!root.classList.contains('xray')) return;
+    const el = e.target, r = el.getBoundingClientRect();
+    const cls = typeof el.className === 'string' && el.className.trim() ? '.' + el.className.trim().split(/\s+/).join('.') : '';
+    label.textContent = `<${el.tagName.toLowerCase()}${el.id ? '#' + el.id : ''}${cls}>  ${Math.round(r.width)}×${Math.round(r.height)}`;
+    label.style.left = Math.min(e.clientX + 14, innerWidth - label.offsetWidth - 8) + 'px';
+    label.style.top = e.clientY + 18 + 'px';
+  });
+
+  console.log('%cHey, developer 👋%c\nThis whole site is one file with zero dependencies. Look around.', 'font: 700 16px Georgia; color: #e0567f', 'color: #d9a441');
 })();
 </script>
 </body>

@@ -1,0 +1,4 @@
+# Never publish plaintext private content
+*.private.html
+private/
+.DS_Store

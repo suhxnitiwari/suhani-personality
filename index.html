@@ -573,12 +573,6 @@
   #progress span { position: absolute; top: -7px; left: 0; width: 16px; height: 16px; transform: translateX(-50%) scale(0); transition: transform .4s cubic-bezier(.3,1.8,.5,1); background: #ff4f9a; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z'/%3E%3C/svg%3E") center/contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z'/%3E%3C/svg%3E") center/contain no-repeat; }
   #progress.done span { transform: translateX(-50%) scale(1); }
 
-  /* ---------- cursor ---------- */
-  .cur-dot, .cur-ring { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 9999; border-radius: 50%; opacity: 0; transition: opacity .3s, width .25s, height .25s, background .25s; }
-  .cur-dot { width: 7px; height: 7px; background: #ff4f9a; margin: -3.5px 0 0 -3.5px; }
-  .cur-ring { width: 30px; height: 30px; margin: -15px 0 0 -15px; border: 1.5px solid rgba(255,79,154,.7); }
-  .cur-ring.big { width: 52px; height: 52px; margin: -26px 0 0 -26px; background: rgba(255,79,154,.12); }
-  body.has-cursor .cur-dot, body.has-cursor .cur-ring { opacity: 1; }
 
   /* ---------- toast + latte ---------- */
   .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); z-index: 60; background: #ff4f9a; color: #fff; padding: 10px 18px; border-radius: 99px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: .35s; }
@@ -633,7 +627,6 @@
 <body>
 
 <div id="progress" aria-hidden="true"><i></i><span></span></div>
-<div class="cur-ring" aria-hidden="true"></div><div class="cur-dot" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status"></div>
 <div class="latte" id="latte" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><clipPath id="cupClip"><path d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7z"/></clipPath></defs><path class="steam" d="M48 36c-4-6 4-10 0-16M60 36c-4-6 4-10 0-16M72 36c-4-6 4-10 0-16"/><g clip-path="url(#cupClip)"><rect class="fill" x="20" y="104" width="80" height="60"/></g><path class="cup" d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7zM84 56h6a10 10 0 0 1 0 20h-9M22 110h68"/></svg><p>One vanilla latte, coming right up.</p></div>
 <nav id="nav"><div class="wrap">
@@ -1833,19 +1826,6 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
-  /* pink cursor: the dot follows exactly, the ring eases behind */
-  if (fine) {
-    const dot = document.querySelector('.cur-dot'), ring = document.querySelector('.cur-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    addEventListener('pointermove', e => {
-      mx = e.clientX; my = e.clientY; document.body.classList.add('has-cursor');
-      dot.style.transform = `translate(${mx}px, ${my}px)`;
-      ring.classList.toggle('big', !!e.target.closest('a, button, input, [role="button"], .tomb, .flip, .ick, .polaroid'));
-    });
-    addEventListener('mouseout', e => { if (!e.relatedTarget) document.body.classList.remove('has-cursor'); });
-    const loop = () => { rx += (mx - rx) * .18; ry += (my - ry) * .18; ring.style.transform = `translate(${rx}px, ${ry}px)`; requestAnimationFrame(loop); };
-    loop();
-  }
 
   /* the name reacts: letters jump on hover, scatter on tap */
   const h1 = document.querySelector('.hero h1'), first = h1.firstChild;
@@ -1991,7 +1971,7 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     ['riasec hexagon', 'hexagon.js', 'RIASEC hexagon', 'Holland\'s hexagon drawn in SVG with trigonometry: each vertex sits at -90° + i × 60°. Her six scores become a radar polygon, and her top three letters (A, S, E) are filled in.', ['SVG', 'cos/sin', 'radar chart']],
     ['compatibility check', 'match.js', 'Compatibility check', 'Each personality letter and love language carries a weight. The score starts at 50 and adds up as you pick, and the reasons list builds itself from the same data. Framed as fun, not science.', ['weighted scoring', 'live updates', 'data-driven copy']],
     ['quiz', 'quiz.js', 'Pop quiz', 'A small state machine: the question index and score are the only state. Each answer locks the options, reveals the right one, and explains it before moving on.', ['state machine', 'template literals', 'feedback loop']],
-    ['page-wide touches', 'touches.js', 'Page-wide touches', 'A scroll progress line that ends in a heart, a pink cursor whose ring eases behind the dot (lerp: r += (target − r) × 0.18), letters that jump, 3D card tilt from pointer position, and a keystroke buffer that listens for secret words.', ['lerp', 'pointer math', 'keyboard buffer', 'CSS masks']],
+    ['page-wide touches', 'touches.js', 'Page-wide touches', 'A scroll progress line that ends in a heart, letters that jump, 3D card tilt from pointer position, and a keystroke buffer that listens for secret words.', ['pointer math', 'keyboard buffer', 'CSS masks']],
     ['under the hood', 'hood.js', 'This panel', 'The panel reads this page\'s own <script> at runtime, splits it at comment markers, and syntax-highlights it with a single-regex tokenizer. Live numbers come from requestAnimationFrame and the Performance API, and it only updates while you can see it.', ['self-reading code', 'regex tokenizer', 'Performance API', 'Clipboard API']]
   ].filter(f => chunks[f[0]]);
 

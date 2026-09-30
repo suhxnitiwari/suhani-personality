@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suhani Tiwari</title>
+<meta name="description" content="Tough shell, tender core. A portrait of Suhani Tiwari drawn from ten personality tests.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,500;1,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --shell: #2a0f1e; --shell-2: #3d1529; --shell-text: #f7e6ec; --shell-muted: #c9a3b3;
+    --core: #fbe9ee; --core-2: #f6d5df; --core-text: #3a1426; --core-muted: #86566a;
+    --rose: #e0567f; --gold: #d9a441; --card: #fff7f9; --line: #efc9d5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --shell: #1a0912; --shell-2: #2a0f1e;
+      --core: #33162a; --core-2: #401c33; --core-text: #fbe4ec; --core-muted: #d9a8bb;
+      --card: #401c33; --line: #5a2a45;
+    }
+  }
+  :root[data-theme="dark"] {
+    --shell: #1a0912; --shell-2: #2a0f1e;
+    --core: #33162a; --core-2: #401c33; --core-text: #fbe4ec; --core-muted: #d9a8bb;
+    --card: #401c33; --line: #5a2a45;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 56px; }
+  body { margin: 0; background: var(--shell); color: var(--shell-text); font: 17px/1.7 "DM Sans", system-ui, sans-serif; overflow-x: hidden; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3 { font-family: "Playfair Display", Georgia, serif; line-height: 1.1; margin: 0; }
+  button { font: inherit; cursor: pointer; }
+  .kicker { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: var(--gold); }
+  .kicker i { font-style: normal; opacity: .6; margin-right: 10px; }
+
+  /* ---------- nav ---------- */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 20; background: rgba(26,9,18,.72); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(217,164,65,.2); transform: translateY(-100%); transition: transform .35s ease; }
+  nav.show { transform: none; }
+  nav .wrap { display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; height: 52px; }
+  nav .wrap::-webkit-scrollbar { display: none; }
+  nav a { color: var(--shell-muted); text-decoration: none; font-size: 13px; padding: 6px 12px; border-radius: 99px; white-space: nowrap; transition: .2s; }
+  nav a b { color: var(--gold); font-weight: 500; margin-right: 6px; font-size: 11px; }
+  nav a.on { background: rgba(217,164,65,.16); color: #fff; }
+  .toggle { margin-left: auto; flex: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(217,164,65,.5); background: transparent; color: var(--gold); }
+
+  /* ---------- hero ---------- */
+  .hero { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; text-align: center; position: relative; padding: 80px 0; isolation: isolate; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  #paint { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+  .orb { position: absolute; width: min(64vw, 520px); aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle, #ff8fb1 0%, var(--rose) 28%, rgba(224,86,127,.22) 55%, transparent 72%);
+    filter: blur(8px); z-index: -1; animation: beat 3.2s ease-in-out infinite; }
+  @keyframes beat { 0%,100% { transform: scale(.94); opacity: .8; } 12% { transform: scale(1.02); opacity: 1; } 24% { transform: scale(.97); } 36% { transform: scale(1.04); opacity: 1; } }
+  .hero h1 { font-size: clamp(56px, 13vw, 140px); font-weight: 800; letter-spacing: -.02em; pointer-events: none; }
+  .hero h1 span { display: block; font-style: italic; font-weight: 500; font-size: .42em; color: var(--shell-muted); letter-spacing: 0; }
+  .hero .tag { font-family: "Playfair Display", serif; font-size: clamp(22px, 3.4vw, 32px); margin: 20px 0 0; pointer-events: none; }
+  .hero .tag b { color: #ff9dbb; font-style: italic; }
+  .hint { font-size: 13px; color: var(--shell-muted); margin-top: 10px; pointer-events: none; }
+  .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 32px; }
+  .chip { background: rgba(255,255,255,.06); border: 1px solid rgba(217,164,65,.5); color: var(--shell-text); padding: 8px 18px; border-radius: 99px; font-size: 14px; font-weight: 500; transition: .2s; backdrop-filter: blur(4px); }
+  .chip::after { content: " ↗"; color: var(--gold); }
+  .chip:hover, .chip:focus-visible { background: var(--gold); color: var(--shell); border-color: var(--gold); transform: translateY(-2px); outline: none; }
+  .chip:hover::after { color: var(--shell); }
+
+  /* ---------- sections ---------- */
+  section { padding: 96px 0; }
+  .shell { background: var(--shell); } .shell.alt { background: var(--shell-2); }
+  .core { background: var(--core); color: var(--core-text); } .core.alt { background: var(--core-2); }
+  .core .kicker { color: var(--rose); }
+  .intro { max-width: 660px; }
+  .intro h2 { font-size: clamp(36px, 6vw, 60px); margin: 10px 0 16px; }
+  .intro p { margin: 0; }
+  .shell .intro p { color: var(--shell-muted); } .core .intro p { color: var(--core-muted); }
+  .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+
+  /* ---------- carousel ---------- */
+  .carousel { margin-top: 40px; }
+  .track { position: relative; display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 8px 2px 24px; }
+  .track::-webkit-scrollbar { display: none; }
+  .slide { flex: 0 0 min(82%, 320px); scroll-snap-align: start; padding: 28px; min-height: 250px; display: flex; flex-direction: column; }
+  .shell .slide { border: 1px solid rgba(217,164,65,.32); background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,0)); }
+  .core .slide { background: var(--card); border-radius: 28px; box-shadow: 0 10px 30px -14px rgba(224,86,127,.45); }
+  .slide .n { font-family: "Playfair Display", serif; font-size: 44px; opacity: .25; line-height: 1; }
+  .slide h3 { font-size: 30px; margin: 14px 0 8px; }
+  .shell .slide h3 { color: var(--gold); } .core .slide h3 { color: var(--rose); font-style: italic; }
+  .slide p { margin: 0; font-size: 15px; flex: 1; }
+  .shell .slide p { color: var(--shell-muted); } .core .slide p { color: var(--core-muted); }
+  .slide .ev { margin-top: 18px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; opacity: .75; }
+  .ctrl { display: flex; align-items: center; gap: 14px; }
+  .ctrl .arrow { width: 46px; height: 46px; border-radius: 50%; font-size: 18px; transition: .2s; }
+  .shell .arrow { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
+  .shell .arrow:hover { background: var(--gold); color: var(--shell); }
+  .core .arrow { background: var(--rose); border: 0; color: #fff; }
+  .core .arrow:hover { transform: scale(1.08); }
+  .arrow:disabled { opacity: .3; pointer-events: none; }
+  .dots { display: flex; gap: 8px; }
+  .dots button { width: 8px; height: 8px; border-radius: 99px; border: 0; padding: 0; background: currentColor; opacity: .25; transition: .3s; }
+  .dots button.on { width: 26px; opacity: 1; }
+  .shell .dots { color: var(--gold); } .core .dots { color: var(--rose); }
+
+  /* ---------- split ---------- */
+  .split { display: grid; grid-template-columns: 1fr 1fr; min-height: 56vh; }
+  .split > div { display: grid; place-items: center; padding: 64px 24px; text-align: center; }
+  .split .l { background: var(--shell-2); } .split .r { background: var(--core-2); color: var(--core-text); }
+  .split h3 { font-size: clamp(30px, 5vw, 52px); }
+  .split p { margin: 12px auto 0; font-size: 15px; opacity: .8; max-width: 320px; }
+  @media (max-width: 640px) { .split { grid-template-columns: 1fr; } }
+
+  /* ---------- circle ---------- */
+  .circle-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  @media (max-width: 760px) { .circle-wrap { grid-template-columns: 1fr; } }
+  .circle svg { width: 100%; max-width: 420px; display: block; margin: 0 auto; overflow: visible; }
+  .circle text { font-family: "DM Sans", sans-serif; pointer-events: none; }
+  .ringbtn { cursor: pointer; transition: opacity .25s, transform .25s; transform-origin: 200px 200px; }
+  .ringbtn:hover, .ringbtn.on { transform: scale(1.03); }
+  .ring-info { min-height: 150px; background: var(--card); border-radius: 22px; padding: 22px 24px; margin-top: 20px; border: 1px solid var(--line); }
+  .ring-info b { font-family: "Playfair Display", serif; font-size: 24px; color: var(--rose); display: block; }
+  .ring-info span { color: var(--core-muted); font-size: 15px; }
+
+  /* ---------- values ---------- */
+  .values { list-style: none; padding: 0; margin: 48px 0 0; counter-reset: v; }
+  .values li { counter-increment: v; border-bottom: 1px solid rgba(217,164,65,.2); }
+  .values button { width: 100%; background: none; border: 0; color: inherit; text-align: left; display: grid; grid-template-columns: 64px 1fr auto 28px; align-items: baseline; gap: 16px; padding: 18px 0; }
+  .values button::before { content: counter(v, decimal-leading-zero); font-family: "Playfair Display", serif; font-size: 28px; color: var(--gold); }
+  .values button::after { content: "+"; color: var(--gold); font-size: 22px; transition: transform .3s; }
+  .values li.open button::after { transform: rotate(45deg); }
+  .values b { font-family: "Playfair Display", serif; font-size: clamp(20px, 3vw, 28px); font-weight: 600; }
+  .values em { font-style: normal; color: var(--shell-muted); font-size: 14px; }
+  .values .more { max-height: 0; overflow: hidden; transition: max-height .4s ease; color: var(--shell-muted); padding-left: 80px; }
+  .values li.open .more { max-height: 160px; }
+  .values .more p { margin: 0 0 20px; }
+  .bar { height: 4px; background: rgba(217,164,65,.15); border-radius: 9px; margin-bottom: 12px; max-width: 360px; }
+  .bar i { display: block; height: 100%; background: var(--gold); border-radius: 9px; width: 0; transition: width 1s ease .1s; }
+  .values li.open .bar i { width: var(--w); }
+  @media (max-width: 560px) { .values button { grid-template-columns: 40px 1fr 20px; } .values em { display: none; } .values .more { padding-left: 56px; } }
+
+  /* ---------- flip cards ---------- */
+  .flips { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin-top: 40px; }
+  .flip { perspective: 800px; height: 130px; border: 0; background: none; padding: 0; }
+  .flip .in { position: relative; width: 100%; height: 100%; transition: transform .6s cubic-bezier(.3,1.4,.5,1); transform-style: preserve-3d; }
+  .flip.on .in { transform: rotateY(180deg); }
+  .flip .f, .flip .b { position: absolute; inset: 0; border-radius: 20px; display: grid; place-items: center; backface-visibility: hidden; padding: 12px; }
+  .flip .f { background: var(--card); border: 1px dashed var(--rose); color: var(--core-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; }
+  .flip .f::after { content: "tap to reveal"; position: absolute; bottom: 14px; font-size: 10px; opacity: .6; letter-spacing: .08em; font-weight: 400; }
+  .flip .b { background: var(--rose); color: #fff; transform: rotateY(180deg); font-family: "Playfair Display", serif; font-size: 26px; font-style: italic; }
+  .flip:nth-child(3n+2) .b { background: var(--shell); color: var(--gold); }
+  .flip:nth-child(3n) .b { background: var(--gold); color: var(--shell); }
+  .flip:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; border-radius: 20px; }
+  .reveal-all { margin-top: 24px; background: none; border: 1px solid var(--rose); color: var(--rose); padding: 8px 20px; border-radius: 99px; font-size: 14px; }
+
+  /* ---------- badges ---------- */
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 48px; }
+  .cols h3 { font-size: 22px; color: var(--gold); }
+  .badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .badge { padding: 7px 14px; border: 1px solid rgba(217,164,65,.45); background: transparent; color: var(--shell-text); border-radius: 3px; font-size: 14px; transition: .2s; }
+  .badge:hover, .badge:focus-visible { background: var(--gold); color: var(--shell); outline: none; }
+  .badge:first-child { background: rgba(217,164,65,.18); }
+
+  /* ---------- palette ---------- */
+  .palette { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 40px; border-radius: 24px; overflow: hidden; }
+  .sw { height: 260px; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; transition: flex .4s; }
+  .sw b { font-family: "Playfair Display", serif; font-size: 24px; }
+  .sw span { font-size: 13px; opacity: .85; }
+  @media (max-width: 640px) { .palette { grid-template-columns: 1fr 1fr; } .sw { height: 170px; } }
+
+  footer { padding: 56px 0; text-align: center; color: var(--shell-muted); font-size: 13px; }
+  footer .sig { font-family: "Playfair Display", serif; font-style: italic; font-size: 30px; color: var(--shell-text); display: block; margin-bottom: 8px; }
+
+  /* ---------- modal ---------- */
+  dialog { border: 0; padding: 0; border-radius: 28px; max-width: min(520px, calc(100vw - 32px)); background: var(--core); color: var(--core-text); box-shadow: 0 30px 80px -20px rgba(0,0,0,.6); }
+  dialog::backdrop { background: rgba(26,9,18,.7); backdrop-filter: blur(4px); }
+  dialog[open] { animation: pop .35s cubic-bezier(.3,1.4,.5,1); }
+  @keyframes pop { from { transform: scale(.9); opacity: 0; } }
+  .m-top { background: var(--shell); color: var(--shell-text); padding: 28px 28px 22px; position: relative; }
+  .m-top .kicker { margin-bottom: 8px; }
+  .m-top h3 { font-size: 34px; }
+  .m-body { padding: 22px 28px 28px; }
+  .m-body p { margin: 0 0 14px; }
+  .m-body .you { background: var(--card); border-left: 3px solid var(--rose); padding: 12px 16px; border-radius: 0 12px 12px 0; font-size: 15px; }
+  .m-body .you b { color: var(--rose); }
+  .x { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(217,164,65,.5); background: transparent; color: var(--gold); font-size: 18px; }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .orb { animation: none; } .reveal { opacity: 1; transform: none; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<nav id="nav"><div class="wrap">
+  <a href="#shell"><b>01</b>Shell</a>
+  <a href="#core"><b>02</b>Core</a>
+  <a href="#circle"><b>03</b>Circle</a>
+  <a href="#values"><b>04</b>Values</a>
+  <a href="#words"><b>05</b>Words</a>
+  <a href="#strengths"><b>06</b>Strengths</a>
+  <a href="#careers"><b>07</b>Future</a>
+  <a href="#palette"><b>08</b>Palette</a>
+  <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
+</div></nav>
+
+<header class="hero">
+  <canvas id="paint" aria-hidden="true"></canvas>
+  <div class="orb"></div>
+  <div class="wrap">
+    <div class="kicker">A portrait in ten personality tests</div>
+    <h1>Suhani <span>Tiwari</span></h1>
+    <p class="tag">Tough shell. <b>Tender core.</b></p>
+    <p class="hint">Drag across the page to paint in her colors.</p>
+    <div class="chips">
+      <button class="chip" data-info="esfj">ESFJ-T · Consul</button>
+      <button class="chip" data-info="8w7">Enneagram 8w7</button>
+      <button class="chip" data-info="disc">DISC: Dominance</button>
+      <button class="chip" data-info="ase">Holland ASE · The Creator</button>
+      <button class="chip" data-info="guardian">Archetype: Guardian</button>
+    </div>
+  </div>
+</header>
+
+<section class="shell alt" id="shell">
+  <div class="wrap">
+    <div class="head">
+      <div class="intro reveal">
+        <div class="kicker"><i>01</i>The shell</div>
+        <h2>What the world sees first</h2>
+        <p>Outspoken, driven, and quick to stand up. When something is unfair or someone she loves is threatened, the protector comes out.</p>
+      </div>
+    </div>
+    <div class="carousel reveal">
+      <div class="track">
+        <article class="slide"><span class="n">01</span><h3>Protective</h3><p>Takes charge when a group drifts or someone gets treated badly.</p><span class="ev">Enneagram 8 · DISC Dominance</span></article>
+        <article class="slide"><span class="n">02</span><h3>Driven</h3><p>Sets high standards and delivers on them, every time.</p><span class="ev">Achievement 100% · Diligence top 10%</span></article>
+        <article class="slide"><span class="n">03</span><h3>Principled</h3><p>Honest, fair, and true to her word.</p><span class="ev">VIA Honesty #2 · Morality 20/20</span></article>
+        <article class="slide"><span class="n">04</span><h3>Brave</h3><p>Says the thing other people are only thinking.</p><span class="ev">VIA Bravery #6 · Assertiveness 18/20</span></article>
+        <article class="slide"><span class="n">05</span><h3>Organized</h3><p>Loves structure, a plan, and knowing what's expected. Orderly to the core.</p><span class="ev">Orderliness 19/20 · Dutifulness 19/20</span></article>
+        <article class="slide"><span class="n">06</span><h3>A leader</h3><p>Leads by knowing people, not by running systems.</p><span class="ev">VIA Leadership #7</span></article>
+      </div>
+      <div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="split">
+  <div class="l reveal"><div><h3>Soft heart,</h3><p>Warm, generous, and kind to her core.</p></div></div>
+  <div class="r reveal"><div><h3><em>strong spirit.</em></h3><p>She stands firm for what's right. Both come from how deeply she cares.</p></div></div>
+</div>
+
+<section class="core" id="core">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>02</i>The core</div>
+      <h2>What her people know</h2>
+      <p>Underneath is someone who remembers what makes each person special and loves wholeheartedly.</p>
+    </div>
+    <div class="carousel reveal">
+      <div class="track">
+        <article class="slide"><span class="n">01</span><h3>Loyal</h3><p>Once you're in, she's in for good. She'll defend you in rooms you're not in.</p><span class="ev">CliftonStrengths #1 Relator</span></article>
+        <article class="slide"><span class="n">02</span><h3>Empathic</h3><p>Reads a room, and the people in it, instantly.</p><span class="ev">CliftonStrengths #2 Empathy</span></article>
+        <article class="slide"><span class="n">03</span><h3>Devoted</h3><p>Love is her top strength. For her it's something she does, not just something she feels.</p><span class="ev">VIA #1 Love · #4 Kindness</span></article>
+        <article class="slide"><span class="n">04</span><h3>Supportive</h3><p>The advice-giver and biggest cheerleader in every room.</p><span class="ev">CliftonStrengths Developer</span></article>
+        <article class="slide"><span class="n">05</span><h3>Faithful</h3><p>Grounded in meaning, faith, and tradition.</p><span class="ev">VIA Spirituality #3 · Tradition 67%</span></article>
+        <article class="slide"><span class="n">06</span><h3>Artistic</h3><p>Creative in how she makes and expresses things. Art is how she talks.</p><span class="ev">Creative 91.7% · Artistic 17/20</span></article>
+      </div>
+      <div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="core alt" id="circle">
+  <div class="wrap circle-wrap">
+    <div class="circle reveal">
+      <svg viewBox="0 0 400 400" role="group" aria-label="Her circles of people. Tap a ring.">
+        <g class="ringbtn" data-ring="2" tabindex="0" role="button" aria-label="Everyone else"><circle cx="200" cy="200" r="190" fill="transparent" stroke="var(--rose)" stroke-opacity=".5" stroke-dasharray="4 6"/></g>
+        <g class="ringbtn" data-ring="1" tabindex="0" role="button" aria-label="Friends"><circle cx="200" cy="200" r="130" fill="var(--card)" stroke="var(--line)"/></g>
+        <g class="ringbtn on" data-ring="0" tabindex="0" role="button" aria-label="Good friends"><circle cx="200" cy="200" r="66" fill="var(--rose)"/></g>
+        <text x="200" y="196" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">good</text>
+        <text x="200" y="215" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">friends</text>
+        <text x="200" y="100" text-anchor="middle" fill="var(--core-muted)" font-size="14">friends</text>
+        <text x="200" y="36" text-anchor="middle" fill="var(--core-muted)" font-size="13">everyone else</text>
+      </svg>
+    </div>
+    <div class="reveal">
+      <div class="kicker"><i>03</i>Her inner circle</div>
+      <h2 style="font-size:clamp(32px,5vw,48px);margin:10px 0 8px">Small circle. <em>Deep roots.</em></h2>
+      <p style="color:var(--core-muted);margin:0">Tap a ring to see where you stand.</p>
+      <div class="ring-info" id="ringInfo" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="shell" id="values">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>04</i>What she lives by</div>
+      <h2>Values, in order</h2>
+      <p>Tap any value to open it.</p>
+    </div>
+    <ol class="values">
+      <li class="reveal"><button><b>Achievement</b><em>100%</em></button><div class="more"><div class="bar"><i style="--w:100%"></i></div><p>Competence and results. She loves setting a goal and seeing it through.</p></div></li>
+      <li class="reveal"><button><b>Security &amp; stability</b><em>100%</em></button><div class="more"><div class="bar"><i style="--w:100%"></i></div><p>Structure, consistency, and a solid plan. This is when she's at her best.</p></div></li>
+      <li class="reveal"><button><b>Her people</b><em>83%</em></button><div class="more"><div class="bar"><i style="--w:83%"></i></div><p>Benevolence toward the people closest to her. She cares about her people more than about "humanity" in general.</p></div></li>
+      <li class="reveal"><button><b>Truth &amp; fairness</b><em>Honesty #2</em></button><div class="more"><div class="bar"><i style="--w:92%"></i></div><p>She tells the truth and stands up for what's right.</p></div></li>
+      <li class="reveal"><button><b>Independence</b><em>83%</em></button><div class="more"><div class="bar"><i style="--w:83%"></i></div><p>Self-direction. She does her best work with room to lead.</p></div></li>
+      <li class="reveal"><button><b>Faith &amp; meaning</b><em>Spirituality #3</em></button><div class="more"><div class="bar"><i style="--w:88%"></i></div><p>A sense of purpose bigger than herself, rooted in faith and tradition.</p></div></li>
+      <li class="reveal"><button><b>Making an impact</b><em>75%</em></button><div class="more"><div class="bar"><i style="--w:75%"></i></div><p>Leaving a mark on the world and on the people around her.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="core" id="words">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>05</i>If you had to describe her</div>
+      <h2>In one word each</h2>
+      <p>Guess first, then tap to flip.</p>
+    </div>
+    <div class="flips reveal">
+      <button class="flip"><div class="in"><div class="f">Core</div><div class="b">Intense</div></div></button>
+      <button class="flip"><div class="in"><div class="f">As a friend</div><div class="b">Loyal</div></div></button>
+      <button class="flip"><div class="in"><div class="f">As a leader</div><div class="b">Protective</div></div></button>
+      <button class="flip"><div class="in"><div class="f">In love</div><div class="b">Devoted</div></div></button>
+      <button class="flip"><div class="in"><div class="f">At work</div><div class="b">Driven</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Morally</div><div class="b">Principled</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Socially</div><div class="b">Magnetic</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Creatively</div><div class="b">Expressive</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Superpower</div><div class="b">Empathy</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Spirit</div><div class="b">Faithful</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Dream</div><div class="b">Impact</div></div></button>
+      <button class="flip"><div class="in"><div class="f">Archetype</div><div class="b">Guardian</div></div></button>
+    </div>
+    <button class="reveal-all" id="flipAll">Flip them all</button>
+  </div>
+</section>
+
+<section class="shell alt" id="strengths">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>06</i>Signature strengths</div>
+      <h2>A <em>creative traditionalist</em> who leads through people</h2>
+      <p>Tap any strength to see what it means for her.</p>
+    </div>
+    <div class="cols">
+      <div class="reveal"><h3>CliftonStrengths</h3><div class="badges">
+        <button class="badge" data-info="relator">Relator</button><button class="badge" data-info="empathy">Empathy</button><button class="badge" data-info="individualization">Individualization</button><button class="badge" data-info="developer">Developer</button><button class="badge" data-info="communication">Communication</button>
+      </div></div>
+      <div class="reveal"><h3>VIA Character</h3><div class="badges">
+        <button class="badge" data-info="love">Love</button><button class="badge" data-info="honesty">Honesty</button><button class="badge" data-info="spirituality">Spirituality</button><button class="badge" data-info="kindness">Kindness</button><button class="badge" data-info="learning">Love of Learning</button><button class="badge" data-info="bravery">Bravery</button><button class="badge" data-info="leadership">Leadership</button>
+      </div></div>
+      <div class="reveal"><h3>Type codes</h3><div class="badges">
+        <button class="badge" data-info="esfj">ESFJ-T</button><button class="badge" data-info="8w7">Enneagram 8w7</button><button class="badge" data-info="disc">DISC D</button><button class="badge" data-info="ase">Holland ASE</button><button class="badge" data-info="guardian">Guardian</button>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="core" id="careers">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>07</i>Where she'll thrive</div>
+      <h2>People + creativity + leadership + meaning</h2>
+    </div>
+    <div class="carousel reveal">
+      <div class="track">
+        <article class="slide"><span class="n">01</span><h3>Brand &amp; creative direction</h3><p>Creativity at 91.7% plus communication, with wins people can see.</p><span class="ev">Creative · Communication</span></article>
+        <article class="slide"><span class="n">02</span><h3>Product &amp; UX design</h3><p>User empathy, creativity, and leading a team toward something beautiful.</p><span class="ev">Empathy · Creativity · Leadership</span></article>
+        <article class="slide"><span class="n">03</span><h3>Counseling &amp; psychology</h3><p>Empathy, individualization, and a clear fascination with people.</p><span class="ev">Empathy · Developer</span></article>
+        <article class="slide"><span class="n">04</span><h3>People &amp; talent</h3><p>Putting each person where they'll shine.</p><span class="ev">Individualization</span></article>
+        <article class="slide"><span class="n">05</span><h3>Advocacy &amp; law</h3><p>Fairness and bravery, used to speak up for others.</p><span class="ev">Fairness · Bravery</span></article>
+        <article class="slide"><span class="n">06</span><h3>Founder</h3><p>A natural self-starter who could build her own creative, people-centered thing.</p><span class="ev">DISC D · 8w7</span></article>
+      </div>
+      <div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="shell" id="palette">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>08</i>Painted in her colors</div>
+      <h2>Why the page looks like this</h2>
+    </div>
+    <div class="palette reveal">
+      <div class="sw" style="background:#2a0f1e;color:#f7e6ec"><b>Wine</b><span>The shell: intense and protective</span></div>
+      <div class="sw" style="background:#e0567f;color:#fff"><b>Rose</b><span>The core: love that runs deep</span></div>
+      <div class="sw" style="background:#d9a441;color:#2a0f1e"><b>Gold</b><span>Ambition and big dreams</span></div>
+      <div class="sw" style="background:#fbe9ee;color:#3a1426"><b>Blush</b><span>Tenderness her people get to see</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="sig">Suhani</span>
+    © 2026 Suhani Tiwari. All rights reserved.
+  </div>
+</footer>
+
+<dialog id="modal">
+  <div class="m-top"><div class="kicker" id="mKicker"></div><h3 id="mTitle"></h3><button class="x" id="mClose" aria-label="Close">×</button></div>
+  <div class="m-body"><p id="mBody"></p><div class="you" id="mYou"></div></div>
+</dialog>
+
+<script>
+const INFO = {
+  esfj: ["16Personalities", "ESFJ-T · The Consul", "Extraverted, Sensing, Feeling, Judging. Consuls are caring, social, and organized. They hold groups together and want everyone looked after. The -T means she's always pushing to be better.", "She's the host, the planner, and the one giving advice. She loves structure and loves her people."],
+  "8w7": ["Enneagram", "Type 8, wing 7", "The Challenger: direct, protective, and a champion of fairness. The 7 wing adds energy, enthusiasm, and an entrepreneurial streak.", "Her 8 and 1 both scored 98%, so she's a protector with a strong moral compass."],
+  disc: ["DISC", "Dominance", "Results-first, direct, and decisive. D-styles like a challenge and don't wait around for permission.", "When things stall, she's the one who moves them forward."],
+  ase: ["Holland Code", "ASE · The Creator", "Artistic, Social, Enterprising. People who make things, connect with others, and lead.", "Creative was her highest career score at 91.7%. Art is central to who she is."],
+  guardian: ["Her archetype", "The Guardian", "Pulled together from all ten tests: someone who protects her people and her principles, fiercely and warmly.", "Warm, steady, and always there for the people she loves."],
+  relator: ["CliftonStrengths #1", "Relator", "Relators want deep, genuine relationships and would rather have a few close friends than a crowd.", "There's a clear line between friends and <i>good</i> friends. Once you're in, you stay in."],
+  empathy: ["CliftonStrengths #2", "Empathy", "Senses what other people are feeling, sometimes before they know it themselves.", "She knows how you're doing before you say a word."],
+  individualization: ["CliftonStrengths #3", "Individualization", "Sees what makes each person unique and treats them that way.", "She remembers the small details that make you, you."],
+  developer: ["CliftonStrengths #4", "Developer", "Sees potential in people and loves watching them grow.", "She's your biggest hype-woman."],
+  communication: ["CliftonStrengths #5", "Communication", "Puts thoughts into words that land and stick.", "She's expressive, persuasive, and knows how to make a point."],
+  love: ["VIA #1", "Love", "Values close relationships and both gives and receives love openly.", "This is her number one strength out of 24."],
+  honesty: ["VIA #2", "Honesty", "Speaks the truth and lives it too.", "What you see is what you get."],
+  spirituality: ["VIA #3", "Spirituality", "A strong sense of purpose, faith, and meaning.", "Faith shapes the way she moves through the world."],
+  kindness: ["VIA #4", "Kindness", "Does favors and good deeds for others, and means it.", "She shows up for people."],
+  learning: ["VIA #5", "Love of Learning", "Loves mastering new skills and topics.", "Taking ten personality tests says it all."],
+  bravery: ["VIA #6", "Bravery", "Doesn't shrink from a challenge and speaks up for what's right.", "She'll say what everyone else is afraid to."],
+  leadership: ["VIA #7", "Leadership", "Organizes people and keeps a group moving together.", "She leads through relationships, not rules."]
+};
+const modal = document.getElementById('modal');
+document.querySelectorAll('[data-info]').forEach(b => b.addEventListener('click', () => {
+  const [k, t, body, you] = INFO[b.dataset.info];
+  mKicker.textContent = k; mTitle.textContent = t; mBody.textContent = body;
+  mYou.innerHTML = '<b>For Suhani:</b> ' + you;
+  modal.showModal();
+}));
+mClose.onclick = () => modal.close();
+modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });
+
+// carousels
+document.querySelectorAll('.carousel').forEach(c => {
+  const track = c.querySelector('.track'), slides = [...track.children], dots = c.querySelector('.dots');
+  const prev = c.querySelector('.prev'), next = c.querySelector('.next');
+  const step = () => slides[0].offsetWidth + 18;
+  slides.forEach((s, i) => {
+    const d = document.createElement('button');
+    d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    d.onclick = () => track.scrollTo({ left: s.offsetLeft - slides[0].offsetLeft, behavior: 'smooth' });
+    dots.append(d);
+  });
+  const update = () => {
+    const i = Math.round(track.scrollLeft / step());
+    [...dots.children].forEach((d, j) => d.classList.toggle('on', j === i));
+    prev.disabled = track.scrollLeft < 4;
+    next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+  };
+  prev.onclick = () => track.scrollBy({ left: -step(), behavior: 'smooth' });
+  next.onclick = () => track.scrollBy({ left: step(), behavior: 'smooth' });
+  track.addEventListener('scroll', update, { passive: true });
+  addEventListener('resize', update); update();
+});
+
+// inner circle
+const RINGS = [
+  ["Good friends", "The inner circle. Fierce loyalty, advice at 2am, and someone who'll go to war for you. She chooses carefully, and once you're in, it's for good."],
+  ["Friends", "Warm, social, and fun to be around. She's magnetic in a group, but she picks depth over chaos every time."],
+  ["Everyone else", "Kind and fair to everyone, and always happy to make a new friend."]
+];
+const ringInfo = document.getElementById('ringInfo');
+const setRing = i => {
+  document.querySelectorAll('.ringbtn').forEach(r => r.classList.toggle('on', +r.dataset.ring === i));
+  ringInfo.innerHTML = `<b>${RINGS[i][0]}</b><span>${RINGS[i][1]}</span>`;
+};
+document.querySelectorAll('.ringbtn').forEach(r => {
+  r.addEventListener('click', () => setRing(+r.dataset.ring));
+  r.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setRing(+r.dataset.ring); } });
+});
+setRing(0);
+
+// values accordion
+document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));
+
+// flip cards
+const flips = [...document.querySelectorAll('.flip')];
+flips.forEach(f => f.onclick = () => f.classList.toggle('on'));
+flipAll.onclick = () => {
+  const all = flips.every(f => f.classList.contains('on'));
+  flips.forEach((f, i) => setTimeout(() => f.classList.toggle('on', !all), i * 70));
+  flipAll.textContent = all ? 'Flip them all' : 'Flip them back';
+};
+
+// theme
+const root = document.documentElement;
+try { const t = localStorage.getItem('theme'); if (t) root.dataset.theme = t; } catch (e) {}
+theme.onclick = () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+};
+
+// reveal + nav
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+const links = [...document.querySelectorAll('nav a')];
+const so = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+}), { rootMargin: '-45% 0px -50% 0px' });
+document.querySelectorAll('section[id]').forEach(s => so.observe(s));
+const hero = document.querySelector('.hero');
+addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.offsetHeight * .6), { passive: true });
+
+// paint canvas
+(() => {
+  const cv = document.getElementById('paint'), ctx = cv.getContext('2d');
+  const COLORS = ['224,86,127', '217,164,65', '255,157,187', '140,40,80'];
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W, H, blobs = [], last = null, t = 0, idle = true;
+  const size = () => { const r = devicePixelRatio || 1; W = cv.offsetWidth; H = cv.offsetHeight; cv.width = W * r; cv.height = H * r; ctx.setTransform(r, 0, 0, r, 0, 0); };
+  size(); addEventListener('resize', size);
+  const add = (x, y, v) => blobs.push({ x, y, r: 6 + Math.min(v, 40) * .6 + Math.random() * 10, a: .55, c: COLORS[Math.random() * COLORS.length | 0], g: .6 + Math.random() * .8 });
+  const move = (x, y) => {
+    idle = false;
+    const v = last ? Math.hypot(x - last.x, y - last.y) : 0;
+    const n = Math.max(1, Math.min(6, v / 12 | 0));
+    for (let i = 0; i < n; i++) add(last ? last.x + (x - last.x) * i / n : x, last ? last.y + (y - last.y) * i / n : y, v);
+    last = { x, y };
+  };
+  hero.addEventListener('pointermove', e => { const b = cv.getBoundingClientRect(); move(e.clientX - b.left, e.clientY - b.top); });
+  hero.addEventListener('pointerleave', () => { last = null; idle = true; });
+  const frame = () => {
+    ctx.clearRect(0, 0, W, H);
+    if (idle && !still) { t += .006; const x = W / 2 + Math.cos(t * 1.3) * W * .38, y = H / 2 + Math.sin(t * 2.1) * H * .32; if (Math.random() < .5) add(x, y, 10); }
+    ctx.globalCompositeOperation = 'lighter';
+    blobs = blobs.filter(b => b.a > .01);
+    for (const b of blobs) {
+      const gr = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+      gr.addColorStop(0, `rgba(${b.c},${b.a})`); gr.addColorStop(1, `rgba(${b.c},0)`);
+      ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, 7); ctx.fill();
+      b.r += b.g; b.a *= .975;
+    }
+    ctx.globalCompositeOperation = 'source-over';
+    requestAnimationFrame(frame);
+  };
+  frame();
+})();
+</script>
+</body>
+</html>

@@ -162,14 +162,27 @@
   /* ---------- badges ---------- */
   .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 48px; }
   .cols h3 { font-size: 22px; color: var(--pop); }
-  .badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-  .badge { padding: 7px 14px; border: 1px solid rgba(255,79,154,.45); background: transparent; color: var(--shell-text); border-radius: 3px; font-size: 14px; transition: .2s; }
+
+  /* ---------- signature strengths grid ---------- */
+  .strengths-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 32px; margin-top: 36px; align-items: start; }
+  .strengths-grid .col { display: grid; grid-template-rows: auto 1fr; }
+  .strengths-grid h3 { margin: 0 0 18px; padding-bottom: 12px; font-size: 22px; line-height: 1.2; border-bottom: 1px solid rgba(255,79,154,.25); }
+  .badges { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .badges > .badge:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 5px); }
+  .badge { display: flex; align-items: center; height: 44px; padding: 0 14px; border: 1px solid rgba(255,79,154,.45); background: transparent; color: var(--shell-text); border-radius: 6px; font-size: 14px; line-height: 1; text-align: left; white-space: nowrap; transition: background .2s, color .2s; }
   .badge:hover, .badge:focus-visible { background: var(--pop); color: var(--shell); outline: none; }
   .badge:first-child { background: rgba(255,79,154,.18); }
   .badge.rb { box-shadow: inset 4px 0 0 var(--clifton-blue); padding-left: 16px; }
   .badge.inf { box-shadow: inset 4px 0 0 var(--comm-orange); padding-left: 16px; }
   .badge.c16 { box-shadow: inset 4px 0 0 var(--consul-teal); padding-left: 16px; }
-  .badge-note { margin: 4px 0 0; font-size: 13px; color: var(--shell-muted); }
+  @media (max-width: 1000px) {
+    .strengths-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .strengths-grid .col:last-child { grid-column: 1 / -1; width: calc(50% - 16px); }
+  }
+  @media (max-width: 620px) {
+    .strengths-grid { grid-template-columns: 1fr; gap: 32px; }
+    .strengths-grid .col:last-child { width: auto; }
+  }
 
   /* ---------- palette ---------- */
   .palette { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 40px; border-radius: 24px; overflow: hidden; }
@@ -309,6 +322,7 @@
   .photo-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center; }
   @media (max-width: 760px) { .photo-wrap { grid-template-columns: 1fr; } }
   .photo-stack { position: relative; height: 400px; }
+  #photos { overflow-x: clip; }
   .polaroid { position: absolute; left: 50%; top: 50%; width: 250px; background: #fff; border: 0; padding: 12px 12px 0; box-shadow: 0 18px 40px -16px rgba(0,0,0,.6); transition: transform .5s cubic-bezier(.3,1.2,.5,1), opacity .4s; cursor: pointer; }
   .polaroid .ph, .polaroid img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
   .polaroid .ph { display: grid; place-items: center; color: #fff; }
@@ -376,6 +390,7 @@
   @keyframes shake { 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
   @media (max-width: 560px) { .meter { flex-wrap: wrap; } }
   .moods { display: grid; gap: 8px; margin-top: 28px; }
+  .moods > * { min-width: 0; }
   .moods .carousel { margin-top: 12px; }
   .moods h3 { font-size: 24px; margin-bottom: 14px; }
   .mlist { gap: 12px; }
@@ -880,14 +895,14 @@
       <h2>A <em>creative traditionalist</em> who leads through people</h2>
       <p>Tap any strength to see what it means for her.</p>
     </div>
-    <div class="cols">
-      <div class="reveal"><h3>CliftonStrengths</h3><p class="badge-note">Striped in Gallup's own domain colors.</p><div class="badges">
+    <div class="cols strengths-grid">
+      <div class="col reveal"><h3>CliftonStrengths</h3><div class="badges">
         <button class="badge rb" data-info="relator">Relator</button><button class="badge rb" data-info="empathy">Empathy</button><button class="badge rb" data-info="individualization">Individualization</button><button class="badge rb" data-info="developer">Developer</button><button class="badge inf" data-info="communication">Communication</button>
       </div></div>
-      <div class="reveal"><h3>VIA Character</h3><div class="badges">
+      <div class="col reveal"><h3>VIA Character</h3><div class="badges">
         <button class="badge" data-info="love">Love</button><button class="badge" data-info="honesty">Honesty</button><button class="badge" data-info="spirituality">Spirituality</button><button class="badge" data-info="kindness">Kindness</button><button class="badge" data-info="learning">Love of Learning</button><button class="badge" data-info="bravery">Bravery</button><button class="badge" data-info="leadership">Leadership</button>
       </div></div>
-      <div class="reveal"><h3>Type codes</h3><div class="badges">
+      <div class="col reveal"><h3>Type codes</h3><div class="badges">
         <button class="badge c16" data-info="esfj">ESFJ-T</button><button class="badge" data-info="8w7">Enneagram 8w7</button><button class="badge" data-info="disc">DISC D</button><button class="badge" data-info="ase">Holland ASE</button><button class="badge" data-info="guardian">Guardian</button>
       </div></div>
     </div>
@@ -1135,11 +1150,11 @@ const INFO = {
   disc: ["DISC", "Dominance", "Results-first, direct, and decisive. D-styles like a challenge and don't wait around for permission.", "When things stall, she's the one who moves them forward."],
   ase: ["Holland Code", "ASE · The Creator", "Artistic, Social, Enterprising. People who make things, connect with others, and lead.", "Creative was her highest career score at 91.7%. Art is central to who she is."],
   guardian: ["Her archetype", "The Guardian", "Pulled together from all ten tests: someone who protects her people and her principles, fiercely and warmly.", "Warm, steady, and always there for the people she loves."],
-  relator: ["CliftonStrengths #1", "Relator", "Relators want deep, genuine relationships and would rather have a few close friends than a crowd.", "There's a clear line between friends and <i>good</i> friends. Once you're in, you stay in."],
-  empathy: ["CliftonStrengths #2", "Empathy", "Senses what other people are feeling, sometimes before they know it themselves.", "She knows how you're doing before you say a word."],
-  individualization: ["CliftonStrengths #3", "Individualization", "Sees what makes each person unique and treats them that way.", "She remembers the small details that make you, you."],
-  developer: ["CliftonStrengths #4", "Developer", "Sees potential in people and loves watching them grow.", "She's your biggest hype-woman."],
-  communication: ["CliftonStrengths #5", "Communication", "Puts thoughts into words that land and stick.", "She's expressive, persuasive, and knows how to make a point."],
+  relator: ["CliftonStrengths #1 · Relationship Building · blue stripe", "Relator", "Relators want deep, genuine relationships and would rather have a few close friends than a crowd.", "There's a clear line between friends and <i>good</i> friends. Once you're in, you stay in."],
+  empathy: ["CliftonStrengths #2 · Relationship Building · blue stripe", "Empathy", "Senses what other people are feeling, sometimes before they know it themselves.", "She knows how you're doing before you say a word."],
+  individualization: ["CliftonStrengths #3 · Relationship Building · blue stripe", "Individualization", "Sees what makes each person unique and treats them that way.", "She remembers the small details that make you, you."],
+  developer: ["CliftonStrengths #4 · Relationship Building · blue stripe", "Developer", "Sees potential in people and loves watching them grow.", "She's your biggest hype-woman."],
+  communication: ["CliftonStrengths #5 · Influencing · orange stripe", "Communication", "Puts thoughts into words that land and stick.", "She's expressive, persuasive, and knows how to make a point."],
   love: ["VIA #1", "Love", "Values close relationships and both gives and receives love openly.", "This is her number one strength out of 24."],
   honesty: ["VIA #2", "Honesty", "Speaks the truth and lives it too.", "What you see is what you get."],
   spirituality: ["VIA #3", "Spirituality", "A strong sense of purpose, faith, and meaning.", "Faith shapes the way she moves through the world."],

@@ -431,7 +431,7 @@
   /* ---------- icks ---------- */
   .ick-count { color: var(--rose); font-size: 14px; margin: 0; }
   .icks { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin-top: 36px; }
-  .ick { perspective: 900px; height: 172px; border: 0; background: none; padding: 0; text-align: left; }
+  .ick { perspective: 900px; height: 155px; border: 0; background: none; padding: 0; text-align: left; }
   .ick .in { position: relative; width: 100%; height: 100%; transition: transform .6s cubic-bezier(.3,1.3,.5,1); transform-style: preserve-3d; }
   .ick.on .in { transform: rotateY(180deg); }
   .ick .f, .ick .b { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
@@ -1497,7 +1497,7 @@ const ICKS = [
   ['The two-faced sweetheart', 'Sweet to her and rude to everyone else.', 'Fairness and Honesty. How you treat everyone is who you are.', 'Be kind to everyone, especially people who can\'t do anything for you.'],
   ['The one-word texter', 'Replies "k." to her long, thoughtful message.', 'Words of Affirmation (23%) and Communication in her top 5. Words matter to her.', 'Match her energy. A real reply, even a short one, with some heart.'],
   ['The fake apologizer', '"Sorry you feel that way."', "Honesty #2. That's not an apology, and she knows it.", 'Say "I\'m sorry I did that," and mean it.'],
-  ['The empty-handed guest', 'Shows up to her dinner with nothing. Not even a thank-you.', 'ESFJ host plus Receiving Gifts (27%). A little thoughtfulness goes a long way.', 'Bring something small (flowers, dessert, a vanilla latte) and say thank you.']
+  ['The empty-handed guest', 'Shows up to her dinner with nothing. Not even a thank-you.', 'ESFJ host plus Receiving Gifts (27%).', 'Bring flowers or dessert, and say thank you.']
 ];
 const ickGrid = document.getElementById('ickGrid');
 ickGrid.innerHTML = ICKS.map(([who, what, why, instead]) => `<button class="ick" aria-label="${who.replace(/"/g, '&quot;')}: flip to see what to do instead"><div class="in">

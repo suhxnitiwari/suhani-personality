@@ -73,7 +73,7 @@
   .hint { font-size: 13px; color: var(--shell-muted); margin-top: 10px; pointer-events: none; }
   .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 32px; }
   .chip { background: rgba(255,255,255,.06); border: 1px solid rgba(255,79,154,.5); color: var(--shell-text); padding: 8px 18px; border-radius: 99px; font-size: 14px; font-weight: 500; transition: .2s; backdrop-filter: blur(4px); }
-  .chip::after { content: " ↗"; color: var(--pop); }
+  .chip::after { content: " ↓"; color: var(--pop); }
   .chip:hover, .chip:focus-visible { background: var(--pop); color: var(--shell); border-color: var(--pop); transform: translateY(-2px); outline: none; }
   .chip:hover::after { color: var(--shell); }
 
@@ -763,6 +763,9 @@
   .meets .eq i { font-style: normal; color: #ff4f9a; margin: 0 4px; }
   .meets b { display: block; margin: 8px 0 6px; font: 800 24px "Playfair Display", serif; color: #ff9dbb; }
   .meets p { margin: 0; font-size: 15px; color: var(--shell-text); }
+  /* a short pulse on whatever a hero chip lands on */
+  .ping { animation: ping 1.6s ease; border-radius: 16px; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(255,79,154,.7); } 60% { box-shadow: 0 0 0 18px rgba(255,79,154,0); } 100% { box-shadow: 0 0 0 0 rgba(255,79,154,0); } }
 </style>
 </head>
 <body>
@@ -787,11 +790,11 @@
     <p class="tag">Soft heart. <b>Strong spirit.</b></p>
     <button class="rot" id="heroLine" aria-live="polite">The host with a spreadsheet.</button>
     <div class="chips">
-      <button class="chip" data-info="esfj">ESFJ-T · Consul</button>
-      <button class="chip" data-info="8w7">Enneagram 8w7</button>
-      <button class="chip" data-info="disc">DISC: Dominance</button>
-      <button class="chip" data-info="ase">Holland ASE · The Creator</button>
-      <button class="chip" data-info="guardian">Archetype: Guardian</button>
+      <button class="chip" data-go="esfj">ESFJ-T · Consul</button>
+      <button class="chip" data-go="8w7">Enneagram 8w7</button>
+      <button class="chip" data-go="disc">DISC: Dominance</button>
+      <button class="chip" data-go="ase">Holland ASE · The Creator</button>
+      <button class="chip" data-go="guardian">Archetype: Guardian</button>
     </div>
   </div>
 </header>
@@ -2295,6 +2298,26 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     }
   });
 })();
+
+// hero chips: each one jumps to the part of the page that explains it
+const ping = el => { el.classList.remove('ping'); void el.offsetWidth; el.classList.add('ping'); };
+const GO = {
+  esfj: ['core', () => ping(document.querySelectorAll('#core .anchor')[0])],
+  '8w7': ['shell', () => ping(document.querySelectorAll('#shell .anchor')[0])],
+  disc: ['both', () => {
+    const card = document.querySelector('.contra[data-c="0"]'), input = card.querySelector('input');
+    let v = 50; const step = () => { v -= 3; input.value = v; input.dispatchEvent(new Event('input')); if (v > 12) requestAnimationFrame(step); };
+    step(); ping(card);
+  }],
+  ase: ['careers', () => { showHex(2); ping(document.querySelector('.riasec')); }],
+  guardian: ['strengths', () => { showTheme(4); ping(document.getElementById('evidence')); }]
+};
+document.querySelectorAll('.chip[data-go]').forEach(chip => chip.addEventListener('click', () => {
+  const [id, then] = GO[chip.dataset.go], target = document.getElementById(id);
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  target.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  setTimeout(then, 750);
+}));
 
 // paint canvas
 (() => {

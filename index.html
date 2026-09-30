@@ -834,6 +834,21 @@
   .ask-a .cites { display: flex; flex-wrap: wrap; gap: 6px; }
   .ask-a .cites span { font: 12px ui-monospace, Menlo, monospace; padding: 4px 9px; border-radius: 99px; background: var(--core); border: 1px solid var(--line); color: var(--core-muted); }
   .ask-a .cites-h { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--rose); font-weight: 700; margin: 0 0 6px; }
+  /* ---------- reading key ---------- */
+  .key-strip { background: #12060c; border-top: 1px solid rgba(255,79,154,.2); padding: 16px 0; }
+  .key-strip .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 28px; }
+  .key-h { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: #ff4f9a; }
+  .key-item { display: inline-flex; flex-direction: column; gap: 2px; }
+  .key-item small { font-size: 11px; color: var(--shell-muted); }
+  .k-data { font: 700 11px "DM Sans", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #ff9dbb; }
+  .k-interp { font: italic 500 16px "Playfair Display", serif; color: #ffe3ec; }
+  .k-voice { font: 700 16px "Playfair Display", serif; color: #fff; }
+  html.single-view .key-strip { display: none; }
+  .pattern-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .card-dialog { padding: 18px; border-radius: 24px; background: #1a0912; max-width: min(460px, calc(100vw - 24px)); }
+  .card-dialog img { display: block; width: 100%; border-radius: 14px; }
+  .card-actions { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+  .card-actions a { text-decoration: none; }
 </style>
 </head>
 <body>
@@ -868,6 +883,12 @@
   </div>
 </header>
 
+<div class="key-strip"><div class="wrap">
+  <span class="key-h">How to read this page</span>
+  <span class="key-item"><b class="k-data">Achievement 100% · Relator #1</b><small>What a test measured</small></span>
+  <span class="key-item"><b class="k-interp">She needs something to build.</b><small>My read of the results</small></span>
+  <span class="key-item"><b class="k-voice">The host with a spreadsheet.</b><small>Her, in plain words</small></span>
+</div></div>
 <div class="act" id="actI"><div class="wrap"><span>Act I</span><b>This is Suhani</b><i class="aq">Who is she?</i></div></div>
 
 <section class="shell alt" id="shell">
@@ -969,7 +990,7 @@
         <div><span class="eq">Dominance <i>×</i> Love #1</span><b>The Protector</b><p>Decisive for the people she loves, before they have to ask.</p></div>
       </div>
     </div>
-    <button class="more-btn reveal" data-more="receipts" aria-expanded="false">Want the receipts? See all 10 assessments →</button>
+    <div class="pattern-actions reveal"><button class="more-btn" data-more="receipts" aria-expanded="false">Want the receipts? See all 10 assessments →</button><button class="more-btn card-btn" id="makeCard">Get her personality card</button></div>
   </div>
 </section>
 
@@ -1396,6 +1417,10 @@
   </div>
 </footer>
 
+<dialog id="cardDialog" class="card-dialog">
+  <img id="cardImg" alt="Suhani's personality card">
+  <div class="card-actions"><a class="q-next" id="cardDownload" download="suhani-personality-card.png">Save image</a><button class="q-next q-share" id="cardShare">Share</button><button class="q-next q-share" id="cardClose">Close</button></div>
+</dialog>
 <dialog id="modal">
   <div class="m-top"><div class="kicker" id="mKicker"></div><h3 id="mTitle"></h3><button class="x" id="mClose" aria-label="Close">×</button></div>
   <div class="m-body"><p id="mBody"></p><div class="you" id="mYou"></div></div>
@@ -2334,6 +2359,51 @@ const answer = i => {
 };
 askQs.querySelectorAll('button').forEach((b, i) => b.onclick = () => answer(i));
 answer(1);
+
+// personality card: drawn on a canvas so visitors can save or share it
+const drawCard = async () => {
+  await document.fonts.load('800 120px "Playfair Display"'); await document.fonts.load('italic 500 40px "Playfair Display"'); await document.fonts.load('500 28px "DM Sans"');
+  const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d');
+  g.fillStyle = '#2a0f1e'; g.fillRect(0, 0, W, H);
+  const glow = g.createRadialGradient(W / 2, 470, 0, W / 2, 470, 520);
+  glow.addColorStop(0, 'rgba(255,79,154,.75)'); glow.addColorStop(.45, 'rgba(224,86,127,.28)'); glow.addColorStop(1, 'rgba(42,15,30,0)');
+  g.fillStyle = glow; g.fillRect(0, 0, W, H);
+  [['255,45,135', 170, 1080], ['43,125,224', 930, 190], ['242,67,74', 900, 1150], ['79,147,179', 140, 260], ['240,138,36', 980, 700]].forEach(([col, x, y]) => {
+    const r = g.createRadialGradient(x, y, 0, x, y, 170); r.addColorStop(0, `rgba(${col},.55)`); r.addColorStop(1, `rgba(${col},0)`); g.fillStyle = r; g.fillRect(x - 170, y - 170, 340, 340);
+  });
+  g.textAlign = 'center';
+  g.fillStyle = '#ff4f9a'; g.font = '700 26px "DM Sans"'; g.fillText('L O Y A L   ·   B O L D   ·   C R E A T I V E', W / 2, 250);
+  g.fillStyle = '#f7e6ec'; g.font = '800 170px "Playfair Display"'; g.fillText('Suhani', W / 2, 440);
+  g.fillStyle = '#ffe3ec'; g.font = 'italic 500 80px "Playfair Display"'; g.fillText('Tiwari', W / 2, 530);
+  g.fillStyle = '#ffffff'; g.font = '700 50px "Playfair Display"'; g.fillText('Soft heart.', W / 2 - 150, 640);
+  g.fillStyle = '#ff9dbb'; g.font = 'italic 700 50px "Playfair Display"'; g.fillText('Strong spirit.', W / 2 + 150, 640);
+  g.fillStyle = '#ffc2d4'; g.font = '500 30px "DM Sans"'; g.fillText('ESFJ-T   ·   Enneagram 8w7   ·   DISC D   ·   Holland ASE', W / 2, 730);
+  const box = (y, label, text) => {
+    g.fillStyle = 'rgba(255,255,255,.06)'; g.beginPath(); g.roundRect(110, y, W - 220, 150, 26); g.fill();
+    g.fillStyle = '#ff4f9a'; g.font = '700 22px "DM Sans"'; g.fillText(label, W / 2, y + 52);
+    g.fillStyle = '#ffffff'; g.font = '700 40px "Playfair Display"'; g.fillText(text, W / 2, y + 108);
+  };
+  box(800, 'WHAT 10 TESTS KEEP FINDING', 'People · Leadership · Drive · Creativity');
+  box(975, 'SIGNATURE CONTRADICTION', 'Boss energy  ×  Warm host');
+  g.fillStyle = '#ff9dbb'; g.font = 'italic 500 32px "Playfair Display"'; g.fillText('Explore the full personality →', W / 2, 1220);
+  g.fillStyle = '#c9a3b3'; g.font = '500 24px "DM Sans"'; g.fillText(SITE_BASE.replace(/^https?:\/\//, ''), W / 2, 1265);
+  return c;
+};
+const cardDialog = document.getElementById('cardDialog');
+document.getElementById('makeCard').onclick = async () => {
+  const c = await drawCard(), url = c.toDataURL('image/png');
+  document.getElementById('cardImg').src = url;
+  document.getElementById('cardDownload').href = url;
+  document.getElementById('cardShare').onclick = async e => {
+    const blob = await (await fetch(url)).blob(), file = new File([blob], 'suhani-personality-card.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) { try { await navigator.share({ files: [file], title: 'Suhani Tiwari', url: SITE_BASE }); } catch {} }
+    else shareText('Soft heart. Strong spirit.', e.currentTarget, SITE_BASE, 'Suhani Tiwari');
+  };
+  cardDialog.showModal();
+};
+document.getElementById('cardClose').onclick = () => cardDialog.close();
+cardDialog.addEventListener('click', e => { if (e.target === cardDialog) cardDialog.close(); });
 
 // values accordion
 document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));

@@ -356,7 +356,7 @@
   .t-out:nth-child(4) { color: #ff9dbb; }
 
   /* ---------- mood meter ---------- */
-  .meter { position: sticky; top: 64px; z-index: 5; display: flex; align-items: center; gap: 18px; margin-top: 36px; padding: 18px 20px; border-radius: 22px; background: #4a1530; box-shadow: 0 16px 40px -20px rgba(0,0,0,.7); }
+  .meter { position: relative; z-index: 5; display: flex; align-items: center; gap: 18px; margin-top: 36px; padding: 18px 20px; border-radius: 22px; background: #4a1530; box-shadow: 0 16px 40px -20px rgba(0,0,0,.7); }
   .face { position: relative; width: 76px; height: 76px; flex: none; display: grid; place-items: center; transition: transform .3s cubic-bezier(.3,1.8,.5,1); }
   .face svg { position: absolute; inset: 0; transform: rotate(-90deg); }
   .face .trk { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 6; }
@@ -374,17 +374,18 @@
   .meter.shake { animation: shake .45s; }
   @keyframes shake { 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
   @media (max-width: 560px) { .meter { flex-wrap: wrap; } }
-  .moods { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 28px; }
-  @media (max-width: 760px) { .moods { grid-template-columns: 1fr; } }
+  .moods { display: grid; gap: 8px; margin-top: 28px; }
+  .moods .carousel { margin-top: 12px; }
   .moods h3 { font-size: 24px; margin-bottom: 14px; }
-  .mlist { display: grid; gap: 10px; }
-  .mlist button { display: flex; gap: 12px; align-items: center; text-align: left; border-radius: 16px; padding: 14px 16px; font-size: 15px; transition: transform .15s, background .2s; }
+  .mlist { gap: 12px; }
+  .mlist button { flex: 0 0 min(72%, 220px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; text-align: left; border-radius: 18px; padding: 18px; min-height: 128px; font-size: 16px; line-height: 1.35; transition: transform .15s, background .2s; }
+  .mlist .ico { width: 30px; height: 30px; }
   .mlist button .num { font: italic 700 20px "Playfair Display", serif; min-width: 30px; }
   #annoy .num { color: #ff4f9a; } #delight .num { color: var(--rose); }
   #annoy button { background: rgba(0,0,0,.2); border: 1px solid rgba(255,79,154,.35); color: #ffe3ec; }
-  #annoy button:hover { transform: translateX(4px); background: rgba(122,31,69,.6); }
+  #annoy button:hover { transform: translateY(-3px); background: rgba(122,31,69,.6); }
   #delight button { background: #ffe3ec; border: 0; color: #3a1426; }
-  #delight button:hover { transform: translateX(4px); background: #fff; }
+  #delight button:hover { transform: translateY(-3px); background: #fff; }
   .mlist button.hit { animation: shake .4s; }
 
   /* ---------- graveyard ---------- */
@@ -611,8 +612,8 @@
       <button class="m-reset" id="moodReset">Reset</button>
     </div>
     <div class="moods">
-      <div class="reveal"><h3>How to annoy her</h3><div class="mlist" id="annoy"></div></div>
-      <div class="reveal"><h3>How to make her day</h3><div class="mlist" id="delight"></div></div>
+      <div class="reveal"><h3>How to annoy her</h3><div class="carousel late" id="annoyC"><div class="track mlist" id="annoy"></div><div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div></div></div>
+      <div class="reveal"><h3>How to make her day</h3><div class="carousel late" id="delightC"><div class="track mlist" id="delight"></div><div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div></div></div>
     </div>
   </div>
 </section>
@@ -1144,6 +1145,7 @@ const fill = (id, list, sign, icons) => list.forEach(([text, reaction, why], i) 
   document.getElementById(id).append(b);
 });
 fill('annoy', ANNOY, -1, ANNOY_ICONS); fill('delight', DELIGHT, 1, DELIGHT_ICONS);
+initCarousel(document.getElementById('annoyC')); initCarousel(document.getElementById('delightC'));
 document.getElementById('moodReset').onclick = () => { mood = 50; setMood(0, 'Waiting to see what you do.', 'Pick something below and see how she\'d react.'); };
 
 // graveyard
@@ -1354,7 +1356,7 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     ['photo stack', 'polaroids.js', 'Polaroid stack', 'Each polaroid keeps its own random tilt. A click flings the top card away, then rotates the array (push(shift())) and re-lays out the stack with offsets and z-index. Swap in real photos by adding them to the PHOTOS array.', ['array rotation', 'z-index stacking', 'lazy-loaded images']],
     ['contradictions', 'both-and.js', 'Contradictions sliders', 'Each card is a native <input type="range">. Its value (0–1) goes into a CSS custom property, --t, and color-mix() blends the card between wine and hot pink live as you drag. The text switches at thirds: left side, right side, and "both" in the middle.', ['input range', 'color-mix()', 'CSS custom properties', 'thresholds']],
     ['font tester', 'fonts.js', 'Font tester', 'One input and three outputs. Every keystroke copies the text into each specimen. Preset chips fill the field, and a range slider sets a --ts custom property that resizes all three at once.', ['input event', 'range → CSS variable', 'live preview']],
-    ['mood meter', 'mood.js', 'Mood meter', 'A single number (0–100) is the state. Every button adds or subtracts a slightly random amount, clamped with Math.min/Math.max, and draws it as an SVG ring gauge using pathLength=100 and stroke-dasharray. Each item carries its own predicted reaction and the test result behind it. The meter is position: sticky, so it follows you while you scroll the list.', ['state + clamp', 'SVG ring gauge', 'position: sticky', 'Math.random']],
+    ['mood meter', 'mood.js', 'Mood meter', 'A single number (0–100) is the state. Every button adds or subtracts a slightly random amount, clamped with Math.min/Math.max, and draws it as an SVG ring gauge using pathLength=100 and stroke-dasharray. Each item carries its own predicted reaction and the test result behind it. Both lists are scroll-snap carousels.', ['state + clamp', 'SVG ring gauge', 'carousels', 'Math.random']],
     ['graveyard', 'rip.js', 'Graveyard', 'Tombstones are built entirely in CSS: a border-radius of 110px on top and 10px on the bottom makes the headstone shape. The cards are rendered from a data array with map() + join(), and flip in 3D to reveal the "revive" side.', ['border-radius shapes', 'map + template literals', '3D flip']],
     ['icks', 'icks.js', 'Ick list', 'The cards are rendered from a data array. A tap toggles one class, and CSS does the rest: a shudder keyframe, an "ICK" stamp that springs from scale(2) to scale(1), and a max-height reveal for the reason. The counter just counts .ick.on with querySelectorAll.', ['classList.toggle', 'keyframes', 'max-height reveal', 'live counter']],
     ['under the hood', 'hood.js', 'This panel', 'The panel reads this page\'s own <script> at runtime, splits it at comment markers, and syntax-highlights it with a single-regex tokenizer. Live numbers come from requestAnimationFrame and the Performance API, and it only updates while you can see it.', ['self-reading code', 'regex tokenizer', 'Performance API', 'Clipboard API']]

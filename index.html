@@ -683,16 +683,22 @@
   #both { padding: 120px 0; }
   #both .intro { max-width: 760px; }
   .both-title { font-size: clamp(44px, 8vw, 88px) !important; }
-  /* same 3-column grid as the Loyal / Empathic / Expressive anchors */
-  #both .contras { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 44px; }
-  @media (max-width: 900px) { #both .contras { grid-template-columns: 1fr 1fr; gap: 20px; } }
-  @media (max-width: 600px) { #both .contras { grid-template-columns: 1fr; } }
-  #both .contra { padding: 24px 24px 20px; display: flex; flex-direction: column; }
-  #both .contra .ends { font-size: clamp(19px, 1.9vw, 24px); gap: 10px; }
-  #both .contras { grid-auto-rows: 1fr; }
-  #both .contra .why { font-size: 15px; line-height: 1.5; min-height: 3em; flex: 1; }
-  #moreContras { margin-top: 24px; }
-  #both .contra[hidden] { display: none; }
+  /* one giant tension at a time: the words themselves morph as you drag */
+  #both { padding: 110px 0 90px; transition: background .2s; background: color-mix(in srgb, #ff4f9a calc(var(--t, .5) * 55%), #3d1529); }
+  .tension { margin-top: 44px; user-select: none; -webkit-user-select: none; touch-action: pan-y; }
+  .t-words { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; min-height: 1.1em; font: 800 clamp(40px, 9vw, 128px)/1 "Playfair Display", serif; }
+  .t-words span { display: block; transition: opacity .15s, transform .15s; transform-origin: left bottom; color: #fff; }
+  .t-words .t-r { font-style: italic; text-align: right; transform-origin: right bottom; color: #ffe3ec; }
+  .t-both { margin: 22px 0 18px; min-height: 3.2em; font: italic 500 clamp(18px, 2.2vw, 26px)/1.45 "Playfair Display", serif; color: #ffe3ec; max-width: 760px; }
+  .t-both b { font-style: normal; color: #fff; }
+  #tRange { -webkit-appearance: none; appearance: none; width: 100%; height: 10px; border-radius: 99px; background: linear-gradient(90deg, #7a1f45, #ffc2d4); outline: none; cursor: grab; }
+  #tRange::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; border-radius: 50%; background: #fff; border: 4px solid #ff4f9a; box-shadow: 0 4px 18px rgba(0,0,0,.35); }
+  #tRange::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 4px solid #ff4f9a; }
+  .t-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 22px; flex-wrap: wrap; }
+  .t-src { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: #ffc2d4; }
+  .t-nav { display: flex; align-items: center; gap: 14px; color: #fff; font: 600 14px "DM Sans", sans-serif; }
+  .t-nav button { width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(255,255,255,.6); background: transparent; color: #fff; font-size: 18px; }
+  .t-nav button:hover { background: #fff; color: #2a0f1e; }
   /* ---------- act dividers ---------- */
   .act { background: #1a0912; border-top: 1px solid rgba(255,79,154,.25); border-bottom: 1px solid rgba(255,79,154,.25); padding: 26px 0; }
   .act .wrap { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
@@ -961,19 +967,15 @@
     <div class="intro reveal">
       <div class="kicker"><i>03</i>Contradictions</div>
       <h2 class="both-title">Not either/or. <em>Both/and.</em></h2>
-      <p>Most personality tests flatten people into one box. Hers pull in opposite directions, and both sides are true at once. That tension is the most interesting thing about her. Drag each slider to see how.</p>
+      <p>Most tests flatten people into one box. Hers pull in opposite directions. Drag to see how both are true.</p>
     </div>
-    <div class="contras">
-      <div class="contra reveal" data-c="0"></div>
-      <div class="contra reveal" data-c="1"></div>
-      <div class="contra reveal" data-c="2"></div>
-      <div class="contra reveal" data-c="3"></div>
-      <div class="contra reveal" data-c="4"></div>
-      <div class="contra reveal" data-c="5"></div>
-      <div class="contra reveal extra" data-c="6" hidden></div>
-      <div class="contra reveal extra" data-c="7" hidden></div>
+    <div class="tension reveal" id="tension">
+      <div class="t-words" aria-hidden="true"><span class="t-l" id="tL"></span><span class="t-r" id="tR"></span></div>
+      <p class="t-both" id="tBoth" aria-live="polite"></p>
+      <input type="range" id="tRange" min="0" max="100" value="50" aria-label="Slide between the two sides">
+      <div class="t-foot"><span class="t-src" id="tSrc"></span>
+        <div class="t-nav"><button id="tPrev" aria-label="Previous tension">←</button><span id="tCount">1 / 8</span><button id="tNext" aria-label="Next tension">→</button></div></div>
     </div>
-    <button class="more-btn" id="moreContras">See 2 more tensions</button>
   </div>
 </section>
 
@@ -1655,26 +1657,34 @@ const CONTRAS = [
   ["Feels everything", "Decides fast", "Emotional awareness 19/20. She feels it all.", "DISC Dominance. She makes the call.", "<b>Both.</b> She feels it fully, then acts.", "Big Five ↔ DISC"],
   ["Big dreams", "Deep roots", "Achievement 100%, Power 75%. She aims high.", "Security 100%, Tradition 67%. Home matters.", "<b>Both.</b> Go far, and bring home along.", "Schwartz Values"]
 ];
-document.querySelectorAll('.contra').forEach(el => {
-  const [l, r, lw, rw, both, src] = CONTRAS[+el.dataset.c];
-  el.innerHTML = `<div class="ends"><span>${l}</span><span>${r}</span></div>
-    <input type="range" min="0" max="100" value="50" aria-label="${l} to ${r}">
-    <div class="why"></div><span class="src">${src}</span>`;
-  const input = el.querySelector('input'), why = el.querySelector('.why'), [a, b] = el.querySelectorAll('.ends span');
-  const update = () => {
-    const t = input.value / 100;
-    el.style.setProperty('--t', t);
-    a.style.opacity = 1 - t * .6; b.style.opacity = .4 + t * .6;
-    why.innerHTML = t < .34 ? lw : t > .66 ? rw : both;
-  };
-  input.addEventListener('input', update); update();
-});
-
-document.getElementById('moreContras').onclick = e => {
-  const extras = document.querySelectorAll('.contra.extra'), show = extras[0].hidden;
-  extras.forEach(x => { x.hidden = !show; x.classList.add('in'); });
-  e.currentTarget.textContent = show ? 'Show fewer' : 'See 2 more tensions';
+/* one tension on stage; the two words scale and fade as the slider moves, and "both" appears in the middle */
+const tEl = { L: document.getElementById('tL'), R: document.getElementById('tR'), both: document.getElementById('tBoth'), src: document.getElementById('tSrc'), count: document.getElementById('tCount'), range: document.getElementById('tRange') };
+let tI = 0;
+const paintTension = () => {
+  const [l, r, lw, rw, both, src] = CONTRAS[tI], t = tEl.range.value / 100;
+  document.getElementById('both').style.setProperty('--t', t);
+  tEl.L.style.opacity = .3 + (1 - t) * .7; tEl.L.style.transform = `scale(${.72 + (1 - t) * .38})`;
+  tEl.R.style.opacity = .3 + t * .7; tEl.R.style.transform = `scale(${.72 + t * .38})`;
+  const html = t < .34 ? lw : t > .66 ? rw : both;
+  if (tEl.both.innerHTML !== html) tEl.both.innerHTML = html;
 };
+const showTension = (i, value = 50) => {
+  tI = (i + CONTRAS.length) % CONTRAS.length;
+  const [l, r, , , , src] = CONTRAS[tI];
+  tEl.L.textContent = l; tEl.R.textContent = r; tEl.src.textContent = src;
+  tEl.count.textContent = `${tI + 1} / ${CONTRAS.length}`;
+  tEl.range.setAttribute('aria-label', `${l} to ${r}`);
+  tEl.range.value = value; paintTension();
+  swap(tEl.L, l); swap(tEl.R, r);
+};
+tEl.range.addEventListener('input', paintTension);
+document.getElementById('tPrev').onclick = () => showTension(tI - 1);
+document.getElementById('tNext').onclick = () => showTension(tI + 1);
+/* swipe the stage (not the slider) to move between tensions */
+let tx0 = null;
+document.getElementById('tension').addEventListener('pointerdown', e => { if (e.target !== tEl.range) tx0 = e.clientX; });
+addEventListener('pointerup', e => { if (tx0 === null) return; const dx = e.clientX - tx0; tx0 = null; if (Math.abs(dx) > 60) showTension(tI + (dx < 0 ? 1 : -1)); });
+showTension(0);
 
 // font tester
 const typeIn = document.getElementById('typeIn');
@@ -2549,9 +2559,9 @@ const GO = {
   esfj: ['core', () => ping(document.querySelectorAll('#core .anchor')[0])],
   '8w7': ['shell', () => ping(document.querySelectorAll('#shell .anchor')[0])],
   disc: ['both', () => {
-    const card = document.querySelector('.contra[data-c="0"]'), input = card.querySelector('input');
-    let v = 50; const step = () => { v -= 3; input.value = v; input.dispatchEvent(new Event('input')); if (v > 12) requestAnimationFrame(step); };
-    step(); ping(card);
+    showTension(0); let v = 50;
+    const step = () => { v -= 3; tEl.range.value = v; paintTension(); if (v > 12) requestAnimationFrame(step); };
+    step();
   }],
   ase: ['careers', () => { showHex(2); ping(document.querySelector('.riasec')); }],
   guardian: ['strengths', () => { showTheme(4); ping(document.getElementById('evidence')); }]
@@ -2565,7 +2575,7 @@ document.querySelectorAll('.chip[data-go]').forEach(chip => chip.addEventListene
 
 // rabbit hole: jump somewhere interesting and set it up
 const RABBIT = [
-  () => { const i = Math.random() * 8 | 0, c = document.querySelector(`.contra[data-c="${i}"]`), inp = c.querySelector('input'); inp.value = 50; inp.dispatchEvent(new Event('input')); return c; },
+  () => { showTension(Math.random() * CONTRAS.length | 0); return document.getElementById('tension'); },
   () => { const d = [...document.querySelectorAll('.dilemma')][Math.random() * 4 | 0]; d.classList.add('on'); return d; },
   () => { const t = [...document.querySelectorAll('.tomb')][Math.random() * 10 | 0]; t.classList.add('on'); return t; },
   () => { const k = [...document.querySelectorAll('.ick')][Math.random() * 12 | 0]; k.classList.add('on'); ickCount(); return k; },

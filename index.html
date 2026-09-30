@@ -1271,7 +1271,7 @@
 
 <section class="core" id="careers">
   <div class="wrap careers-top">
-    <figure class="tuck" style="--r:6deg"><img src="photos/02-art.jpg" alt="art that stops me" loading="lazy" draggable="false"><figcaption>art that stops me</figcaption></figure>
+    <figure class="tuck" style="--r:6deg"><img src="photos/02-art.jpg" alt="art that stops her" loading="lazy" draggable="false"><figcaption>art that stops her</figcaption></figure>
     <div class="intro reveal">
       <div class="kicker"><i>13</i>Creates everything</div>
       <h2>Where she'd <em>thrive.</em></h2>
@@ -1447,7 +1447,7 @@
       <div><b>Detail-minded</b><span>Look at the interactions.</span><small>Orderliness 19/20</small></div>
       <div><b>Communicator</b><span>She turned hundreds of data points into a story.</span><small>Communication, CliftonStrengths #5</small></div>
     </div>
-    <div class="built-head reveal"><h3>How I built it</h3><p>No CS degree required. Click a number and I'll translate.</p></div>
+    <div class="built-head reveal"><h3>How she built it</h3></div>
 
     <div class="big-stats reveal" id="bigStats">
       <button data-stat="file" aria-expanded="false"><b>1</b><span>HTML file</span><em>Explore →</em></button>
@@ -1626,7 +1626,7 @@ const CIRCLE = [
   [ // 0: center
     ['Her inner circle', 'Small circle. <em>Deep roots.</em>', 'The few who get the full version.', 'day ones', 'Day ones', 'Fierce, forever loyalty. Advice at 2am, and the first person in your corner, every single time.'],
     ['Her ride or dies', 'Ride or die. <em>No questions.</em>', "Once you're in, you're in for life.", 'ride or dies', 'Ride or dies', "She'll defend you in rooms you're not even in, and remember your coffee order, your big days, and your biggest dreams."],
-    ['Her chosen family', 'Chosen family. <em>Forever.</em>', "Blood isn't the only thing that makes family.", 'my people', 'Her people', 'Hand-picked, loved out loud, and hyped through every glow-up like it was her own.'],
+    ['Her chosen family', 'Chosen family. <em>Forever.</em>', "Blood isn't the only thing that makes family.", 'her people', 'Her people', 'Hand-picked, loved out loud, and hyped through every glow-up like it was her own.'],
     ['Her soul sisters', 'Soul-deep. <em>Heart-first.</em>', 'Some bonds just click, and she guards them with everything.', 'soul sisters', 'Soul sisters', 'Late-night talks, inside jokes, and zero judgment. This circle is her whole heart.']
   ],
   [ // 1: middle
@@ -1712,17 +1712,17 @@ gift.onclick = () => loveRevealed ? gift.classList.toggle('open') : revealLove()
 /* add real photos here: { src: 'photos/name.jpg', cap: 'caption' } */
 const PHOTOS = [
   { src: 'photos/01-fridge.jpg', cap: 'the fridge of a loved eldest sister' },
-  { src: 'photos/07-latte.jpg', cap: 'me and my vanilla lattes against the world' },
+  { src: 'photos/07-latte.jpg', cap: 'her and her vanilla lattes against the world' },
   { src: 'photos/04-lehenga.jpg', cap: 'celebrating everything' },
   { src: 'photos/06-blazer.jpg', cap: 'main character moment' },
   { src: 'photos/10-card.jpg', cap: 'a gift that meant everything' },
-  { src: 'photos/05-yacht.jpg', cap: 'my happy place' },
-  { src: 'photos/02-art.jpg', cap: 'art that stops me in my tracks' },
+  { src: 'photos/05-yacht.jpg', cap: 'her happy place' },
+  { src: 'photos/02-art.jpg', cap: 'art that stops her in her tracks' },
   { src: 'photos/09-dandiya.jpg', cap: 'just a little Indian girl' },
   { src: 'photos/03-dessert.jpg', cap: 'dessert first, always' },
-  { src: 'photos/08-claypit.jpg', cap: 'my favorite cuisine' }
+  { src: 'photos/08-claypit.jpg', cap: 'her favorite cuisine' }
 ];
-const PLACEHOLDERS = ['with my day ones', 'art in progress', 'the squad', 'celebrating everything', 'my happy place', 'main character moment', 'vanilla latte in hand', 'hosting the whole crew', 'family traditions', 'a gift that meant everything'];
+const PLACEHOLDERS = ['with her day ones', 'art in progress', 'the squad', 'celebrating everything', 'her happy place', 'main character moment', 'vanilla latte in hand', 'hosting the whole crew', 'family traditions', 'a gift that meant everything'];
 const TINTS = ['linear-gradient(135deg,#ff9dbb,#e0567f)', 'linear-gradient(135deg,#e0567f,#7a1f45)', 'linear-gradient(135deg,#ffc2d4,#ff4f9a)', 'linear-gradient(135deg,#ff4f9a,#2a0f1e)', 'linear-gradient(135deg,#fbe9ee,#ff9dbb)', 'linear-gradient(135deg,#b8406f,#ff9dbb)', 'linear-gradient(135deg,#ffb3cf,#b8406f)', 'linear-gradient(135deg,#ff4f9a,#ffc2d4)', 'linear-gradient(135deg,#7a1f45,#e0567f)', 'linear-gradient(135deg,#f2434a,#ff9dbb)'];
 const stackEl = document.getElementById('photoStack');
 const cards = (PHOTOS.length ? PHOTOS : PLACEHOLDERS.map(cap => ({ cap }))).map((p, i) => {
@@ -2846,10 +2846,10 @@ document.getElementById('toTop2').onclick = () => document.getElementById('toHer
   frame();
 })();
 
-// how I built it: each stat translates itself for non-engineers
+// how she built it: each stat translates itself for non-engineers
 const STAT_COPY = {
   file: () => ['1 HTML file', 'The entire website lives in one file. The structure, the styling, and every interaction are packaged together, instead of spread across a large project.', 'What makes that interesting: this whole interactive experience runs on a very small, dependency-free setup.'],
-  fw: () => ['0 frameworks', "No React, Vue, or other framework is doing the heavy lifting. Translation: I didn't use a pre-built application kit to create the interactions you're using.", 'Think of a framework like a construction kit. This site was built closer to the raw materials.'],
+  fw: () => ['0 frameworks', "No React, Vue, or other framework is doing the heavy lifting. Translation: she didn't use a pre-built application kit to create the interactions you're using.", 'Think of a framework like a construction kit. This site was built closer to the raw materials.'],
   js: () => [`${document.getElementById('sLines').textContent} lines of JavaScript`, 'JavaScript is what makes the page react to you. These lines power things like:', null, true],
   kb: () => [`${document.getElementById('sSize').textContent} KB total`, `The entire page is tiny. At roughly ${document.getElementById('sSize').textContent} KB, the code is light enough to load quickly, without shipping a huge software package to your browser.`, 'For scale: a single phone photo is usually a few thousand KB.']
 };

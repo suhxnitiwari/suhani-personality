@@ -25,18 +25,6 @@
     --rose: #e0567f;
     --clifton-blue: #2b7de0; --comm-orange: #f08a24; --gifts-red: #f2434a; --consul-teal: #4f93b3; --pop: #ff4f9a; --card: #fff7f9; --line: #efc9d5;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --shell: #1a0912; --shell-2: #2a0f1e;
-      --core: #33162a; --core-2: #401c33; --core-text: #fbe4ec; --core-muted: #ff9dbb;
-      --card: #401c33; --line: #5a2a45;
-    }
-  }
-  :root[data-theme="dark"] {
-    --shell: #1a0912; --shell-2: #2a0f1e;
-    --core: #33162a; --core-2: #401c33; --core-text: #fbe4ec; --core-muted: #ff9dbb;
-    --card: #401c33; --line: #5a2a45;
-  }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; scroll-padding-top: 56px; }
   body { margin: 0; background: var(--shell); color: var(--shell-text); font: 17px/1.7 "DM Sans", system-ui, sans-serif; overflow-x: hidden; }
@@ -929,6 +917,10 @@
   .meets > div:nth-child(3n+2) { transform: translateY(26px); }
   .meets > div:nth-child(3n) { transform: rotate(-.6deg); }
   @media (max-width: 760px) { .anchors .anchor:nth-child(n) { margin-top: 0; } .meets > div:nth-child(n) { transform: none; } }
+  .langs:not(.go) button b { visibility: hidden; }
+  #gifts .ll-insight { display: none; }
+  #gifts.revealed .ll-insight { display: block; animation: pop .4s ease; }
+  .lang-tip .guess { display: block; font-style: italic; font-size: 13px; opacity: .9; margin-bottom: 4px; }
 </style>
 </head>
 <body>
@@ -945,7 +937,6 @@
   <div class="ng"><a class="gl" href="#circle">II · Love<small class="gq">How does she love?</small></a><span class="gs"><a href="#circle"><b>06</b>Circle</a><a href="#gifts"><b>07</b>Love language</a><a href="#mood"><b>08</b>Mood</a><a href="#icks"><b>09</b>Icks</a><a href="#match"><b>10</b>Match</a></span></div>
   <div class="ng"><a class="gl" href="#values">III · Mind<small class="gq">What drives her?</small></a><span class="gs"><a href="#values"><b>11</b>Values</a><a href="#photos"><b>12</b>Photos</a><a href="#careers"><b>13</b>Thrive</a><a href="#rip"><b>14</b>Absolutely not</a><a href="#ask"><b>15</b>Ask the data</a><a href="#quiz"><b>16</b>Quiz</a></span></div>
   <div class="ng"><a class="gl" href="#palette">IV · Built<small class="gq">What did she build?</small></a><span class="gs"><a href="#palette"><b>17</b>Style</a><a href="#code"><b>18</b>Final test</a></span></div>
-  <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
 </div></nav>
 
 <header class="hero" id="top">
@@ -1139,11 +1130,10 @@
 
 <section class="core" id="gifts">
   <div class="wrap love">
-    <figure class="tuck" style="--r:-7deg"><img src="photos/10-card.jpg" alt="a gift that meant everything" loading="lazy" draggable="false"><figcaption>a gift that meant everything</figcaption></figure>
     <div class="reveal">
       <div class="kicker"><i>07</i>Her love language</div>
       <h2 style="font-size:clamp(34px,5.5vw,56px);margin:10px 0 12px">Speak her <em>language.</em></h2>
-      <p style="color:var(--core-muted);margin:0 0 26px">Tap the gift. Then tap any language to learn how to speak it to her.</p>
+      <p style="color:var(--core-muted);margin:0 0 26px">Guess her #1 love language, then unwrap the gift.</p>
       <button class="gift" id="gift" aria-label="Unwrap the gift">
         <span class="bow"><i></i><i></i></span>
         <span class="lid"></span>
@@ -1160,7 +1150,7 @@
         <button data-l="4"><span>Physical Touch</span><b>7%</b><i style="--w:26%"></i></button>
       </div>
       <div class="ll-insight"><b>Love, to her, is tangible.</b><p>Gifts, words, time, and acts all land within 7 points of each other (20–27%): four ways of showing care you can see, hear, or hold. Physical touch, at 7%, is the real outlier.</p></div>
-      <div class="lang-tip" id="langTip" aria-live="polite"><b>Unwrap the gift first.</b><span>Her #1 love language is hiding inside.</span></div>
+      <div class="lang-tip" id="langTip" aria-live="polite"><b>Take a guess.</b><span>Tap the one you think is her #1. The answer is inside the gift.</span></div>
     </div>
   </div>
 </section>
@@ -1219,6 +1209,7 @@
 
 <section class="shell alt" id="match">
   <div class="wrap">
+    <figure class="tuck" style="--r:-7deg"><img src="photos/10-card.jpg" alt="a gift that meant everything" loading="lazy" draggable="false"><figcaption>a gift that meant everything</figcaption></figure>
     <div class="intro reveal">
       <div class="kicker"><i>10</i>Compatibility check</div>
       <h2>Would you two <em>click?</em></h2>
@@ -1475,7 +1466,7 @@
         <div><small>Page ready in</small><b id="mLoad">–</b><b><em>ms</em></b></div>
         <div><small>Scroll depth</small><b id="mScroll">–</b><b><em>%</em></b></div>
         <div><small>Viewport</small><b id="mView">–</b></div>
-        <div><small>Theme</small><b id="mTheme">–</b></div>
+        <div><small>Achievements</small><b id="mTheme">–</b></div>
         <div><small>Dependencies</small><b>0</b></div>
       </div>
     </div>
@@ -1687,9 +1678,22 @@ const LANGS = [
   ['Physical Touch', "A hug is sweet, but words, time, and thoughtful gifts land so much deeper."]
 ];
 const gift = document.getElementById('gift'), langs = document.getElementById('langs'), langTip = document.getElementById('langTip');
-const pickLang = i => {
-  [...langs.children].forEach((b, j) => b.classList.toggle('on', j === i));
-  swap(langTip, `<b>${LANGS[i][0]}</b><span>${LANGS[i][1]}</span>`);
+const pickLang = (i, lead = '') => {
+  [...langs.children].forEach(b => b.classList.toggle('on', +b.dataset.l === i));
+  swap(langTip, `${lead}<b>${LANGS[i][0]}</b><span>${LANGS[i][1]}</span>`);
+};
+/* before the reveal: shuffled, no numbers, no insight, so nothing gives the answer away */
+[...langs.children].sort(() => Math.random() - .5).forEach(b => langs.append(b));
+let loveRevealed = false;
+const revealLove = guess => {
+  if (loveRevealed) return;
+  loveRevealed = true;
+  const r = gift.getBoundingClientRect();
+  gift.classList.add('open'); hearts(r.left + r.width / 2, r.top + r.height / 2);
+  [...langs.children].sort((a, b) => a.dataset.l - b.dataset.l).forEach(b => langs.append(b));
+  langs.classList.add('go'); document.getElementById('gifts').classList.add('revealed');
+  const lead = guess === undefined ? '' : guess === 0 ? '<i class="guess">You guessed right.</i>' : `<i class="guess">You guessed ${LANGS[guess][0]}. Close, but no.</i>`;
+  pickLang(0, lead); unlock('gift');
 };
 const hearts = (x, y) => {
   for (let i = 0; i < 26; i++) {
@@ -1701,12 +1705,8 @@ const hearts = (x, y) => {
     document.body.append(h); setTimeout(() => h.remove(), 1300);
   }
 };
-gift.onclick = () => {
-  const r = gift.getBoundingClientRect();
-  gift.classList.toggle('open');
-  if (gift.classList.contains('open')) { hearts(r.left + r.width / 2, r.top + r.height / 2); langs.classList.add('go'); pickLang(0); unlock('gift'); }
-};
-[...langs.children].forEach((b, i) => b.onclick = () => { langs.classList.add('go'); pickLang(i); });
+gift.onclick = () => loveRevealed ? gift.classList.toggle('open') : revealLove();
+[...langs.children].forEach(b => b.onclick = () => loveRevealed ? pickLang(+b.dataset.l) : revealLove(+b.dataset.l));
 
 // photo stack
 /* add real photos here: { src: 'photos/name.jpg', cap: 'caption' } */
@@ -2642,14 +2642,7 @@ flipAll.onclick = () => {
   flipAll.textContent = all ? 'Flip them all' : 'Flip them back';
 };
 
-// theme
 const root = document.documentElement;
-try { const t = localStorage.getItem('theme'); if (t) root.dataset.theme = t; } catch (e) {}
-theme.onclick = () => {
-  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  root.dataset.theme = dark ? 'light' : 'dark';
-  try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
-};
 
 // reveal + nav
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
@@ -2899,7 +2892,6 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
     ['popups', 'popups.js', 'Popups', 'The native <dialog> element with showModal() gives focus trapping, Esc to close, and a blurred ::backdrop for free. All the text lives in one INFO data object, keyed by each button\'s data-info attribute.', ['<dialog>', '::backdrop', 'data attributes', 'destructuring']],
     ['inner circle', 'circle.js', 'Inner circle', 'Hand-written SVG. Every tap rewrites the whole section (kicker, title, subtitle, all three ring labels, and the caption) by cycling through a data array with a tap counter and modulo. Each ring is a <g role="button" tabindex="0">, so it works with a keyboard too.', ['SVG', 'ARIA roles', 'keyboard a11y', 'template literals']],
     ['reveal + nav', 'observer.js', 'Scroll reveal + nav', 'IntersectionObserver tells the page when elements enter the screen, with no scroll math. The same API powers the nav highlight: rootMargin shrinks the viewport to a "hot zone" in the middle of the screen.', ['IntersectionObserver', 'rootMargin', 'unobserve']],
-    ['theme', 'theme.js', 'Light / dark theme', 'Every color is a CSS custom property. Dark mode redefines them under prefers-color-scheme, and the toggle sets data-theme on <html> and remembers your choice in localStorage.', ['CSS variables', 'prefers-color-scheme', 'localStorage', 'try/catch']],
     ['values accordion', 'accordion.js', 'Values accordion', 'One line of JS toggles a class. CSS animates max-height to open the panel and grows the bar from 0 to a per-item --w custom property.', ['classList.toggle', 'CSS transitions', 'custom properties']],
     ['hero lines', 'hero.js', 'Rotating hero line', 'An array of lines cycled with setInterval and a modulo counter. Each change re-triggers a CSS keyframe by removing the class, forcing a reflow (void el.offsetWidth), then adding it back. Tap it to skip ahead.', ['setInterval', 'modulo', 'reflow trick', 'reduced-motion aware']],
     ['love languages', 'gift.js', 'Gift unwrap', 'Pure CSS gift box: the lid and bow spring off with an overshooting cubic-bezier. Unwrapping fires a burst of 26 emoji particles. Each one gets a random angle and distance, converted from polar to x/y with cos/sin, and passed in through CSS custom properties.', ['CSS transitions', 'polar → cartesian', 'CSS custom properties', 'DOM particles']],
@@ -2989,7 +2981,7 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
     $('mDom').textContent = document.getElementsByTagName('*').length;
     $('mScroll').textContent = Math.round(scrollY / (document.documentElement.scrollHeight - innerHeight) * 100);
     $('mView').textContent = `${innerWidth}×${innerHeight}`;
-    $('mTheme').textContent = root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    $('mTheme').textContent = document.getElementById('trophyCount').textContent;
     sc.clearRect(0, 0, 280, 72);
     sc.beginPath();
     hist.forEach((v, i) => sc.lineTo(i * 7, 68 - Math.min(v, 120) / 120 * 64));

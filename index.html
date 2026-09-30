@@ -460,7 +460,7 @@
   <a href="#photos"><b>10</b>Photos</a>
   <a href="#strengths"><b>11</b>Strengths</a>
   <a href="#careers"><b>12</b>Creates</a>
-  <a href="#rip"><b>13</b>Absolute nos</a>
+  <a href="#rip"><b>13</b>Top 20 nos</a>
   <a href="#palette"><b>14</b>Style</a>
   <a href="#code"><b>15</b>&lt;/&gt; Code</a>
   <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
@@ -738,7 +738,7 @@
   <div class="wrap">
     <div class="intro reveal">
       <div class="kicker"><i>13</i>Do not put her here</div>
-      <h2>Top 10 absolute <em>nos.</em></h2>
+      <h2>Top 20 absolute <em>nos.</em></h2>
       <p>She'd quit on day one. Every one is backed by her results. Tap a tombstone to bring her back to life.</p>
     </div>
     <div class="carousel late reveal" id="ripCarousel">
@@ -1159,7 +1159,17 @@ const TOMBS = [
   ['Solo night shift', 'Died of silence. Not one person to hype up.', 'Extraversion 85 · Relator #1', 'Put her in a room full of people.', 'People & Helping 67.5%'],
   ['Toll booth operator', 'Eight hours. One booth. Zero creativity.', 'Routine + solo + no expression', 'Give her a stage.', 'Film Director match'],
   ['Uncredited ghostwriter', 'Nobody ever learned her name.', 'Achievement 100% · DISC recognition', 'Put her name in lights.', 'Art Director · Creative Director'],
-  ['Proofreader', 'Hunted commas until the commas won.', 'Detail-heavy, routine, no room to create', 'Let her write the headline.', 'Visual + verbal expression']
+  ['Proofreader', 'Hunted commas until the commas won.', 'Detail-heavy, routine, no room to create', 'Let her write the headline.', 'Visual + verbal expression'],
+  ['Tax preparer', 'Filed away between Form 1040 and Schedule C.', 'Organized & Detail: her lowest score', 'Let her design the app people file with.', 'UX/UI Designer match'],
+  ['Insurance claims processor', 'Denied by paperwork. Appeal pending forever.', 'DISC: red tape is a top demotivator', 'Let her fight for people instead.', 'Bravery #6 · Fairness'],
+  ['Payroll clerk', 'Same numbers, every two weeks, until the end of time.', 'Routine kills her motivation', 'Let her pitch the big idea.', 'Brand Strategist match'],
+  ['Warehouse inventory counter', 'Counted boxes. Alone. Forever.', 'Extraversion 85 · routine work', 'Put her where the people are.', 'People & Helping 67.5%'],
+  ['Parking enforcement officer', 'Wrote tickets nobody thanked her for.', 'Kindness #4: she wants to make days, not ruin them', 'Let her make someone\'s day.', 'Love #1 · Kindness'],
+  ['Medical coder', 'Translated life into codes, one billing line at a time.', 'Her test warns against detail-heavy roles', 'Let her tell the story instead.', 'Writer / Author match'],
+  ['Quality-control inspector', 'Checked 10,000 identical widgets. All fine.', 'The Creator needs variety', 'Let her make something new.', 'Product Designer match'],
+  ['Mailroom sorter', 'Sorted everyone else\'s messages, never sent her own.', 'Communication is in her top 5', 'Give her the microphone.', 'Communication · CliftonStrengths'],
+  ['Court stenographer', 'Typed every word, and none of them were hers.', 'Creator 91.7% · Communication', 'Let her write the script.', 'Film Director match'],
+  ['Lighthouse keeper', 'Beautiful view. Zero people to hype up.', 'Relator #1 · Extraversion 85', 'Give her a full house.', 'ESFJ: the host']
 ];
 document.getElementById('tombs').innerHTML = TOMBS.map(([job, epitaph, src, revive, fix]) =>
   `<button class="tomb" aria-label="${job}: tap to revive"><div class="in">

@@ -163,26 +163,6 @@
   .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 48px; }
   .cols h3 { font-size: 22px; color: var(--pop); }
 
-  /* ---------- signature strengths grid ---------- */
-  .strengths-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 32px; margin-top: 36px; align-items: start; }
-  .strengths-grid .col { display: grid; grid-template-rows: auto 1fr; }
-  .strengths-grid h3 { margin: 0 0 18px; padding-bottom: 12px; font-size: 22px; line-height: 1.2; border-bottom: 1px solid rgba(255,79,154,.25); }
-  .badges { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .badges > .badge:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 5px); }
-  .badge { display: flex; align-items: center; height: 44px; padding: 0 14px; border: 1px solid rgba(255,79,154,.45); background: transparent; color: var(--shell-text); border-radius: 6px; font-size: 14px; line-height: 1; text-align: left; white-space: nowrap; transition: background .2s, color .2s; }
-  .badge:hover, .badge:focus-visible { background: var(--pop); color: var(--shell); outline: none; }
-  .badge:first-child { background: rgba(255,79,154,.18); }
-  .badge.rb { box-shadow: inset 4px 0 0 var(--clifton-blue); padding-left: 16px; }
-  .badge.inf { box-shadow: inset 4px 0 0 var(--comm-orange); padding-left: 16px; }
-  .badge.c16 { box-shadow: inset 4px 0 0 var(--consul-teal); padding-left: 16px; }
-  @media (max-width: 1000px) {
-    .strengths-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .strengths-grid .col:last-child { grid-column: 1 / -1; width: calc(50% - 16px); }
-  }
-  @media (max-width: 620px) {
-    .strengths-grid { grid-template-columns: 1fr; gap: 32px; }
-    .strengths-grid .col:last-child { width: auto; }
-  }
 
   /* ---------- palette ---------- */
   .palette { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 40px; border-radius: 24px; overflow: hidden; }
@@ -621,6 +601,45 @@
   .q-why { margin: 14px 0 0; min-height: 22px; font-size: 14px; color: var(--core-muted); }
   .q-next { margin-top: 14px; background: var(--rose); color: #fff; border: 0; border-radius: 99px; padding: 10px 22px; font-weight: 600; }
   .q-final { font: 800 64px "Playfair Display", serif; color: var(--rose); line-height: 1; }
+  /* ---------- signature strengths: evidence map ---------- */
+  .synth { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; margin-top: 44px; align-items: start; }
+  @media (max-width: 900px) { .synth { grid-template-columns: 1fr; } }
+  .map { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 96px auto; align-items: center; }
+  .map-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .map-lines path { fill: none; stroke: rgba(255,79,154,.18); stroke-width: 1; transition: stroke .3s, stroke-width .3s, opacity .3s; }
+  .map-lines path.on { stroke: #ff4f9a; stroke-width: 1.6; }
+  .map-lines path.dim { opacity: .35; }
+  .themes { grid-column: 1; display: grid; gap: 6px; }
+  .theme { display: grid; grid-template-columns: 34px 1fr auto; align-items: baseline; gap: 4px 10px; text-align: left; background: none; border: 0; border-left: 2px solid transparent; padding: 12px 14px; color: var(--shell-text); transition: .25s; }
+  .theme i { font: italic 600 16px "Playfair Display", serif; color: var(--shell-muted); font-style: italic; }
+  .theme b { font: 700 24px "Playfair Display", serif; letter-spacing: .01em; }
+  .theme small { font-size: 12px; color: var(--shell-muted); white-space: nowrap; }
+  .theme:hover { border-left-color: rgba(255,79,154,.45); }
+  .theme.on { border-left-color: #ff4f9a; background: linear-gradient(90deg, rgba(255,79,154,.12), transparent); }
+  .theme.on b { color: #ff9dbb; }
+  .sources { grid-column: 3; display: grid; gap: 7px; }
+  .src-node { display: flex; align-items: center; gap: 8px; background: none; border: 0; padding: 3px 0; color: var(--shell-muted); font-size: 13px; text-align: left; white-space: nowrap; transition: color .25s; }
+  .src-node::before { content: ""; width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid rgba(255,79,154,.5); flex: none; transition: .25s; }
+  .src-node.on { color: #fff; } .src-node.on::before { background: #ff4f9a; border-color: #ff4f9a; }
+  .src-node.picked { color: #ff9dbb; }
+  .evidence { border-top: 1px solid rgba(255,79,154,.3); padding-top: 22px; }
+  .evidence .ev-kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: #ff4f9a; }
+  .evidence h3 { font: 700 34px "Playfair Display", serif; margin: 6px 0 8px; color: #fff; }
+  .evidence .ev-line { margin: 0 0 18px; font: italic 500 20px "Playfair Display", serif; color: #ff9dbb; line-height: 1.35; }
+  .evidence dl { margin: 0; display: grid; grid-template-columns: minmax(110px, auto) 1fr; gap: 0; }
+  .evidence dt, .evidence dd { margin: 0; padding: 9px 0; border-bottom: 1px solid rgba(255,79,154,.14); font-size: 14px; }
+  .evidence dt { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--shell-muted); padding-right: 16px; padding-top: 11px; }
+  .evidence dd { color: var(--shell-text); }
+  .evidence .ev-count { margin: 14px 0 0; font-size: 12px; color: var(--shell-muted); }
+  @media (max-width: 560px) {
+    .map { grid-template-columns: minmax(0, 1fr) 36px auto; }
+    .theme { grid-template-columns: 22px 1fr; padding: 10px 8px; } .theme small { display: none; } .theme b { font-size: 19px; }
+    .src-node { font-size: 11.5px; }
+  }
+  #strengths .intro { max-width: 860px; }
+  .combo { min-height: 2.2em; }
+  .combo.swap { animation: comboIn .6s ease; }
+  @keyframes comboIn { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } }
 </style>
 </head>
 <body>
@@ -884,21 +903,18 @@
   <div class="wrap">
     <div class="intro reveal">
       <div class="kicker"><i>12</i>Signature strengths</div>
-      <h2>A <em>creative traditionalist</em> who leads through people</h2>
-      <p>Tap any strength to see what it means for her.</p>
+      <h2 class="combo" id="combo" aria-live="polite">A <em>creative traditionalist</em> who leads through people</h2>
+      <p>Ten different assessments, one person. These five qualities keep showing up. Tap a theme to see the evidence, or an assessment to see what it found.</p>
     </div>
-    <div class="cols strengths-grid">
-      <div class="col reveal"><h3>CliftonStrengths</h3><div class="badges">
-        <button class="badge rb" data-info="relator">Relator</button><button class="badge rb" data-info="empathy">Empathy</button><button class="badge rb" data-info="individualization">Individualization</button><button class="badge rb" data-info="developer">Developer</button><button class="badge inf" data-info="communication">Communication</button>
-      </div></div>
-      <div class="col reveal"><h3>VIA Character</h3><div class="badges">
-        <button class="badge" data-info="love">Love</button><button class="badge" data-info="honesty">Honesty</button><button class="badge" data-info="spirituality">Spirituality</button><button class="badge" data-info="kindness">Kindness</button><button class="badge" data-info="learning">Love of Learning</button><button class="badge" data-info="bravery">Bravery</button><button class="badge" data-info="leadership">Leadership</button>
-      </div></div>
-      <div class="col reveal"><h3>Type codes</h3><div class="badges">
-        <button class="badge c16" data-info="esfj">ESFJ-T</button><button class="badge" data-info="8w7">Enneagram 8w7</button><button class="badge" data-info="disc">DISC D</button><button class="badge" data-info="ase">Holland ASE</button><button class="badge" data-info="guardian">Guardian</button>
-      </div></div>
+    <div class="synth reveal">
+      <div class="map" id="map">
+        <svg class="map-lines" id="mapLines" aria-hidden="true"></svg>
+        <div class="themes" id="themes" role="tablist" aria-label="Recurring themes"></div>
+        <div class="sources" id="sources" aria-label="Assessments"></div>
+      </div>
+      <div class="evidence" id="evidence" aria-live="polite"></div>
     </div>
-    <button class="more-btn reveal" data-more="receipts" aria-expanded="false">See every score</button>
+    <button class="more-btn reveal" data-more="receipts" aria-expanded="false">Want the receipts? See all 10 assessments →</button>
   </div>
 </section>
 
@@ -1573,10 +1589,10 @@ const SWATCH_BACKS = [
   ['#E0567F', "Card titles, the love-language tips, and the circle's center", 'Warm but grown-up: love that is steady, not sugary.'],
   ['#FF4F9A', 'Buttons, active states, the mood gauge, and the paint', 'The loudest color on the page, saved for wherever something is happening.'],
   ['#FBE9EE', 'Light sections and cards', 'Gives the page room to breathe. Soft without looking washed out.'],
-  ['#2B7DE0', 'The stripes on her four Relationship Building strengths, and the paint', "Gallup's own color for the domain that holds 4 of her top 5."],
-  ['#F08A24', 'The Communication stripe, and the paint', 'Used sparingly, just like the single orange stripe in her Clifton report.'],
+  ['#2B7DE0', 'The Holi paint, where every splash comes from her results', "Gallup's own color for the domain that holds 4 of her top 5."],
+  ['#F08A24', 'The Holi paint', 'Used sparingly, just like the single orange stripe in her Clifton report.'],
   ['#F2434A', 'The gift box, the Receiving Gifts bar, and the paint', 'The same red her Love Language report uses for Receiving Gifts.'],
-  ['#4F93B3', 'The ESFJ-T stripe, and the paint', "16Personalities' Sentinel color, the group ESFJ belongs to."]
+  ['#4F93B3', 'The Holi paint', "16Personalities' Sentinel color, the group ESFJ belongs to."]
 ];
 document.querySelectorAll('.palette .sw').forEach((sw, i) => {
   const [hex, used, why] = SWATCH_BACKS[i];
@@ -1788,6 +1804,124 @@ const renderQ = () => {
 };
 renderQ();
 
+// signature strengths: evidence map
+/* the ten assessments, and the five themes they keep converging on */
+const SOURCES = ['CliftonStrengths', 'VIA', 'Big Five', 'HEXACO', 'Schwartz Values', 'DISC', 'Enneagram', '16Personalities', 'Career test', 'Love Languages'];
+const THEMES = [
+  ['People', 'She notices individuals, not crowds.', {
+    'CliftonStrengths': 'Relator #1, Empathy #2, Individualization #3',
+    'VIA': 'Love #1, Kindness #4',
+    'Big Five': 'Agreeableness 93rd percentile, Altruism 18/20',
+    'HEXACO': 'Sentimentality 6.76, Altruism 6.44',
+    'Schwartz Values': 'Benevolence 83%',
+    '16Personalities': 'Feeling: decides with her heart',
+    'Love Languages': 'Receiving Gifts: love shown through thoughtfulness'
+  }],
+  ['Leadership', "Warm doesn't mean passive.", {
+    'DISC': 'Dominance: direct, decisive, results-first',
+    'VIA': 'Bravery #6, Leadership #7',
+    'CliftonStrengths': 'Communication #5',
+    'Big Five': 'Assertiveness 18/20',
+    'Enneagram': 'Type 8, the Challenger (98%)',
+    'Career test': 'Leadership & Influence 66.7% (Enterprising)'
+  }],
+  ['Drive', 'Once she decides something matters, she goes.', {
+    'Schwartz Values': 'Achievement 100%',
+    'Big Five': 'Dutifulness 19/20, Self-discipline 17/20, Self-efficacy 17/20',
+    'HEXACO': 'Diligence 6.42, Perfectionism 6.31',
+    'DISC': 'Goal-oriented; motivated by achievement',
+    'Enneagram': 'Type 1, the Reformer (98%)'
+  }],
+  ['Creativity', "Structure and imagination aren't opposites.", {
+    'Career test': 'Creative & Expressive 91.7%, her peak (Artistic)',
+    'Big Five': 'Artistic interests 17/20, alongside Orderliness 19/20',
+    'HEXACO': 'Creativity 6.65, Inquisitiveness 6.25',
+    'VIA': 'Creativity #8, Love of Learning #5',
+    'Schwartz Values': 'Self-Direction 83%',
+    'Enneagram': 'Type 4, the Individualist (92%)'
+  }],
+  ['Tradition + values', "She likes change. She doesn't need to throw everything old away to make it.", {
+    'Schwartz Values': 'Security 100%, Tradition 67%',
+    'VIA': 'Honesty #2, Spirituality #3',
+    '16Personalities': 'ESFJ is a Sentinel, what Keirsey called a Guardian',
+    'Big Five': 'Morality 20/20',
+    'HEXACO': 'Fairness 6.76, Sincerity 5.72'
+  }]
+];
+const themesEl = document.getElementById('themes'), sourcesEl = document.getElementById('sources'), mapLines = document.getElementById('mapLines'), evidenceEl = document.getElementById('evidence');
+themesEl.innerHTML = THEMES.map(([t, , ev], i) => `<button class="theme" role="tab" data-i="${i}"><i>0${i + 1}</i><b>${t}</b><small>${Object.keys(ev).length} of 10</small></button>`).join('');
+sourcesEl.innerHTML = SOURCES.map((n, j) => `<button class="src-node" data-j="${j}">${n}</button>`).join('');
+const themeBtns = [...themesEl.children], srcBtns = [...sourcesEl.children];
+let activeTheme = 0, pickedSource = null;
+/* draw a thin curve from every theme to every assessment that found it */
+const drawMap = () => {
+  const box = document.getElementById('map').getBoundingClientRect();
+  mapLines.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+  mapLines.innerHTML = THEMES.map(([, , ev], i) => {
+    const a = themeBtns[i].getBoundingClientRect(), x1 = a.right - box.left, y1 = a.top + a.height / 2 - box.top;
+    return Object.keys(ev).map(src => {
+      const b = srcBtns[SOURCES.indexOf(src)].getBoundingClientRect(), x2 = b.left - box.left - 4, y2 = b.top + b.height / 2 - box.top, mx = (x1 + x2) / 2;
+      return `<path data-t="${i}" data-s="${SOURCES.indexOf(src)}" d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}"/>`;
+    }).join('');
+  }).join('');
+  pickedSource === null ? paintMap() : lightSource(pickedSource);
+};
+const paintMap = (pickedSrc = null) => {
+  const ev = THEMES[activeTheme][2];
+  themeBtns.forEach((b, i) => { b.classList.toggle('on', i === activeTheme); b.setAttribute('aria-selected', i === activeTheme); });
+  srcBtns.forEach((b, j) => { b.classList.toggle('on', SOURCES[j] in ev); b.classList.toggle('picked', j === pickedSrc); });
+  mapLines.querySelectorAll('path').forEach(p => { const on = +p.dataset.t === activeTheme; p.classList.toggle('on', on); p.classList.toggle('dim', !on); });
+};
+const showTheme = i => {
+  activeTheme = i; pickedSource = null;
+  const [t, line, ev] = THEMES[i];
+  swap(evidenceEl, `<div class="ev-kicker">Theme 0${i + 1}</div><h3>${t}</h3><p class="ev-line">${line}</p>
+    <dl>${Object.entries(ev).map(([src, what]) => `<dt>${src}</dt><dd>${what}</dd>`).join('')}</dl>
+    <p class="ev-count">Found by ${Object.keys(ev).length} of 10 assessments.</p>`);
+  paintMap();
+};
+/* clicking an assessment shows every theme it feeds */
+const sourceHits = j => THEMES.map(([t, , ev], i) => [t, ev[SOURCES[j]], i]).filter(h => h[1]);
+const lightSource = j => {
+  const hits = sourceHits(j);
+  themeBtns.forEach((b, i) => b.classList.toggle('on', hits.some(h => h[2] === i)));
+  srcBtns.forEach((b, k) => { b.classList.toggle('on', k === j); b.classList.toggle('picked', false); });
+  mapLines.querySelectorAll('path').forEach(p => { const on = +p.dataset.s === j; p.classList.toggle('on', on); p.classList.toggle('dim', !on); });
+};
+const showSource = j => {
+  pickedSource = j;
+  const src = SOURCES[j], hits = sourceHits(j);
+  lightSource(j);
+  swap(evidenceEl, `<div class="ev-kicker">Assessment</div><h3>${src}</h3><p class="ev-line">Feeds ${hits.length} of the 5 themes.</p>
+    <dl>${hits.map(([t, what]) => `<dt>${t}</dt><dd>${what}</dd>`).join('')}</dl>`);
+};
+themeBtns.forEach((b, i) => b.onclick = () => showTheme(i));
+srcBtns.forEach((b, j) => b.onclick = () => showSource(j));
+showTheme(0);
+/* the headline rotates through combinations of her themes every 5 seconds (pauses on hover) */
+const COMBOS = [
+  'A <em>creative traditionalist</em> who leads through people',
+  'A <em>warm leader</em> who is never passive',
+  "A <em>loyal friend</em> with a founder's drive",
+  'A <em>planner</em> who lives to create',
+  'A <em>soft heart</em> with a Dominance streak',
+  'A <em>protector</em> who remembers your coffee order',
+  'An <em>artist</em> who still color-codes the calendar'
+];
+const comboEl = document.getElementById('combo');
+let comboI = 0, comboHold = false;
+comboEl.addEventListener('mouseenter', () => comboHold = true);
+comboEl.addEventListener('mouseleave', () => comboHold = false);
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
+  if (comboHold || document.hidden) return;
+  comboI = (comboI + 1) % COMBOS.length;
+  comboEl.innerHTML = COMBOS[comboI];
+  comboEl.classList.remove('swap'); void comboEl.offsetWidth; comboEl.classList.add('swap');
+}, 5000);
+addEventListener('resize', drawMap); document.fonts.ready.then(drawMap);
+new IntersectionObserver(([e]) => { if (e.isIntersecting) drawMap(); }).observe(document.getElementById('map'));
+setTimeout(drawMap, 900);
+
 // values accordion
 document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));
 
@@ -1984,6 +2118,7 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     ['compatibility check', 'match.js', 'Compatibility check', 'Each personality letter and love language carries a weight. The score starts at 50 and adds up as you pick, and the reasons list builds itself from the same data. Framed as fun, not science.', ['weighted scoring', 'live updates', 'data-driven copy']],
     ['quiz', 'quiz.js', 'Pop quiz', 'Situational predictions instead of trivia. A small state machine: the question index and score are the only state. Each answer locks the options, reveals the right one, and explains it before moving on.', ['state machine', 'template literals', 'feedback loop']],
     ['page-wide touches', 'touches.js', 'Page-wide touches', 'A scroll progress line that ends in a heart, letters that jump, 3D card tilt from pointer position, and a keystroke buffer that listens for secret words.', ['pointer math', 'keyboard buffer', 'CSS masks']],
+    ['signature strengths: evidence map', 'evidence.js', 'Evidence map', 'Five themes, ten assessments. JavaScript measures where each theme and assessment sit on screen, then draws a cubic Bézier curve between every pair that share evidence. Picking a theme lights its curves; picking an assessment lights every theme it feeds. Curves redraw on resize.', ['getBoundingClientRect', 'SVG Bézier curves', 'two-way highlighting']],
     ['under the hood', 'hood.js', 'This panel', 'The panel reads this page\'s own <script> at runtime, splits it at comment markers, and syntax-highlights it with a single-regex tokenizer. Live numbers come from requestAnimationFrame and the Performance API, and it only updates while you can see it.', ['self-reading code', 'regex tokenizer', 'Performance API', 'Clipboard API']]
   ].filter(f => chunks[f[0]]);
 

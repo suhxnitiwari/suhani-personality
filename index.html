@@ -867,6 +867,28 @@
   .to-top:hover { background: #ff4f9a; color: #fff; }
   html.single-view .to-top { display: none; }
   .hero { padding-top: 110px; }
+  /* ---------- ick or green flag: a swipe deck ---------- */
+  .deck-game { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; margin-top: 36px; }
+  @media (max-width: 760px) { .deck-game { grid-template-columns: 1fr; gap: 24px; } }
+  .deck { position: relative; height: 320px; max-width: 360px; width: 100%; margin: 0 auto; }
+  .dcard { position: absolute; inset: 0; background: var(--card); border: 1px solid var(--line); border-radius: 26px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 18px 40px -20px rgba(122,31,69,.55); touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; }
+  .dcard:not(:last-child) { pointer-events: none; }
+  .dcard .dq { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: var(--rose); }
+  .dcard .dt { font: 700 clamp(24px, 2.6vw, 30px)/1.2 "Playfair Display", serif; color: var(--core-text); }
+  .dcard .dh { font-size: 12px; color: var(--core-muted); }
+  .dcard .stamp-l, .dcard .stamp-r { position: absolute; top: 24px; font: 800 26px "Playfair Display", serif; border: 3px solid; border-radius: 8px; padding: 0 10px; opacity: 0; }
+  .dcard .stamp-l { right: 24px; color: #d8323a; transform: rotate(12deg); }
+  .dcard .stamp-r { left: 24px; color: #2f8a5f; color: var(--rose); transform: rotate(-12deg); }
+  .deck-btns { display: flex; gap: 10px; }
+  .deck-btns button { flex: 1; padding: 14px 16px; border-radius: 99px; font-size: 15px; font-weight: 700; border: 2px solid var(--rose); }
+  .sw-ick { background: var(--card); color: var(--rose); } .sw-green { background: var(--rose); color: #fff; }
+  .deck-result { margin-top: 16px; padding: 18px 20px; border-radius: 20px; background: var(--card); border: 1px solid var(--line); min-height: 150px; }
+  .deck-result b { display: block; font: 700 22px "Playfair Display", serif; color: var(--core-text); }
+  .deck-result span { display: block; margin-top: 6px; font-size: 14px; color: var(--core-muted); }
+  .deck-result .dv { margin-top: 10px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--rose); }
+  .deck-result.right { border-color: var(--rose); }
+  .deck-end { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+  .deck-end b { font: 800 44px "Playfair Display", serif; color: var(--rose); }
 </style>
 </head>
 <body>
@@ -1132,12 +1154,20 @@
     <div class="head">
       <div class="intro reveal">
         <div class="kicker"><i>09</i>Instant turn-offs</div>
-        <h2>The <em>ick</em> list.</h2>
-        <p>The people who give her the ick, the value they cross, and the exact moment it happens. Flip a card to see why, and what to do instead.</p>
+        <h2>Ick or <em>green flag?</em></h2>
+        <p>Swipe left if it gives her the ick, right if it's a green flag.</p>
       </div>
-      <p class="ick-count mono reveal" id="ickCount">0 icks found</p>
+      <p class="ick-count mono reveal" id="deckScore">0 / 0</p>
     </div>
-    <div class="icks reveal" id="ickGrid"></div>
+    <div class="deck-game reveal">
+      <div class="deck" id="deck"></div>
+      <div class="deck-side">
+        <div class="deck-btns"><button id="swipeL" class="sw-ick">✕ Ick</button><button id="swipeR" class="sw-green">Green flag ✓</button></div>
+        <div class="deck-result" id="deckResult" aria-live="polite"><b>Your call.</b><span>Drag the card, use the buttons, or press ← / →.</span></div>
+      </div>
+    </div>
+    <button class="more-btn" data-more="ickAll" aria-expanded="false">See all 12 icks</button>
+    <div id="ickAll" hidden><p class="ick-count mono" id="ickCount" style="margin-top:18px">0 icks found</p><div class="icks" id="ickGrid"></div></div>
   </div>
 </section>
 
@@ -2437,6 +2467,65 @@ document.getElementById('makeCard').onclick = async () => {
 document.getElementById('cardClose').onclick = () => cardDialog.close();
 cardDialog.addEventListener('click', e => { if (e.target === cardDialog) cardDialog.close(); });
 
+// ick or green flag: 12 icks and 6 green flags, shuffled into a swipe deck
+const DECK = [
+  ...ICKS.map(([who, what, why, instead], i) => ({ t: what, ick: true, head: who, body: `${why} Instead: ${instead}`, value: 'Crosses: ' + ICK_VALUES[i] })),
+  ...DELIGHT.slice(0, 6).map(([text, reaction, why]) => ({ t: text + '.', ick: false, head: 'Green flag', body: `${reaction} ${why}`, value: 'Makes her day' }))
+];
+const deckEl = document.getElementById('deck'), deckResult = document.getElementById('deckResult'), deckScore = document.getElementById('deckScore');
+let deckOrder = [], deckRight = 0, deckDone = 0;
+const dealDeck = () => {
+  deckOrder = DECK.map((c, i) => i).sort(() => Math.random() - .5);
+  deckRight = 0; deckDone = 0;
+  deckEl.innerHTML = deckOrder.slice().reverse().map(i => `<div class="dcard" data-i="${i}"><span class="stamp-l">ICK</span><span class="stamp-r">GREEN</span><span class="dq">Ick or green flag?</span><span class="dt">${DECK[i].t}</span><span class="dh">← ick · green flag →</span></div>`).join('');
+  deckScore.textContent = `0 / ${DECK.length}`;
+  deckEl.querySelectorAll('.dcard').forEach((c, k) => c.style.transform = `translateY(${Math.min(deckOrder.length - 1 - k, 3) * 6}px) scale(${1 - Math.min(deckOrder.length - 1 - k, 3) * .03})`);
+  bindTop();
+};
+const judge = (card, saidIck) => {
+  const d = DECK[+card.dataset.i], right = saidIck === d.ick;
+  deckDone++; if (right) deckRight++;
+  deckScore.textContent = `${deckRight} / ${deckDone} right · ${DECK.length - deckDone} left`;
+  deckResult.classList.toggle('right', right);
+  swap(deckResult, `<b>${right ? 'Called it.' : 'Nope.'} ${d.ick ? 'That\'s an ick.' : 'That\'s a green flag.'}</b><span>${d.head}: ${d.body}</span><span class="dv">${d.value}</span>`);
+  if (right && d.ick) { hearts(innerWidth / 2, innerHeight / 2); }
+  card.style.transition = 'transform .4s ease, opacity .4s';
+  card.style.transform = `translateX(${saidIck ? -520 : 520}px) rotate(${saidIck ? -24 : 24}deg)`; card.style.opacity = 0;
+  setTimeout(() => { card.remove(); if (!deckEl.children.length) endDeck(); else bindTop(); }, 380);
+  window.unlock && unlock('deck1');
+  if (deckDone === DECK.length && deckRight >= DECK.length - 2) window.unlock && unlock('deckPro');
+};
+const endDeck = () => {
+  deckEl.innerHTML = `<div class="deck-end"><div><b>${deckRight}/${DECK.length}</b><p style="color:var(--core-muted);margin:6px 0 14px">${deckRight >= 16 ? 'You basically are her.' : deckRight >= 12 ? 'You know her values.' : 'Read the room, then try again.'}</p><button class="q-next" id="deckAgain">Deal again</button></div></div>`;
+  document.getElementById('deckAgain').onclick = dealDeck;
+};
+/* drag the top card; past 100px it counts as a swipe */
+const bindTop = () => {
+  const card = deckEl.lastElementChild; if (!card || !card.classList.contains('dcard')) return;
+  card.style.transform = 'none';
+  let x0 = null, dx = 0;
+  card.onpointerdown = e => { x0 = e.clientX; card.setPointerCapture(e.pointerId); card.style.transition = 'none'; };
+  card.onpointermove = e => {
+    if (x0 === null) return; dx = e.clientX - x0;
+    card.style.transform = `translateX(${dx}px) rotate(${dx / 18}deg)`;
+    card.querySelector('.stamp-l').style.opacity = Math.max(0, -dx / 100); card.querySelector('.stamp-r').style.opacity = Math.max(0, dx / 100);
+  };
+  card.onpointerup = () => {
+    if (x0 === null) return; x0 = null;
+    if (Math.abs(dx) > 100) judge(card, dx < 0);
+    else { card.style.transition = 'transform .3s'; card.style.transform = 'none'; card.querySelectorAll('.stamp-l, .stamp-r').forEach(s => s.style.opacity = 0); }
+    dx = 0;
+  };
+};
+document.getElementById('swipeL').onclick = () => { const c = deckEl.querySelector('.dcard:last-child'); if (c) judge(c, true); };
+document.getElementById('swipeR').onclick = () => { const c = deckEl.querySelector('.dcard:last-child'); if (c) judge(c, false); };
+addEventListener('keydown', e => {
+  const r = deckEl.getBoundingClientRect(); if (r.top > innerHeight || r.bottom < 0 || e.target.closest?.('input, textarea')) return;
+  if (e.key === 'ArrowLeft') document.getElementById('swipeL').click();
+  if (e.key === 'ArrowRight') document.getElementById('swipeR').click();
+});
+dealDeck();
+
 // values accordion
 document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));
 
@@ -2578,7 +2667,7 @@ const RABBIT = [
   () => { showTension(Math.random() * CONTRAS.length | 0); return document.getElementById('tension'); },
   () => { const d = [...document.querySelectorAll('.dilemma')][Math.random() * 4 | 0]; d.classList.add('on'); return d; },
   () => { const t = [...document.querySelectorAll('.tomb')][Math.random() * 10 | 0]; t.classList.add('on'); return t; },
-  () => { const k = [...document.querySelectorAll('.ick')][Math.random() * 12 | 0]; k.classList.add('on'); ickCount(); return k; },
+  () => document.getElementById('deck'),
   () => { const t = Math.random() * 5 | 0; showTheme(t); return document.getElementById('map'); },
   () => document.querySelectorAll('.meets > div')[Math.random() * 6 | 0],
   () => { showHex(Math.random() * 6 | 0); return document.querySelector('.riasec'); },

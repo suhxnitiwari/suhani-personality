@@ -416,16 +416,20 @@
   /* ---------- icks ---------- */
   .ick-count { color: var(--rose); font-size: 14px; margin: 0; }
   .icks { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin-top: 36px; }
-  .ick { position: relative; overflow: hidden; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px; min-height: 150px; color: var(--core-text); display: flex; flex-direction: column; gap: 8px; transition: transform .2s, background .3s; }
-  .ick:hover { transform: translateY(-3px); }
+  .ick { perspective: 900px; height: 250px; border: 0; background: none; padding: 0; text-align: left; }
+  .ick .in { position: relative; width: 100%; height: 100%; transition: transform .6s cubic-bezier(.3,1.3,.5,1); transform-style: preserve-3d; }
+  .ick.on .in { transform: rotateY(180deg); }
+  .ick .f, .ick .b { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .ick .f { background: var(--card); border: 1px solid var(--line); color: var(--core-text); }
+  .ick:not(.on):hover .f { border-color: var(--rose); }
   .ick .who { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--rose); }
-  .ick .what { font: 700 19px "Playfair Display", serif; line-height: 1.25; }
-  .ick .why { font-size: 14px; color: var(--core-muted); max-height: 0; opacity: 0; transition: max-height .4s, opacity .4s; }
-  .ick .stamp { position: absolute; right: 14px; top: 12px; font: 800 30px "Playfair Display", serif; color: #ff4f9a; border: 3px solid #ff4f9a; border-radius: 8px; padding: 0 10px; transform: rotate(14deg) scale(2); opacity: 0; transition: transform .35s cubic-bezier(.3,1.6,.5,1), opacity .2s; }
-  .ick.on { background: #fff; border-color: #ff4f9a; animation: shudder .45s; }
-  .ick.on .why { max-height: 120px; opacity: 1; }
-  .ick.on .stamp { transform: rotate(14deg) scale(1); opacity: 1; }
-  .ick.on .who { padding-right: 70px; }
+  .ick .what { font: 700 19px "Playfair Display", serif; line-height: 1.25; flex: 1; }
+  .ick .hint { font-size: 12px; color: var(--core-muted); }
+  .ick .b { background: #2a0f1e; color: #ffe3ec; transform: rotateY(180deg); border: 1px solid #ff4f9a; }
+  .ick .stamp { align-self: flex-start; font: 800 22px "Playfair Display", serif; color: #ff4f9a; border: 2px solid #ff4f9a; border-radius: 6px; padding: 0 8px; transform: rotate(-6deg); }
+  .ick .why { font-size: 13px; color: #ffc2d4; line-height: 1.45; }
+  .ick .do { margin-top: auto; font-size: 14px; line-height: 1.4; color: #fff; }
+  .ick .do b { display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #ff9dbb; margin-bottom: 4px; }
   @keyframes shudder { 15%,45%,75% { transform: translateX(-4px) rotate(-1deg); } 30%,60%,90% { transform: translateX(4px) rotate(1deg); } }
   .holi { display: flex; gap: 20px; align-items: center; margin-top: 16px; padding: 20px 24px; border-radius: 22px; border: 1px solid rgba(255,79,154,.35); }
   .holi p { margin: 0; color: var(--shell-muted); font-size: 15px; } .holi p b { color: #fff; }
@@ -601,7 +605,7 @@
   <div class="wrap">
     <div class="intro reveal">
       <div class="kicker"><i>06</i>Handle with care</div>
-      <h2>The Suhani <em>mood meter.</em></h2>
+      <h2>The mood <em>meter.</em></h2>
       <p>Tap anything below to predict how she'd react. Every prediction is backed by her actual results.</p>
     </div>
     <div class="meter reveal" aria-live="polite">
@@ -626,7 +630,7 @@
       <div class="intro reveal">
         <div class="kicker"><i>07</i>Instant turn-offs</div>
         <h2>The <em>ick</em> list.</h2>
-        <p>The people who give her the ick, and the exact moment it happens. Tap to find out why.</p>
+        <p>The people who give her the ick, and the exact moment it happens. Flip a card to see why, and what to do instead.</p>
       </div>
       <p class="ick-count mono reveal" id="ickCount">0 icks found</p>
     </div>
@@ -1226,23 +1230,26 @@ const sayHi = document.getElementById('sayHi');
 new IntersectionObserver(([e]) => { if (e.isIntersecting) { sayHi.classList.remove('go'); void sayHi.offsetWidth; sayHi.classList.add('go'); } }, { threshold: .6 }).observe(sayHi);
 
 // icks
-/* [who, the moment, why it's an ick] */
+/* [who, the moment, why it's an ick, what to do instead] */
 const ICKS = [
-  ['The "5 minutes away" friend', 'Texts "almost there!" while still in bed.', 'Honesty #2 plus an ESFJ planner. Just tell her the real time.'],
-  ['The "idk, wherever" date', 'Every question gets "idk, you pick," all night.', 'DISC Dominance: she loves decisiveness. Have an opinion.'],
-  ['The scroller', "Watches TikToks while she's telling a story.", 'Quality Time is a top love language (23%). Be present or be gone.'],
-  ['The idea thief', 'Says "great idea!" in the meeting, then pitches it as their own.', "Honesty #2 and Achievement 100%. Credit where it's due."],
-  ['The dinner-table talker', 'Talks over everyone, then asks "wait, what were you saying?"', 'Empathy is her #2 CliftonStrength. She listens, so listen back.'],
-  ['The secret spiller', "Tells her everyone else's business.", "Relator #1: loyalty is everything. If they talk about others, they'll talk about her."],
-  ['The birthday forgetter', 'Forgets her birthday, then posts about their own for a week.', 'Individualization + Receiving Gifts (27%). She remembers yours.'],
-  ['The group-project ghost', '"I\'ll do my part tonight." It\'s been three days.', 'Dutifulness 19/20. Her word is her bond.'],
-  ['The two-faced sweetheart', 'Sweet to her and rude to everyone else.', 'Fairness and Honesty. How you treat everyone is who you are.'],
-  ['The one-word texter', 'Replies "k." to her long, thoughtful message.', 'Words of Affirmation (23%) and Communication in her top 5. Words matter to her.'],
-  ['The fake apologizer', '"Sorry you feel that way."', "Honesty #2. That's not an apology, and she knows it."],
-  ['The empty-handed guest', 'Shows up to her dinner with nothing. Not even a thank-you.', 'ESFJ host plus Receiving Gifts (27%). A little thoughtfulness goes a long way.']
+  ['The "5 minutes away" friend', 'Texts "almost there!" while still in bed.', 'Honesty #2 plus an ESFJ planner. Just tell her the real time.', 'Text the real ETA. "Running 20 late" beats "almost there!" every time.'],
+  ['The "idk, wherever" date', 'Every question gets "idk, you pick," all night.', 'DISC Dominance: she loves decisiveness. Have an opinion.', 'Come with two options. She\'ll happily pick one.'],
+  ['The scroller', "Watches TikToks while she's telling a story.", 'Quality Time is a top love language (23%). Be present or be gone.', 'Phone face-down. Ask a follow-up question.'],
+  ['The idea thief', 'Says "great idea!" in the meeting, then pitches it as their own.', "Honesty #2 and Achievement 100%. Credit where it's due.", 'Say "that was her idea" out loud, in the meeting.'],
+  ['The dinner-table talker', 'Talks over everyone, then asks "wait, what were you saying?"', 'Empathy is her #2 CliftonStrength. She listens, so listen back.', 'Let her finish, then build on what she said.'],
+  ['The secret spiller', "Tells her everyone else's business.", "Relator #1: loyalty is everything. If they talk about others, they'll talk about her.", 'Keep confidences. Talk about ideas, not people.'],
+  ['The birthday forgetter', 'Forgets her birthday, then posts about their own for a week.', 'Individualization + Receiving Gifts (27%). She remembers yours.', 'Put it in your calendar. Bonus points for a small, thoughtful gift.'],
+  ['The group-project ghost', '"I\'ll do my part tonight." It\'s been three days.', 'Dutifulness 19/20. Her word is her bond.', 'Do your part when you said you would, or say early if you can\'t.'],
+  ['The two-faced sweetheart', 'Sweet to her and rude to everyone else.', 'Fairness and Honesty. How you treat everyone is who you are.', 'Be kind to everyone, especially people who can\'t do anything for you.'],
+  ['The one-word texter', 'Replies "k." to her long, thoughtful message.', 'Words of Affirmation (23%) and Communication in her top 5. Words matter to her.', 'Match her energy. A real reply, even a short one, with some heart.'],
+  ['The fake apologizer', '"Sorry you feel that way."', "Honesty #2. That's not an apology, and she knows it.", 'Say "I\'m sorry I did that," and mean it.'],
+  ['The empty-handed guest', 'Shows up to her dinner with nothing. Not even a thank-you.', 'ESFJ host plus Receiving Gifts (27%). A little thoughtfulness goes a long way.', 'Bring something small (flowers, dessert, a vanilla latte) and say thank you.']
 ];
 const ickGrid = document.getElementById('ickGrid');
-ickGrid.innerHTML = ICKS.map(([who, what, why]) => `<button class="ick"><span class="stamp">ICK</span><span class="who">${who}</span><span class="what">${what}</span><span class="why">${why}</span></button>`).join('');
+ickGrid.innerHTML = ICKS.map(([who, what, why, instead]) => `<button class="ick" aria-label="${who.replace(/"/g, '&quot;')}: flip to see what to do instead"><div class="in">
+  <div class="f"><span class="who">${who}</span><span class="what">${what}</span><span class="hint">Tap to flip</span></div>
+  <div class="b"><span class="stamp">ICK</span><span class="why">${why}</span><span class="do"><b>Do this instead</b>${instead}</span></div>
+</div></button>`).join('');
 const ickCount = () => {
   const n = ickGrid.querySelectorAll('.ick.on').length;
   document.getElementById('ickCount').textContent = n === ICKS.length ? `All ${n} icks revealed. You know her well.` : `${n} of ${ICKS.length} icks revealed`;
@@ -1390,7 +1397,7 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     ['font tester', 'fonts.js', 'Font tester', 'One input and three outputs. Every keystroke copies the text into each specimen. Preset chips fill the field, and a range slider sets a --ts custom property that resizes all three at once.', ['input event', 'range → CSS variable', 'live preview']],
     ['mood meter', 'mood.js', 'Mood meter', 'A single number (0–100) is the state. Every button adds or subtracts a slightly random amount, clamped with Math.min/Math.max, and draws it as an SVG ring gauge using pathLength=100 and stroke-dasharray. Each item carries its own predicted reaction and the test result behind it. Both lists are scroll-snap carousels.', ['state + clamp', 'SVG ring gauge', 'carousels', 'Math.random']],
     ['graveyard', 'rip.js', 'Graveyard', 'Tombstones are built entirely in CSS: a border-radius of 110px on top and 10px on the bottom makes the headstone shape. The cards are rendered from a data array with map() + join(), and flip in 3D to reveal the "revive" side.', ['border-radius shapes', 'map + template literals', '3D flip']],
-    ['icks', 'icks.js', 'Ick list', 'The cards are rendered from a data array. A tap toggles one class, and CSS does the rest: a shudder keyframe, an "ICK" stamp that springs from scale(2) to scale(1), and a max-height reveal for the reason. The counter just counts .ick.on with querySelectorAll.', ['classList.toggle', 'keyframes', 'max-height reveal', 'live counter']],
+    ['icks', 'icks.js', 'Ick list', 'The cards are rendered from a data array. A tap toggles one class, and CSS flips the card in 3D (rotateY + backface-visibility) to reveal the reason and what to do instead. The counter just counts .ick.on with querySelectorAll.', ['classList.toggle', '3D flip', 'data array', 'live counter']],
     ['under the hood', 'hood.js', 'This panel', 'The panel reads this page\'s own <script> at runtime, splits it at comment markers, and syntax-highlights it with a single-regex tokenizer. Live numbers come from requestAnimationFrame and the Performance API, and it only updates while you can see it.', ['self-reading code', 'regex tokenizer', 'Performance API', 'Clipboard API']]
   ].filter(f => chunks[f[0]]);
 

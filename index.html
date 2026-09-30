@@ -7,7 +7,7 @@
 <meta name="description" content="Soft heart, strong spirit. A portrait of Suhani Tiwari drawn from eleven personality tests.">
 <script>/* ?view=<slug> shows one section on its own, for sharing */
 (() => {
-  const MAP = {"name": "top", "strong-spirit": "shell", "soft-heart": "core", "both-and": "both", "the-pattern": "strengths", "in-a-word": "words", "inner-circle": "circle", "love-language": "gifts", "mood-meter": "mood", "icks": "icks", "would-we-click": "match", "values": "values", "photos": "photos", "thrive": "careers", "absolutely-not": "rip", "quiz": "quiz", "style": "palette", "code": "code"};
+  const MAP = {"name": "top", "strong-spirit": "shell", "soft-heart": "core", "both-and": "both", "the-pattern": "strengths", "in-a-word": "words", "inner-circle": "circle", "love-language": "gifts", "mood-meter": "mood", "icks": "icks", "would-we-click": "match", "values": "values", "photos": "photos", "thrive": "careers", "absolutely-not": "rip", "ask-the-data": "ask", "quiz": "quiz", "style": "palette", "code": "code"};
   const v = new URLSearchParams(location.search).get('view'), id = MAP[v] || (v && document.getElementById ? v : null);
   if (!id) return;
   const h = document.documentElement; h.classList.add('single-view'); h.dataset.view = id;
@@ -554,12 +554,13 @@
   /* ---------- environments ---------- */
   .envs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 12px; }
   @media (max-width: 980px) { .envs { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); } }
-  .env.flip-card { height: 270px; perspective: 1000px; cursor: pointer; }
+  .env.flip-card { height: 300px; perspective: 1000px; cursor: pointer; }
   .env .f .n { font: 800 30px "Playfair Display", serif; color: #f4b6c8; line-height: 1; }
   .env .f h3 { font: italic 700 22px "Playfair Display", serif; color: var(--rose); margin: 10px 0 6px; }
   .env .f p { margin: 0; font-size: 14px; color: var(--core-muted); flex: 1; }
   .env .f .ev { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--rose); font-weight: 700; }
-  .env .f, .env .b { padding: 22px; border-radius: 22px; }
+  .env .f, .env .b { padding: 20px; border-radius: 22px; }
+  .env .b p { font-size: 13px; }
   /* ---------- scroll progress ---------- */
   #progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 40; pointer-events: none; }
   #progress i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #e0567f, #ff4f9a); box-shadow: 0 0 10px rgba(255,79,154,.7); }
@@ -797,6 +798,42 @@
   .q-you, .q-her { display: block; font-size: 14px; }
   .q-you { color: var(--core-muted); } .q-her { color: var(--core-text); font-weight: 600; margin-bottom: 6px; }
   .q-ev { display: block; margin-top: 8px; font-size: 12px; color: var(--core-text); font-family: ui-monospace, Menlo, monospace; }
+  /* ---------- scenario builder ---------- */
+  .scenario { margin-top: 56px; }
+  .scenario h3 { font-size: clamp(28px, 3.6vw, 40px); color: #fff; } .scenario h3 em { color: #ff9dbb; }
+  .scn-sub { color: var(--shell-muted); margin: 8px 0 20px; }
+  .scn-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 760px) { .scn-steps { grid-template-columns: 1fr; } }
+  .scn-steps h4 { margin: 0 0 8px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #ff9dbb; }
+  .scn-steps button { display: block; width: 100%; text-align: left; margin-bottom: 8px; background: rgba(0,0,0,.2); border: 1px solid rgba(255,79,154,.35); color: #ffe3ec; border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+  .scn-steps button.on { background: #ff4f9a; border-color: #ff4f9a; color: #fff; }
+  .scn-out { margin-top: 14px; padding: 18px 20px; border-radius: 18px; background: #4a1530; color: #ffe3ec; }
+  .scn-out b { display: block; font: 700 21px "Playfair Display", serif; color: #fff; }
+  .scn-out p { margin: 6px 0 0; font-size: 14px; }
+  .scn-out .scn-val { margin-top: 10px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #ff9dbb; font-weight: 700; }
+  .scn-out .scn-ev { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #ffc2d4; }
+  .cfilter { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0 4px; }
+  .cfilter span { font: italic 600 16px "Playfair Display", serif; color: var(--core-text); margin-right: 4px; }
+  .cfilter button { background: var(--card); border: 1px solid var(--line); color: var(--core-text); border-radius: 99px; padding: 6px 14px; font-size: 13px; }
+  .cfilter button.on { background: var(--rose); border-color: var(--rose); color: #fff; }
+  #careers .slide.dim { opacity: .35; }
+  .flip-card .b .frus { margin: 0; font-size: 13px; }
+  #careers .slide.flip-card { height: 400px; }
+  #careers .slide.flip-card .b { padding: 22px 24px; }
+  #careers .slide.flip-card .b p, #careers .slide.flip-card .b ol { font-size: 13.5px; }
+  /* ---------- ask the data ---------- */
+  .ask { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 24px; margin-top: 32px; align-items: start; }
+  @media (max-width: 860px) { .ask { grid-template-columns: 1fr; } }
+  .ask-qs { display: grid; gap: 8px; }
+  .ask-qs button { text-align: left; background: var(--card); border: 1px solid var(--line); color: var(--core-text); border-radius: 14px; padding: 12px 16px; font-size: 15px; transition: .2s; }
+  .ask-qs button:hover { border-color: var(--rose); }
+  .ask-qs button.on { background: var(--rose); border-color: var(--rose); color: #fff; }
+  .ask-a { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 24px; min-height: 220px; }
+  .ask-a h3 { font-size: 24px; color: var(--core-text); margin-bottom: 10px; }
+  .ask-a p { margin: 0 0 14px; font-size: 16px; line-height: 1.65; color: var(--core-text); }
+  .ask-a .cites { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ask-a .cites span { font: 12px ui-monospace, Menlo, monospace; padding: 4px 9px; border-radius: 99px; background: var(--core); border: 1px solid var(--line); color: var(--core-muted); }
+  .ask-a .cites-h { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--rose); font-weight: 700; margin: 0 0 6px; }
 </style>
 </head>
 <body>
@@ -808,8 +845,8 @@
 <nav id="nav"><div class="wrap">
   <div class="ng"><a class="gl" id="toHero" href="#top">I · Suhani<small class="gq">Who is she?</small></a><span class="gs"><a href="#shell"><b>01</b>Spirit</a><a href="#core"><b>02</b>Heart</a><a href="#both"><b>03</b>Both/And</a><a href="#strengths"><b>04</b>The pattern</a><a href="#words"><b>05</b>In a word</a></span></div>
   <div class="ng"><a class="gl" href="#circle">II · Love<small class="gq">How does she love?</small></a><span class="gs"><a href="#circle"><b>06</b>Circle</a><a href="#gifts"><b>07</b>Love language</a><a href="#mood"><b>08</b>Mood</a><a href="#icks"><b>09</b>Icks</a><a href="#match"><b>10</b>Match</a></span></div>
-  <div class="ng"><a class="gl" href="#values">III · Mind<small class="gq">What drives her?</small></a><span class="gs"><a href="#values"><b>11</b>Values</a><a href="#photos"><b>12</b>Photos</a><a href="#careers"><b>13</b>Thrive</a><a href="#rip"><b>14</b>Absolutely not</a><a href="#quiz"><b>15</b>Quiz</a></span></div>
-  <div class="ng"><a class="gl" href="#palette">IV · Built<small class="gq">What did she build?</small></a><span class="gs"><a href="#palette"><b>16</b>Style</a><a href="#code"><b>17</b>Final test</a></span></div>
+  <div class="ng"><a class="gl" href="#values">III · Mind<small class="gq">What drives her?</small></a><span class="gs"><a href="#values"><b>11</b>Values</a><a href="#photos"><b>12</b>Photos</a><a href="#careers"><b>13</b>Thrive</a><a href="#rip"><b>14</b>Absolutely not</a><a href="#ask"><b>15</b>Ask the data</a><a href="#quiz"><b>16</b>Quiz</a></span></div>
+  <div class="ng"><a class="gl" href="#palette">IV · Built<small class="gq">What did she build?</small></a><span class="gs"><a href="#palette"><b>17</b>Style</a><a href="#code"><b>18</b>Final test</a></span></div>
   <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
 </div></nav>
 
@@ -1044,6 +1081,12 @@
       <div class="reveal"><h3>How to annoy her</h3><div class="carousel late" id="annoyC"><div class="track mlist" id="annoy"></div><div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div></div></div>
       <div class="reveal"><h3>How to make her day</h3><div class="carousel late" id="delightC"><div class="track mlist" id="delight"></div><div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div></div></div>
     </div>
+    <div class="scenario reveal">
+      <h3>Build a <em>scenario</em></h3>
+      <p class="scn-sub">Same behavior, different outcome. Pick what happened, how they handled it, and what came next.</p>
+      <div class="scn-steps" id="scnSteps"></div>
+      <div class="scn-out" id="scnOut" aria-live="polite"><b>Pick one from each column.</b></div>
+    </div>
   </div>
 </section>
 
@@ -1146,7 +1189,9 @@
     </div>
     <div class="envs reveal" id="envs"></div>
     <button class="more-btn reveal" data-more="careersAll" aria-expanded="false">See all 20 careers</button>
-    <div class="carousel" id="careersAll" hidden>
+    <div id="careersAll" hidden>
+    <div class="cfilter" id="cFilter"><span>I want to…</span></div>
+    <div class="carousel" id="careersCarousel">
       <div class="track">
         <article class="slide"><span class="n">01</span><h3>UX/UI Designer</h3><p>Empathy for people plus an eye for beautiful things. Her test says to start here.</p><span class="ev">Creative 91.7% · People &amp; Helping 67.5%</span></article>
         <article class="slide"><span class="n">02</span><h3>Art Director</h3><p>Visual expression, big ideas, and a team to lead.</p><span class="ev">Creative · Leadership 66.7%</span></article>
@@ -1171,6 +1216,7 @@
       </div>
       <div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div>
     </div>
+    </div>
   </div>
 </section>
 
@@ -1189,10 +1235,24 @@
   </div>
 </section>
 
+<section class="core alt" id="ask">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>15</i>Ask the data</div>
+      <h2>Ask her <em>personality.</em></h2>
+      <p>Pick a question. Every answer is built from her results on this page, and cites them.</p>
+    </div>
+    <div class="ask reveal">
+      <div class="ask-qs" id="askQs"></div>
+      <div class="ask-a" id="askA" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
 <section class="core" id="quiz">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>15</i>Pop quiz</div>
+      <div class="kicker"><i>16</i>Pop quiz</div>
       <h2>What would <em>she do?</em></h2>
       <p>Ten situations. Every option is something she might do. Only one is what she would do first. Answers are our best read of her results, not gospel.</p>
     </div>
@@ -1206,7 +1266,7 @@
 <section class="shell" id="palette">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>16</i>Her colors &amp; fonts</div>
+      <div class="kicker"><i>17</i>Her colors &amp; fonts</div>
       <h2>Why the page looks like this</h2>
     </div>
     <p class="pal-label">The base: her strongest traits, in color</p>
@@ -1268,7 +1328,7 @@
 <section class="shell alt" id="code">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>17</i>The final personality test</div>
+      <div class="kicker"><i>18</i>The final personality test</div>
       <h2>She built <em>this.</em></h2>
       <p>Every test on this page is self-report. This one isn't. The website itself is the last piece of evidence.</p>
     </div>
@@ -1782,7 +1842,7 @@ techEl.innerHTML = STACK.map(([n, name]) => `<button role="tab"><b>${n}</b>${nam
 function esc2(t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 // career flips
-/* [why it fits, how to get there (steps split by |)] in the same order as the cards */
+/* [why it fits, how to get there (steps split by |), what might frustrate her, what she'd do] in card order */
 const CAREER_BACKS = [
   ["Her career test's #1 match. Empathy tells her what users feel, and Creative 91.7% makes it beautiful.", 'Learn Figma|Take a UX or human-computer interaction class|Redesign 3 apps you love for a portfolio'],
   ['Visual expression plus Leadership 66.7% and DISC Dominance. She wants to set the vision, not just carry it out.', 'Build a visual portfolio|Start as a designer at an agency|Lead a student publication or campaign'],
@@ -1805,13 +1865,16 @@ const CAREER_BACKS = [
   ['Creative 91.7%, Hands-On 65.6%, and the ESFJ host: spaces people love to gather in.', 'Learn SketchUp|Redesign a room and document it|Take interior design courses'],
   ['Benevolence 83%, Spirituality #3, and Leadership #7: leading with purpose.', 'Volunteer and step into leadership|Take nonprofit management classes|Intern at a mission-driven organization']
 ];
+const CAREER_FRUSTRATE = ["Endless revision rounds with no final call.", "Clients who approve everything by committee.", "Long solo stretches with nobody to share it with.", "Waiting months for funding before she can start.", "Strategy decks that nobody acts on.", "Hours of practice alone before anyone hears it.", "A backlog that never seems to ship.", "Budget meetings that shrink the big idea.", "Hours of solo editing.", "Crunch weeks spent on one tiny feature.", "Last-minute changes from the client.", "Paperwork and fundraising before the fun part.", "Holding boundaries with people she cares about.", "Research that never gets used.", "Dashboards over creative work.", "Slow HR processes.", "Slow courts and heavy paperwork.", "Grading. So much grading.", "Clients who want something safe.", "Tight budgets and slow change."];
+const CAREER_TAGS = [["create", "build", "help"], ["create", "lead"], ["create", "communicate"], ["create", "lead", "communicate"], ["communicate", "create"], ["create"], ["build", "create", "help"], ["lead", "create"], ["create"], ["build", "create"], ["lead", "help"], ["lead", "build"], ["help", "communicate"], ["help", "build"], ["lead", "communicate"], ["help", "lead"], ["help", "communicate"], ["help", "communicate"], ["create", "build"], ["lead", "help"]];
 document.querySelectorAll('#careers .slide').forEach((card, i) => {
   const [why, how] = CAREER_BACKS[i];
+  card.dataset.i = i; card.dataset.tags = CAREER_TAGS[i].join(' ');
   card.classList.add('flip-card');
   card.setAttribute('tabindex', '0');
   card.setAttribute('role', 'button');
   card.innerHTML = `<div class="in"><div class="f">${card.innerHTML}<span class="hint">Tap to see why and how</span></div>
-    <div class="b"><b>Why it fits</b><p>${why}</p><b>How to get there</b><ol>${how.split('|').map(x => `<li>${x}</li>`).join('')}</ol></div></div>`;
+    <div class="b"><b>Why it fits</b><p>${why}</p><b>How to get there</b><ol>${how.split('|').map(x => `<li>${x}</li>`).join('')}</ol><b>Might frustrate her</b><p class="frus">${CAREER_FRUSTRATE[i]}</p></div></div>`;
   const toggle = () => card.classList.toggle('on');
   card.addEventListener('click', toggle);
   card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
@@ -2015,7 +2078,7 @@ document.querySelectorAll('#myLL button').forEach(b => b.onclick = () => {
 
 // quiz
 const SITE_BASE = location.origin + location.pathname.replace(/[^/]*$/, '');
-const SLUGS = {"name": "top", "strong-spirit": "shell", "soft-heart": "core", "both-and": "both", "the-pattern": "strengths", "in-a-word": "words", "inner-circle": "circle", "love-language": "gifts", "mood-meter": "mood", "icks": "icks", "would-we-click": "match", "values": "values", "photos": "photos", "thrive": "careers", "absolutely-not": "rip", "quiz": "quiz", "style": "palette", "code": "code"};
+const SLUGS = {"name": "top", "strong-spirit": "shell", "soft-heart": "core", "both-and": "both", "the-pattern": "strengths", "in-a-word": "words", "inner-circle": "circle", "love-language": "gifts", "mood-meter": "mood", "icks": "icks", "would-we-click": "match", "values": "values", "photos": "photos", "thrive": "careers", "absolutely-not": "rip", "ask-the-data": "ask", "quiz": "quiz", "style": "palette", "code": "code"};
 const slugFor = id => Object.keys(SLUGS).find(k => SLUGS[k] === id);
 const QUIZ_URL = SITE_BASE + 'quiz/';
 const shareText = async (text, btn, url = QUIZ_URL, title = 'What would she do?') => {
@@ -2212,6 +2275,65 @@ const DILEMMAS = [
 document.getElementById('dilemmas').innerHTML = DILEMMAS.map(([a, as, b, bs, scene, verdict]) =>
   `<button class="dilemma"><span class="vs">${a} <small>${as}</small><i>vs</i>${b} <small>${bs}</small></span><span class="scene">${scene}</span><span class="verdict">${verdict}</span><span class="hint">Tap to see which wins</span></button>`).join('');
 document.querySelectorAll('.dilemma').forEach(d => d.onclick = () => d.classList.toggle('on'));
+
+// scenario builder: the behavior isn't the problem, the value it crosses is
+const SCN = {
+  what: [['Cancels plans last minute', 'Reliability', 'Dutifulness 19/20 · Security 100% · ESFJ planner', 'cancellation'], ['Shows up 30 minutes late', 'Respect for her time', 'Orderliness 19/20 · DISC: slow progress frustrates her', 'lateness'], ['Takes credit for her idea', 'Fairness', 'Honesty #2 · Fairness 6.76 · Achievement 100%', 'credit']],
+  how: [['Explains honestly, right away', 2], ['Says nothing', -1], ['Makes up an excuse', -2]],
+  next: [['Reschedules or fixes it themselves', 2], ['Moves on like nothing happened', -1], ['Then asks her for a favor', -2]]
+};
+const scnPick = { what: null, how: null, next: null };
+const COLS = [['what', 'What happened'], ['how', 'How they handled it'], ['next', 'What came next']];
+document.getElementById('scnSteps').innerHTML = COLS.map(([k, t]) => `<div><h4>${t}</h4>${SCN[k].map((o, i) => `<button data-k="${k}" data-i="${i}">${o[0]}</button>`).join('')}</div>`).join('');
+const scnOut = document.getElementById('scnOut');
+document.querySelectorAll('#scnSteps button').forEach(b => b.onclick = () => {
+  const k = b.dataset.k; scnPick[k] = +b.dataset.i;
+  document.querySelectorAll(`#scnSteps button[data-k="${k}"]`).forEach(x => x.classList.toggle('on', x === b));
+  if (Object.values(scnPick).some(v => v === null)) return;
+  const [event, value, ev, noun] = SCN.what[scnPick.what];
+  const score = SCN.how[scnPick.how][1] + SCN.next[scnPick.next][1];
+  const verdict = score >= 3 ? ['Totally fine.', 'Honesty plus a fix is exactly what she respects. She might even trust them more.']
+    : score >= 0 ? ['She\'s okay, but she noticed.', 'The repair counted. The first move still registered.']
+    : score >= -2 ? ['Polite on the outside. Trust dipped.', 'She won\'t make a scene, but she\'ll plan around them next time.']
+    : ['That one is going on the record.', `It isn't really the ${noun}. It's everything after it.`];
+  swap(scnOut, `<b>${verdict[0]}</b><p>${verdict[1]}</p><p class="scn-val">Triggered value: ${value}</p><p class="scn-ev">${ev}</p>`);
+});
+
+// career filters: re-sort the same 20 careers, matches first
+const CF = [['all', 'Anything'], ['create', 'Create'], ['lead', 'Lead'], ['help', 'Help'], ['communicate', 'Communicate'], ['build', 'Build']];
+const cFilter = document.getElementById('cFilter'), cTrack = document.querySelector('#careersCarousel .track');
+cFilter.insertAdjacentHTML('beforeend', CF.map(([k, n]) => `<button data-f="${k}" class="${k === 'all' ? 'on' : ''}">${n}</button>`).join(''));
+cFilter.querySelectorAll('button').forEach(b => b.onclick = () => {
+  cFilter.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+  const f = b.dataset.f, cards = [...cTrack.children].sort((a, c) => a.dataset.i - c.dataset.i);
+  const hit = c => f === 'all' || c.dataset.tags.split(' ').includes(f);
+  [...cards.filter(hit), ...cards.filter(c => !hit(c))].forEach(c => { c.classList.toggle('dim', !hit(c)); cTrack.append(c); });
+  cTrack.scrollTo({ left: 0, behavior: 'smooth' });
+  const n = cards.filter(hit).length;
+  showToast(f === 'all' ? 'All 20 careers, in her test\'s order' : `${n} careers where she gets to ${b.textContent.toLowerCase()}`);
+});
+
+// ask the data: curated answers built only from her results
+const ASK = [
+  ['Why does she take charge?', "Because four unrelated tests found it on their own: DISC puts her in Dominance, the Enneagram scores her 98% on Type 8, the Big Five puts Assertiveness at 18/20, and VIA ranks Leadership #7. But look at what she's protecting. Her #1 character strength is Love. She takes charge on behalf of people.", ['DISC Dominance', 'Enneagram 8: 98%', 'Assertiveness 18/20', 'VIA Leadership #7', 'VIA Love #1']],
+  ["Why is her circle small if she's extroverted?", 'Extraversion measures social energy, not closeness. Hers is 85, so she can talk to everyone at the party. Relator, her #1 CliftonStrength, measures who gets let in. The answer is: not many, and for good.', ['Extraversion 85', 'Gregariousness 15/20', 'Relator #1']],
+  ['Why does she care so much about gifts?', "Receiving Gifts is her top love language, but the reason is Individualization, in her top 3: she notices what makes each person specific. A good gift proves someone was paying attention. That's the part she values.", ['Receiving Gifts 27%', 'Individualization #3', 'Love #1']],
+  ['Why does she like structure and independence?', 'Orderliness is 19/20 and Security is 100%, so she wants a plan. Self-Direction is 83% and micromanagement is her top DISC demotivator, so she wants it to be her plan. Structure she chooses, not structure she is handed.', ['Orderliness 19/20', 'Security 100%', 'Self-Direction 83%', 'DISC: micromanagement']],
+  ['What kind of leader is she?', 'A relationship-first one. Four of her top five CliftonStrengths are Relationship Building and the fifth is Communication. None are about executing tasks or strategy on their own. She leads by knowing people, then moving fast for them.', ['Relator · Empathy · Individualization · Developer', 'Communication #5', 'DISC Dominance']],
+  ['Why does creativity matter so much?', "It's her single strongest career signal: Creative & Expressive at 91.7%, far ahead of everything else. The Big Five (Artistic 17/20), HEXACO (Creativity 6.65), and VIA (Creativity #8) all agree. And her career test says it plainly: routine kills her motivation.", ['Creative & Expressive 91.7%', 'Artistic 17/20', 'HEXACO Creativity 6.65', 'VIA Creativity #8']],
+  ['What would drain her at work?', 'Work that is repetitive, solitary, detail-heavy, and closely watched. Organized & Detail is her lowest career score, Extraversion is 85, and micromanagement and red tape are her DISC demotivators.', ['Organized & Detail 50%', 'Extraversion 85', 'DISC demotivators']],
+  ['Which of her tests disagree the most?', 'DISC and the Enneagram say she takes charge; the Big Five says she is warmer than 93% of people. They measure different things. Dominance is how hard she pushes toward an outcome; Agreeableness is how much she considers people on the way.', ['DISC Dominance', 'Enneagram 8', 'Agreeableness 93rd pct']],
+  ["What's her strongest pattern across tests?", 'People. Seven of her ten assessments independently point to it: CliftonStrengths, VIA, the Big Five, HEXACO, Schwartz Values, 16Personalities, and her love languages.', ['7 of 10 assessments', 'Relator #1', 'Love #1', 'Benevolence 83%']]
+];
+const askQs = document.getElementById('askQs'), askA = document.getElementById('askA');
+askQs.innerHTML = ASK.map(([q], i) => `<button data-i="${i}">${q}</button>`).join('');
+const answer = i => {
+  const [q, a, cites] = ASK[i];
+  askQs.querySelectorAll('button').forEach((b, j) => b.classList.toggle('on', i === j));
+  swap(askA, `<h3>${q}</h3><p>${a}</p><p class="cites-h">Based on</p><div class="cites">${cites.map(c => `<span>${c}</span>`).join('')}</div>`);
+};
+askQs.querySelectorAll('button').forEach((b, i) => b.onclick = () => answer(i));
+answer(1);
 
 // values accordion
 document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));

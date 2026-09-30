@@ -733,6 +733,36 @@
   .m-out li { margin-bottom: 3px; }
   .ick .hint b { color: var(--rose); }
   .q-src { display: block; margin-top: 6px; font-size: 12px; color: var(--rose); font-weight: 600; }
+  /* ---------- the final personality test ---------- */
+  .final-test { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 36px; background: rgba(255,79,154,.25); border: 1px solid rgba(255,79,154,.25); border-radius: 18px; overflow: hidden; }
+  @media (max-width: 760px) { .final-test { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px) { .final-test { grid-template-columns: 1fr; } }
+  .final-test div { background: var(--shell-2); padding: 18px 20px; display: grid; gap: 4px; }
+  .final-test b { font: 800 24px "Playfair Display", serif; color: #ff9dbb; }
+  .final-test span { font-size: 15px; color: var(--shell-text); }
+  .final-test small { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--shell-muted); font-weight: 700; }
+  .final-how { margin: 28px 0 0; color: var(--shell-muted); max-width: 680px; }
+  .lens-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: -4px 0 22px; padding: 14px 16px; border-radius: 16px; background: var(--core); }
+  @media (max-width: 760px) { .lens-row { grid-template-columns: 1fr; } }
+  .lens-row small { display: block; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--rose); font-weight: 700; margin-bottom: 4px; }
+  .lens-row b { font-size: 14px; font-weight: 500; color: var(--core-text); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .tier { display: inline-flex; gap: 3px; }
+  .tier i { width: 14px; height: 6px; border-radius: 9px; background: var(--core-2); border: 1px solid var(--line); }
+  .tier[data-t="1"] i:nth-child(-n+1), .tier[data-t="2"] i:nth-child(-n+2), .tier[data-t="3"] i:nth-child(-n+3), .tier[data-t="4"] i { background: var(--rose); border-color: var(--rose); }
+  .tier-note { margin: 12px 0 0; font-size: 12px; color: var(--core-muted); }
+  /* ---------- when traits meet ---------- */
+  .meet { margin-top: 64px; }
+  .meet h3 { font-size: clamp(30px, 4vw, 44px); color: #fff; }
+  .meet h3 em { color: #ff9dbb; }
+  .meet-sub { color: var(--shell-muted); margin: 10px 0 24px; }
+  .meets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 900px) { .meets { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .meets { grid-template-columns: 1fr; } }
+  .meets > div { border: 1px solid rgba(255,79,154,.35); border-radius: 20px; padding: 20px; background: rgba(255,255,255,.03); }
+  .meets .eq { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; color: var(--shell-muted); }
+  .meets .eq i { font-style: normal; color: #ff4f9a; margin: 0 4px; }
+  .meets b { display: block; margin: 8px 0 6px; font: 800 24px "Playfair Display", serif; color: #ff9dbb; }
+  .meets p { margin: 0; font-size: 15px; color: var(--shell-text); }
 </style>
 </head>
 <body>
@@ -744,7 +774,7 @@
   <div class="ng"><a class="gl" href="#shell">I · Suhani</a><span class="gs"><a href="#shell"><b>01</b>Spirit</a><a href="#core"><b>02</b>Heart</a><a href="#both"><b>03</b>Both/And</a><a href="#strengths"><b>04</b>The pattern</a><a href="#words"><b>05</b>In a word</a></span></div>
   <div class="ng"><a class="gl" href="#circle">II · Love</a><span class="gs"><a href="#circle"><b>06</b>Circle</a><a href="#gifts"><b>07</b>Love language</a><a href="#mood"><b>08</b>Mood</a><a href="#icks"><b>09</b>Icks</a><a href="#match"><b>10</b>Match</a></span></div>
   <div class="ng"><a class="gl" href="#values">III · Mind</a><span class="gs"><a href="#values"><b>11</b>Values</a><a href="#photos"><b>12</b>Photos</a><a href="#careers"><b>13</b>Thrive</a><a href="#rip"><b>14</b>Absolutely not</a><a href="#quiz"><b>15</b>Quiz</a></span></div>
-  <div class="ng"><a class="gl" href="#palette">IV · Built</a><span class="gs"><a href="#palette"><b>16</b>Style</a><a href="#code"><b>17</b>Code</a></span></div>
+  <div class="ng"><a class="gl" href="#palette">IV · Built</a><span class="gs"><a href="#palette"><b>16</b>Style</a><a href="#code"><b>17</b>Final test</a></span></div>
   <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
 </div></nav>
 
@@ -855,6 +885,18 @@
       </div>
       <div class="evidence" id="evidence" aria-live="polite"></div>
     </div>
+    <div class="meet reveal">
+      <h3>When traits <em>meet</em></h3>
+      <p class="meet-sub">One trait tells you a little. Two traits together tell you what she actually does.</p>
+      <div class="meets">
+        <div><span class="eq">Extraversion 85 <i>×</i> Orderliness 19/20</span><b>The Planner</b><p>She doesn't just want everyone together. She's already made the reservation.</p></div>
+        <div><span class="eq">Empathy #2 <i>×</i> Assertiveness 18/20</span><b>The Defender</b><p>She'll put up with something aimed at her longer than something aimed at someone she loves.</p></div>
+        <div><span class="eq">Creative 91.7% <i>×</i> Tradition 67%</span><b>The Modern Traditionalist</b><p>She'll redesign the family recipe card, and keep the recipe exactly the same.</p></div>
+        <div><span class="eq">Achievement 100% <i>×</i> Relator #1</span><b>The Loyal Striver</b><p>She wants to win, and she wants her people at the table when she does.</p></div>
+        <div><span class="eq">Honesty #2 <i>×</i> Kindness #4</span><b>The Kind Critic</b><p>She'll tell you it's not working, then stay and help you fix it.</p></div>
+        <div><span class="eq">Dominance <i>×</i> Love #1</span><b>The Protector</b><p>Decisive for the people she loves, before they have to ask.</p></div>
+      </div>
+    </div>
     <button class="more-btn reveal" data-more="receipts" aria-expanded="false">Want the receipts? See all 10 assessments →</button>
   </div>
 </section>
@@ -863,8 +905,8 @@
   <div class="wrap">
     <div class="intro reveal">
       <div class="kicker">The receipts</div>
-      <h2>Every result, <em>organized.</em></h2>
-      <p>All her positive and neutral scores, test by test. Pick a test.</p>
+      <h2>Ten lenses. <em>None of them is her.</em></h2>
+      <p>Each test sees one slice of a person: traits, values, strengths, interests. None of them is the whole person, and they don't all deserve the same weight. Pick a test to see what that lens sees, how much research stands behind it, and every score.</p>
     </div>
     <div class="rtabs reveal" id="rtabs" role="tablist" aria-label="Tests"></div>
     <div class="rpanel reveal" id="rpanel" aria-live="polite"></div>
@@ -1191,10 +1233,19 @@
 <section class="shell alt" id="code">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>17</i>Under the hood</div>
-      <h2>How this site was built</h2>
-      <p>One HTML file. No frameworks, no libraries, no build step. Just HTML, CSS, and vanilla JavaScript talking straight to the browser's APIs.</p>
+      <div class="kicker"><i>17</i>The final personality test</div>
+      <h2>She built <em>this.</em></h2>
+      <p>Every test on this page is self-report. This one isn't. The website itself is the last piece of evidence.</p>
     </div>
+    <div class="final-test reveal">
+      <div><b>Creative</b><span>She designed it: the colors, the fonts, the Holi paint.</span><small>Creative &amp; Expressive 91.7%</small></div>
+      <div><b>Driven</b><span>She finished it. Every section, one file.</span><small>Achievement 100%</small></div>
+      <div><b>Independent</b><span>No frameworks, no templates. She built it herself.</span><small>Self-Direction 83%</small></div>
+      <div><b>Curious</b><span>She learned what she needed along the way.</span><small>Love of Learning #5</small></div>
+      <div><b>Detail-minded</b><span>Look at the interactions.</span><small>Orderliness 19/20</small></div>
+      <div><b>Communicator</b><span>She turned hundreds of data points into a story.</span><small>Communication, CliftonStrengths #5</small></div>
+    </div>
+    <p class="final-how reveal">How she built it: one HTML file. No frameworks, no libraries, no build step. Just HTML, CSS, and vanilla JavaScript talking straight to the browser.</p>
 
     <div class="big-stats reveal">
       <div><b>1</b><span>HTML file</span></div>
@@ -1797,12 +1848,19 @@ const RECEIPTS = [
     ['All five', [['Receiving Gifts', 27, 30], ['Words of Affirmation', 23, 30], ['Quality Time', 23, 30], ['Acts of Service', 20, 30], ['Physical Touch', 7, 30]]]
   ] }
 ];
+/* what each lens sees, research support (4 strong · 3 moderate · 2 limited · 1 reflective), best use */
+const LENS = {"Big Five": ["broad personality traits", 4, "describing how someone generally thinks, feels, and acts"], "HEXACO": ["broad traits, plus honesty and humility", 4, "trait description, especially integrity"], "VIA strengths": ["character strengths", 3, "naming what someone does at their best"], "Values": ["what motivates her choices", 4, "understanding priorities and trade-offs"], "Career test": ["vocational interests (the RIASEC model)", 3, "exploring careers; the RIASEC model is well-studied, this particular test less so"], "Enneagram": ["core motivations, as a framework", 2, "reflection and conversation"], "DISC": ["behavioral style at work", 2, "team conversations about work style"], "CliftonStrengths": ["natural talents", 3, "developing strengths at school and work"], "16Personalities": ["preferences for energy, information, decisions, and structure", 2, "shared language and self-reflection"], "Love languages": ["preferred ways to give and receive care", 1, "conversations about relationships"]};
+const SUPPORT = ['', 'Reflective framework', 'Limited validation', 'Moderate support', 'Strong research support'];
 const rtabs = document.getElementById('rtabs'), rpanel = document.getElementById('rpanel');
 const fmt = (v, max) => max === 20 ? `${v}/20` : max === 10 ? v.toFixed(2) : max === 30 ? `${v}%` : `${v}%`;
 const renderReceipt = i => {
   const r = RECEIPTS[i];
   [...rtabs.children].forEach((b, j) => { b.classList.toggle('on', i === j); b.setAttribute('aria-selected', i === j); });
-  let html = `<div class="rhead"><h3>${r.title}</h3><span>${r.note}</span></div>`;
+  const [sees, tier, best] = LENS[r.tab] || ['', 0, ''];
+  let html = `<div class="rhead"><h3>${r.title}</h3><span>${r.note}</span></div>
+    <div class="lens-row"><div><small>This lens sees</small><b>${sees}</b></div>
+    <div><small>Research support</small><b><span class="tier" data-t="${tier}"><i></i><i></i><i></i><i></i></span>${SUPPORT[tier]}</b></div>
+    <div><small>Best used for</small><b>${best}</b></div></div>`;
   if (r.groups) html += `<div class="rgroups">${r.groups.map(([g, rows]) => `<div class="rgroup"><h4>${g}</h4>${rows.map(([n, v, max]) =>
     `<div class="rrow"><span>${n}</span><span class="bar2"><i style="--w:${Math.min(100, v / max * 100)}%"></i></span><b>${fmt(v, max)}</b></div>`).join('')}</div>`).join('')}</div>`;
   if (r.list) html += `${r.listTitle ? `<h4 class="rgroup" style="margin:22px 0 10px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose)">${r.listTitle}</h4>` : ''}<div class="rlist">${r.list.map(([k, t]) => `<div><b>${k}</b><span>${t}</span></div>`).join('')}</div>`;
@@ -1813,6 +1871,7 @@ const renderReceipt = i => {
 rtabs.innerHTML = RECEIPTS.map(r => `<button role="tab">${r.tab}</button>`).join('');
 [...rtabs.children].forEach((b, i) => b.onclick = () => renderReceipt(i));
 renderReceipt(0);
+rpanel.insertAdjacentHTML('afterend', '<p class="tier-note">Research-support tiers are a plain-language read of the published research on each instrument, not a score.</p>');
 
 // riasec hexagon
 /* Holland's six types, in hexagon order. Her career test's dimensions map onto them. */

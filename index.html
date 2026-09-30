@@ -440,7 +440,14 @@
   .polaroid .ph { gap: 10px; align-content: center; } .polaroid .ph .ico { width: 56px; height: 56px; stroke-width: 1.2; }
   .tomb .b .up .ico { width: 54px; height: 54px; stroke-width: 1.3; }
   .say-hi { display: flex; align-items: center; gap: 6px; cursor: default; user-select: none; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: #ff4f9a; }
-  .wave { width: 26px; height: 26px; color: #ff9dbb; transform-origin: 70% 85%; }
+  .wave { width: 26px; height: 26px; color: #ff9dbb; transform-origin: 70% 85%; transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
+  .say-hi { position: relative; }
+  #hiText { display: inline-block; min-width: 230px; text-align: right; }
+  .say-hi.lean .wave { transform: rotate(16deg) scale(1.15); color: #ff4f9a; }
+  .hi-bubble { position: absolute; right: -6px; bottom: calc(100% + 10px); white-space: nowrap; background: #ff4f9a; color: #fff; font-size: 12px; letter-spacing: 0; text-transform: none; font-weight: 600; padding: 6px 12px; border-radius: 12px 12px 2px 12px; opacity: 0; transform: translateY(6px); pointer-events: none; }
+  .hi-bubble.show { animation: bubble 2.2s ease forwards; }
+  @keyframes bubble { 0% { opacity: 0; transform: translateY(6px); } 12%, 75% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-4px); } }
+  @media (max-width: 640px) { #hiText { min-width: 0; text-align: left; } }
   .wave .lines { opacity: 0; transition: opacity .2s; }
   .say-hi.go .wave, .say-hi:hover .wave, #foot .contacts:hover ~ * .wave { animation: wave 1.6s ease-in-out; }
   .say-hi.go .wave .lines, .say-hi:hover .wave .lines { opacity: 1; }
@@ -549,10 +556,10 @@
 <body>
 
 <nav id="nav"><div class="wrap">
-  <div class="ng"><a class="gl" href="#shell">Me</a><span class="gs"><a href="#shell"><b>01</b>Spirit</a><a href="#core"><b>02</b>Heart</a><a href="#both"><b>03</b>Both/And</a></span></div>
-  <div class="ng"><a class="gl" href="#circle">People</a><span class="gs"><a href="#circle"><b>04</b>Circle</a><a href="#gifts"><b>05</b>Love language</a><a href="#mood"><b>06</b>Mood</a><a href="#icks"><b>07</b>Icks</a></span></div>
-  <div class="ng"><a class="gl" href="#values">Mind</a><span class="gs"><a href="#values"><b>08</b>Values</a><a href="#photos"><b>09</b>Photos</a><a href="#strengths"><b>10</b>Strengths</a><a href="#careers"><b>11</b>Thrive</a><a href="#rip"><b>12</b>Absolutely not</a></span></div>
-  <div class="ng"><a class="gl" href="#palette">World</a><span class="gs"><a href="#palette"><b>13</b>Style</a><a href="#code"><b>14</b>Code</a></span></div>
+  <div class="ng"><a class="gl" href="#shell">Me</a><span class="gs"><a href="#shell"><b>01</b>Spirit</a><a href="#core"><b>02</b>Heart</a><a href="#both"><b>03</b>Both/And</a><a href="#words"><b>04</b>In a word</a></span></div>
+  <div class="ng"><a class="gl" href="#circle">People</a><span class="gs"><a href="#circle"><b>05</b>Circle</a><a href="#gifts"><b>06</b>Love language</a><a href="#mood"><b>07</b>Mood</a><a href="#icks"><b>08</b>Icks</a></span></div>
+  <div class="ng"><a class="gl" href="#values">Mind</a><span class="gs"><a href="#values"><b>09</b>Values</a><a href="#photos"><b>10</b>Photos</a><a href="#strengths"><b>11</b>Strengths</a><a href="#careers"><b>12</b>Thrive</a><a href="#rip"><b>13</b>Absolutely not</a></span></div>
+  <div class="ng"><a class="gl" href="#palette">World</a><span class="gs"><a href="#palette"><b>14</b>Style</a><a href="#code"><b>15</b>Code</a></span></div>
   <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
 </div></nav>
 
@@ -633,14 +640,13 @@
       <div class="contra reveal" data-c="4"></div>
       <div class="contra reveal" data-c="5"></div>
     </div>
-    <button class="more-btn reveal" data-more="words" aria-expanded="false">See her in one word each</button>
   </div>
 </section>
 
-<section class="core" id="words" hidden>
+<section class="core" id="words">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker">If you had to describe her</div>
+      <div class="kicker"><i>04</i>If you had to describe her</div>
       <h2>In one word each</h2>
       <p>Guess first, then tap to flip.</p>
     </div>
@@ -675,7 +681,7 @@
       </svg>
     </div>
     <div class="reveal">
-      <div class="kicker"><i>04</i><span id="cKicker">Her inner circle</span></div>
+      <div class="kicker"><i>05</i><span id="cKicker">Her inner circle</span></div>
       <h2 id="cTitle" style="font-size:clamp(32px,5vw,48px);margin:10px 0 8px">Small circle. <em>Deep roots.</em></h2>
       <p id="cSub" style="color:var(--core-muted);margin:0">The few who get the full version.</p>
       <div class="ring-info" id="ringInfo" aria-live="polite"></div>
@@ -687,7 +693,7 @@
 <section class="core" id="gifts">
   <div class="wrap love">
     <div class="reveal">
-      <div class="kicker"><i>05</i>Her love language</div>
+      <div class="kicker"><i>06</i>Her love language</div>
       <h2 style="font-size:clamp(34px,5.5vw,56px);margin:10px 0 12px">Speak her <em>language.</em></h2>
       <p style="color:var(--core-muted);margin:0 0 26px">Tap the gift. Then tap any language to learn how to speak it to her.</p>
       <button class="gift" id="gift" aria-label="Unwrap the gift">
@@ -713,7 +719,7 @@
 <section class="shell alt" id="mood">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>06</i>Handle with care</div>
+      <div class="kicker"><i>07</i>Handle with care</div>
       <h2>The mood <em>meter.</em></h2>
       <p>Tap anything below to see how she'd probably react, based on how her results read.</p>
     </div>
@@ -737,7 +743,7 @@
   <div class="wrap">
     <div class="head">
       <div class="intro reveal">
-        <div class="kicker"><i>07</i>Instant turn-offs</div>
+        <div class="kicker"><i>08</i>Instant turn-offs</div>
         <h2>The <em>ick</em> list.</h2>
         <p>The people who give her the ick, and the exact moment it happens. Flip a card to see why, and what to do instead.</p>
       </div>
@@ -750,7 +756,7 @@
 <section class="shell" id="values">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>08</i>What she lives by</div>
+      <div class="kicker"><i>09</i>What she lives by</div>
       <h2>Values, in order</h2>
       <p>Tap any value to open it.</p>
     </div>
@@ -769,7 +775,7 @@
 <section class="shell" id="photos">
   <div class="wrap photo-wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>09</i>Snapshots</div>
+      <div class="kicker"><i>10</i>Snapshots</div>
       <h2>Life in <em>frames.</em></h2>
       <p>Tap the stack to shuffle through the polaroids.</p>
       <p class="mono" id="photoCount" style="margin-top:14px;color:#ff9dbb;font-size:13px"></p>
@@ -781,7 +787,7 @@
 <section class="shell alt" id="strengths">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>10</i>Signature strengths</div>
+      <div class="kicker"><i>11</i>Signature strengths</div>
       <h2>A <em>creative traditionalist</em> who leads through people</h2>
       <p>Tap any strength to see what it means for her.</p>
     </div>
@@ -815,7 +821,7 @@
 <section class="core" id="careers">
   <div class="wrap careers-top">
     <div class="intro reveal">
-      <div class="kicker"><i>11</i>Creates everything</div>
+      <div class="kicker"><i>12</i>Creates everything</div>
       <h2>Where she'd <em>thrive.</em></h2>
       <p>Not job titles: the conditions where her personality does its best work. These are interpretations of her results, not predictions. Her Holland code is <b>ASE</b> (Artistic, Social, Enterprising), three types that sit side by side on Holland's hexagon, which makes her profile unusually consistent. Tap a letter to explore.</p>
     </div>
@@ -856,7 +862,7 @@
 <section class="shell alt compact" id="rip">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>12</i>Do not put her here</div>
+      <div class="kicker"><i>13</i>Do not put her here</div>
       <h2>Absolutely <em>not.</em></h2>
       <p>Real jobs people take in 2026 that she'd likely quit on day one, based on how her results read. Tap a tombstone to bring her back to life.</p>
     </div>
@@ -871,7 +877,7 @@
 <section class="shell" id="palette">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>13</i>Her colors &amp; fonts</div>
+      <div class="kicker"><i>14</i>Her colors &amp; fonts</div>
       <h2>Why the page looks like this</h2>
     </div>
     <p class="pal-label">The base: her strongest traits, in color</p>
@@ -933,7 +939,7 @@
 <section class="shell alt" id="code">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>14</i>Under the hood</div>
+      <div class="kicker"><i>15</i>Under the hood</div>
       <h2>How this site was built</h2>
       <p>One HTML file. No frameworks, no libraries, no build step. Just HTML, CSS, and vanilla JavaScript talking straight to the browser's APIs.</p>
     </div>
@@ -983,7 +989,7 @@
   <div class="wrap">
     <div class="foot-row">
       <button class="sig" id="toTop" aria-label="Back to top">Suhani Tiwari <span>↑</span></button>
-      <div class="say"><span class="say-hi" id="sayHi">Say hi <svg class="wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V6a1.5 1.5 0 0 1 3 0v4M10 10V4.5a1.5 1.5 0 0 1 3 0V10M13 10V5.5a1.5 1.5 0 0 1 3 0V11M16 11V8.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-2.7L4 15a1.5 1.5 0 0 1 2.4-1.8L7 14V11"/><path d="M3 5c.5-1.5 1.5-2.5 3-3M19.5 2.5c1.3.7 2 1.8 2.3 3" class="lines"/></svg></span><div class="contacts" id="contacts"></div></div>
+      <div class="say"><span class="say-hi" id="sayHi"><span id="hiText" aria-live="polite">Say hi</span> <svg class="wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V6a1.5 1.5 0 0 1 3 0v4M10 10V4.5a1.5 1.5 0 0 1 3 0V10M13 10V5.5a1.5 1.5 0 0 1 3 0V11M16 11V8.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-2.7L4 15a1.5 1.5 0 0 1 2.4-1.8L7 14V11"/><path d="M3 5c.5-1.5 1.5-2.5 3-3M19.5 2.5c1.3.7 2 1.8 2.3 3" class="lines"/></svg><span class="hi-bubble" id="hiBubble" role="status"></span></span><div class="contacts" id="contacts"></div></div>
     </div>
     <div class="legal"><em>Soft heart. Strong spirit.</em> · © 2026 Suhani Tiwari. All rights reserved.</div>
   </div>
@@ -1317,9 +1323,9 @@ document.getElementById('ripMore').onclick = e => {
 const EMAIL = ['suhxnitiwari', 'gmail.com'].join('@');
 /* [label, icon, url]; fill in LinkedIn and Instagram URLs to show them */
 const CONTACTS = [
-  ['Email', 'mail', 'mailto:' + EMAIL],
-  ['LinkedIn', 'linkedin', 'https://www.linkedin.com/in/suhxnitiwari'],
-  ['Instagram', 'instagram', 'https://www.instagram.com/suhxnitiwari']
+  ['Email', 'mail', 'mailto:' + EMAIL, 'Send a note'],
+  ['LinkedIn', 'linkedin', 'https://www.linkedin.com/in/suhxnitiwari', "Let's work together"],
+  ['Instagram', 'instagram', 'https://www.instagram.com/suhxnitiwari', 'Come say hi']
 ].filter(([, , url]) => url);
 Object.assign(ICONS, {
   mail: 'M3 6h18v12H3zM3 7l9 6 9-6',
@@ -1329,15 +1335,37 @@ Object.assign(ICONS, {
   instagram: 'M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zM8 12a4 4 0 1 0 8 0a4 4 0 1 0-8 0M16.5 7.5v.01',
   github: 'M9 19c-4 1.5-4-2-6-2.5M15 21v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6.2 0C6.6 2.8 5.6 3.1 5.6 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.2 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21'
 });
-document.getElementById('contacts').innerHTML = CONTACTS.map(([label, ic, url]) =>
-  `<a href="${url}" ${url.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>${icon(ic)}${label}</a>`).join('');
+document.getElementById('contacts').innerHTML = CONTACTS.map(([label, ic, url, hi]) =>
+  `<a href="${url}" data-hi="${hi}" ${url.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>${icon(ic)}${label}</a>`).join('');
 document.getElementById('ghLink').insertAdjacentHTML('afterbegin', icon('code'));
 document.getElementById('ghProfile').insertAdjacentHTML('afterbegin', icon('github'));
 document.getElementById('portfolio').insertAdjacentHTML('afterbegin', icon('globe'));
 document.getElementById('toTop').onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
 /* wave hello whenever the footer scrolls into view */
 const sayHi = document.getElementById('sayHi');
-new IntersectionObserver(([e]) => { if (e.isIntersecting) { sayHi.classList.remove('go'); void sayHi.offsetWidth; sayHi.classList.add('go'); } }, { threshold: .6 }).observe(sayHi);
+const wave = () => { sayHi.classList.remove('go'); void sayHi.offsetWidth; sayHi.classList.add('go'); };
+new IntersectionObserver(([e]) => { if (e.isIntersecting) wave(); }, { threshold: .6 }).observe(sayHi);
+/* the greeting cycles on its own, and each contact rewrites it on hover */
+const hiText = document.getElementById('hiText'), hiBubble = document.getElementById('hiBubble');
+const GREETINGS = ['Say hi', 'Send a note', "Let's work together", 'Come say hi', "Let's build something"];
+let hiI = 0, hovering = false;
+const setHi = t => { if (hiText.textContent !== t) swap(hiText, t); };
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => { if (!hovering) setHi(GREETINGS[hiI = (hiI + 1) % GREETINGS.length]); }, 2600);
+document.querySelectorAll('#contacts a').forEach(a => {
+  const on = () => { hovering = true; setHi(a.dataset.hi); sayHi.classList.add('lean'); wave(); };
+  const off = () => { hovering = false; sayHi.classList.remove('lean'); };
+  a.addEventListener('mouseenter', on); a.addEventListener('focus', on);
+  a.addEventListener('mouseleave', off); a.addEventListener('blur', off);
+});
+/* email: copy the address first, then open the mail app */
+document.querySelector('#contacts a[href^="mailto:"]').addEventListener('click', async e => {
+  e.preventDefault();
+  let msg = 'Opening your mail app…';
+  try { await navigator.clipboard.writeText(EMAIL); msg = 'Copied! ' + EMAIL; } catch {}
+  hiBubble.textContent = msg; hiBubble.classList.remove('show'); void hiBubble.offsetWidth; hiBubble.classList.add('show');
+  wave();
+  setTimeout(() => { location.href = 'mailto:' + EMAIL; }, 900);
+});
 
 // icks
 /* [who, the moment, why it's an ick, what to do instead] */

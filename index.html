@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Suhani Tiwari</title>
 <meta name="description" content="Soft heart, strong spirit. A portrait of Suhani Tiwari drawn from eleven personality tests.">
+<script>if (new URLSearchParams(location.search).get('view') === 'quiz') document.documentElement.classList.add('quiz-only');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,500;1,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -53,7 +54,9 @@
     filter: blur(8px); z-index: -1; animation: beat 3.2s ease-in-out infinite; }
   @keyframes beat { 0%,100% { transform: scale(.94); opacity: .8; } 12% { transform: scale(1.02); opacity: 1; } 24% { transform: scale(.97); } 36% { transform: scale(1.04); opacity: 1; } }
   .hero h1 { font-size: clamp(64px, 15.5vw, 176px); line-height: 1; font-weight: 800; letter-spacing: -.02em; }
-  .hero h1 .ltr { display: inline-block; transition: transform .5s cubic-bezier(.3,1.8,.5,1); cursor: default; }
+  .hero h1 .ltr { display: inline-block; cursor: default; }
+  .hero h1.waving .ltr { animation: ltrWave 1.2s cubic-bezier(.45,0,.55,1) both; animation-delay: calc(var(--i) * 95ms); }
+  @keyframes ltrWave { 0% { transform: translateY(0); } 28% { transform: translateY(-.17em) rotate(-3deg); } 58% { transform: translateY(.05em) rotate(1.5deg); } 80% { transform: translateY(-.02em); } 100% { transform: translateY(0); } }
   .hero h1 > span:not(.ltr) { display: block; margin-top: .06em; font-style: italic; font-weight: 500; font-size: .42em; letter-spacing: 0; color: #ffe3ec; text-shadow: 0 2px 24px rgba(42,15,30,.75), 0 0 2px rgba(122,31,69,.6); padding: 0 .1em .08em; }
   .hero .tag { font-family: "Playfair Display", serif; font-size: clamp(22px, 3.4vw, 32px); margin: 20px 0 0; pointer-events: none; }
   .hero .tag b { color: #ff9dbb; font-style: italic; }
@@ -640,6 +643,16 @@
   .combo { min-height: 2.2em; }
   .combo.swap { animation: comboIn .6s ease; }
   @keyframes comboIn { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } }
+  /* ---------- quiz-only view (/quiz/) ---------- */
+  .quiz-bar { display: none; }
+  html.quiz-only body > *:not(#quiz):not(dialog):not(.toast):not(.latte):not(script) { display: none !important; }
+  html.quiz-only #quiz { min-height: 100vh; padding-top: 28px; }
+  html.quiz-only .quiz-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 20px; margin-bottom: 36px; border-bottom: 1px solid var(--line); }
+  html.quiz-only .quiz-bar span { font: italic 700 24px "Playfair Display", serif; color: var(--core-text); }
+  html.quiz-only .quiz-bar a { color: var(--rose); font-weight: 600; font-size: 14px; text-decoration: none; }
+  html.quiz-only #quiz .kicker i { display: none; }
+  .share-quiz { margin-top: 18px; }
+  .q-share { margin-left: 10px; background: none; color: var(--rose); border: 1px solid var(--rose); }
 </style>
 </head>
 <body>
@@ -988,11 +1001,13 @@
 
 <section class="core" id="quiz">
   <div class="wrap">
+    <div class="quiz-bar"><span>Suhani Tiwari</span><a href="./">See the full portrait →</a></div>
     <div class="intro reveal">
       <div class="kicker"><i>15</i>Pop quiz</div>
       <h2>What would <em>she do?</em></h2>
-      <p>Eight situations. Every option is something she might do. Only one is what she would do first. Answers are our best read of her results, not gospel.</p>
+      <p>Ten situations. Every option is something she might do. Only one is what she would do first. Answers are our best read of her results, not gospel.</p>
     </div>
+    <button class="more-btn share-quiz" id="shareQuiz">Share this quiz</button>
     <div class="quiz reveal" id="quizBox" aria-live="polite"></div>
   </div>
 </section>
@@ -1767,6 +1782,15 @@ document.querySelectorAll('#myLL button').forEach(b => b.onclick = () => {
 });
 
 // quiz
+const QUIZ_URL = location.origin + location.pathname.replace(/[^/]*$/, '') + 'quiz/';
+const shareText = async (text, btn) => {
+  try {
+    if (navigator.share) { await navigator.share({ title: 'What would she do?', text, url: QUIZ_URL }); return; }
+    await navigator.clipboard.writeText(`${text} ${QUIZ_URL}`);
+    const old = btn.textContent; btn.textContent = 'Link copied'; setTimeout(() => btn.textContent = old, 1600);
+  } catch {}
+};
+document.getElementById('shareQuiz').onclick = e => shareText('Ten situations. Predict how Suhani would react.', e.currentTarget);
 /* [question, options, index of the right answer, why] */
 /* every option is plausible; one decoy is nearly right, and the "why" says what gives it away */
 const QUIZ = [
@@ -1777,7 +1801,9 @@ const QUIZ = [
   ['Her friends cancel their plans an hour before.', ['Says "no worries!" and makes other plans for the night', 'Says "no worries!" and sends three new dates before the day is over', 'Tells them honestly that it is frustrating', 'Goes anyway with whoever is still free'], 1, 'Making other plans is the decoy. ESFJ plus Orderliness 19/20: the original plan will happen, so she reschedules.'],
   ['Her group-project partner has gone silent three days before the deadline.', ['Messages them privately to check they are okay, then waits to hear back', 'Checks they are okay, then sends everyone a plan with names and deadlines', 'Quietly picks up their part herself', 'Emails the professor to flag it early'], 1, "Empathy says check on them. Dominance says don't wait for the answer. She does both, in that order."],
   ['She is handed a project with total creative freedom.', ['Asks lots of questions to pin down exactly what they want', 'Has a mood board going before anyone else has finished reading the brief', 'Researches what everyone else has done first', 'Sketches three safe options to choose from'], 1, 'Questions are the decoy; the ESFJ in her likes clear expectations. But The Creator (91.7%) moves first and asks later.'],
-  ['Someone is rude to her friend at a party.', ['Pulls her friend aside and checks they are okay', 'Steps in right away and shuts it down, politely but firmly', 'Cracks a joke to defuse it', 'Lets her friend handle it, but stays close'], 1, 'Checking on her friend comes second. Enneagram 8, the protector, plus Bravery #6: she handles it first.']
+  ['Someone is rude to her friend at a party.', ['Pulls her friend aside and checks they are okay', 'Steps in right away and shuts it down, politely but firmly', 'Cracks a joke to defuse it', 'Lets her friend handle it, but stays close'], 1, 'Checking on her friend comes second. Enneagram 8, the protector, plus Bravery #6: she handles it first.'],
+  ['She joins a new club where she knows nobody.', ['Works the room and leaves with 20 new contacts', 'Talks to everyone once, then picks two people to actually get to know', 'Sticks close to the organizer all night', 'Waits for people to come to her'], 1, 'Working the room is the decoy. Extraversion 85 gets her talking to everyone, but Relator #1 decides who she actually keeps.'],
+  ["A friend asks for honest feedback on an outfit, and it's not working.", ['Says it looks great, because it is not worth the stress', 'Says "it is giving… something" and changes the subject', "Says it's not the one, then helps pick something better", 'Sends a Pinterest board later that night'], 2, 'The Pinterest board is sweet, but too late. Honesty #2 plus Developer: the truth, on the spot, with a fix.']
 ];
 let qi = 0, qScore = 0;
 const quizBox = document.getElementById('quizBox');
@@ -1785,8 +1811,9 @@ const dots = () => `<div class="q-dots">${QUIZ.map((_, i) => `<i class="${i < qi
 const renderQ = () => {
   if (qi >= QUIZ.length) {
     const n = QUIZ.length, msg = qScore === n ? 'Inner circle. Bring the latte.' : qScore >= n - 2 ? 'Close-friend energy. She would add you to the group chat.' : qScore >= 2 ? "You've met her. At a party. Once." : 'Have you... met her?';
-    quizBox.innerHTML = `<div class="q-top">${dots()}<span>Done</span></div><div class="q-final">${qScore}/${QUIZ.length}</div><h3 style="margin-top:10px">${msg}</h3><button class="q-next" id="qAgain">Try again</button>`;
+    quizBox.innerHTML = `<div class="q-top">${dots()}<span>Done</span></div><div class="q-final">${qScore}/${QUIZ.length}</div><h3 style="margin-top:10px">${msg}</h3><button class="q-next" id="qAgain">Try again</button><button class="q-next q-share" id="qShare">Share my score</button>`;
     document.getElementById('qAgain').onclick = () => { qi = 0; qScore = 0; renderQ(); };
+    document.getElementById('qShare').onclick = e => shareText(`I got ${qScore}/${QUIZ.length} on "What would she do?" Can you beat me?`, e.currentTarget);
     if (qScore === QUIZ.length) hearts(innerWidth / 2, innerHeight / 2);
     return;
   }
@@ -1973,17 +2000,21 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
 
-  /* the name reacts: letters jump on hover, scatter on tap */
+  /* the name rolls like a wave: on load, on hover or tap, and every few seconds */
   const h1 = document.querySelector('.hero h1'), first = h1.firstChild;
-  const letters = first.textContent.trim().split('').map(c => `<span class="ltr">${c}</span>`).join('');
+  const letters = first.textContent.trim().split('').map((c, i) => `<span class="ltr" style="--i:${i}">${c}</span>`).join('');
   first.replaceWith(document.createRange().createContextualFragment(letters + ' '));
-  const jump = (el, k = 1) => {
-    if (still) return;
-    el.style.transform = `translateY(${-(14 + Math.random() * 24) * k}px) rotate(${(Math.random() - .5) * 30 * k}deg)`;
-    setTimeout(() => el.style.transform = '', 380);
+  const ltrs = h1.querySelectorAll('.ltr');
+  let waving = false;
+  const wave = () => {
+    if (still || waving) return;
+    waving = true; h1.classList.remove('waving'); void h1.offsetWidth; h1.classList.add('waving');
   };
-  h1.querySelectorAll('.ltr').forEach(l => l.addEventListener('mouseenter', () => jump(l)));
-  h1.addEventListener('click', () => h1.querySelectorAll('.ltr').forEach((l, i) => setTimeout(() => jump(l, 2), i * 40)));
+  ltrs[ltrs.length - 1].addEventListener('animationend', () => { waving = false; h1.classList.remove('waving'); });
+  h1.addEventListener('mouseenter', wave);
+  h1.addEventListener('click', wave);
+  setTimeout(wave, 600);
+  setInterval(() => { if (scrollY < innerHeight * .6 && !document.hidden) wave(); }, 6000);
 
   /* 3D tilt on cards */
   if (fine && !still) {
@@ -2117,7 +2148,7 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     ['riasec hexagon', 'hexagon.js', 'RIASEC hexagon', 'Holland\'s hexagon drawn in SVG with trigonometry: each vertex sits at -90° + i × 60°. Her six scores become a radar polygon, and her top three letters (A, S, E) are filled in.', ['SVG', 'cos/sin', 'radar chart']],
     ['compatibility check', 'match.js', 'Compatibility check', 'Each personality letter and love language carries a weight. The score starts at 50 and adds up as you pick, and the reasons list builds itself from the same data. Framed as fun, not science.', ['weighted scoring', 'live updates', 'data-driven copy']],
     ['quiz', 'quiz.js', 'Pop quiz', 'Situational predictions instead of trivia. A small state machine: the question index and score are the only state. Each answer locks the options, reveals the right one, and explains it before moving on.', ['state machine', 'template literals', 'feedback loop']],
-    ['page-wide touches', 'touches.js', 'Page-wide touches', 'A scroll progress line that ends in a heart, letters that jump, 3D card tilt from pointer position, and a keystroke buffer that listens for secret words.', ['pointer math', 'keyboard buffer', 'CSS masks']],
+    ['page-wide touches', 'touches.js', 'Page-wide touches', 'A scroll progress line that ends in a heart, a name that rolls like a wave (each letter animation is delayed by i × 95ms), 3D card tilt from pointer position, and a keystroke buffer that listens for secret words.', ['pointer math', 'keyboard buffer', 'CSS masks']],
     ['signature strengths: evidence map', 'evidence.js', 'Evidence map', 'Five themes, ten assessments. JavaScript measures where each theme and assessment sit on screen, then draws a cubic Bézier curve between every pair that share evidence. Picking a theme lights its curves; picking an assessment lights every theme it feeds. Curves redraw on resize.', ['getBoundingClientRect', 'SVG Bézier curves', 'two-way highlighting']],
     ['under the hood', 'hood.js', 'This panel', 'The panel reads this page\'s own <script> at runtime, splits it at comment markers, and syntax-highlights it with a single-regex tokenizer. Live numbers come from requestAnimationFrame and the Performance API, and it only updates while you can see it.', ['self-reading code', 'regex tokenizer', 'Performance API', 'Clipboard API']]
   ].filter(f => chunks[f[0]]);

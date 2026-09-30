@@ -689,7 +689,8 @@
   @media (max-width: 600px) { #both .contras { grid-template-columns: 1fr; } }
   #both .contra { padding: 24px 24px 20px; display: flex; flex-direction: column; }
   #both .contra .ends { font-size: clamp(19px, 1.9vw, 24px); gap: 10px; }
-  #both .contra .why { font-size: 15px; line-height: 1.5; min-height: 0; flex: 1; }
+  #both .contras { grid-auto-rows: 1fr; }
+  #both .contra .why { font-size: 15px; line-height: 1.5; min-height: 3em; flex: 1; }
   #moreContras { margin-top: 24px; }
   #both .contra[hidden] { display: none; }
   /* ---------- act dividers ---------- */
@@ -1645,14 +1646,14 @@ layoutStack();
 
 // contradictions
 const CONTRAS = [
-  ['Boss energy', 'Warm host', 'DISC Dominance and Enneagram 8 say she takes charge.', 'ESFJ, Relator, and Empathy say she takes care of everyone.', '<b>Both.</b> Dominance is how hard she pushes toward an outcome. Agreeableness is how much she considers people along the way. They aren\'t opposites: she leads <i>through</i> her people.', 'DISC D · 8w7 ↔ ESFJ · CliftonStrengths'],
-  ['Creative', 'Traditional', 'The Creator: Creative & Expressive at 91.7%.', 'Tradition 67% and Spirituality #3. Rooted in faith, family, and custom.', '<b>Both.</b> A creative traditionalist: fresh ideas with deep roots.', 'MyCareerTest ↔ Schwartz Values · VIA'],
-  ['Life of the party', 'Small circle', 'Extraversion 85. Magnetic and so social.', 'Relator #1. A few people get the key to her heart.', '<b>Both.</b> She loves a crowd and trusts a few. Fun with everyone, forever with some.', 'Big Five ↔ CliftonStrengths'],
-  ['Loves a plan', 'Hates a rut', 'Orderliness 19/20. Structure is her comfort zone.', '"Routine kills her motivation," says her career test.', '<b>Both.</b> She wants a clear plan she can fill with something new every day.', 'Big Five ↔ MyCareerTest'],
-  ['Brutally honest', 'Endlessly kind', 'VIA #2 Honesty. She tells it like it is.', 'VIA #4 Kindness. She takes care of everyone.', '<b>Both.</b> She tells the truth with a whole lot of love. The best kind of friend.', 'VIA Character Strengths'],
-  ['Independent', 'All-in on her people', 'Self-Direction 83%. She does it her way.', 'Benevolence 83% and Love #1. Her people come first.', '<b>Both.</b> Tied at 83%. She runs her own life and shows up for everyone in it.', 'Schwartz Values · VIA'],
-  ['Feels everything', 'Decides fast', 'Emotional awareness 19/20: she notices every feeling in the room.', 'DISC Dominance: she makes the call and moves.', '<b>Both.</b> The feeling informs the decision; it doesn\'t slow it down. She feels it fully, then acts.', 'Big Five ↔ DISC'],
-  ['Big dreams', 'Deep roots', 'Achievement 100% and Power 75%. She wants to go far.', 'Security 100% and Tradition 67%. She wants a steady home base.', '<b>Both.</b> She wants to go far, and take home with her.', 'Schwartz Values']
+  ["Boss energy", "Warm host", "DISC Dominance and Enneagram 8: she takes charge.", "ESFJ, Relator, Empathy: she takes care of everyone.", "<b>Both.</b> She pushes hard, on behalf of her people.", "DISC D · 8w7 ↔ ESFJ · CliftonStrengths"],
+  ["Creative", "Traditional", "The Creator: Creative &amp; Expressive at 91.7%.", "Tradition 67% and Spirituality #3: deep roots.", "<b>Both.</b> Fresh ideas, deep roots.", "MyCareerTest ↔ Schwartz Values · VIA"],
+  ["Life of the party", "Small circle", "Extraversion 85. Magnetic in any room.", "Relator #1. Only a few get the key.", "<b>Both.</b> Fun with everyone, forever with some.", "Big Five ↔ CliftonStrengths"],
+  ["Loves a plan", "Hates a rut", "Orderliness 19/20. Structure is comfort.", "Her career test: routine kills motivation.", "<b>Both.</b> A clear plan, filled with something new.", "Big Five ↔ MyCareerTest"],
+  ["Brutally honest", "Endlessly kind", "VIA Honesty #2. She tells it like it is.", "VIA Kindness #4. She takes care of people.", "<b>Both.</b> The truth, with a whole lot of love.", "VIA Character Strengths"],
+  ["Independent", "All-in on her people", "Self-Direction 83%. She does it her way.", "Benevolence 83% and Love #1. Her people first.", "<b>Both.</b> Tied at 83%: her life, her people.", "Schwartz Values · VIA"],
+  ["Feels everything", "Decides fast", "Emotional awareness 19/20. She feels it all.", "DISC Dominance. She makes the call.", "<b>Both.</b> She feels it fully, then acts.", "Big Five ↔ DISC"],
+  ["Big dreams", "Deep roots", "Achievement 100%, Power 75%. She aims high.", "Security 100%, Tradition 67%. Home matters.", "<b>Both.</b> Go far, and bring home along.", "Schwartz Values"]
 ];
 document.querySelectorAll('.contra').forEach(el => {
   const [l, r, lw, rw, both, src] = CONTRAS[+el.dataset.c];

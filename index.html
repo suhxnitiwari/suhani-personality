@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Suhani Tiwari</title>
-<meta name="description" content="Tough shell, tender core. A portrait of Suhani Tiwari drawn from ten personality tests.">
+<meta name="description" content="Soft heart, strong spirit. A portrait of Suhani Tiwari drawn from eleven personality tests.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,500;1,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --shell: #2a0f1e; --shell-2: #3d1529; --shell-text: #f7e6ec; --shell-muted: #c9a3b3;
-    --core: #fbe9ee; --core-2: #f6d5df; --core-text: #3a1426; --core-muted: #86566a;
-    --rose: #e0567f; --gold: #d9a441; --card: #fff7f9; --line: #efc9d5;
+    --shell: #2a0f1e; --shell-2: #3d1529; --shell-text: #f7e6ec; --shell-muted: #f5a3bf;
+    --core: #fbe9ee; --core-2: #f6d5df; --core-text: #3a1426; --core-muted: #b8406f;
+    --rose: #e0567f; --pop: #ff4f9a; --card: #fff7f9; --line: #efc9d5;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --shell: #1a0912; --shell-2: #2a0f1e;
-      --core: #33162a; --core-2: #401c33; --core-text: #fbe4ec; --core-muted: #d9a8bb;
+      --core: #33162a; --core-2: #401c33; --core-text: #fbe4ec; --core-muted: #ff9dbb;
       --card: #401c33; --line: #5a2a45;
     }
   }
   :root[data-theme="dark"] {
     --shell: #1a0912; --shell-2: #2a0f1e;
-    --core: #33162a; --core-2: #401c33; --core-text: #fbe4ec; --core-muted: #d9a8bb;
+    --core: #33162a; --core-2: #401c33; --core-text: #fbe4ec; --core-muted: #ff9dbb;
     --card: #401c33; --line: #5a2a45;
   }
   * { box-sizing: border-box; }
@@ -31,18 +31,18 @@
   .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
   h1, h2, h3 { font-family: "Playfair Display", Georgia, serif; line-height: 1.1; margin: 0; }
   button { font: inherit; cursor: pointer; }
-  .kicker { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: var(--gold); }
-  .kicker i { font-style: normal; opacity: .6; margin-right: 10px; }
+  .kicker { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: var(--pop); }
+  .kicker i { font-style: normal; color: #ff9dbb; margin-right: 10px; }
 
   /* ---------- nav ---------- */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 20; background: rgba(26,9,18,.72); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(217,164,65,.2); transform: translateY(-100%); transition: transform .35s ease; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 20; background: rgba(42,15,30,.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,79,154,.2); transform: translateY(-100%); transition: transform .35s ease; }
   nav.show { transform: none; }
   nav .wrap { display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; height: 52px; }
   nav .wrap::-webkit-scrollbar { display: none; }
   nav a { color: var(--shell-muted); text-decoration: none; font-size: 13px; padding: 6px 12px; border-radius: 99px; white-space: nowrap; transition: .2s; }
-  nav a b { color: var(--gold); font-weight: 500; margin-right: 6px; font-size: 11px; }
-  nav a.on { background: rgba(217,164,65,.16); color: #fff; }
-  .toggle { margin-left: auto; flex: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(217,164,65,.5); background: transparent; color: var(--gold); }
+  nav a b { color: var(--pop); font-weight: 500; margin-right: 6px; font-size: 11px; }
+  nav a.on { background: rgba(255,79,154,.16); color: #fff; }
+  .toggle { margin-left: auto; flex: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,79,154,.5); background: transparent; color: var(--pop); }
 
   /* ---------- hero ---------- */
   .hero { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; text-align: center; position: relative; padding: 80px 0; isolation: isolate; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
@@ -52,14 +52,14 @@
     filter: blur(8px); z-index: -1; animation: beat 3.2s ease-in-out infinite; }
   @keyframes beat { 0%,100% { transform: scale(.94); opacity: .8; } 12% { transform: scale(1.02); opacity: 1; } 24% { transform: scale(.97); } 36% { transform: scale(1.04); opacity: 1; } }
   .hero h1 { font-size: clamp(56px, 13vw, 140px); font-weight: 800; letter-spacing: -.02em; pointer-events: none; }
-  .hero h1 span { display: block; font-style: italic; font-weight: 500; font-size: .42em; color: var(--shell-muted); letter-spacing: 0; }
+  .hero h1 span { display: block; font-style: italic; font-weight: 500; font-size: .42em; letter-spacing: 0; color: #ffe3ec; text-shadow: 0 2px 24px rgba(42,15,30,.75), 0 0 2px rgba(122,31,69,.6); padding: 0 .1em .08em; }
   .hero .tag { font-family: "Playfair Display", serif; font-size: clamp(22px, 3.4vw, 32px); margin: 20px 0 0; pointer-events: none; }
   .hero .tag b { color: #ff9dbb; font-style: italic; }
   .hint { font-size: 13px; color: var(--shell-muted); margin-top: 10px; pointer-events: none; }
   .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 32px; }
-  .chip { background: rgba(255,255,255,.06); border: 1px solid rgba(217,164,65,.5); color: var(--shell-text); padding: 8px 18px; border-radius: 99px; font-size: 14px; font-weight: 500; transition: .2s; backdrop-filter: blur(4px); }
-  .chip::after { content: " ↗"; color: var(--gold); }
-  .chip:hover, .chip:focus-visible { background: var(--gold); color: var(--shell); border-color: var(--gold); transform: translateY(-2px); outline: none; }
+  .chip { background: rgba(255,255,255,.06); border: 1px solid rgba(255,79,154,.5); color: var(--shell-text); padding: 8px 18px; border-radius: 99px; font-size: 14px; font-weight: 500; transition: .2s; backdrop-filter: blur(4px); }
+  .chip::after { content: " ↗"; color: var(--pop); }
+  .chip:hover, .chip:focus-visible { background: var(--pop); color: var(--shell); border-color: var(--pop); transform: translateY(-2px); outline: none; }
   .chip:hover::after { color: var(--shell); }
 
   /* ---------- sections ---------- */
@@ -78,32 +78,35 @@
   .track { position: relative; display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 8px 2px 24px; }
   .track::-webkit-scrollbar { display: none; }
   .slide { flex: 0 0 min(82%, 320px); scroll-snap-align: start; padding: 28px; min-height: 250px; display: flex; flex-direction: column; }
-  .shell .slide { border: 1px solid rgba(217,164,65,.32); background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,0)); }
+  .shell .slide { border: 1px solid rgba(255,79,154,.32); background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,0)); }
   .core .slide { background: var(--card); border-radius: 28px; box-shadow: 0 10px 30px -14px rgba(224,86,127,.45); }
-  .slide .n { font-family: "Playfair Display", serif; font-size: 44px; opacity: .25; line-height: 1; }
+  .slide .n { font-family: "Playfair Display", serif; font-size: 44px; line-height: 1; color: #ff9dbb; }
+  .core .slide .n { color: #f4b6c8; }
   .slide h3 { font-size: 30px; margin: 14px 0 8px; }
-  .shell .slide h3 { color: var(--gold); } .core .slide h3 { color: var(--rose); font-style: italic; }
+  .shell .slide h3 { color: var(--pop); } .core .slide h3 { color: var(--rose); font-style: italic; }
   .slide p { margin: 0; font-size: 15px; flex: 1; }
   .shell .slide p { color: var(--shell-muted); } .core .slide p { color: var(--core-muted); }
-  .slide .ev { margin-top: 18px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; opacity: .75; }
+  .slide .ev { margin-top: 18px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--rose); font-weight: 700; }
   .ctrl { display: flex; align-items: center; gap: 14px; }
   .ctrl .arrow { width: 46px; height: 46px; border-radius: 50%; font-size: 18px; transition: .2s; }
-  .shell .arrow { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
-  .shell .arrow:hover { background: var(--gold); color: var(--shell); }
+  .shell .arrow { background: transparent; border: 1px solid var(--pop); color: var(--pop); }
+  .shell .arrow:hover { background: var(--pop); color: var(--shell); }
   .core .arrow { background: var(--rose); border: 0; color: #fff; }
   .core .arrow:hover { transform: scale(1.08); }
-  .arrow:disabled { opacity: .3; pointer-events: none; }
+  .arrow:disabled { pointer-events: none; border-color: #ff9dbb !important; color: #ff9dbb !important; background: transparent !important; }
   .dots { display: flex; gap: 8px; }
-  .dots button { width: 8px; height: 8px; border-radius: 99px; border: 0; padding: 0; background: currentColor; opacity: .25; transition: .3s; }
-  .dots button.on { width: 26px; opacity: 1; }
-  .shell .dots { color: var(--gold); } .core .dots { color: var(--rose); }
+  .dots button { width: 8px; height: 8px; border-radius: 99px; border: 0; padding: 0; background: #ff9dbb; transition: .3s; }
+  .dots button.on { width: 26px; background: var(--pop); }
+  .core .dots button.on { background: var(--rose); }
+  .shell .dots { color: var(--pop); } .core .dots { color: var(--rose); }
 
   /* ---------- split ---------- */
-  .split { display: grid; grid-template-columns: 1fr 1fr; min-height: 56vh; }
-  .split > div { display: grid; place-items: center; padding: 64px 24px; text-align: center; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; }
+  .split > div { display: grid; place-items: center; padding: 30px 24px; text-align: center; }
   .split .l { background: var(--shell-2); } .split .r { background: var(--core-2); color: var(--core-text); }
-  .split h3 { font-size: clamp(30px, 5vw, 52px); }
-  .split p { margin: 12px auto 0; font-size: 15px; opacity: .8; max-width: 320px; }
+  .split h3 { font-size: clamp(24px, 3.4vw, 34px); }
+  .split p { margin: 6px auto 0; font-size: 15px; max-width: 320px; }
+  .split .l p { color: #ff9dbb; } .split .r p { color: var(--core-muted); }
   @media (max-width: 640px) { .split { grid-template-columns: 1fr; } }
 
   /* ---------- circle ---------- */
@@ -113,24 +116,30 @@
   .circle text { font-family: "DM Sans", sans-serif; pointer-events: none; }
   .ringbtn { cursor: pointer; transition: opacity .25s, transform .25s; transform-origin: 200px 200px; }
   .ringbtn:hover, .ringbtn.on { transform: scale(1.03); }
+  .circle svg, .ringbtn { outline: none; }
+  .ringbtn.on circle { stroke: var(--rose); stroke-width: 3; stroke-opacity: 1; }
+  .ringbtn:focus-visible circle { stroke: #ff4f9a; stroke-width: 4; }
+  .swap { animation: swap .45s ease; }
+  @keyframes swap { from { opacity: 0; transform: translateY(8px); } }
+  .tap-hint { display: inline-block; margin-top: 14px; font-size: 13px; color: var(--rose); font-weight: 700; }
   .ring-info { min-height: 150px; background: var(--card); border-radius: 22px; padding: 22px 24px; margin-top: 20px; border: 1px solid var(--line); }
   .ring-info b { font-family: "Playfair Display", serif; font-size: 24px; color: var(--rose); display: block; }
   .ring-info span { color: var(--core-muted); font-size: 15px; }
 
   /* ---------- values ---------- */
   .values { list-style: none; padding: 0; margin: 48px 0 0; counter-reset: v; }
-  .values li { counter-increment: v; border-bottom: 1px solid rgba(217,164,65,.2); }
+  .values li { counter-increment: v; border-bottom: 1px solid rgba(255,79,154,.2); }
   .values button { width: 100%; background: none; border: 0; color: inherit; text-align: left; display: grid; grid-template-columns: 64px 1fr auto 28px; align-items: baseline; gap: 16px; padding: 18px 0; }
-  .values button::before { content: counter(v, decimal-leading-zero); font-family: "Playfair Display", serif; font-size: 28px; color: var(--gold); }
-  .values button::after { content: "+"; color: var(--gold); font-size: 22px; transition: transform .3s; }
+  .values button::before { content: counter(v, decimal-leading-zero); font-family: "Playfair Display", serif; font-size: 28px; color: var(--pop); }
+  .values button::after { content: "+"; color: var(--pop); font-size: 22px; transition: transform .3s; }
   .values li.open button::after { transform: rotate(45deg); }
   .values b { font-family: "Playfair Display", serif; font-size: clamp(20px, 3vw, 28px); font-weight: 600; }
   .values em { font-style: normal; color: var(--shell-muted); font-size: 14px; }
   .values .more { max-height: 0; overflow: hidden; transition: max-height .4s ease; color: var(--shell-muted); padding-left: 80px; }
   .values li.open .more { max-height: 160px; }
   .values .more p { margin: 0 0 20px; }
-  .bar { height: 4px; background: rgba(217,164,65,.15); border-radius: 9px; margin-bottom: 12px; max-width: 360px; }
-  .bar i { display: block; height: 100%; background: var(--gold); border-radius: 9px; width: 0; transition: width 1s ease .1s; }
+  .bar { height: 4px; background: rgba(255,79,154,.15); border-radius: 9px; margin-bottom: 12px; max-width: 360px; }
+  .bar i { display: block; height: 100%; background: var(--pop); border-radius: 9px; width: 0; transition: width 1s ease .1s; }
   .values li.open .bar i { width: var(--w); }
   @media (max-width: 560px) { .values button { grid-template-columns: 40px 1fr 20px; } .values em { display: none; } .values .more { padding-left: 56px; } }
 
@@ -141,20 +150,20 @@
   .flip.on .in { transform: rotateY(180deg); }
   .flip .f, .flip .b { position: absolute; inset: 0; border-radius: 20px; display: grid; place-items: center; backface-visibility: hidden; padding: 12px; }
   .flip .f { background: var(--card); border: 1px dashed var(--rose); color: var(--core-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; }
-  .flip .f::after { content: "tap to reveal"; position: absolute; bottom: 14px; font-size: 10px; opacity: .6; letter-spacing: .08em; font-weight: 400; }
+  .flip .f::after { content: "tap to reveal"; position: absolute; bottom: 14px; font-size: 10px; color: var(--rose); letter-spacing: .08em; font-weight: 400; }
   .flip .b { background: var(--rose); color: #fff; transform: rotateY(180deg); font-family: "Playfair Display", serif; font-size: 26px; font-style: italic; }
-  .flip:nth-child(3n+2) .b { background: var(--shell); color: var(--gold); }
-  .flip:nth-child(3n) .b { background: var(--gold); color: var(--shell); }
+  .flip:nth-child(3n+2) .b { background: var(--shell); color: var(--pop); }
+  .flip:nth-child(3n) .b { background: var(--pop); color: var(--shell); }
   .flip:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; border-radius: 20px; }
   .reveal-all { margin-top: 24px; background: none; border: 1px solid var(--rose); color: var(--rose); padding: 8px 20px; border-radius: 99px; font-size: 14px; }
 
   /* ---------- badges ---------- */
   .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 48px; }
-  .cols h3 { font-size: 22px; color: var(--gold); }
+  .cols h3 { font-size: 22px; color: var(--pop); }
   .badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-  .badge { padding: 7px 14px; border: 1px solid rgba(217,164,65,.45); background: transparent; color: var(--shell-text); border-radius: 3px; font-size: 14px; transition: .2s; }
-  .badge:hover, .badge:focus-visible { background: var(--gold); color: var(--shell); outline: none; }
-  .badge:first-child { background: rgba(217,164,65,.18); }
+  .badge { padding: 7px 14px; border: 1px solid rgba(255,79,154,.45); background: transparent; color: var(--shell-text); border-radius: 3px; font-size: 14px; transition: .2s; }
+  .badge:hover, .badge:focus-visible { background: var(--pop); color: var(--shell); outline: none; }
+  .badge:first-child { background: rgba(255,79,154,.18); }
 
   /* ---------- palette ---------- */
   .palette { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 40px; border-radius: 24px; overflow: hidden; }
@@ -178,7 +187,7 @@
   .m-body p { margin: 0 0 14px; }
   .m-body .you { background: var(--card); border-left: 3px solid var(--rose); padding: 12px 16px; border-radius: 0 12px 12px 0; font-size: 15px; }
   .m-body .you b { color: var(--rose); }
-  .x { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(217,164,65,.5); background: transparent; color: var(--gold); font-size: 18px; }
+  .x { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,79,154,.5); background: transparent; color: var(--pop); font-size: 18px; }
 
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
   .reveal.in { opacity: 1; transform: none; }
@@ -186,70 +195,177 @@
 
   /* ---------- under the hood ---------- */
   .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
-  .big-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(217,164,65,.25); border: 1px solid rgba(217,164,65,.25); margin-top: 40px; }
+  .big-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,79,154,.25); border: 1px solid rgba(255,79,154,.25); margin-top: 40px; }
   .big-stats div { background: var(--shell-2); padding: 22px 18px; }
-  .big-stats b { display: block; font-family: "Playfair Display", serif; font-size: clamp(32px, 5vw, 48px); color: var(--gold); line-height: 1; }
+  .big-stats b { display: block; font-family: "Playfair Display", serif; font-size: clamp(32px, 5vw, 48px); color: var(--pop); line-height: 1; }
   .big-stats span { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--shell-muted); }
   @media (max-width: 640px) { .big-stats { grid-template-columns: 1fr 1fr; } }
-  .term { margin-top: 28px; background: #12060c; border: 1px solid rgba(217,164,65,.25); border-radius: 12px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(0,0,0,.7); }
-  .term-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(255,255,255,.04); border-bottom: 1px solid rgba(217,164,65,.15); font-size: 12px; color: var(--shell-muted); }
+  .term { margin-top: 28px; background: #12060c; border: 1px solid rgba(255,79,154,.25); border-radius: 12px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(0,0,0,.7); }
+  .term-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(255,255,255,.04); border-bottom: 1px solid rgba(255,79,154,.15); font-size: 12px; color: var(--shell-muted); }
   .term-bar i { width: 11px; height: 11px; border-radius: 50%; background: #e0567f; }
-  .term-bar i:nth-child(2) { background: #d9a441; } .term-bar i:nth-child(3) { background: #7a4a60; }
+  .term-bar i:nth-child(2) { background: #ff4f9a; } .term-bar i:nth-child(3) { background: #ff9dbb; }
   .term-bar .t { margin-left: 8px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .term-bar button { background: none; border: 1px solid rgba(217,164,65,.4); color: var(--gold); font-size: 11px; padding: 3px 10px; border-radius: 99px; }
-  .term-bar button.on { background: var(--gold); color: #12060c; }
-  .monitor { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: rgba(217,164,65,.1); }
+  .term-bar button { background: none; border: 1px solid rgba(255,79,154,.4); color: var(--pop); font-size: 11px; padding: 3px 10px; border-radius: 99px; }
+  .term-bar button.on { background: var(--pop); color: #12060c; }
+  .monitor { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: rgba(255,79,154,.1); }
   .monitor div { background: #12060c; padding: 14px 16px; }
-  .monitor small { display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #9c7a89; }
+  .monitor small { display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #f08fb0; }
   .monitor b { font-size: 20px; color: #f7e6ec; font-weight: 500; font-variant-numeric: tabular-nums; }
-  .monitor b em { font-style: normal; color: #9c7a89; font-size: 12px; margin-left: 3px; }
+  .monitor b em { font-style: normal; color: #f08fb0; font-size: 12px; margin-left: 3px; }
   .monitor .fps { grid-column: span 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
   .monitor canvas { width: 140px; height: 36px; }
   .live::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #5ee0a0; margin-right: 6px; animation: pulse2 1.6s infinite; }
   @keyframes pulse2 { 50% { opacity: .3; } }
-  .explorer { display: grid; grid-template-columns: 230px 1fr; margin-top: 28px; border: 1px solid rgba(217,164,65,.25); border-radius: 12px; overflow: hidden; background: #12060c; }
+  .explorer { display: grid; grid-template-columns: 230px 1fr; margin-top: 28px; border: 1px solid rgba(255,79,154,.25); border-radius: 12px; overflow: hidden; background: #12060c; }
   @media (max-width: 760px) { .explorer { grid-template-columns: 1fr; } }
-  .files { border-right: 1px solid rgba(217,164,65,.15); padding: 10px 0; }
-  @media (max-width: 760px) { .files { display: flex; overflow-x: auto; border-right: 0; border-bottom: 1px solid rgba(217,164,65,.15); padding: 0; } }
-  .files button { display: block; width: 100%; text-align: left; background: none; border: 0; border-left: 2px solid transparent; color: #c9a3b3; padding: 9px 16px; font-size: 13px; white-space: nowrap; }
+  .files { border-right: 1px solid rgba(255,79,154,.15); padding: 10px 0; }
+  @media (max-width: 760px) { .files { display: flex; overflow-x: auto; border-right: 0; border-bottom: 1px solid rgba(255,79,154,.15); padding: 0; } }
+  .files button { display: block; width: 100%; text-align: left; background: none; border: 0; border-left: 2px solid transparent; color: #f5a3bf; padding: 9px 16px; font-size: 13px; white-space: nowrap; }
   .files button:hover { color: #fff; background: rgba(255,255,255,.03); }
-  .files button.on { color: var(--gold); border-left-color: var(--gold); background: rgba(217,164,65,.08); }
-  @media (max-width: 760px) { .files button { border-left: 0; border-bottom: 2px solid transparent; } .files button.on { border-bottom-color: var(--gold); } }
+  .files button.on { color: var(--pop); border-left-color: var(--pop); background: rgba(255,79,154,.08); }
+  @media (max-width: 760px) { .files button { border-left: 0; border-bottom: 2px solid transparent; } .files button.on { border-bottom-color: var(--pop); } }
   .pane { min-width: 0; }
-  .pane-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(217,164,65,.12); }
+  .pane-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,79,154,.12); }
   .pane-head h3 { font-size: 26px; color: #f7e6ec; }
-  .pane-head p { margin: 8px 0 12px; color: #c9a3b3; font-size: 15px; max-width: 640px; }
+  .pane-head p { margin: 8px 0 12px; color: #f5a3bf; font-size: 15px; max-width: 640px; }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; }
   .tags span { font-size: 11px; padding: 3px 9px; border-radius: 4px; background: rgba(224,86,127,.14); color: #ffb3c9; }
-  .code-meta { display: flex; justify-content: space-between; align-items: center; padding: 8px 16px; font-size: 11px; color: #9c7a89; border-bottom: 1px solid rgba(217,164,65,.08); }
-  .code-meta button { background: none; border: 1px solid rgba(217,164,65,.35); color: var(--gold); padding: 3px 10px; border-radius: 4px; font-size: 11px; }
+  .code-meta { display: flex; justify-content: space-between; align-items: center; padding: 8px 16px; font-size: 11px; color: #f08fb0; border-bottom: 1px solid rgba(255,79,154,.08); }
+  .code-meta button { background: none; border: 1px solid rgba(255,79,154,.35); color: var(--pop); padding: 3px 10px; border-radius: 4px; font-size: 11px; }
   .code { display: flex; max-height: 420px; overflow: auto; font-size: 12.5px; line-height: 1.6; }
-  .code .gut { padding: 14px 10px 14px 16px; text-align: right; color: #5a3a4a; user-select: none; white-space: pre; position: sticky; left: 0; background: #12060c; }
+  .code .gut { padding: 14px 10px 14px 16px; text-align: right; color: #b8406f; user-select: none; white-space: pre; position: sticky; left: 0; background: #12060c; }
   .code pre { margin: 0; padding: 14px 16px 14px 6px; color: #f3d9e3; white-space: pre; tab-size: 2; }
-  .code .k { color: #ff8fb1; } .code .s { color: #e8c07a; } .code .n { color: #9fd8ff; } .code .c { color: #8a6878; font-style: italic; } .code .f { color: #c7a7ff; }
+  .code .k { color: #ff8fb1; } .code .s { color: #ffb3d1; } .code .n { color: #9fd8ff; } .code .c { color: #d97a9e; font-style: italic; } .code .f { color: #c7a7ff; }
   .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
-  .stack span { font-size: 12px; padding: 6px 12px; border: 1px solid rgba(217,164,65,.3); color: var(--shell-muted); border-radius: 2px; }
-  .stack span b { color: var(--gold); font-weight: 500; }
+  .stack span { font-size: 12px; padding: 6px 12px; border: 1px solid rgba(255,79,154,.3); color: var(--shell-muted); border-radius: 2px; }
+  .stack span b { color: var(--pop); font-weight: 500; }
   html.xray body * { outline: 1px solid rgba(94,224,160,.35); }
   html.xray body *:hover { outline: 1px solid #5ee0a0; background-color: rgba(94,224,160,.06); }
   #xlabel { position: fixed; z-index: 50; pointer-events: none; font: 11px ui-monospace, Menlo, monospace; background: #0b1f16; color: #5ee0a0; border: 1px solid #5ee0a0; padding: 3px 8px; border-radius: 4px; display: none; white-space: nowrap; }
   html.xray #xlabel { display: block; }
   #xexit { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 50; display: none; background: #5ee0a0; color: #0b1f16; border: 0; padding: 10px 20px; border-radius: 99px; font: 600 13px ui-monospace, Menlo, monospace; }
   html.xray #xexit { display: block; }
+
+  /* ---------- hero rotating line ---------- */
+  .rot { display: inline-block; margin-top: 14px; background: none; border: 0; color: #ff9dbb; font: italic 500 clamp(16px, 2.2vw, 20px) "Playfair Display", serif; padding: 4px 10px; cursor: pointer; }
+  .rot::after { content: " ↻"; font-style: normal; font-size: .8em; opacity: .9; }
+  .hero .tag { pointer-events: none; }
+
+  /* ---------- love languages ---------- */
+  .love { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  @media (max-width: 760px) { .love { grid-template-columns: 1fr; } }
+  .gift { position: relative; width: 220px; height: 220px; background: none; border: 0; padding: 0; display: block; margin: 10px auto 0; }
+  .gift .box { position: absolute; left: 20px; right: 20px; bottom: 0; height: 130px; background: var(--rose); border-radius: 10px; overflow: hidden; display: grid; place-items: center; box-shadow: 0 20px 40px -18px rgba(224,86,127,.8); }
+  .gift .box::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 26px; transform: translateX(-50%); background: #ff4f9a; transition: opacity .3s; }
+  .gift .lid { position: absolute; left: 8px; right: 8px; top: 62px; height: 36px; background: #ff4f9a; border-radius: 8px; transition: transform .6s cubic-bezier(.3,1.6,.5,1); z-index: 2; }
+  .gift .lid::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 26px; transform: translateX(-50%); background: var(--rose); }
+  .gift .bow { position: absolute; left: 50%; top: 22px; width: 90px; height: 44px; transform: translateX(-50%); z-index: 3; transition: transform .6s cubic-bezier(.3,1.6,.5,1); }
+  .gift .bow i { position: absolute; top: 0; width: 44px; height: 40px; border: 10px solid #ff4f9a; border-radius: 50% 50% 10% 50%; }
+  .gift .bow i:first-child { left: 0; transform: rotate(-20deg); } .gift .bow i:last-child { right: 0; transform: scaleX(-1) rotate(-20deg); }
+  .gift .inside { color: #fff; font: 700 17px "DM Sans", sans-serif; text-align: center; opacity: 0; transform: scale(.6); transition: .5s .25s; position: relative; z-index: 1; }
+  .gift .inside b { font: 800 44px "Playfair Display", serif; }
+  .gift:not(.open) { animation: wiggle 2.4s ease-in-out infinite; }
+  @keyframes wiggle { 0%,80%,100% { transform: rotate(0); } 85% { transform: rotate(-4deg); } 90% { transform: rotate(4deg); } 95% { transform: rotate(-2deg); } }
+  .gift.open .lid { transform: translate(70px, -30px) rotate(38deg); }
+  .gift.open .bow { transform: translate(-120%, -20px) rotate(-30deg); }
+  .gift.open .box::before { opacity: 0; }
+  .gift.open .inside { opacity: 1; transform: none; }
+  .heart { position: fixed; pointer-events: none; z-index: 60; font-size: 20px; animation: burst 1.2s ease-out forwards; }
+  @keyframes burst { to { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; } }
+  .langs { display: grid; gap: 10px; }
+  .langs button { position: relative; display: flex; justify-content: space-between; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 18px; color: var(--core-text); overflow: hidden; text-align: left; transition: transform .2s; }
+  .langs button:hover { transform: translateX(4px); }
+  .langs button span, .langs button b { position: relative; z-index: 1; }
+  .langs button b { font-family: "Playfair Display", serif; font-size: 20px; color: var(--rose); }
+  .langs button i { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: linear-gradient(90deg, rgba(255,79,154,.28), rgba(224,86,127,.12)); transition: width 1s cubic-bezier(.2,.8,.2,1); }
+  .langs.go button i { width: var(--w); }
+  .langs button.on { border-color: var(--rose); box-shadow: 0 0 0 2px var(--rose); }
+  .lang-tip { margin-top: 16px; background: var(--rose); color: #fff; border-radius: 20px; padding: 18px 22px; min-height: 96px; }
+  .lang-tip b { display: block; font: 700 22px "Playfair Display", serif; }
+  .lang-tip span { font-size: 15px; }
+
+  /* ---------- photo stack ---------- */
+  .photo-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center; }
+  @media (max-width: 760px) { .photo-wrap { grid-template-columns: 1fr; } }
+  .photo-stack { position: relative; height: 400px; }
+  .polaroid { position: absolute; left: 50%; top: 50%; width: 250px; background: #fff; border: 0; padding: 12px 12px 0; box-shadow: 0 18px 40px -16px rgba(0,0,0,.6); transition: transform .5s cubic-bezier(.3,1.2,.5,1), opacity .4s; cursor: pointer; }
+  .polaroid .ph, .polaroid img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .polaroid .ph { display: grid; place-items: center; align-content: center; gap: 6px; font-size: 42px; color: #fff; }
+  .polaroid .ph small { font: 600 12px "DM Sans", sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+  .polaroid > span { display: block; padding: 12px 4px 16px; font: italic 600 19px "Playfair Display", serif; color: #3a1426; text-align: center; }
+  .polaroid.fly { opacity: 0; }
+
+  /* ---------- contradictions ---------- */
+  .contras { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 40px; }
+  .contra { --t: .5; border-radius: 22px; padding: 22px; color: #fff; background: color-mix(in srgb, #ff4f9a calc(var(--t) * 100%), #4a1530); transition: background .15s; }
+  .contra .ends { display: flex; justify-content: space-between; gap: 12px; font: 700 20px "Playfair Display", serif; }
+  .contra .ends span:last-child { font-style: italic; text-align: right; }
+  .contra .ends span { transition: opacity .2s; }
+  .contra input { -webkit-appearance: none; appearance: none; width: 100%; margin: 18px 0 14px; height: 8px; border-radius: 99px; background: linear-gradient(90deg, #7a1f45, #ffc2d4); cursor: grab; outline: none; }
+  .contra input::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 3px solid #ff4f9a; box-shadow: 0 2px 10px rgba(0,0,0,.3); }
+  .contra input::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 3px solid #ff4f9a; }
+  .contra input:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(255,255,255,.5); }
+  .contra .why { font-size: 15px; min-height: 72px; color: #ffe3ec; }
+  .contra .why b { color: #fff; }
+  .contra .src { display: block; margin-top: 10px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #ffc2d4; }
+
+  /* ---------- fonts ---------- */
+  .fonts { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 16px; }
+  .font-card { border: 1px solid rgba(255,79,154,.35); border-radius: 22px; padding: 24px; }
+  .font-card .spec { font-size: 64px; line-height: 1; color: #ff9dbb; }
+  .font-card h3 { font-size: 22px; margin: 12px 0 8px; }
+  .font-card p { margin: 0; font-size: 15px; color: var(--shell-muted); }
+  .font-card p b { color: #fff; }
+  .font-card .ev { display: block; margin-top: 14px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--rose); font-weight: 700; }
+  .tester { margin-top: 16px; border-radius: 22px; padding: 24px; background: rgba(255,79,154,.1); }
+  .tester input { width: 100%; margin: 10px 0 16px; background: transparent; border: 0; border-bottom: 2px solid #ff4f9a; color: #fff; font: 500 18px "DM Sans", sans-serif; padding: 8px 2px; outline: none; }
+  .t-out { font-size: clamp(28px, 5vw, 48px); line-height: 1.2; color: #fff; overflow-wrap: anywhere; }
+  .t-out:nth-child(4) { color: #ff9dbb; }
+
+  /* ---------- mood meter ---------- */
+  .meter { position: sticky; top: 64px; z-index: 5; display: flex; align-items: center; gap: 18px; margin-top: 36px; padding: 18px 20px; border-radius: 22px; background: #4a1530; box-shadow: 0 16px 40px -20px rgba(0,0,0,.7); }
+  .face { font-size: 52px; line-height: 1; transition: transform .3s cubic-bezier(.3,1.8,.5,1); }
+  .face.pop { transform: scale(1.3) rotate(-8deg); }
+  .m-main { flex: 1; min-width: 0; }
+  .mm-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+  .mm-top b { font: 700 20px "Playfair Display", serif; color: #fff; }
+  .mm-top span { color: #ff9dbb; font-size: 14px; }
+  .m-bar { height: 12px; border-radius: 99px; background: rgba(255,255,255,.12); margin: 10px 0; overflow: hidden; }
+  .m-bar i { display: block; height: 100%; width: 50%; border-radius: 99px; background: linear-gradient(90deg, #7a1f45, #e0567f, #ff4f9a); transition: width .6s cubic-bezier(.2,.9,.3,1.2); }
+  .m-why { margin: 0; font-size: 14px; color: #ffc2d4; min-height: 42px; }
+  .m-reset { align-self: flex-start; background: none; border: 1px solid #ff9dbb; color: #ff9dbb; border-radius: 99px; padding: 4px 12px; font-size: 12px; }
+  .meter.shake { animation: shake .45s; }
+  @keyframes shake { 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
+  @media (max-width: 560px) { .meter { flex-wrap: wrap; } .face { font-size: 40px; } }
+  .moods { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 28px; }
+  @media (max-width: 760px) { .moods { grid-template-columns: 1fr; } }
+  .moods h3 { font-size: 24px; margin-bottom: 14px; }
+  .mlist { display: grid; gap: 10px; }
+  .mlist button { display: flex; gap: 12px; align-items: center; text-align: left; border-radius: 16px; padding: 14px 16px; font-size: 15px; transition: transform .15s, background .2s; }
+  .mlist button span { font-size: 22px; }
+  #annoy button { background: rgba(0,0,0,.2); border: 1px solid rgba(255,79,154,.35); color: #ffe3ec; }
+  #annoy button:hover { transform: translateX(4px); background: rgba(122,31,69,.6); }
+  #delight button { background: #ffe3ec; border: 0; color: #3a1426; }
+  #delight button:hover { transform: translateX(4px); background: #fff; }
+  .mlist button.hit { animation: shake .4s; }
 </style>
 </head>
 <body>
 
 <nav id="nav"><div class="wrap">
-  <a href="#shell"><b>01</b>Shell</a>
-  <a href="#core"><b>02</b>Core</a>
-  <a href="#circle"><b>03</b>Circle</a>
-  <a href="#values"><b>04</b>Values</a>
-  <a href="#words"><b>05</b>Words</a>
-  <a href="#strengths"><b>06</b>Strengths</a>
-  <a href="#careers"><b>07</b>Future</a>
-  <a href="#palette"><b>08</b>Palette</a>
-  <a href="#code"><b>09</b>&lt;/&gt; Code</a>
+  <a href="#shell"><b>01</b>Spirit</a>
+  <a href="#core"><b>02</b>Heart</a>
+  <a href="#both"><b>03</b>Both/And</a>
+  <a href="#circle"><b>04</b>Circle</a>
+  <a href="#gifts"><b>05</b>Gifts</a>
+  <a href="#mood"><b>06</b>Mood</a>
+  <a href="#values"><b>07</b>Values</a>
+  <a href="#words"><b>08</b>Words</a>
+  <a href="#photos"><b>09</b>Photos</a>
+  <a href="#strengths"><b>10</b>Strengths</a>
+  <a href="#careers"><b>11</b>Creates</a>
+  <a href="#palette"><b>12</b>Style</a>
+  <a href="#code"><b>13</b>&lt;/&gt; Code</a>
   <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
 </div></nav>
 
@@ -257,9 +373,10 @@
   <canvas id="paint" aria-hidden="true"></canvas>
   <div class="orb"></div>
   <div class="wrap">
-    <div class="kicker">A portrait in ten personality tests</div>
+    <div class="kicker">Host · Leader · Artist</div>
     <h1>Suhani <span>Tiwari</span></h1>
-    <p class="tag">Tough shell. <b>Tender core.</b></p>
+    <p class="tag">Soft heart. <b>Strong spirit.</b></p>
+    <button class="rot" id="heroLine" aria-live="polite">The warm heart of every room.</button>
     <p class="hint">Drag across the page to paint in her colors.</p>
     <div class="chips">
       <button class="chip" data-info="esfj">ESFJ-T · Consul</button>
@@ -275,8 +392,8 @@
   <div class="wrap">
     <div class="head">
       <div class="intro reveal">
-        <div class="kicker"><i>01</i>The shell</div>
-        <h2>What the world sees first</h2>
+        <div class="kicker"><i>01</i>Strong spirit</div>
+        <h2>Born to lead. <em>Built to protect.</em></h2>
         <p>Outspoken, driven, and quick to stand up. When something is unfair or someone she loves is threatened, the protector comes out.</p>
       </div>
     </div>
@@ -294,17 +411,12 @@
   </div>
 </section>
 
-<div class="split">
-  <div class="l reveal"><div><h3>Soft heart,</h3><p>Warm, generous, and kind to her core.</p></div></div>
-  <div class="r reveal"><div><h3><em>strong spirit.</em></h3><p>She stands firm for what's right. Both come from how deeply she cares.</p></div></div>
-</div>
-
 <section class="core" id="core">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>02</i>The core</div>
+      <div class="kicker"><i>02</i>Soft heart</div>
       <h2>What her people know</h2>
-      <p>Underneath is someone who remembers what makes each person special and loves wholeheartedly.</p>
+      <p>Behind the boss energy is someone who remembers what makes each person special and loves wholeheartedly.</p>
     </div>
     <div class="carousel reveal">
       <div class="track">
@@ -320,6 +432,24 @@
   </div>
 </section>
 
+<section class="shell alt" id="both">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>03</i>Contradictions</div>
+      <h2>Not either/or. <em>Both/and.</em></h2>
+      <p>Her results pull in opposite directions, and that's the whole magic. Drag each slider to see both sides.</p>
+    </div>
+    <div class="contras">
+      <div class="contra reveal" data-c="0"></div>
+      <div class="contra reveal" data-c="1"></div>
+      <div class="contra reveal" data-c="2"></div>
+      <div class="contra reveal" data-c="3"></div>
+      <div class="contra reveal" data-c="4"></div>
+      <div class="contra reveal" data-c="5"></div>
+    </div>
+  </div>
+</section>
+
 <section class="core alt" id="circle">
   <div class="wrap circle-wrap">
     <div class="circle reveal">
@@ -327,17 +457,65 @@
         <g class="ringbtn" data-ring="2" tabindex="0" role="button" aria-label="Everyone else"><circle cx="200" cy="200" r="190" fill="transparent" stroke="var(--rose)" stroke-opacity=".5" stroke-dasharray="4 6"/></g>
         <g class="ringbtn" data-ring="1" tabindex="0" role="button" aria-label="Friends"><circle cx="200" cy="200" r="130" fill="var(--card)" stroke="var(--line)"/></g>
         <g class="ringbtn on" data-ring="0" tabindex="0" role="button" aria-label="Good friends"><circle cx="200" cy="200" r="66" fill="var(--rose)"/></g>
-        <text x="200" y="196" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">good</text>
-        <text x="200" y="215" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">friends</text>
-        <text x="200" y="100" text-anchor="middle" fill="var(--core-muted)" font-size="14">friends</text>
-        <text x="200" y="36" text-anchor="middle" fill="var(--core-muted)" font-size="13">everyone else</text>
+        <text id="lab0" x="200" y="206" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">day ones</text>
+        <text id="lab1" x="200" y="100" text-anchor="middle" fill="var(--rose)" font-size="15" font-weight="700">the squad</text>
+        <text id="lab2" x="200" y="36" text-anchor="middle" fill="var(--rose)" font-size="14" font-weight="700">the whole world</text>
       </svg>
     </div>
     <div class="reveal">
-      <div class="kicker"><i>03</i>Her inner circle</div>
-      <h2 style="font-size:clamp(32px,5vw,48px);margin:10px 0 8px">Small circle. <em>Deep roots.</em></h2>
-      <p style="color:var(--core-muted);margin:0">Tap a ring to see where you stand.</p>
+      <div class="kicker"><i>04</i><span id="cKicker">Her inner circle</span></div>
+      <h2 id="cTitle" style="font-size:clamp(32px,5vw,48px);margin:10px 0 8px">Small circle. <em>Deep roots.</em></h2>
+      <p id="cSub" style="color:var(--core-muted);margin:0">The ones who get the real Suhani.</p>
       <div class="ring-info" id="ringInfo" aria-live="polite"></div>
+      <span class="tap-hint" id="cHint">Tap the circles, and keep tapping ✨</span>
+    </div>
+  </div>
+</section>
+
+<section class="core" id="gifts">
+  <div class="wrap love">
+    <div class="reveal">
+      <div class="kicker"><i>05</i>Her love language</div>
+      <h2 style="font-size:clamp(34px,5.5vw,56px);margin:10px 0 12px">Speak her <em>language.</em></h2>
+      <p style="color:var(--core-muted);margin:0 0 26px">Tap the gift. Then tap any language to learn how to speak it to her.</p>
+      <button class="gift" id="gift" aria-label="Unwrap the gift">
+        <span class="bow"><i></i><i></i></span>
+        <span class="lid"></span>
+        <span class="box"><span class="inside">🎁 Receiving Gifts<br><b>27%</b></span></span>
+      </button>
+    </div>
+    <div class="reveal">
+      <div class="langs" id="langs">
+        <button data-l="0"><span>Receiving Gifts</span><b>27%</b><i style="--w:100%"></i></button>
+        <button data-l="1"><span>Words of Affirmation</span><b>23%</b><i style="--w:85%"></i></button>
+        <button data-l="2"><span>Quality Time</span><b>23%</b><i style="--w:85%"></i></button>
+        <button data-l="3"><span>Acts of Service</span><b>20%</b><i style="--w:74%"></i></button>
+        <button data-l="4"><span>Physical Touch</span><b>7%</b><i style="--w:26%"></i></button>
+      </div>
+      <div class="lang-tip" id="langTip" aria-live="polite"><b>Unwrap the gift first ✨</b><span>Her #1 love language is hiding inside.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="shell alt" id="mood">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>06</i>Handle with care</div>
+      <h2>The Suhani <em>mood meter.</em></h2>
+      <p>Tap anything below and watch her mood react. Every reaction is backed by her actual results.</p>
+    </div>
+    <div class="meter reveal" aria-live="polite">
+      <div class="face" id="moodFace">🙂</div>
+      <div class="m-main">
+        <div class="mm-top"><b id="moodLabel">Neutral. For now.</b><span class="mono" id="moodPct">50%</span></div>
+        <div class="m-bar"><i id="moodBar"></i></div>
+        <p class="m-why" id="moodWhy">Pick a side…</p>
+      </div>
+      <button class="m-reset" id="moodReset">Reset</button>
+    </div>
+    <div class="moods">
+      <div class="reveal"><h3>😤 How to annoy her</h3><div class="mlist" id="annoy"></div></div>
+      <div class="reveal"><h3>💗 How to make her day</h3><div class="mlist" id="delight"></div></div>
     </div>
   </div>
 </section>
@@ -345,7 +523,7 @@
 <section class="shell" id="values">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>04</i>What she lives by</div>
+      <div class="kicker"><i>07</i>What she lives by</div>
       <h2>Values, in order</h2>
       <p>Tap any value to open it.</p>
     </div>
@@ -364,7 +542,7 @@
 <section class="core" id="words">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>05</i>If you had to describe her</div>
+      <div class="kicker"><i>08</i>If you had to describe her</div>
       <h2>In one word each</h2>
       <p>Guess first, then tap to flip.</p>
     </div>
@@ -386,10 +564,22 @@
   </div>
 </section>
 
+<section class="shell" id="photos">
+  <div class="wrap photo-wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>09</i>Snapshots</div>
+      <h2>Life in <em>frames.</em></h2>
+      <p>Tap the stack to shuffle through the polaroids.</p>
+      <p class="mono" id="photoCount" style="margin-top:14px;color:#ff9dbb;font-size:13px"></p>
+    </div>
+    <div class="photo-stack reveal" id="photoStack"></div>
+  </div>
+</section>
+
 <section class="shell alt" id="strengths">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>06</i>Signature strengths</div>
+      <div class="kicker"><i>10</i>Signature strengths</div>
       <h2>A <em>creative traditionalist</em> who leads through people</h2>
       <p>Tap any strength to see what it means for her.</p>
     </div>
@@ -410,17 +600,20 @@
 <section class="core" id="careers">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>07</i>Where she'll thrive</div>
-      <h2>People + creativity + leadership + meaning</h2>
+      <div class="kicker"><i>11</i>Creates everything</div>
+      <h2>Where she'll <em>thrive</em></h2>
+      <p>Her career test named her <b>The Creator</b>: Creative &amp; Expressive at 91.7%, her peak by far. Dream settings: design studios, ad agencies, and startups with creative freedom.</p>
     </div>
     <div class="carousel reveal">
       <div class="track">
-        <article class="slide"><span class="n">01</span><h3>Brand &amp; creative direction</h3><p>Creativity at 91.7% plus communication, with wins people can see.</p><span class="ev">Creative · Communication</span></article>
-        <article class="slide"><span class="n">02</span><h3>Product &amp; UX design</h3><p>User empathy, creativity, and leading a team toward something beautiful.</p><span class="ev">Empathy · Creativity · Leadership</span></article>
-        <article class="slide"><span class="n">03</span><h3>Counseling &amp; psychology</h3><p>Empathy, individualization, and a clear fascination with people.</p><span class="ev">Empathy · Developer</span></article>
-        <article class="slide"><span class="n">04</span><h3>People &amp; talent</h3><p>Putting each person where they'll shine.</p><span class="ev">Individualization</span></article>
-        <article class="slide"><span class="n">05</span><h3>Advocacy &amp; law</h3><p>Fairness and bravery, used to speak up for others.</p><span class="ev">Fairness · Bravery</span></article>
-        <article class="slide"><span class="n">06</span><h3>Founder</h3><p>A natural self-starter who could build her own creative, people-centered thing.</p><span class="ev">DISC D · 8w7</span></article>
+        <article class="slide"><span class="n">01</span><h3>UX/UI Designer</h3><p>Her #1 match. Empathy for people plus an eye for beautiful things.</p><span class="ev">Top match · Creative 91.7%</span></article>
+        <article class="slide"><span class="n">02</span><h3>Art Director</h3><p>Visual expression, big ideas, and a team to lead.</p><span class="ev">Top match · Leadership</span></article>
+        <article class="slide"><span class="n">03</span><h3>Creative Director</h3><p>Vision, taste, and leadership, all in one role.</p><span class="ev">Creator · DISC D</span></article>
+        <article class="slide"><span class="n">04</span><h3>Brand Strategist</h3><p>She knows what makes people tick, and how to make them feel something.</p><span class="ev">Communication · Empathy</span></article>
+        <article class="slide"><span class="n">05</span><h3>Product Designer</h3><p>Building things people genuinely love to use.</p><span class="ev">Creator · People &amp; Helping</span></article>
+        <article class="slide"><span class="n">06</span><h3>Writer &amp; Film Director</h3><p>Stories that make people laugh, cry, and call their mom.</p><span class="ev">Visual + verbal expression</span></article>
+        <article class="slide"><span class="n">07</span><h3>Photographer</h3><p>Seeing beauty everywhere and catching it in a frame.</p><span class="ev">Artistic 17/20</span></article>
+        <article class="slide"><span class="n">08</span><h3>Game Designer</h3><p>Whole worlds, built for people to fall in love with.</p><span class="ev">Original thinking</span></article>
       </div>
       <div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div>
     </div>
@@ -430,22 +623,50 @@
 <section class="shell" id="palette">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>08</i>Painted in her colors</div>
+      <div class="kicker"><i>12</i>Her colors &amp; fonts</div>
       <h2>Why the page looks like this</h2>
     </div>
     <div class="palette reveal">
-      <div class="sw" style="background:#2a0f1e;color:#f7e6ec"><b>Wine</b><span>The shell: intense and protective</span></div>
-      <div class="sw" style="background:#e0567f;color:#fff"><b>Rose</b><span>The core: love that runs deep</span></div>
-      <div class="sw" style="background:#d9a441;color:#2a0f1e"><b>Gold</b><span>Ambition and big dreams</span></div>
-      <div class="sw" style="background:#fbe9ee;color:#3a1426"><b>Blush</b><span>Tenderness her people get to see</span></div>
+      <div class="sw" style="background:#2a0f1e;color:#f7e6ec"><b>Wine</b><span>Strong spirit: bold and protective</span></div>
+      <div class="sw" style="background:#e0567f;color:#fff"><b>Rose</b><span>Soft heart: love that runs deep</span></div>
+      <div class="sw" style="background:#ff4f9a;color:#fff"><b>Hot pink</b><span>Creates everything: art and big dreams</span></div>
+      <div class="sw" style="background:#fbe9ee;color:#3a1426"><b>Blush</b><span>The softness her people get to see</span></div>
     </div>
+    <div class="fonts">
+      <div class="font-card reveal">
+        <div class="spec" style="font-family:'Playfair Display',serif;font-weight:800">Aa</div>
+        <h3>Playfair Display</h3>
+        <p>A high-contrast serif with roots in 18th-century type: dramatic thick-and-thin strokes that still feel timeless. That's the <b>creative traditionalist</b>: bold, expressive, and classic all at once. The heavy weight is her <b>strong spirit</b>. The sweeping italic is her <b>soft heart</b>.</p>
+        <span class="ev">Headlines · titles · italics</span>
+      </div>
+      <div class="font-card reveal">
+        <div class="spec" style="font-family:'DM Sans',sans-serif;font-weight:500">Aa</div>
+        <h3>DM Sans</h3>
+        <p>A clean, friendly geometric sans with soft round shapes. It's easy to read and never cold. That's the <b>ESFJ host</b>: organized, structured, and making everyone feel comfortable. It's the steady hand that keeps the drama readable.</p>
+        <span class="ev">Body text · buttons · labels</span>
+      </div>
+      <div class="font-card reveal">
+        <div class="spec mono">{ }</div>
+        <h3>Monospace</h3>
+        <p>Every character is the same width, like a code editor. It only shows up in the Under the Hood section, for her <b>techy, builder</b> side: the Love of Learning (#5) that made this whole site.</p>
+        <span class="ev">Code · stats · terminal</span>
+      </div>
+    </div>
+    <div class="tester reveal">
+      <label for="typeIn" class="kicker">Try the fonts</label>
+      <input id="typeIn" value="Suhani" maxlength="40" autocomplete="off">
+      <div class="t-out" style="font-family:'Playfair Display',serif;font-weight:800" data-out></div>
+      <div class="t-out" style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500" data-out></div>
+      <div class="t-out" style="font-family:'DM Sans',sans-serif;font-weight:500" data-out></div>
+    </div>
+  
   </div>
 </section>
 
 <section class="shell alt" id="code">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>09</i>Under the hood</div>
+      <div class="kicker"><i>13</i>Under the hood</div>
       <h2>How this site was built</h2>
       <p>One HTML file. No frameworks, no libraries, no build step. Just HTML, CSS, and vanilla JavaScript talking straight to the browser's APIs.</p>
     </div>
@@ -530,7 +751,7 @@ const modal = document.getElementById('modal');
 document.querySelectorAll('[data-info]').forEach(b => b.addEventListener('click', () => {
   const [k, t, body, you] = INFO[b.dataset.info];
   mKicker.textContent = k; mTitle.textContent = t; mBody.textContent = body;
-  mYou.innerHTML = '<b>For Suhani:</b> ' + you;
+  mYou.textContent = you;
   modal.showModal();
 }));
 mClose.onclick = () => modal.close();
@@ -560,21 +781,190 @@ document.querySelectorAll('.carousel').forEach(c => {
 });
 
 // inner circle
-const RINGS = [
-  ["Good friends", "The inner circle. Fierce loyalty, advice at 2am, and someone who'll go to war for you. She chooses carefully, and once you're in, it's for good."],
-  ["Friends", "Warm, social, and fun to be around. She's magnetic in a group, but she picks depth over chaos every time."],
-  ["Everyone else", "Kind and fair to everyone, and always happy to make a new friend."]
+/* every tap rewrites the whole section: kicker, title, subtitle, ring labels, caption */
+const CIRCLE = [
+  [ // 0: center
+    ['Her inner circle', 'Small circle. <em>Deep roots.</em>', 'The ones who get the real Suhani.', 'day ones', 'Day ones', 'Fierce, forever loyalty. Advice at 2am, and the first person in your corner, every single time.'],
+    ['Her ride or dies', 'Ride or die. <em>No questions.</em>', "Once you're in, you're in for life.", 'ride or dies', 'Ride or dies', "She'll defend you in rooms you're not even in, and remember your coffee order, your big days, and your biggest dreams."],
+    ['Her chosen family', 'Chosen family. <em>Forever.</em>', "Blood isn't the only thing that makes family.", 'my people', 'Her people', 'Hand-picked, loved out loud, and hyped through every glow-up like it was her own.'],
+    ['Her soul sisters', 'Soul-deep. <em>Heart-first.</em>', 'Some bonds just click, and she guards them with everything.', 'soul sisters', 'Soul sisters', 'Late-night talks, inside jokes, and zero judgment. This circle is her whole heart.']
+  ],
+  [ // 1: middle
+    ['Her squad', 'The squad. <em>The vibe.</em>', 'Where all the fun lives.', 'the squad', 'The squad', "Magnetic in a group. She's the one making the plans and making sure nobody gets left out."],
+    ['Her good vibes crew', 'Good energy. <em>Only.</em>', 'Laughs, plans, and memories in the making.', 'good vibes crew', 'Good vibes crew', 'Warm, social, and so much fun to be around, but she still picks real talk over small talk.'],
+    ['Her almost-family', 'Almost family. <em>Always welcome.</em>', 'Every day one started out right here.', 'almost family', 'Almost family', 'Show up with real energy and you might just get pulled into the inner circle.']
+  ],
+  [ // 2: outer
+    ['Her open door', 'Open heart. <em>Open door.</em>', 'Everyone gets her kindness.', 'the whole world', 'The whole world', 'Kind and fair to everyone, and always ready to make a new friend.'],
+    ['Her future friends', 'Strangers are <em>future friends.</em>', 'She never forgets a face or a name.', 'future friends', 'New faces', 'She reads a room in seconds and makes the new person feel seen.'],
+    ['Her whole world', 'Fair to all. <em>Fierce for many.</em>', "She'll stand up for someone she met ten minutes ago.", 'everyone', 'Everyone', "Stand for what's right and she'll have your back, whether she's known you ten years or ten minutes."]
+  ]
 ];
+const HINTS = ['Tap the circles, and keep tapping ✨', 'Again! 💗', 'Keep going…', 'She has layers 💫', "There's more…", 'Okay, obsessed 💕'];
 const ringInfo = document.getElementById('ringInfo');
+let taps = 0;
+const swap = (el, html) => { el.innerHTML = html; el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap'); };
 const setRing = i => {
+  const set = CIRCLE[i], [kicker, title, sub, , head, body] = set[taps % set.length];
   document.querySelectorAll('.ringbtn').forEach(r => r.classList.toggle('on', +r.dataset.ring === i));
-  ringInfo.innerHTML = `<b>${RINGS[i][0]}</b><span>${RINGS[i][1]}</span>`;
+  CIRCLE.forEach((ring, j) => swap(document.getElementById('lab' + j), ring[taps % ring.length][3]));
+  swap(document.getElementById('cKicker'), kicker);
+  swap(document.getElementById('cTitle'), title);
+  swap(document.getElementById('cSub'), sub);
+  swap(ringInfo, `<b>${head}</b><span>${body}</span>`);
+  document.getElementById('cHint').textContent = HINTS[taps % HINTS.length];
+  taps++;
 };
 document.querySelectorAll('.ringbtn').forEach(r => {
   r.addEventListener('click', () => setRing(+r.dataset.ring));
   r.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setRing(+r.dataset.ring); } });
 });
 setRing(0);
+
+// hero lines
+const HERO_LINES = ['The warm heart of every room.', 'Your loudest hype girl.', 'The friend who remembers everything.', 'Artist first. Always.', 'Big dreams, bigger heart.', 'Gift-giver extraordinaire. 🎁', 'Main character energy.', 'Will fight for you. Every time.'];
+const heroLine = document.getElementById('heroLine');
+let heroI = 0;
+const nextLine = () => { heroI = (heroI + 1) % HERO_LINES.length; swap(heroLine, HERO_LINES[heroI]); };
+heroLine.onclick = nextLine;
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(nextLine, 3200);
+
+// love languages
+const LANGS = [
+  ['Receiving Gifts 🎁', "Her #1. Thoughtful little things say \"I was thinking of you.\" It's never about the price. It's the meaning."],
+  ['Words of Affirmation 💬', "Tell her she did amazing. Tell her you're proud of her. Say it out loud, and mean it."],
+  ['Quality Time ⏳', 'Phone down, full attention. Long dinners, late-night talks, real conversations.'],
+  ['Acts of Service 🤝', 'Show up and help out before she has to ask.'],
+  ['Physical Touch 🫂', "A hug is sweet, but words, time, and thoughtful gifts land so much deeper."]
+];
+const gift = document.getElementById('gift'), langs = document.getElementById('langs'), langTip = document.getElementById('langTip');
+const pickLang = i => {
+  [...langs.children].forEach((b, j) => b.classList.toggle('on', j === i));
+  swap(langTip, `<b>${LANGS[i][0]}</b><span>${LANGS[i][1]}</span>`);
+};
+const hearts = (x, y) => {
+  for (let i = 0; i < 26; i++) {
+    const h = document.createElement('span');
+    h.className = 'heart'; h.textContent = ['💗', '💖', '✨', '🎀', '💕'][i % 5];
+    h.style.left = x + 'px'; h.style.top = y + 'px';
+    const a = Math.random() * Math.PI * 2, d = 80 + Math.random() * 160;
+    h.style.setProperty('--x', Math.cos(a) * d + 'px'); h.style.setProperty('--y', Math.sin(a) * d - 60 + 'px'); h.style.setProperty('--r', (Math.random() * 120 - 60) + 'deg');
+    document.body.append(h); setTimeout(() => h.remove(), 1300);
+  }
+};
+gift.onclick = () => {
+  const r = gift.getBoundingClientRect();
+  gift.classList.toggle('open');
+  if (gift.classList.contains('open')) { hearts(r.left + r.width / 2, r.top + r.height / 2); langs.classList.add('go'); pickLang(0); }
+};
+[...langs.children].forEach((b, i) => b.onclick = () => { langs.classList.add('go'); pickLang(i); });
+
+// photo stack
+/* add real photos here: { src: 'photos/name.jpg', cap: 'caption' } */
+const PHOTOS = [];
+const PLACEHOLDERS = ['with my day ones 💗', 'art in progress 🎨', 'the squad', 'celebrating everything', 'my happy place', 'main character moment'];
+const TINTS = ['linear-gradient(135deg,#ff9dbb,#e0567f)', 'linear-gradient(135deg,#e0567f,#7a1f45)', 'linear-gradient(135deg,#ffc2d4,#ff4f9a)', 'linear-gradient(135deg,#ff4f9a,#2a0f1e)', 'linear-gradient(135deg,#fbe9ee,#ff9dbb)', 'linear-gradient(135deg,#b8406f,#ff9dbb)'];
+const stackEl = document.getElementById('photoStack');
+const cards = (PHOTOS.length ? PHOTOS : PLACEHOLDERS.map(cap => ({ cap }))).map((p, i) => {
+  const el = document.createElement('button');
+  el.className = 'polaroid';
+  el.innerHTML = (p.src ? `<img src="${p.src}" alt="${p.cap}" loading="lazy">` : `<div class="ph" style="background:${TINTS[i % TINTS.length]}">📷<small>photo coming soon</small></div>`) + `<span>${p.cap}</span>`;
+  el.tilt = Math.random() * 16 - 8;
+  stackEl.append(el);
+  return el;
+});
+let stackOrder = [...cards], seen = 1;
+const layoutStack = () => {
+  stackOrder.forEach((el, i) => {
+    el.style.zIndex = stackOrder.length - i;
+    el.style.transform = `translate(-50%, -50%) translate(${i * 7}px, ${i * 5}px) rotate(${i ? el.tilt : el.tilt / 3}deg)`;
+    el.tabIndex = i ? -1 : 0;
+  });
+  document.getElementById('photoCount').textContent = `// polaroid ${((seen - 1) % cards.length) + 1} of ${cards.length}`;
+};
+stackEl.addEventListener('click', () => {
+  const top = stackOrder[0];
+  top.style.transform = `translate(-50%, -50%) translate(160px, -40px) rotate(24deg)`;
+  top.classList.add('fly');
+  setTimeout(() => { stackOrder.push(stackOrder.shift()); top.classList.remove('fly'); seen++; layoutStack(); }, 380);
+});
+layoutStack();
+
+// contradictions
+const CONTRAS = [
+  ['Boss energy', 'Warm host', 'DISC Dominance and Enneagram 8 say she takes charge.', 'ESFJ, Relator, and Empathy say she takes care of everyone.', '<b>Both.</b> She leads <i>through</i> her people. That\'s what makes people follow her.', 'DISC D · 8w7 ↔ ESFJ · CliftonStrengths'],
+  ['Creative', 'Traditional', 'The Creator: Creative & Expressive at 91.7%.', 'Tradition 67% and Spirituality #3. Rooted in faith, family, and custom.', '<b>Both.</b> A creative traditionalist: fresh ideas with deep roots.', 'MyCareerTest ↔ Schwartz Values · VIA'],
+  ['Life of the party', 'Small circle', 'Extraversion 85. Magnetic and so social.', 'Relator #1. A few people get the key to her heart.', '<b>Both.</b> She loves a crowd and trusts a few. Fun with everyone, forever with some.', 'Big Five ↔ CliftonStrengths'],
+  ['Loves a plan', 'Hates a rut', 'Orderliness 19/20. Structure is her comfort zone.', '"Routine kills her motivation," says her career test.', '<b>Both.</b> She wants a clear plan she can fill with something new every day.', 'Big Five ↔ MyCareerTest'],
+  ['Brutally honest', 'Endlessly kind', 'VIA #2 Honesty. She tells it like it is.', 'VIA #4 Kindness. She takes care of everyone.', '<b>Both.</b> She tells the truth with a whole lot of love. The best kind of friend.', 'VIA Character Strengths'],
+  ['Independent', 'All-in on her people', 'Self-Direction 83%. She does it her way.', 'Benevolence 83% and Love #1. Her people come first.', '<b>Both.</b> Tied at 83%. She runs her own life and shows up for everyone in it.', 'Schwartz Values · VIA']
+];
+document.querySelectorAll('.contra').forEach(el => {
+  const [l, r, lw, rw, both, src] = CONTRAS[+el.dataset.c];
+  el.innerHTML = `<div class="ends"><span>${l}</span><span>${r}</span></div>
+    <input type="range" min="0" max="100" value="50" aria-label="${l} to ${r}">
+    <div class="why"></div><span class="src">${src}</span>`;
+  const input = el.querySelector('input'), why = el.querySelector('.why'), [a, b] = el.querySelectorAll('.ends span');
+  const update = () => {
+    const t = input.value / 100;
+    el.style.setProperty('--t', t);
+    a.style.opacity = 1 - t * .6; b.style.opacity = .4 + t * .6;
+    why.innerHTML = t < .34 ? lw : t > .66 ? rw : both;
+  };
+  input.addEventListener('input', update); update();
+});
+
+// font tester
+const typeIn = document.getElementById('typeIn');
+const typeOut = () => document.querySelectorAll('[data-out]').forEach(o => o.textContent = typeIn.value || 'Suhani');
+typeIn.addEventListener('input', typeOut); typeOut();
+
+// mood meter
+const ANNOY = [
+  ['⏳', 'Make her wait in line', 'DISC Dominance: slow progress is a top demotivator. She moves fast and wants things moving.'],
+  ['🕵️', 'Micromanage her', 'DISC says micromanagement is her #1 demotivator, and Self-Direction is 83%. Let her cook.'],
+  ['🎭', 'Be fake', 'Honesty is her #2 strength out of 24. She can spot fake from a mile away.'],
+  ['📋', 'Drag her into a pointless meeting', 'DISC: "Red tape, unnecessary meetings, and slow decision-making" demotivate her.'],
+  ['🔁', 'Give her the same boring task every day', 'Career test: "Routine kills your motivation." The Creator needs variety.'],
+  ['🙅', 'Cancel plans last minute', 'ESFJ Consul: she runs on plans and structure (Orderliness 19/20). Don\'t mess with the itinerary.'],
+  ['🏆', 'Take credit for her work', 'Achievement 100% and a DISC motivator of recognition. She earned it, so say her name.'],
+  ['😠', 'Be mean to her people', 'Relator #1 plus Enneagram 8, the protector. Big mistake. Huge.']
+];
+const DELIGHT = [
+  ['🎁', 'Give her a thoughtful little gift', 'Love language #1: Receiving Gifts at 27%. It\'s the thought that counts, and she\'ll count it forever.'],
+  ['💬', 'Tell her you\'re proud of her', 'Words of Affirmation at 23%, her #2 love language. Say it out loud.'],
+  ['☕', 'Plan a phones-down hang', 'Quality Time at 23%. Full attention is the love language.'],
+  ['🎨', 'Give her creative freedom', 'The Creator: Creative & Expressive at 91.7%. Hand her the brush.'],
+  ['📣', 'Hype her wins publicly', 'Achievement 100%. Recognition fuels her, according to DISC.'],
+  ['🗓️', 'Show up on time with a plan', 'ESFJ structure lover. A clear plan is a love letter.'],
+  ['🧠', 'Remember the little things', 'Individualization is in her top 3. She remembers yours, so remember hers.'],
+  ['🏠', 'Let her host', 'Consul energy: she is the warm heart of every gathering.']
+];
+const MOODS = [[15, '🤬', 'Do NOT talk to her.'], [35, '😤', 'Choose your next words carefully.'], [65, '🙂', 'Neutral. For now.'], [85, '😊', 'Glowing.'], [101, '🥰', 'Best. Day. Ever.']];
+let mood = 50;
+const meter = document.querySelector('.meter'), face = document.getElementById('moodFace');
+const setMood = (delta, why) => {
+  mood = Math.max(0, Math.min(100, mood + delta));
+  const [, f, label] = MOODS.find(m => mood < m[0]);
+  face.textContent = f;
+  document.getElementById('moodLabel').textContent = label;
+  document.getElementById('moodPct').textContent = mood + '%';
+  document.getElementById('moodBar').style.width = mood + '%';
+  if (why) swap(document.getElementById('moodWhy'), why);
+  face.classList.remove('pop'); void face.offsetWidth; face.classList.add('pop');
+};
+const fill = (id, list, sign) => list.forEach(([emoji, text, why]) => {
+  const b = document.createElement('button');
+  b.innerHTML = `<span>${emoji}</span>${text}`;
+  b.onclick = e => {
+    setMood(sign * (10 + Math.round(Math.random() * 8)), why);
+    if (sign < 0) { b.classList.remove('hit'); void b.offsetWidth; b.classList.add('hit'); meter.classList.remove('shake'); void meter.offsetWidth; meter.classList.add('shake'); }
+    else hearts(e.clientX, e.clientY);
+  };
+  document.getElementById(id).append(b);
+});
+fill('annoy', ANNOY, -1); fill('delight', DELIGHT, 1);
+document.getElementById('moodReset').onclick = () => { mood = 50; setMood(0, 'Pick a side…'); };
 
 // values accordion
 document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));
@@ -611,7 +1001,7 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
 // paint canvas
 (() => {
   const cv = document.getElementById('paint'), ctx = cv.getContext('2d');
-  const COLORS = ['224,86,127', '217,164,65', '255,157,187', '140,40,80'];
+  const COLORS = ['224,86,127', '255,79,154', '255,157,187', '255,111,160'];
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let W, H, blobs = [], last = null, t = 0, idle = true;
   window.paintStats = { get blobs() { return blobs.length; } };
@@ -663,10 +1053,16 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     ['carousels', 'carousel.js', 'Carousels', 'CSS scroll-snap does all the physics natively: swipe, momentum, snapping. JavaScript only adds the arrows and dots, and works out the active slide from scrollLeft ÷ slide width.', ['scroll-snap', 'passive listeners', 'scrollTo smooth', 'no library']],
     ['flip cards', 'flip.js', 'Flip cards', 'Each card has two faces in 3D space. backface-visibility hides the back until rotateY(180deg) turns it around, and a cubic-bezier overshoot makes it bounce. "Flip them all" staggers each card by 70ms × its index.', ['CSS 3D transforms', 'perspective', 'cubic-bezier', 'setTimeout stagger']],
     ['popups', 'popups.js', 'Popups', 'The native <dialog> element with showModal() gives focus trapping, Esc to close, and a blurred ::backdrop for free. All the text lives in one INFO data object, keyed by each button\'s data-info attribute.', ['<dialog>', '::backdrop', 'data attributes', 'destructuring']],
-    ['inner circle', 'circle.js', 'Inner circle', 'Hand-written SVG. Each ring is a <g role="button" tabindex="0">, so it works with a keyboard (Enter or Space), not just a mouse.', ['SVG', 'ARIA roles', 'keyboard a11y', 'template literals']],
+    ['inner circle', 'circle.js', 'Inner circle', 'Hand-written SVG. Every tap rewrites the whole section (kicker, title, subtitle, all three ring labels, and the caption) by cycling through a data array with a tap counter and modulo. Each ring is a <g role="button" tabindex="0">, so it works with a keyboard too.', ['SVG', 'ARIA roles', 'keyboard a11y', 'template literals']],
     ['reveal + nav', 'observer.js', 'Scroll reveal + nav', 'IntersectionObserver tells the page when elements enter the screen, with no scroll math. The same API powers the nav highlight: rootMargin shrinks the viewport to a "hot zone" in the middle of the screen.', ['IntersectionObserver', 'rootMargin', 'unobserve']],
     ['theme', 'theme.js', 'Light / dark theme', 'Every color is a CSS custom property. Dark mode redefines them under prefers-color-scheme, and the toggle sets data-theme on <html> and remembers your choice in localStorage.', ['CSS variables', 'prefers-color-scheme', 'localStorage', 'try/catch']],
     ['values accordion', 'accordion.js', 'Values accordion', 'One line of JS toggles a class. CSS animates max-height to open the panel and grows the bar from 0 to a per-item --w custom property.', ['classList.toggle', 'CSS transitions', 'custom properties']],
+    ['hero lines', 'hero.js', 'Rotating hero line', 'An array of lines cycled with setInterval and a modulo counter. Each change re-triggers a CSS keyframe by removing the class, forcing a reflow (void el.offsetWidth), then adding it back. Tap it to skip ahead.', ['setInterval', 'modulo', 'reflow trick', 'reduced-motion aware']],
+    ['love languages', 'gift.js', 'Gift unwrap', 'Pure CSS gift box: the lid and bow spring off with an overshooting cubic-bezier. Unwrapping fires a burst of 26 emoji particles. Each one gets a random angle and distance, converted from polar to x/y with cos/sin, and passed in through CSS custom properties.', ['CSS transitions', 'polar → cartesian', 'CSS custom properties', 'DOM particles']],
+    ['photo stack', 'polaroids.js', 'Polaroid stack', 'Each polaroid keeps its own random tilt. A click flings the top card away, then rotates the array (push(shift())) and re-lays out the stack with offsets and z-index. Swap in real photos by adding them to the PHOTOS array.', ['array rotation', 'z-index stacking', 'lazy-loaded images']],
+    ['contradictions', 'both-and.js', 'Contradictions sliders', 'Each card is a native <input type="range">. Its value (0–1) goes into a CSS custom property, --t, and color-mix() blends the card between wine and hot pink live as you drag. The text switches at thirds: left side, right side, and "both" in the middle.', ['input range', 'color-mix()', 'CSS custom properties', 'thresholds']],
+    ['font tester', 'fonts.js', 'Font tester', 'One input and three outputs. Every keystroke copies the text into each specimen, so you can see her name in each typeface.', ['input event', 'querySelectorAll', 'live preview']],
+    ['mood meter', 'mood.js', 'Mood meter', 'A single number (0–100) is the state. Every button adds or subtracts a slightly random amount, clamped with Math.min/Math.max. Array.find picks the first mood threshold above it. The meter is position: sticky, so it follows you while you scroll the list.', ['state + clamp', 'Array.find', 'position: sticky', 'Math.random']],
     ['under the hood', 'hood.js', 'This panel', 'The panel reads this page\'s own <script> at runtime, splits it at comment markers, and syntax-highlights it with a single-regex tokenizer. Live numbers come from requestAnimationFrame and the Performance API, and it only updates while you can see it.', ['self-reading code', 'regex tokenizer', 'Performance API', 'Clipboard API']]
   ].filter(f => chunks[f[0]]);
 
@@ -761,7 +1157,7 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     label.style.top = e.clientY + 18 + 'px';
   });
 
-  console.log('%cHey, developer 👋%c\nThis whole site is one file with zero dependencies. Look around.', 'font: 700 16px Georgia; color: #e0567f', 'color: #d9a441');
+  console.log('%cHey, developer 👋%c\nThis whole site is one file with zero dependencies. Look around.', 'font: 700 16px Georgia; color: #e0567f', 'color: #ff4f9a');
 })();
 </script>
 </body>

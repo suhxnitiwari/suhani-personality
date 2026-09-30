@@ -47,7 +47,7 @@
   .kicker i { font-style: normal; color: #ff9dbb; margin-right: 10px; }
 
   /* ---------- nav ---------- */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 20; background: rgba(42,15,30,.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,79,154,.2); transform: translateY(-100%); transition: transform .35s ease; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 20; background: rgba(42,15,30,.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,79,154,.2); }
   nav.show { transform: none; }
   nav .wrap { display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; height: 52px; }
   nav .wrap::-webkit-scrollbar { display: none; }
@@ -235,7 +235,7 @@
   .monitor b em { font-style: normal; color: #f08fb0; font-size: 12px; margin-left: 3px; }
   .monitor .fps { grid-column: span 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
   .monitor canvas { width: 140px; height: 36px; }
-  .live::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #5ee0a0; margin-right: 6px; animation: pulse2 1.6s infinite; }
+  .live::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #ff9dbb; margin-right: 6px; animation: pulse2 1.6s infinite; }
   @keyframes pulse2 { 50% { opacity: .3; } }
   .explorer { display: grid; grid-template-columns: 230px 1fr; margin-top: 28px; border: 1px solid rgba(255,79,154,.25); border-radius: 12px; overflow: hidden; background: #12060c; }
   @media (max-width: 760px) { .explorer { grid-template-columns: 1fr; } }
@@ -256,7 +256,7 @@
   .code { display: flex; max-height: 420px; overflow: auto; font-size: 12.5px; line-height: 1.6; }
   .code .gut { padding: 14px 10px 14px 16px; text-align: right; color: #b8406f; user-select: none; white-space: pre; position: sticky; left: 0; background: #12060c; }
   .code pre { margin: 0; padding: 14px 16px 14px 6px; color: #f3d9e3; white-space: pre; tab-size: 2; }
-  .code .k { color: #ff8fb1; } .code .s { color: #ffb3d1; } .code .n { color: #9fd8ff; } .code .c { color: #d97a9e; font-style: italic; } .code .f { color: #c7a7ff; }
+  .code .k { color: #ff8fb1; } .code .s { color: #ffb3d1; } .code .n { color: var(--consul-teal); } .code .c { color: #d97a9e; font-style: italic; } .code .f { color: var(--comm-orange); }
   .stack { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 28px; }
   .stack button { background: none; border: 1px solid rgba(255,79,154,.35); color: #ffe3ec; border-radius: 4px; padding: 10px 12px; font: 13px ui-monospace, Menlo, monospace; text-align: left; transition: .2s; }
   .stack button b { color: #ff4f9a; font-weight: 500; margin-right: 6px; }
@@ -264,11 +264,11 @@
   .stack button.on { background: #ff4f9a; border-color: #ff4f9a; color: #fff; } .stack button.on b { color: #fff; }
   @media (max-width: 640px) { .stack { grid-template-columns: repeat(2, 1fr); } }
   .stack-info { margin: 12px 0 0; min-height: 48px; padding: 12px 16px; border-radius: 4px; background: #12060c; border-left: 3px solid #ff4f9a; color: #ffc2d4; font-size: 14px; }
-  html.xray body * { outline: 1px solid rgba(94,224,160,.35); }
-  html.xray body *:hover { outline: 1px solid #5ee0a0; background-color: rgba(94,224,160,.06); }
-  #xlabel { position: fixed; z-index: 50; pointer-events: none; font: 11px ui-monospace, Menlo, monospace; background: #0b1f16; color: #5ee0a0; border: 1px solid #5ee0a0; padding: 3px 8px; border-radius: 4px; display: none; white-space: nowrap; }
+  html.xray body * { outline: 1px solid rgba(255,157,187,.35); }
+  html.xray body *:hover { outline: 1px solid #ff9dbb; background-color: rgba(255,157,187,.06); }
+  #xlabel { position: fixed; z-index: 50; pointer-events: none; font: 11px ui-monospace, Menlo, monospace; background: #12060c; color: #ff9dbb; border: 1px solid #ff9dbb; padding: 3px 8px; border-radius: 4px; display: none; white-space: nowrap; }
   html.xray #xlabel { display: block; }
-  #xexit { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 50; display: none; background: #5ee0a0; color: #0b1f16; border: 0; padding: 10px 20px; border-radius: 99px; font: 600 13px ui-monospace, Menlo, monospace; }
+  #xexit { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 50; display: none; background: #ff9dbb; color: #12060c; border: 0; padding: 10px 20px; border-radius: 99px; font: 600 13px ui-monospace, Menlo, monospace; }
   html.xray #xexit { display: block; }
 
   /* ---------- hero rotating line ---------- */
@@ -849,12 +849,20 @@
   .card-dialog img { display: block; width: 100%; border-radius: 14px; }
   .card-actions { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
   .card-actions a { text-decoration: none; }
+  .palette.palette-5 { grid-template-columns: repeat(5, 1fr); }
+  @media (max-width: 760px) { .palette.palette-5 { grid-template-columns: 1fr 1fr; } }
+  .to-top { position: fixed; right: 16px; bottom: 16px; z-index: 35; width: 48px; height: 48px; border-radius: 50%; border: 1px solid #ff4f9a; background: rgba(26,9,18,.92); color: #ff9dbb; font-size: 20px; backdrop-filter: blur(6px); opacity: 0; transform: translateY(10px); pointer-events: none; transition: .3s; }
+  .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+  .to-top:hover { background: #ff4f9a; color: #fff; }
+  html.single-view .to-top { display: none; }
+  .hero { padding-top: 110px; }
 </style>
 </head>
 <body>
 
 <div id="progress" aria-hidden="true"><i></i><span></span></div>
 <div class="toast" id="toast" role="status"></div>
+<button class="to-top" id="toTop2" aria-label="Back to top">↑</button>
 <button class="rabbit" id="rabbit" aria-label="Take me somewhere interesting">Take me somewhere interesting →</button>
 <div class="latte" id="latte" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><clipPath id="cupClip"><path d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7z"/></clipPath></defs><path class="steam" d="M48 36c-4-6 4-10 0-16M60 36c-4-6 4-10 0-16M72 36c-4-6 4-10 0-16"/><g clip-path="url(#cupClip)"><rect class="fill" x="20" y="104" width="80" height="60"/></g><path class="cup" d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7zM84 56h6a10 10 0 0 1 0 20h-9M22 110h68"/></svg><p>One vanilla latte, coming right up.</p></div>
 <nav id="nav"><div class="wrap">
@@ -1291,10 +1299,11 @@
       <h2>Why the page looks like this</h2>
     </div>
     <p class="pal-label">The base: her strongest traits, in color</p>
-    <div class="palette reveal">
+    <div class="palette palette-5 reveal">
       <div class="sw" style="background:#2a0f1e;color:#f7e6ec"><b>Wine</b><span>Strong spirit: DISC Dominance and Enneagram 8, the protector</span></div>
       <div class="sw" style="background:#e0567f;color:#fff"><b>Rose</b><span>Soft heart: Love is her #1 VIA strength</span></div>
       <div class="sw" style="background:#ff4f9a;color:#fff"><b>Hot pink</b><span>The Creator: Creative &amp; Expressive at 91.7%</span></div>
+      <div class="sw" style="background:#ff9dbb;color:#2a0f1e"><b>Petal</b><span>Kindness #4: warmth in every highlight</span></div>
       <div class="sw" style="background:#fbe9ee;color:#3a1426"><b>Blush</b><span>Kindness #4 and Relator #1: the softness her people see</span></div>
     </div>
     <p class="pal-label">The accents: colors her tests assign her directly</p>
@@ -1305,7 +1314,7 @@
       <div class="sw" style="background:var(--consul-teal);color:#fff"><b>Consul teal</b><span>16Personalities: ESFJ is a Sentinel</span></div>
     </div>
     <div class="holi reveal">
-      <div class="dots-row"><i style="background:#ff2d87"></i><i style="background:#ffb3cf"></i><i style="background:var(--clifton-blue)"></i><i style="background:var(--gifts-red)"></i><i style="background:var(--consul-teal)"></i><i style="background:var(--comm-orange)"></i></div>
+      <div class="dots-row"><i style="background:#ff4f9a"></i><i style="background:#e0567f"></i><i style="background:#ff9dbb"></i><i style="background:var(--clifton-blue)"></i><i style="background:var(--gifts-red)"></i><i style="background:var(--consul-teal)"></i><i style="background:var(--comm-orange)"></i></div>
       <p><b>The Holi paint throws her result colors.</b> Every splash comes from her results: the pinks stand for her strongest traits, and the accents are colors her tests literally gave her. There's no random rainbow here. Flip any color above to see where it lives on the page.</p>
     </div>
     <div class="fonts">
@@ -1324,8 +1333,8 @@
       <div class="font-card reveal">
         <div class="spec mono">{ }</div>
         <h3>Monospace</h3>
-        <p>Every character is the same width, like a code editor: precise, structured, and a little bit nerdy. It only shows up in the Under the Hood section, for her <b>techy, builder</b> side: the Love of Learning (#5) that built this whole site, one line at a time.</p>
-        <span class="ev">Code · stats · terminal</span>
+        <p>Every character is the same width, like a code editor: precise, structured, and a little bit nerdy. It shows up wherever the page quotes raw data or code, for her <b>techy, builder</b> side: the Love of Learning (#5) that built this whole site, one line at a time.</p>
+        <span class="ev">Code · raw data · citations</span>
       </div>
     </div>
     <div class="tester reveal">
@@ -1908,14 +1917,15 @@ document.querySelectorAll('#careers .slide').forEach((card, i) => {
 // swatch flips
 /* in swatch order: [hex, where it's used on this site, why it works] */
 const SWATCH_BACKS = [
-  ['#2A0F1E', 'Dark sections, the nav, and the footer', 'Deep enough to make every pink glow, the way her strong spirit frames her soft heart.'],
+  ['#2A0F1E', 'Dark sections and the nav. A deeper night shade (#12060C) holds the footer and code.', 'Deep enough to make every pink glow, the way her strong spirit frames her soft heart.'],
   ['#E0567F', "Card titles, the love-language tips, and the circle's center", 'Warm but grown-up: love that is steady, not sugary.'],
   ['#FF4F9A', 'Buttons, active states, the mood gauge, and the paint', 'The loudest color on the page, saved for wherever something is happening.'],
+  ['#FF9DBB', 'Highlights, hints, italics, and X-ray mode', 'The most-used color after hot pink. Kind, not loud: it points you to what matters.'],
   ['#FBE9EE', 'Light sections and cards', 'Gives the page room to breathe. Soft without looking washed out.'],
   ['#2B7DE0', 'The Holi paint, where every splash comes from her results', "Gallup's own color for the domain that holds 4 of her top 5."],
-  ['#F08A24', 'The Holi paint', 'Used sparingly, just like the single orange stripe in her Clifton report.'],
+  ['#F08A24', 'The paint, and function names in the code viewer', 'Used sparingly, just like the single orange stripe in her Clifton report.'],
   ['#F2434A', 'The gift box, the Receiving Gifts bar, and the paint', 'The same red her Love Language report uses for Receiving Gifts.'],
-  ['#4F93B3', 'The Holi paint', "16Personalities' Sentinel color, the group ESFJ belongs to."]
+  ['#4F93B3', 'The paint, and numbers in the code viewer', "16Personalities' Sentinel color, the group ESFJ belongs to."]
 ];
 document.querySelectorAll('.palette .sw').forEach((sw, i) => {
   const [hex, used, why] = SWATCH_BACKS[i];
@@ -2369,7 +2379,7 @@ const drawCard = async () => {
   const glow = g.createRadialGradient(W / 2, 470, 0, W / 2, 470, 520);
   glow.addColorStop(0, 'rgba(255,79,154,.75)'); glow.addColorStop(.45, 'rgba(224,86,127,.28)'); glow.addColorStop(1, 'rgba(42,15,30,0)');
   g.fillStyle = glow; g.fillRect(0, 0, W, H);
-  [['255,45,135', 170, 1080], ['43,125,224', 930, 190], ['242,67,74', 900, 1150], ['79,147,179', 140, 260], ['240,138,36', 980, 700]].forEach(([col, x, y]) => {
+  [['255,79,154', 170, 1080], ['43,125,224', 930, 190], ['242,67,74', 900, 1150], ['79,147,179', 140, 260], ['240,138,36', 980, 700]].forEach(([col, x, y]) => {
     const r = g.createRadialGradient(x, y, 0, x, y, 170); r.addColorStop(0, `rgba(${col},.55)`); r.addColorStop(1, `rgba(${col},0)`); g.fillStyle = r; g.fillRect(x - 170, y - 170, 340, 340);
   });
   g.textAlign = 'center';
@@ -2387,7 +2397,7 @@ const drawCard = async () => {
   box(800, 'WHAT 10 TESTS KEEP FINDING', 'People · Leadership · Drive · Creativity');
   box(975, 'SIGNATURE CONTRADICTION', 'Boss energy  ×  Warm host');
   g.fillStyle = '#ff9dbb'; g.font = 'italic 500 32px "Playfair Display"'; g.fillText('Explore the full personality →', W / 2, 1220);
-  g.fillStyle = '#c9a3b3'; g.font = '500 24px "DM Sans"'; g.fillText(SITE_BASE.replace(/^https?:\/\//, ''), W / 2, 1265);
+  g.fillStyle = '#ff9dbb'; g.font = '500 24px "DM Sans"'; g.fillText(SITE_BASE.replace(/^https?:\/\//, ''), W / 2, 1265);
   return c;
 };
 const cardDialog = document.getElementById('cardDialog');
@@ -2438,7 +2448,7 @@ const so = new IntersectionObserver(es => es.forEach(e => {
 }), { rootMargin: '-45% 0px -50% 0px' });
 document.querySelectorAll('section[id]').forEach(s => so.observe(s));
 const hero = document.querySelector('.hero');
-addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.offsetHeight * .6), { passive: true });
+/* the nav is always visible now */
 
 // page-wide touches
 (() => {
@@ -2561,18 +2571,24 @@ document.getElementById('rabbit').onclick = () => {
   el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   setTimeout(() => ping(el), 600);
 };
-addEventListener('scroll', () => document.getElementById('rabbit').classList.toggle('show', scrollY > innerHeight * .8), { passive: true });
+addEventListener('scroll', () => {
+  const past = scrollY > innerHeight * .8;
+  document.getElementById('rabbit').classList.toggle('show', past);
+  document.getElementById('toTop2').classList.toggle('show', past);
+}, { passive: true });
+/* back to top, same as "I · Suhani": lands on the hero with a burst of Holi color */
+document.getElementById('toTop2').onclick = () => document.getElementById('toHero').click();
 
 // paint canvas
 (() => {
   const cv = document.getElementById('paint'), ctx = cv.getContext('2d');
   /* Holi, drawn from her results: pinks map to her top traits, accents are colors her tests assign directly */
   const COLORS = [
-    '255,45,135',  // rani pink: Love, her #1 VIA strength
-    '43,125,224',  // Clifton blue: Relationship Building, 4 of her top 5
     '255,79,154',  // hot pink: The Creator, 91.7%
+    '43,125,224',  // Clifton blue: Relationship Building, 4 of her top 5
+    '224,86,127',  // rose: Love, her #1 VIA strength
     '242,67,74',   // Gifts red: love language #1
-    '255,179,207', // blush: Kindness #4
+    '255,157,187', // petal: Kindness #4
     '79,147,179',  // Consul teal: 16Personalities Sentinel
     '240,138,36'   // Communication orange: her one Influencing strength
   ];
@@ -2762,7 +2778,7 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
     sc.clearRect(0, 0, 280, 72);
     sc.beginPath();
     hist.forEach((v, i) => sc.lineTo(i * 7, 68 - Math.min(v, 120) / 120 * 64));
-    sc.strokeStyle = '#5ee0a0'; sc.lineWidth = 2; sc.stroke();
+    sc.strokeStyle = '#ff9dbb'; sc.lineWidth = 2; sc.stroke();
   }, 500);
 
   // x-ray mode: outline every element, label what's under the cursor

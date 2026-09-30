@@ -431,8 +431,8 @@
   .ick .f { background: var(--card); border: 1px solid var(--line); color: var(--core-text); }
   .ick:not(.on):hover .f { border-color: var(--rose); }
   .ick .who { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--rose); }
-  .ick .what { font: 700 17px "Playfair Display", serif; line-height: 1.25; flex: 1; }
-  .ick .hint { font-size: 12px; color: var(--core-muted); }
+  .ick .what { font: 700 16px "Playfair Display", serif; line-height: 1.22; flex: 1; }
+  .ick .hint { font-size: 11.5px; color: var(--core-muted); white-space: nowrap; }
   .ick .b { background: #2a0f1e; color: #ffe3ec; transform: rotateY(180deg); border: 1px solid #ff4f9a; }
   .ick .stamp { position: absolute; top: 12px; right: 14px; font: 800 16px "Playfair Display", serif; color: #ff4f9a; border: 2px solid #ff4f9a; border-radius: 6px; padding: 0 8px; transform: rotate(-6deg); }
   .ick .why { font-size: 12px; color: #ffc2d4; line-height: 1.4; padding-right: 48px; }
@@ -446,7 +446,8 @@
   .ico { width: 24px; height: 24px; flex: none; }
   #annoy .ico { color: #ff4f9a; } #delight .ico { color: var(--rose); }
   .polaroid .ph { gap: 10px; align-content: center; } .polaroid .ph .ico { width: 56px; height: 56px; stroke-width: 1.2; }
-  .tomb .b .up .ico { width: 54px; height: 54px; stroke-width: 1.3; }
+  .tomb .b .up .ico { width: 40px; height: 40px; stroke-width: 1.3; }
+  .tomb .b { gap: 7px; padding-top: 28px; }
   .say-hi { display: flex; align-items: center; gap: 6px; cursor: default; user-select: none; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: #ff4f9a; }
   .wave { width: 26px; height: 26px; color: #ff9dbb; transform-origin: 70% 85%; transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
   .say-hi { position: relative; }
@@ -691,6 +692,47 @@
   .act .wrap { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
   .act span { font-size: 12px; letter-spacing: .24em; text-transform: uppercase; font-weight: 700; color: #ff4f9a; }
   .act b { font: italic 600 clamp(22px, 3.4vw, 34px) "Playfair Display", serif; color: #ffe3ec; }
+  /* ---------- values collide ---------- */
+  .collide { margin-top: 64px; }
+  .collide h3 { font-size: clamp(30px, 4vw, 44px); color: #fff; }
+  .collide h3 em { color: #ff9dbb; }
+  .collide-sub { color: var(--shell-muted); margin: 10px 0 24px; max-width: 640px; }
+  .dilemmas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 760px) { .dilemmas { grid-template-columns: 1fr; } }
+  .dilemma { text-align: left; background: rgba(255,255,255,.03); border: 1px solid rgba(255,79,154,.35); border-radius: 20px; padding: 20px 22px; color: var(--shell-text); transition: .25s; }
+  .dilemma:hover { border-color: #ff4f9a; }
+  .dilemma .vs { display: flex; align-items: baseline; gap: 10px; font: 700 22px "Playfair Display", serif; flex-wrap: wrap; }
+  .dilemma .vs i { font: italic 500 15px "Playfair Display", serif; color: #ff4f9a; }
+  .dilemma .vs small { font: 600 12px "DM Sans", sans-serif; color: var(--shell-muted); }
+  .dilemma .scene { display: block; margin-top: 8px; color: #ffc2d4; font-size: 14px; }
+  .dilemma .verdict { display: block; max-height: 0; overflow: hidden; opacity: 0; transition: max-height .45s ease, opacity .3s, margin .3s; font-size: 15px; }
+  .dilemma.on { background: rgba(255,79,154,.1); }
+  .dilemma.on .verdict { max-height: 160px; opacity: 1; margin-top: 12px; }
+  .dilemma .verdict b { color: #ff9dbb; }
+  .dilemma .hint { display: block; margin-top: 10px; font-size: 12px; color: var(--shell-muted); }
+  .dilemma.on .hint { display: none; }
+  /* ---------- six conditions ---------- */
+  .careers-top > .conditions { grid-column: 1 / -1; }
+  .conditions h3 { font-size: 26px; color: var(--core-text); margin: 8px 0 16px; }
+  .conds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  @media (max-width: 760px) { .conds { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px) { .conds { grid-template-columns: 1fr; } }
+  .conds div { background: var(--card); padding: 16px 18px; display: grid; gap: 4px; }
+  .conds b { font: 700 18px "Playfair Display", serif; color: var(--rose); }
+  .conds span { font-size: 14px; color: var(--core-text); }
+  .conds small { font-size: 11px; color: var(--core-muted); letter-spacing: .04em; }
+  .conds-note { margin: 18px 0 0; color: var(--core-muted); font-size: 15px; }
+  .tomb .f .cause { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; color: #ff9dbb; }
+  .tomb .b .diag { font-size: 12px; opacity: .95; }
+  .tomb .b .src { font-size: 9.5px; }
+  .m-empty { color: #ffc2d4; margin: 0; }
+  .m-out { display: grid; gap: 14px; }
+  .m-type { margin: 0; font: 800 34px "Playfair Display", serif; color: #ff4f9a; }
+  .m-out h4 { margin: 0 0 4px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #ff9dbb; }
+  .m-out ul { margin: 0; padding-left: 18px; color: #ffe3ec; font-size: 14px; }
+  .m-out li { margin-bottom: 3px; }
+  .ick .hint b { color: var(--rose); }
+  .q-src { display: block; margin-top: 6px; font-size: 12px; color: var(--rose); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -934,7 +976,7 @@
       <div class="intro reveal">
         <div class="kicker"><i>09</i>Instant turn-offs</div>
         <h2>The <em>ick</em> list.</h2>
-        <p>The people who give her the ick, and the exact moment it happens. Flip a card to see why, and what to do instead.</p>
+        <p>The people who give her the ick, the value they cross, and the exact moment it happens. Flip a card to see why, and what to do instead.</p>
       </div>
       <p class="ick-count mono reveal" id="ickCount">0 icks found</p>
     </div>
@@ -947,7 +989,7 @@
     <div class="intro reveal">
       <div class="kicker"><i>10</i>Compatibility check</div>
       <h2>Would you two <em>click?</em></h2>
-      <p>Pick your personality type and love language. Just for fun, based on how her results read.</p>
+      <p>Pick your personality type and love language. No fake percentages: just where you'd click, where you'd clash, and what to know. Based on how her results read.</p>
     </div>
     <div class="match reveal">
       <div class="m-inputs">
@@ -957,9 +999,8 @@
         <div class="ll" id="myLL"></div>
       </div>
       <div class="m-result" aria-live="polite">
-        <div class="m-score"><span id="mScore">–</span><small>%</small></div>
-        <b id="mVerdict">Pick your type to see.</b>
-        <ul id="mWhy"></ul>
+        <p class="m-empty" id="mEmpty">Pick your type and love language to see how you two would work together.</p>
+        <div class="m-out" id="mOut" hidden></div>
       </div>
     </div>
   </div>
@@ -983,6 +1024,11 @@
       <li class="reveal"><button><b>Faith &amp; meaning</b><em>Spirituality #3</em></button><div class="more"><div class="bar"><i style="--w:88%"></i></div><p>A sense of purpose bigger than herself, rooted in faith and tradition.</p></div></li>
       <li class="reveal"><button><b>Making an impact</b><em>75%</em></button><div class="more"><div class="bar"><i style="--w:75%"></i></div><p>Leaving a mark on the world and on the people around her.</p></div></li>
     </ol>
+    <div class="collide reveal">
+      <h3>When her values <em>collide</em></h3>
+      <p class="collide-sub">Ranking values is easy. The interesting part is what happens when two of them disagree. Tap a dilemma to see which one wins.</p>
+      <div class="dilemmas" id="dilemmas"></div>
+    </div>
   </div>
 </section>
 
@@ -1008,6 +1054,18 @@
     <div class="riasec reveal">
       <svg viewBox="0 0 320 300" id="hex" role="group" aria-label="Holland RIASEC hexagon. Tap a letter."></svg>
       <div class="hex-info" id="hexInfo" aria-live="polite"></div>
+    </div>
+    <div class="conditions reveal">
+      <h3>The conditions come first</h3>
+      <div class="conds">
+        <div><b>People are involved</b><span>Collaboration &gt; isolation</span><small>People &amp; Helping 67.5% · Extraversion 85</small></div>
+        <div><b>She can make something</b><span>Creation &gt; maintenance</span><small>Creative &amp; Expressive 91.7%</small></div>
+        <div><b>There's ownership</b><span>Autonomy &gt; micromanagement</span><small>Self-Direction 83% · DISC Dominance</small></div>
+        <div><b>Results are visible</b><span>Impact &gt; invisible process</span><small>Achievement 100%</small></div>
+        <div><b>There's variety</b><span>Dynamic &gt; repetitive</span><small>"Routine kills your motivation"</small></div>
+        <div><b>Beauty matters</b><span>Taste &gt; pure utility</span><small>Artistic interests 17/20</small></div>
+      </div>
+      <p class="conds-note">Any job with most of these, she'll thrive in. These five environments have all six:</p>
     </div>
     <div class="envs reveal" id="envs"></div>
     <button class="more-btn reveal" data-more="careersAll" aria-expanded="false">See all 20 careers</button>
@@ -1519,10 +1577,12 @@ const TOMBS = [
   ['Solo night shift', 'Died of silence. Not one person to hype up.', 'Extraversion 85 · Relator #1', 'Put her in a room full of people.', 'People & Helping 67.5%'],
   ['Uncredited ghostwriter', 'Nobody ever learned her name.', 'Achievement 100% · DISC recognition', 'Put her name in lights.', 'Art Director · Creative Director']
 ];
+/* [cause of death, diagnosis] in the same order as TOMBS */
+const CAUSES = [['creative starvation', 'High repetition · Solo · No creativity'], ['creative starvation', 'High repetition · Solo · Invisible impact'], ['too much routine', 'Detail-heavy · Fixed rules · Little variety'], ['insufficient autonomy', "Rigid hierarchy · Someone else's name · Little ownership"], ['insufficient autonomy', 'Scripted · No ownership · Low variety'], ['insufficient autonomy', 'Watched · No ownership · No voice'], ['too much routine', 'Detail-heavy · Seasonal grind · No creativity'], ['too much routine', 'Repetitive · Detail-heavy · Invisible'], ['not enough people', 'Solo · Detail-heavy · No users'], ['not enough people', 'Solo · Draining · No creativity'], ['too much routine', 'Scripted · Repetitive · Reactive'], ['bureaucracy', 'Red tape · Rules over people · Slow'], ['no room to go for it', 'Solo · Detail-heavy · Risk-averse'], ['too much routine', 'Detail-heavy · Repetitive · Solo'], ['too much routine', 'Repetitive · No creativity · No voice'], ['bureaucracy', 'Red tape · Slow decisions · No ownership'], ['bureaucracy', 'Paperwork · Red tape · No voice'], ['too much routine', 'Detail-heavy · Solo · Repetitive'], ['not enough people', 'Alone · Quiet · No one to lead'], ['no recognition', "Invisible · No credit · Someone else's name"]];
 const renderTombs = list => document.getElementById('tombs').innerHTML = list.map(([job, epitaph, src, revive, fix], i) =>
   `<button class="tomb" aria-label="${job}: tap to revive"><div class="in">
-    <div class="f"><span class="rip">No. ${String(i + 1).padStart(2, '0')}</span><h3>${job}</h3><p>${epitaph}</p><span class="src">${src}</span></div>
-    <div class="b"><span class="up">${icon('tulip')}</span><b>Revived.</b><span>${revive}</span><span class="src">${fix}</span></div>
+    <div class="f"><span class="rip">No. ${String(i + 1).padStart(2, '0')}</span><h3>${job}</h3><p>${epitaph}</p><span class="cause">Cause of death: ${CAUSES[i][0]}</span></div>
+    <div class="b"><span class="up">${icon('tulip')}</span><b>Revived.</b><span>${revive}</span><span class="diag">${CAUSES[i][1]}</span><span class="src">${src} · ${fix}</span></div>
   </div></button>`).join('');
 const bindTombs = () => document.querySelectorAll('.tomb').forEach(t => t.onclick = e => {
   t.classList.toggle('on');
@@ -1589,21 +1649,23 @@ document.querySelector('#contacts a[href^="mailto:"]').addEventListener('click',
 /* [who, the moment, why it's an ick, what to do instead] */
 const ICKS = [
   ['The "5 minutes away" friend', 'Texts "almost there!" while still in bed.', 'Honesty #2 plus an ESFJ planner. Just tell her the real time.', 'Text the real ETA. "Running 20 late" beats "almost there!" every time.'],
-  ['The "idk, wherever" date', 'Every question gets "idk, you pick," all night.', 'DISC Dominance: she loves decisiveness. Have an opinion.', 'Come with two options. She\'ll happily pick one.'],
+  ['The "idk, wherever" friend', 'Every question gets "idk, you pick," all night.', 'DISC Dominance: she loves decisiveness. Have an opinion.', 'Come with two options. She\'ll happily pick one.'],
   ['The scroller', "Watches TikToks while she's telling a story.", 'Quality Time is a top love language (23%). Be present or be gone.', 'Phone face-down. Ask a follow-up question.'],
   ['The idea thief', 'Says "great idea!" in the meeting, then pitches it as their own.', "Honesty #2 and Achievement 100%. Credit where it's due.", 'Say "that was her idea" out loud, in the meeting.'],
   ['The dinner-table talker', 'Talks over everyone, then asks "wait, what were you saying?"', 'Empathy is her #2 CliftonStrength. She listens, so listen back.', 'Let her finish, then build on what she said.'],
   ['The secret spiller', "Tells her everyone else's business.", "Relator #1: loyalty is everything. If they talk about others, they'll talk about her.", 'Keep confidences. Talk about ideas, not people.'],
-  ['The birthday forgetter', 'Forgets her birthday, then posts about their own for a week.', 'Individualization + Receiving Gifts (27%). She remembers yours.', 'Put it in your calendar. Bonus points for a small, thoughtful gift.'],
+  ['The forgetter', 'Forgets her birthday. Posts about theirs all week.', 'Individualization + Receiving Gifts (27%). She remembers yours.', 'Put it in your calendar. Bonus points for a small, thoughtful gift.'],
   ['The group-project ghost', '"I\'ll do my part tonight." It\'s been three days.', 'Dutifulness 19/20. Her word is her bond.', 'Do your part when you said you would, or say early if you can\'t.'],
   ['The two-faced sweetheart', 'Sweet to her and rude to everyone else.', 'Fairness and Honesty. How you treat everyone is who you are.', 'Be kind to everyone, especially people who can\'t do anything for you.'],
   ['The one-word texter', 'Replies "k." to her long, thoughtful message.', 'Words of Affirmation (23%) and Communication in her top 5. Words matter to her.', 'Match her energy. A real reply, even a short one, with some heart.'],
   ['The fake apologizer', '"Sorry you feel that way."', "Honesty #2. That's not an apology, and she knows it.", 'Say "I\'m sorry I did that," and mean it.'],
   ['The empty-handed guest', 'Shows up to her dinner with nothing. Not even a thank-you.', 'ESFJ host plus Receiving Gifts (27%).', 'Bring flowers or dessert, and say thank you.']
 ];
+/* the value each ick crosses, in the same order */
+const ICK_VALUES = ['Honesty', 'Decisiveness', 'Presence', 'Fairness', 'Empathy', 'Loyalty', 'Thoughtfulness', 'Responsibility', 'Kindness', 'Connection', 'Honesty', 'Gratitude'];
 const ickGrid = document.getElementById('ickGrid');
-ickGrid.innerHTML = ICKS.map(([who, what, why, instead]) => `<button class="ick" aria-label="${who.replace(/"/g, '&quot;')}: flip to see what to do instead"><div class="in">
-  <div class="f"><span class="who">${who}</span><span class="what">${what}</span><span class="hint">Tap to flip</span></div>
+ickGrid.innerHTML = ICKS.map(([who, what, why, instead], i) => `<button class="ick" aria-label="${who.replace(/"/g, '&quot;')}: flip to see what to do instead"><div class="in">
+  <div class="f"><span class="who">${who}</span><span class="what">${what}</span><span class="hint">Crosses: <b>${ICK_VALUES[i]}</b> · tap to flip</span></div>
   <div class="b"><span class="stamp">ICK</span><span class="why">${why}</span><span class="do"><b>Do this instead</b>${instead}</span></div>
 </div></button>`).join('');
 const ickCount = () => {
@@ -1813,18 +1875,23 @@ document.querySelectorAll('.more-btn[data-more]').forEach(btn => {
 
 // compatibility check
 const PAIRS = [['E', 'Extraverted', 'I', 'Introverted'], ['S', 'Observant', 'N', 'Intuitive'], ['F', 'Feeling', 'T', 'Thinking'], ['J', 'Judging', 'P', 'Prospecting']];
-const PAIR_WHY = {
-  E: [8, 'You both get energy from people. Expect a packed calendar.'], I: [4, "You'll balance her social battery, and she'll get you out of the house."],
-  S: [6, "You're both practical and grounded."], N: [4, 'You bring big-picture ideas; she makes them real.'],
-  F: [8, 'You both lead with your heart.'], T: [3, 'You bring the logic; she brings the warmth.'],
-  J: [8, 'You both love a plan. The group chat will be organized.'], P: [2, "You keep things spontaneous; she'll handle the itinerary."]
+/* per letter: [where you'd click, where you'd clash, what you'd need to understand] */
+const LETTER = {
+  E: ['You both recharge around people, so your calendars will fill fast.', 'Two big voices in one room. Take turns having the floor.', null],
+  I: ['You bring calm; she brings the plans.', "She'll want to go out more often than you do.", 'She recharges with people. When she drags you out, it is affection.'],
+  S: ["You're both practical and grounded.", null, null],
+  N: ['You bring big-picture ideas; she makes them real.', "She'll want dates and details while you're still dreaming.", 'Attach a plan to the idea, and she is all in.'],
+  F: ['You both lead with your heart.', null, null],
+  T: ['You bring the logic to her warmth.', 'Blunt facts without warmth can land hard.', 'Lead with care, then the facts. She will hear both.'],
+  J: ['You both love a plan. The group chat will be organized.', 'Two planners, one itinerary. Decide who owns it.', null],
+  P: ['You keep things spontaneous and fun.', 'Last-minute changes will test her.', 'Changing the plan is fine. Surprising her with it is not. Give her a heads-up.']
 };
 const MY_LL = [
-  ['Receiving Gifts', 20, 'Same #1 love language. You\'ll both show up with thoughtful little things.'],
-  ['Words of Affirmation', 16, "Words of Affirmation is her #2. Say it out loud."],
-  ['Quality Time', 16, 'Quality Time is tied for her #2. Phones down.'],
-  ['Acts of Service', 12, 'She values Acts of Service too, at 20%.'],
-  ['Physical Touch', 6, 'Her lowest at 7%. Try words, time, or a vanilla latte instead.']
+  ['Receiving Gifts', 'Thoughtful little things. You already speak her #1 love language.'],
+  ['Words of Affirmation', 'You will say it out loud, and she will remember it.'],
+  ['Quality Time', 'Your full, phone-down attention.'],
+  ['Acts of Service', 'You will help before she has to ask.'],
+  ['Physical Touch', 'Your warmth. Pair it with words or a small gift and it lands even better.']
 ];
 const pick = { type: [null, null, null, null], ll: null };
 document.getElementById('mbti').innerHTML = PAIRS.map(([a, an, b, bn], i) => `<div class="pair" data-i="${i}"><button data-v="${a}">${a}<small>${an}</small></button><button data-v="${b}">${b}<small>${bn}</small></button></div>`).join('');
@@ -1832,16 +1899,15 @@ document.getElementById('myLL').innerHTML = MY_LL.map(([n], i) => `<button data-
 const scoreMatch = () => {
   const chosen = pick.type.filter(Boolean);
   if (!chosen.length && pick.ll === null) return;
-  let score = 50, why = [];
-  chosen.forEach(v => { score += PAIR_WHY[v][0]; why.push(PAIR_WHY[v][1]); });
-  pick.type.forEach((v, i) => { if (!v) score += 5; });
-  if (pick.ll !== null) { score += MY_LL[pick.ll][1]; why.push(MY_LL[pick.ll][2]); } else score += 12;
-  score = Math.min(100, score);
-  const verdict = score >= 95 ? 'Day-one material.' : score >= 85 ? 'Inner circle potential.' : score >= 75 ? 'Great friends, great plans.' : 'Friends who keep it interesting.';
-  const type = pick.type.map(v => v || '_').join('');
-  document.getElementById('mScore').textContent = score;
-  swap(document.getElementById('mVerdict'), `${type} + ESFJ: ${verdict}`);
-  document.getElementById('mWhy').innerHTML = why.map(w => `<li>${w}</li>`).join('');
+  const click = chosen.map(v => LETTER[v][0]), clash = chosen.map(v => LETTER[v][1]).filter(Boolean);
+  const need = [...chosen.map(v => LETTER[v][2]).filter(Boolean), 'She decides fast and protects hard. It is care, not control.'];
+  const appreciate = pick.ll !== null ? [MY_LL[pick.ll][1]] : ['Pick your love language to see this.'];
+  if (pick.type[3] === 'J') appreciate.push('That you show up on time, with a plan.');
+  if (pick.type[2] === 'F') appreciate.push('That you notice how people feel.');
+  const block = (t, items) => `<div><h4>${t}</h4><ul>${items.map(x => `<li>${x}</li>`).join('')}</ul></div>`;
+  document.getElementById('mEmpty').hidden = true;
+  const out = document.getElementById('mOut'); out.hidden = false;
+  swap(out, `<p class="m-type">${pick.type.map(v => v || '_').join('')} + ESFJ</p>` + block("Where you'd click", click.length ? click : ['Pick your letters to see this.']) + block("Where you'd clash", clash.length ? clash : ['Honestly? Not much.']) + block("What she'd appreciate", appreciate) + block("What you'd need to understand", need));
 };
 document.querySelectorAll('#mbti .pair').forEach(pair => pair.querySelectorAll('button').forEach(b => b.onclick = () => {
   pair.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
@@ -1897,6 +1963,8 @@ const QUIZ = [
   ['She joins a new club where she knows nobody.', ['Works the room and leaves with 20 new contacts', 'Talks to everyone once, then picks two people to actually get to know', 'Sticks close to the organizer all night', 'Waits for people to come to her'], 1, 'Working the room is the decoy. Extraversion 85 gets her talking to everyone, but Relator #1 decides who she actually keeps.'],
   ["A friend asks for honest feedback on an outfit, and it's not working.", ['Says it looks great, because it is not worth the stress', 'Says "it is giving… something" and changes the subject', "Says it's not the one, then helps pick something better", 'Sends a Pinterest board later that night'], 2, 'The Pinterest board is sweet, but too late. Honesty #2 plus Developer: the truth, on the spot, with a fix.']
 ];
+/* where on the page each answer was covered, in question order */
+const QUIZ_SRC = ['Icks (the "idk, wherever" friend)', 'Icks (the idea thief)', 'Love language', 'Mood meter', 'Mood meter', 'Icks (the group-project ghost)', 'Mood meter', 'Mood meter', 'Inner circle', 'Strong spirit (Principled)'];
 let qi = 0, qScore = 0;
 const quizBox = document.getElementById('quizBox');
 const dots = () => `<div class="q-dots">${QUIZ.map((_, i) => `<i class="${i < qi ? 'done' : ''}"></i>`).join('')}</div>`;
@@ -1915,7 +1983,7 @@ const renderQ = () => {
     const [, , right, why] = QUIZ[qi], picked = +b.dataset.i;
     quizBox.querySelectorAll('.q-opts button').forEach(x => { x.disabled = true; if (+x.dataset.i === right) x.classList.add('right'); });
     if (picked === right) qScore++; else b.classList.add('wrong');
-    quizBox.querySelector('.q-why').textContent = (picked === right ? 'Called it. ' : 'Not her move. ') + why;
+    quizBox.querySelector('.q-why').innerHTML = `${picked === right ? 'Called it. ' : 'Not her move. '}${why}<span class="q-src">Covered in: ${QUIZ_SRC[qi]}</span>`;
     const next = document.createElement('button'); next.className = 'q-next'; next.textContent = qi === QUIZ.length - 1 ? 'See my score' : 'Next question';
     next.onclick = () => { qi++; renderQ(); };
     quizBox.append(next);
@@ -2040,6 +2108,18 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
 addEventListener('resize', drawMap); document.fonts.ready.then(drawMap);
 new IntersectionObserver(([e]) => { if (e.isIntersecting) drawMap(); }).observe(document.getElementById('map'));
 setTimeout(drawMap, 900);
+
+// values collide
+/* [value A, score A, value B, score B, the scene, which wins and why] */
+const DILEMMAS = [
+  ['Security', '100%', 'Self-Direction', '83%', 'A stable job offer, or starting her own thing?', '<b>Security wins, narrowly.</b> She builds the side project anyway, with a safety net under it.'],
+  ['Achievement', '100%', 'Benevolence', '83%', 'A big deadline, or a friend who needs her tonight?', '<b>On paper, Achievement.</b> In practice, Relator #1 shows up for the friend and finishes the work at 2 AM. Both win; sleep loses.'],
+  ['Self-Direction', '83%', 'Tradition', '67%', 'Her own path, or what everyone expects?', '<b>Self-Direction wins, with respect.</b> She does it her way, and brings the family along for the ride.'],
+  ['Security', '100%', 'Stimulation', '58%', 'A spontaneous trip, or the plan?', '<b>Security wins.</b> She will absolutely go on the spontaneous trip, as long as she planned it.']
+];
+document.getElementById('dilemmas').innerHTML = DILEMMAS.map(([a, as, b, bs, scene, verdict]) =>
+  `<button class="dilemma"><span class="vs">${a} <small>${as}</small><i>vs</i>${b} <small>${bs}</small></span><span class="scene">${scene}</span><span class="verdict">${verdict}</span><span class="hint">Tap to see which wins</span></button>`).join('');
+document.querySelectorAll('.dilemma').forEach(d => d.onclick = () => d.classList.toggle('on'));
 
 // values accordion
 document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));

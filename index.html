@@ -178,22 +178,16 @@
   .sw span { font-size: 13px; opacity: .85; }
   @media (max-width: 640px) { .palette { grid-template-columns: 1fr 1fr; } .sw { height: 170px; } }
 
-  footer { padding: 64px 0 28px; color: var(--shell-muted); font-size: 14px; background: linear-gradient(180deg, var(--shell), #1a0912); border-top: 1px solid rgba(255,79,154,.3); }
-  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
-  @media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr; gap: 28px; } }
-  .sig { background: none; border: 0; padding: 0; text-align: left; font: italic 700 clamp(34px, 5vw, 48px) "Playfair Display", serif; color: #fff; line-height: 1.05; }
-  .sig span { display: inline-block; font-style: normal; font-size: .5em; color: #ff4f9a; transition: transform .3s; vertical-align: middle; }
-  .sig:hover { color: #ff9dbb; } .sig:hover span { transform: translateY(-8px); }
-  .motto { margin: 10px 0 0; font: 500 18px "Playfair Display", serif; color: #ff9dbb; }
-  footer h4 { margin: 6px 0 14px; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #ff4f9a; }
-  .contacts { display: flex; flex-wrap: wrap; gap: 10px; }
-  .contacts a { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 99px; border: 1px solid rgba(255,79,154,.5); color: #ffe3ec; text-decoration: none; transition: .2s; }
-  .contacts a .ico { width: 18px; height: 18px; }
-  .contacts a:hover { background: #ff4f9a; border-color: #ff4f9a; color: #fff; transform: translateY(-2px); }
-  .foot-links { display: grid; gap: 8px; }
-  .foot-links a { color: #ffc2d4; text-decoration: none; width: fit-content; }
-  .foot-links a:hover { color: #ff4f9a; }
-  .legal { margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(255,79,154,.2); font-size: 12px; color: #ff9dbb; text-align: center; }
+  footer { padding: 28px 0 20px; background: #1a0912; border-top: 1px solid rgba(255,79,154,.3); }
+  .foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px 32px; }
+  .sig { background: none; border: 0; padding: 0; font: italic 700 30px "Playfair Display", serif; color: #fff; line-height: 1; }
+  .sig span { display: inline-block; font-style: normal; font-size: .6em; color: #ff4f9a; transition: transform .3s; vertical-align: middle; }
+  .sig:hover { color: #ff9dbb; } .sig:hover span { transform: translateY(-6px); }
+  .say { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .contacts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .contacts a { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 99px; border: 1px solid rgba(255,79,154,.5); color: #ffe3ec; text-decoration: none; font-size: 14px; transition: .2s; }
+  .legal { margin-top: 14px; font-size: 12px; color: #ff9dbb; }
+  .legal em { font-family: "Playfair Display", serif; }
 
   /* ---------- modal ---------- */
   dialog { border: 0; padding: 0; border-radius: 28px; max-width: min(520px, calc(100vw - 32px)); background: var(--core); color: var(--core-text); box-shadow: 0 30px 80px -20px rgba(0,0,0,.6); }
@@ -256,9 +250,13 @@
   .code .gut { padding: 14px 10px 14px 16px; text-align: right; color: #b8406f; user-select: none; white-space: pre; position: sticky; left: 0; background: #12060c; }
   .code pre { margin: 0; padding: 14px 16px 14px 6px; color: #f3d9e3; white-space: pre; tab-size: 2; }
   .code .k { color: #ff8fb1; } .code .s { color: #ffb3d1; } .code .n { color: #9fd8ff; } .code .c { color: #d97a9e; font-style: italic; } .code .f { color: #c7a7ff; }
-  .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
-  .stack span { font-size: 12px; padding: 6px 12px; border: 1px solid rgba(255,79,154,.3); color: var(--shell-muted); border-radius: 2px; }
-  .stack span b { color: var(--pop); font-weight: 500; }
+  .stack { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 28px; }
+  .stack button { background: none; border: 1px solid rgba(255,79,154,.35); color: #ffe3ec; border-radius: 4px; padding: 10px 12px; font: 13px ui-monospace, Menlo, monospace; text-align: left; transition: .2s; }
+  .stack button b { color: #ff4f9a; font-weight: 500; margin-right: 6px; }
+  .stack button:hover { border-color: #ff4f9a; }
+  .stack button.on { background: #ff4f9a; border-color: #ff4f9a; color: #fff; } .stack button.on b { color: #fff; }
+  @media (max-width: 640px) { .stack { grid-template-columns: repeat(2, 1fr); } }
+  .stack-info { margin: 12px 0 0; min-height: 48px; padding: 12px 16px; border-radius: 4px; background: #12060c; border-left: 3px solid #ff4f9a; color: #ffc2d4; font-size: 14px; }
   html.xray body * { outline: 1px solid rgba(94,224,160,.35); }
   html.xray body *:hover { outline: 1px solid #5ee0a0; background-color: rgba(94,224,160,.06); }
   #xlabel { position: fixed; z-index: 50; pointer-events: none; font: 11px ui-monospace, Menlo, monospace; background: #0b1f16; color: #5ee0a0; border: 1px solid #5ee0a0; padding: 3px 8px; border-radius: 4px; display: none; white-space: nowrap; }
@@ -340,8 +338,21 @@
   .font-card p b { color: #fff; }
   .font-card .ev { display: block; margin-top: 14px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--rose); font-weight: 700; }
   .tester { margin-top: 16px; border-radius: 22px; padding: 24px; background: rgba(255,79,154,.1); }
-  .tester input { width: 100%; margin: 10px 0 16px; background: transparent; border: 0; border-bottom: 2px solid #ff4f9a; color: #fff; font: 500 18px "DM Sans", sans-serif; padding: 8px 2px; outline: none; }
-  .t-out { font-size: clamp(28px, 5vw, 48px); line-height: 1.2; color: #fff; overflow-wrap: anywhere; }
+  .t-field { display: flex; align-items: center; gap: 10px; margin: 12px 0 14px; padding: 4px 16px; background: rgba(0,0,0,.25); border: 2px solid rgba(255,79,154,.5); border-radius: 14px; cursor: text; transition: border-color .2s, box-shadow .2s; }
+  .t-field:focus-within { border-color: #ff4f9a; box-shadow: 0 0 0 4px rgba(255,79,154,.2); }
+  .t-field .ico { color: #ff9dbb; }
+  .t-field input { flex: 1; min-width: 0; background: transparent; border: 0; color: #fff; font: 500 18px "DM Sans", sans-serif; padding: 12px 0; outline: none; caret-color: #ff4f9a; }
+  .t-field input::placeholder { color: #ff9dbb; opacity: .8; }
+  .t-ctrl { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .t-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .t-chips button { background: none; border: 1px solid rgba(255,79,154,.5); color: #ffe3ec; border-radius: 99px; padding: 5px 12px; font-size: 13px; }
+  .t-chips button:hover { background: #ff4f9a; border-color: #ff4f9a; }
+  .t-size { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #ff9dbb; }
+  .t-size input { -webkit-appearance: none; appearance: none; width: 140px; height: 6px; border-radius: 99px; background: linear-gradient(90deg, #7a1f45, #ffc2d4); }
+  .t-size input::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 3px solid #ff4f9a; }
+  .t-size input::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid #ff4f9a; }
+  .t-out { font-size: var(--ts, 48px); line-height: 1.2; color: #fff; overflow-wrap: anywhere; }
+  @media (max-width: 560px) { .t-out { font-size: min(var(--ts, 48px), 12vw); } }
   .t-out:nth-child(4) { color: #ff9dbb; }
 
   /* ---------- mood meter ---------- */
@@ -377,8 +388,11 @@
   .mlist button.hit { animation: shake .4s; }
 
   /* ---------- graveyard ---------- */
-  .tombs { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 22px; margin-top: 40px; padding-bottom: 18px; border-bottom: 6px solid #7a1f45; }
-  .tomb { perspective: 900px; height: 290px; border: 0; background: none; padding: 0; }
+  .tombs { margin-top: 0; }
+  section.compact { padding: 64px 0; }
+  section.compact .intro h2 { font-size: clamp(30px, 4.5vw, 44px); }
+  #rip .carousel { margin-top: 24px; }
+  .tomb { flex: 0 0 210px; scroll-snap-align: start; perspective: 900px; height: 270px; border: 0; background: none; padding: 0; }
   .tomb .in { position: relative; width: 100%; height: 100%; transition: transform .7s cubic-bezier(.3,1.3,.5,1); transform-style: preserve-3d; }
   .tomb.on .in { transform: rotateY(180deg); }
   .tomb .f, .tomb .b { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 110px 110px 10px 10px; padding: 34px 20px 18px; display: flex; flex-direction: column; align-items: center; text-align: center; }
@@ -402,13 +416,14 @@
   .icks { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin-top: 36px; }
   .ick { position: relative; overflow: hidden; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px; min-height: 150px; color: var(--core-text); display: flex; flex-direction: column; gap: 8px; transition: transform .2s, background .3s; }
   .ick:hover { transform: translateY(-3px); }
-  .ick .what { font: 700 20px "Playfair Display", serif; line-height: 1.2; }
+  .ick .who { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--rose); }
+  .ick .what { font: 700 19px "Playfair Display", serif; line-height: 1.25; }
   .ick .why { font-size: 14px; color: var(--core-muted); max-height: 0; opacity: 0; transition: max-height .4s, opacity .4s; }
   .ick .stamp { position: absolute; right: 14px; top: 12px; font: 800 30px "Playfair Display", serif; color: #ff4f9a; border: 3px solid #ff4f9a; border-radius: 8px; padding: 0 10px; transform: rotate(14deg) scale(2); opacity: 0; transition: transform .35s cubic-bezier(.3,1.6,.5,1), opacity .2s; }
   .ick.on { background: #fff; border-color: #ff4f9a; animation: shudder .45s; }
   .ick.on .why { max-height: 120px; opacity: 1; }
   .ick.on .stamp { transform: rotate(14deg) scale(1); opacity: 1; }
-  .ick.on .what { padding-right: 70px; }
+  .ick.on .who { padding-right: 70px; }
   @keyframes shudder { 15%,45%,75% { transform: translateX(-4px) rotate(-1deg); } 30%,60%,90% { transform: translateX(4px) rotate(1deg); } }
   .holi { display: flex; gap: 20px; align-items: center; margin-top: 16px; padding: 20px 24px; border-radius: 22px; border: 1px solid rgba(255,79,154,.35); }
   .holi p { margin: 0; color: var(--shell-muted); font-size: 15px; } .holi p b { color: #fff; }
@@ -418,6 +433,15 @@
   #annoy .ico { color: #ff4f9a; } #delight .ico { color: var(--rose); }
   .polaroid .ph { gap: 10px; align-content: center; } .polaroid .ph .ico { width: 56px; height: 56px; stroke-width: 1.2; }
   .tomb .b .up .ico { width: 54px; height: 54px; stroke-width: 1.3; }
+  .say-hi { display: flex; align-items: center; gap: 6px; cursor: default; user-select: none; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: #ff4f9a; }
+  .wave { width: 26px; height: 26px; color: #ff9dbb; transform-origin: 70% 85%; }
+  .wave .lines { opacity: 0; transition: opacity .2s; }
+  .say-hi.go .wave, .say-hi:hover .wave, #foot .contacts:hover ~ * .wave { animation: wave 1.6s ease-in-out; }
+  .say-hi.go .wave .lines, .say-hi:hover .wave .lines { opacity: 1; }
+  @keyframes wave { 0%, 60%, 100% { transform: rotate(0); } 10%, 30% { transform: rotate(18deg); } 20%, 40% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
+  @media (prefers-reduced-motion: reduce) { .wave { animation: none !important; } }
+  .gh-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 24px; padding: 12px 20px; border-radius: 12px; background: #12060c; border: 1px solid rgba(255,79,154,.4); color: #ffe3ec; text-decoration: none; font: 500 14px ui-monospace, Menlo, monospace; transition: .2s; }
+  .gh-link:hover { border-color: #ff4f9a; color: #fff; transform: translateY(-2px); }
 </style>
 </head>
 <body>
@@ -599,7 +623,7 @@
       <div class="intro reveal">
         <div class="kicker"><i>07</i>Instant turn-offs</div>
         <h2>The <em>ick</em> list.</h2>
-        <p>People who do these give her the ick. Tap to find out why.</p>
+        <p>The people who give her the ick, and the exact moment it happens. Tap to find out why.</p>
       </div>
       <p class="ick-count mono reveal" id="ickCount">0 icks found</p>
     </div>
@@ -709,14 +733,17 @@
   </div>
 </section>
 
-<section class="shell alt" id="rip">
+<section class="shell alt compact" id="rip">
   <div class="wrap">
     <div class="intro reveal">
       <div class="kicker"><i>13</i>Do not put her here</div>
       <h2>Top 10 absolute <em>nos.</em></h2>
       <p>She'd quit on day one. Every one is backed by her results. Tap a tombstone to bring her back to life.</p>
     </div>
-    <div class="tombs reveal" id="tombs"></div>
+    <div class="carousel late reveal" id="ripCarousel">
+      <div class="track tombs" id="tombs"></div>
+      <div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div>
+    </div>
   </div>
 </section>
 
@@ -726,14 +753,14 @@
       <div class="kicker"><i>14</i>Her colors &amp; fonts</div>
       <h2>Why the page looks like this</h2>
     </div>
-    <p class="pal-label">Her pick: the base</p>
+    <p class="pal-label">The base: her strongest traits, in color</p>
     <div class="palette reveal">
-      <div class="sw" style="background:#2a0f1e;color:#f7e6ec"><b>Wine</b><span>Strong spirit: deep and protective</span></div>
-      <div class="sw" style="background:#e0567f;color:#fff"><b>Rose</b><span>Soft heart: love that runs deep</span></div>
-      <div class="sw" style="background:#ff4f9a;color:#fff"><b>Hot pink</b><span>Big dreams and creating everything</span></div>
-      <div class="sw" style="background:#fbe9ee;color:#3a1426"><b>Blush</b><span>The softness her people get to see</span></div>
+      <div class="sw" style="background:#2a0f1e;color:#f7e6ec"><b>Wine</b><span>Strong spirit: DISC Dominance and Enneagram 8, the protector</span></div>
+      <div class="sw" style="background:#e0567f;color:#fff"><b>Rose</b><span>Soft heart: Love is her #1 VIA strength</span></div>
+      <div class="sw" style="background:#ff4f9a;color:#fff"><b>Hot pink</b><span>The Creator: Creative &amp; Expressive at 91.7%</span></div>
+      <div class="sw" style="background:#fbe9ee;color:#3a1426"><b>Blush</b><span>Kindness #4 and Relator #1: the softness her people see</span></div>
     </div>
-    <p class="pal-label">Assigned by her tests: the accents</p>
+    <p class="pal-label">The accents: colors her tests assign her directly</p>
     <div class="palette reveal">
       <div class="sw" style="background:var(--clifton-blue);color:#fff"><b>Clifton blue</b><span>Relationship Building: 4 of her top 5 CliftonStrengths</span></div>
       <div class="sw" style="background:var(--comm-orange);color:#2a0f1e"><b>Communication orange</b><span>Influencing: her #5 strength, the one orange stripe</span></div>
@@ -742,7 +769,7 @@
     </div>
     <div class="holi reveal">
       <div class="dots-row"><i style="background:#ff2d87"></i><i style="background:#ffb3cf"></i><i style="background:var(--clifton-blue)"></i><i style="background:var(--gifts-red)"></i><i style="background:var(--consul-teal)"></i><i style="background:var(--comm-orange)"></i></div>
-      <p><b>The Holi paint throws her result colors.</b> Every splash is either her own pick (the pinks) or a color one of her tests literally gave her. There's no random rainbow here. Each color below is labeled with where it came from.</p>
+      <p><b>The Holi paint throws her result colors.</b> Every splash comes from her results: the pinks stand for her strongest traits, and the accents are colors her tests literally gave her. There's no random rainbow here. Each color below is labeled with where it came from.</p>
     </div>
     <div class="fonts">
       <div class="font-card reveal">
@@ -765,8 +792,15 @@
       </div>
     </div>
     <div class="tester reveal">
-      <label for="typeIn" class="kicker">Try the fonts</label>
-      <input id="typeIn" value="Suhani" maxlength="40" autocomplete="off">
+      <label for="typeIn" class="kicker">Try the fonts: type anything</label>
+      <div class="t-field">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/></svg>
+        <input id="typeIn" placeholder="Type your name, a quote, anything…" maxlength="60" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="t-ctrl">
+        <div class="t-chips"><button data-t="Suhani Tiwari">Suhani Tiwari</button><button data-t="Soft heart. Strong spirit.">Soft heart. Strong spirit.</button><button data-t="Vanilla latte, please">Vanilla latte, please</button></div>
+        <label class="t-size">Size <input type="range" id="typeSize" min="24" max="96" value="48"></label>
+      </div>
       <div class="t-out" style="font-family:'Playfair Display',serif;font-weight:800" data-out></div>
       <div class="t-out" style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500" data-out></div>
       <div class="t-out" style="font-family:'DM Sans',sans-serif;font-weight:500" data-out></div>
@@ -813,38 +847,20 @@
       </div>
     </div>
 
-    <div class="stack mono reveal">
-      <span><b>HTML5</b> semantic + &lt;dialog&gt;</span>
-      <span><b>CSS</b> grid · custom properties · scroll-snap · 3D transforms</span>
-      <span><b>JS</b> ES2022, zero dependencies</span>
-      <span><b>Canvas 2D</b> + requestAnimationFrame</span>
-      <span><b>Web APIs</b> IntersectionObserver · Performance · Clipboard</span>
-      <span><b>SVG</b> hand-written</span>
-      <span><b>Git</b> + GitHub Pages</span>
-    </div>
+    <div class="stack mono reveal" id="stack" role="tablist" aria-label="Tech stack"></div>
+    <p class="stack-info" id="stackInfo" aria-live="polite">Tap any piece of the stack to see what it does here.</p>
+    <a class="gh-link reveal" id="ghLink" href="https://github.com/suhxnitiwari/suhani-personality" target="_blank" rel="noopener">View the source on GitHub</a>
   </div>
 </section>
 <div id="xlabel"></div><button id="xexit">Exit X-ray</button>
 
 <footer id="foot">
   <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <button class="sig" id="toTop" aria-label="Back to top">Suhani Tiwari <span>↑</span></button>
-        <p class="motto">Soft heart. <em>Strong spirit.</em></p>
-      </div>
-      <div>
-        <h4>Say hi</h4>
-        <div class="contacts" id="contacts"></div>
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <div class="foot-links">
-          <a href="#both">Both/And</a><a href="#gifts">Love language</a><a href="#mood">Mood meter</a><a href="#careers">Creates</a><a href="#code">Under the hood</a>
-        </div>
-      </div>
+    <div class="foot-row">
+      <button class="sig" id="toTop" aria-label="Back to top">Suhani Tiwari <span>↑</span></button>
+      <div class="say"><span class="say-hi" id="sayHi">Say hi <svg class="wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V6a1.5 1.5 0 0 1 3 0v4M10 10V4.5a1.5 1.5 0 0 1 3 0V10M13 10V5.5a1.5 1.5 0 0 1 3 0V11M16 11V8.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-2.7L4 15a1.5 1.5 0 0 1 2.4-1.8L7 14V11"/><path d="M3 5c.5-1.5 1.5-2.5 3-3M19.5 2.5c1.3.7 2 1.8 2.3 3" class="lines"/></svg></span><div class="contacts" id="contacts"></div></div>
     </div>
-    <div class="legal">© 2026 Suhani Tiwari. All rights reserved.</div>
+    <div class="legal"><em>Soft heart. Strong spirit.</em> · © 2026 Suhani Tiwari. All rights reserved.</div>
   </div>
 </footer>
 
@@ -875,6 +891,8 @@ const ICONS = {
   heart: 'M12 20s-8-5-8-11a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 6-8 11-8 11z',
   house: 'M3 11l9-7 9 7M5 10v10h14V10M10 20v-5h4v5',
   camera: 'M4 8h4l2-3h4l2 3h4v11H4zM8 13a4 4 0 1 0 8 0a4 4 0 1 0-8 0',
+  map: 'M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3zM9 3v15M15 6v15',
+  bulb: 'M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10.5c-.8.8-1 1.5-1 2.5H9c0-1-.2-1.7-1-2.5A6 6 0 0 1 12 3z',
   tulip: 'M12 21v-9M12 12c-4 0-5-5-5-8l2.5 2L12 3l2.5 3L17 4c0 3-1 8-5 8zM12 17c-2-2-5-2-6-1 1 2 4 2 6 1zM12 17c2-2 5-2 6-1-1 2-4 2-6 1z'
 };
 const icon = name => `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ICONS[name]}"/></svg>`;
@@ -910,7 +928,7 @@ mClose.onclick = () => modal.close();
 modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });
 
 // carousels
-document.querySelectorAll('.carousel').forEach(c => {
+const initCarousel = c => {
   const track = c.querySelector('.track'), slides = [...track.children], dots = c.querySelector('.dots');
   const prev = c.querySelector('.prev'), next = c.querySelector('.next');
   const step = () => slides[0].offsetWidth + 18;
@@ -930,7 +948,8 @@ document.querySelectorAll('.carousel').forEach(c => {
   next.onclick = () => track.scrollBy({ left: step(), behavior: 'smooth' });
   track.addEventListener('scroll', update, { passive: true });
   addEventListener('resize', update); update();
-});
+};
+document.querySelectorAll('.carousel:not(.late)').forEach(initCarousel);
 
 // inner circle
 /* every tap rewrites the whole section: kicker, title, subtitle, ring labels, caption */
@@ -1070,6 +1089,10 @@ document.querySelectorAll('.contra').forEach(el => {
 const typeIn = document.getElementById('typeIn');
 const typeOut = () => document.querySelectorAll('[data-out]').forEach(o => o.textContent = typeIn.value || 'Suhani');
 typeIn.addEventListener('input', typeOut); typeOut();
+document.querySelector('.t-field').addEventListener('click', () => typeIn.focus());
+document.querySelectorAll('.t-chips button').forEach(b => b.onclick = () => { typeIn.value = b.dataset.t; typeOut(); typeIn.focus(); });
+const typeSize = document.getElementById('typeSize');
+typeSize.addEventListener('input', () => document.querySelector('.tester').style.setProperty('--ts', typeSize.value + 'px'));
 
 // mood meter
 /* [what you do, how she'll react, why] */
@@ -1081,7 +1104,9 @@ const ANNOY = [
   ['Give her the same boring task every day', 'Redesigns the whole task by Wednesday just to make it interesting.', 'Career test: "Routine kills your motivation." She\'s The Creator.'],
   ['Cancel plans last minute', 'Says "no worries," then reschedules with a firm date and time.', 'ESFJ Consul and Orderliness 19/20. The plan will happen.'],
   ['Take credit for her work', 'Calmly corrects the record at the next meeting, with receipts.', 'Achievement 100%, Honesty #2, and recognition is a DISC motivator.'],
-  ['Be mean to her people', 'The protector comes out. You will hear about it, directly.', 'Relator #1 plus Enneagram 8, the protector.']
+  ['Be mean to her people', 'The protector comes out. You will hear about it, directly.', 'Relator #1 plus Enneagram 8, the protector.'],
+  ['Show up with no plan', 'Pulls out her phone and makes the plan herself in thirty seconds.', "ESFJ Consul and DISC Dominance: she won't let a day go to waste."],
+  ['Shoot down her idea without hearing it', 'Pitches it again, better, until you get it.', 'The Creator (91.7%) plus Bravery #6. She believes in her ideas.']
 ];
 const DELIGHT = [
   ['Surprise her with a vanilla latte', 'Instant mood boost. The whole day just got better.', 'Straight from Suhani: works every time. Plus Receiving Gifts is her #1 love language (27%).'],
@@ -1106,7 +1131,7 @@ const setMood = (delta, reaction, why) => {
   if (why) swap(document.getElementById('moodWhy'), why);
   face.classList.remove('pop'); void face.offsetWidth; face.classList.add('pop');
 };
-const ANNOY_ICONS = ['hourglass', 'eye', 'mask', 'clipboard', 'loop', 'calX', 'trophy', 'shield'];
+const ANNOY_ICONS = ['hourglass', 'eye', 'mask', 'clipboard', 'loop', 'calX', 'trophy', 'shield', 'map', 'bulb'];
 const DELIGHT_ICONS = ['latte', 'bowl', 'gift', 'speech', 'phoneOff', 'brush', 'megaphone', 'calCheck', 'heart', 'house'];
 const fill = (id, list, sign, icons) => list.forEach(([text, reaction, why], i) => {
   const b = document.createElement('button');
@@ -1139,6 +1164,7 @@ document.getElementById('tombs').innerHTML = TOMBS.map(([job, epitaph, src, revi
     <div class="f"><span class="rip">R.I.P.</span><h3>${job}</h3><p>${epitaph}</p><span class="src">${src}</span></div>
     <div class="b"><span class="up">${icon('tulip')}</span><b>Revived.</b><span>${revive}</span><span class="src">${fix}</span></div>
   </div></button>`).join('');
+initCarousel(document.getElementById('ripCarousel'));
 document.querySelectorAll('.tomb').forEach(t => t.onclick = e => {
   t.classList.toggle('on');
   if (t.classList.contains('on')) hearts(e.clientX, e.clientY);
@@ -1151,8 +1177,7 @@ const EMAIL = ['suhxnitiwari', 'gmail.com'].join('@');
 const CONTACTS = [
   ['Email', 'mail', 'mailto:' + EMAIL],
   ['LinkedIn', 'linkedin', 'https://www.linkedin.com/in/suhxnitiwari'],
-  ['Instagram', 'instagram', 'https://www.instagram.com/suhxnitiwari'],
-  ['GitHub', 'github', 'https://github.com/suhxnitiwari']
+  ['Instagram', 'instagram', 'https://www.instagram.com/suhxnitiwari']
 ].filter(([, , url]) => url);
 Object.assign(ICONS, {
   mail: 'M3 6h18v12H3zM3 7l9 6 9-6',
@@ -1162,7 +1187,53 @@ Object.assign(ICONS, {
 });
 document.getElementById('contacts').innerHTML = CONTACTS.map(([label, ic, url]) =>
   `<a href="${url}" ${url.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>${icon(ic)}${label}</a>`).join('');
+document.getElementById('ghLink').insertAdjacentHTML('afterbegin', icon('github'));
 document.getElementById('toTop').onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
+/* wave hello whenever the footer scrolls into view */
+const sayHi = document.getElementById('sayHi');
+new IntersectionObserver(([e]) => { if (e.isIntersecting) { sayHi.classList.remove('go'); void sayHi.offsetWidth; sayHi.classList.add('go'); } }, { threshold: .6 }).observe(sayHi);
+
+// icks
+/* [who, the moment, why it's an ick] */
+const ICKS = [
+  ['The waiter-snapper', 'Their food is five minutes late, so they get rude to the server.', 'Kindness is her #4 strength. How someone treats a server tells her everything.'],
+  ['The "5 minutes away" friend', 'Texts "almost there!" while still in bed.', 'Honesty #2 plus an ESFJ planner. Just tell her the real time.'],
+  ['The "idk, wherever" date', 'Every question gets "idk, you pick," all night.', 'DISC Dominance: she loves decisiveness. Have an opinion.'],
+  ['The scroller', "Watches TikToks while she's telling a story.", 'Quality Time is a top love language (23%). Be present or be gone.'],
+  ['The idea thief', 'Says "great idea!" in the meeting, then pitches it as their own.', "Honesty #2 and Achievement 100%. Credit where it's due."],
+  ['The dinner-table talker', 'Talks over everyone, then asks "wait, what were you saying?"', 'Empathy is her #2 CliftonStrength. She listens, so listen back.'],
+  ['The secret spiller', "Tells her everyone else's business.", "Relator #1: loyalty is everything. If they talk about others, they'll talk about her."],
+  ['The birthday forgetter', 'Forgets her birthday, then posts about their own for a week.', 'Individualization + Receiving Gifts (27%). She remembers yours.'],
+  ['The group-project ghost', '"I\'ll do my part tonight." It\'s been three days.', 'Dutifulness 19/20. Her word is her bond.'],
+  ['The two-faced sweetheart', 'Sweet to her and rude to everyone else.', 'Fairness and Honesty. How you treat everyone is who you are.']
+];
+const ickGrid = document.getElementById('ickGrid');
+ickGrid.innerHTML = ICKS.map(([who, what, why]) => `<button class="ick"><span class="stamp">ICK</span><span class="who">${who}</span><span class="what">${what}</span><span class="why">${why}</span></button>`).join('');
+const ickCount = () => {
+  const n = ickGrid.querySelectorAll('.ick.on').length;
+  document.getElementById('ickCount').textContent = n === ICKS.length ? `All ${n} icks revealed. You know her well.` : `${n} of ${ICKS.length} icks revealed`;
+};
+ickGrid.querySelectorAll('.ick').forEach(b => b.onclick = () => { b.classList.toggle('on'); ickCount(); });
+ickCount();
+
+// tech stack
+const STACK = [
+  ['01', 'HTML5', 'Semantic structure, plus the native <dialog> element for every popup. No templating engine.'],
+  ['02', 'CSS', 'Grid layouts, custom properties for theming, scroll-snap carousels, 3D card flips, and color-mix() for the sliders.'],
+  ['03', 'JavaScript', 'Plain ES2022 with zero dependencies. Every interaction on this page is written by hand.'],
+  ['04', 'Canvas 2D', 'Powers the Holi paint: particles drawn as radial gradients about 60 times a second with requestAnimationFrame.'],
+  ['05', 'SVG', 'Hand-written vectors: the inner circle, the mood gauge, and every line drawing.'],
+  ['06', 'Web APIs', 'IntersectionObserver for scroll reveals, Performance for load timing, and Clipboard for the copy button.'],
+  ['07', 'Git', 'Version control for every change. Each update to this site is a commit.'],
+  ['08', 'GitHub Pages', 'Free static hosting straight from the repo. Push a commit and the site updates in about a minute.']
+];
+const techEl = document.getElementById('stack'), techInfo = document.getElementById('stackInfo');
+techEl.innerHTML = STACK.map(([n, name]) => `<button role="tab"><b>${n}</b>${name}</button>`).join('');
+[...techEl.children].forEach((b, i) => b.onclick = () => {
+  [...techEl.children].forEach((x, j) => { x.classList.toggle('on', i === j); x.setAttribute('aria-selected', i === j); });
+  swap(techInfo, `<b style="color:#fff">${STACK[i][1]}:</b> ${esc2(STACK[i][2])}`);
+});
+function esc2(t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 // values accordion
 document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));
@@ -1199,13 +1270,13 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
 // paint canvas
 (() => {
   const cv = document.getElementById('paint'), ctx = cv.getContext('2d');
-  /* Holi, backed by her results: every color is either her pick or assigned by one of her tests */
+  /* Holi, backed by her results: pinks map to her top traits, accents are colors her tests assign directly */
   const COLORS = [
-    '255,45,135',  // rani pink: her pick
+    '255,45,135',  // rani pink: Love, her #1 VIA strength
     '43,125,224',  // Clifton blue: Relationship Building, 4 of her top 5
-    '255,79,154',  // hot pink: her pick
+    '255,79,154',  // hot pink: The Creator, 91.7%
     '242,67,74',   // Gifts red: love language #1
-    '255,179,207', // blush: her pick
+    '255,179,207', // blush: Kindness #4
     '79,147,179',  // Consul teal: 16Personalities Sentinel
     '240,138,36'   // Communication orange: her one Influencing strength
   ];
@@ -1282,7 +1353,7 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     ['love languages', 'gift.js', 'Gift unwrap', 'Pure CSS gift box: the lid and bow spring off with an overshooting cubic-bezier. Unwrapping fires a burst of 26 emoji particles. Each one gets a random angle and distance, converted from polar to x/y with cos/sin, and passed in through CSS custom properties.', ['CSS transitions', 'polar → cartesian', 'CSS custom properties', 'DOM particles']],
     ['photo stack', 'polaroids.js', 'Polaroid stack', 'Each polaroid keeps its own random tilt. A click flings the top card away, then rotates the array (push(shift())) and re-lays out the stack with offsets and z-index. Swap in real photos by adding them to the PHOTOS array.', ['array rotation', 'z-index stacking', 'lazy-loaded images']],
     ['contradictions', 'both-and.js', 'Contradictions sliders', 'Each card is a native <input type="range">. Its value (0–1) goes into a CSS custom property, --t, and color-mix() blends the card between wine and hot pink live as you drag. The text switches at thirds: left side, right side, and "both" in the middle.', ['input range', 'color-mix()', 'CSS custom properties', 'thresholds']],
-    ['font tester', 'fonts.js', 'Font tester', 'One input and three outputs. Every keystroke copies the text into each specimen, so you can see her name in each typeface.', ['input event', 'querySelectorAll', 'live preview']],
+    ['font tester', 'fonts.js', 'Font tester', 'One input and three outputs. Every keystroke copies the text into each specimen. Preset chips fill the field, and a range slider sets a --ts custom property that resizes all three at once.', ['input event', 'range → CSS variable', 'live preview']],
     ['mood meter', 'mood.js', 'Mood meter', 'A single number (0–100) is the state. Every button adds or subtracts a slightly random amount, clamped with Math.min/Math.max, and draws it as an SVG ring gauge using pathLength=100 and stroke-dasharray. Each item carries its own predicted reaction and the test result behind it. The meter is position: sticky, so it follows you while you scroll the list.', ['state + clamp', 'SVG ring gauge', 'position: sticky', 'Math.random']],
     ['graveyard', 'rip.js', 'Graveyard', 'Tombstones are built entirely in CSS: a border-radius of 110px on top and 10px on the bottom makes the headstone shape. The cards are rendered from a data array with map() + join(), and flip in 3D to reveal the "revive" side.', ['border-radius shapes', 'map + template literals', '3D flip']],
     ['icks', 'icks.js', 'Ick list', 'The cards are rendered from a data array. A tap toggles one class, and CSS does the rest: a shudder keyframe, an "ICK" stamp that springs from scale(2) to scale(1), and a max-height reveal for the reason. The counter just counts .ick.on with querySelectorAll.', ['classList.toggle', 'keyframes', 'max-height reveal', 'live counter']],

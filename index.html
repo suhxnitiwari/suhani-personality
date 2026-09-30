@@ -921,6 +921,32 @@
   #gifts .ll-insight { display: none; }
   #gifts.revealed .ll-insight { display: block; animation: pop .4s ease; }
   .lang-tip .guess { display: block; font-style: italic; font-size: 13px; opacity: .9; margin-bottom: 4px; }
+  /* ---------- Big Five wave (from her portfolio) ---------- */
+  .bf-wave { position: relative; height: 210px; margin: 6px 0 8px; }
+  .bf-wave svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .bf-fill { fill: rgba(224,86,127,.12); } .bf-line { fill: none; stroke: var(--rose); stroke-width: 3; stroke-dasharray: 2000; stroke-dashoffset: 2000; animation: drawWave 1.6s ease forwards; }
+  @keyframes drawWave { to { stroke-dashoffset: 0; } }
+  .bf-node { position: absolute; transform: translate(-50%, -50%); background: none; border: 0; padding: 0; display: grid; justify-items: center; gap: 4px; color: var(--core-text); }
+  .bf-node i { width: 16px; height: 16px; border-radius: 50%; background: var(--card); border: 3px solid var(--rose); transition: .2s; order: 2; }
+  .bf-node b { font: 800 26px "Playfair Display", serif; color: var(--rose); order: 1; line-height: 1; }
+  .bf-node b small { font: 700 12px "DM Sans", sans-serif; margin-left: 3px; color: var(--core-muted); }
+  .bf-node span { order: 3; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--core-muted); font-weight: 700; }
+  .bf-node.on i { background: #ff4f9a; border-color: #ff4f9a; transform: scale(1.3); }
+  .bf-detail { text-align: center; padding: 8px 0 22px; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+  .bf-words { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px 18px; color: var(--core-text); }
+  .bf-words .w0 { font: italic 28px "Playfair Display", serif; } .bf-words .w1 { font: 700 13px "DM Sans", sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--rose); }
+  .bf-words .w2 { font: 700 32px "Playfair Display", serif; } .bf-words .w3 { font: italic 22px "Playfair Display", serif; color: var(--rose); }
+  .bf-words .w4 { font: 600 14px "DM Sans", sans-serif; letter-spacing: .14em; text-transform: uppercase; } .bf-words .w5 { font: 26px "Playfair Display", serif; }
+  .bf-detail blockquote { margin: 14px 0 4px; font: italic 700 24px "Playfair Display", serif; color: var(--rose); }
+  .bf-detail p { margin: 0 auto; max-width: 560px; color: var(--core-muted); font-size: 15px; }
+  .bf-detail small { display: block; margin-top: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--core-muted); }
+  /* ---------- her own words ---------- */
+  .q-h { margin: 26px 0 10px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--rose); }
+  .her-words { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .her-words figure { margin: 0; padding: 16px 18px; border-left: 3px solid var(--rose); background: var(--core); border-radius: 0 14px 14px 0; }
+  .her-words blockquote { margin: 0; font: italic 500 16px/1.45 "Playfair Display", serif; color: var(--core-text); }
+  .her-words figcaption { margin-top: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--rose); font-weight: 700; }
+  @media (max-width: 560px) { .bf-node b { font-size: 20px; } .bf-node span { display: none; } .bf-wave { height: 170px; } }
 </style>
 </head>
 <body>
@@ -2078,8 +2104,8 @@ document.querySelectorAll('.palette .sw').forEach((sw, i) => {
 // receipts
 /* positive + neutral results only, straight from her reports */
 const RECEIPTS = [
-  { tab: 'Big Five', title: 'Big Five', note: 'Percentiles for the domains; facets are out of 20.', groups: [
-    ['Domains (percentile)', [['Agreeableness', 93, 100], ['Extraversion', 85, 100], ['Openness', 69, 100]]],
+  { tab: 'Big Five', title: 'Big Five', note: 'Percentiles for the domains; facets are out of 20.', wave: true, groups: [
+    ['Domains (percentile)', [['Agreeableness', 93, 100], ['Conscientiousness', 93, 100], ['Extraversion', 85, 100], ['Openness', 69, 100]]],
     ['Extraversion facets', [['Assertiveness', 18, 20], ['Activity level', 17, 20], ['Gregariousness', 15, 20], ['Friendliness', 14, 20], ['Cheerfulness', 12, 20]]],
     ['Agreeableness facets', [['Morality', 20, 20], ['Altruism', 18, 20], ['Modesty', 16, 20], ['Trust', 14, 20], ['Sympathy', 14, 20], ['Cooperation', 11, 20]]],
     ['Conscientiousness facets', [['Orderliness', 19, 20], ['Dutifulness', 19, 20], ['Self-efficacy', 17, 20], ['Self-discipline', 17, 20], ['Achievement-striving', 13, 20]]],
@@ -2092,7 +2118,7 @@ const RECEIPTS = [
     ['Openness', [['Creativity', 6.65, 10], ['Inquisitiveness', 6.25, 10], ['Aesthetic appreciation', 4.74, 10], ['Unconventionality', 4.74, 10]]],
     ['Heart', [['Sentimentality', 6.76, 10], ['Altruism', 6.44, 10]]]
   ] },
-  { tab: 'VIA strengths', title: 'VIA Character Strengths', note: 'Her top 20 of 24, in order.', list: ['Love', 'Honesty', 'Spirituality', 'Kindness', 'Love of Learning', 'Bravery', 'Leadership', 'Creativity', 'Judgment', 'Curiosity', 'Perspective', 'Social Intelligence', 'Hope', 'Teamwork', 'Zest', 'Fairness', 'Perseverance', 'Humility', 'Gratitude', 'Appreciation of Beauty'].map((n, i) => [String(i + 1), n]) },
+  { tab: 'VIA strengths', title: 'VIA Character Strengths', note: 'Her top 20 of 24, in order.', quotes: [["Love", "I remember your coffee order. I buy gifts six months early when I see something that reminds me of you."], ["Honesty", "I'd rather admit something uncomfortable than pretend everything is fine."], ["Spirituality", "Who am I becoming? What kind of life do I want to build? I think about significance more than logistics."], ["Kindness", "It's not enough for me to care internally. I want to do things for people. Kindness is the action version of love."], ["Love of Learning", "I don't just want the answer. I want to know why."], ["Bravery", "Caring deeply doesn't make me passive. I'll speak up, even when it's unpopular."]], list: ['Love', 'Honesty', 'Spirituality', 'Kindness', 'Love of Learning', 'Bravery', 'Leadership', 'Creativity', 'Judgment', 'Curiosity', 'Perspective', 'Social Intelligence', 'Hope', 'Teamwork', 'Zest', 'Fairness', 'Perseverance', 'Humility', 'Gratitude', 'Appreciation of Beauty'].map((n, i) => [String(i + 1), n]) },
   { tab: 'Values', title: 'Schwartz Values (PVQ)', note: 'All ten values.', groups: [
     ['Very high', [['Achievement', 100, 100], ['Security', 100, 100], ['Benevolence', 83, 100], ['Self-Direction', 83, 100]]],
     ['High and average', [['Power', 75, 100], ['Tradition', 67, 100], ['Conformity', 58, 100], ['Stimulation', 58, 100], ['Universalism', 56, 100], ['Hedonism', 50, 100]]]
@@ -2105,7 +2131,7 @@ const RECEIPTS = [
   ] },
   { tab: 'DISC', title: 'DISC: Dominance', note: 'From her BlossomUp report.', list: [['S', 'Assertive and confident'], ['S', 'Goal-oriented'], ['S', 'Leadership and vision'], ['S', 'Resilience'], ['M', 'Motivated by control and autonomy'], ['M', 'Motivated by recognition and achievement'], ['M', 'Motivated by challenge and competition'], ['C', 'Executive leadership'], ['C', 'Entrepreneurship'], ['C', 'Sales and business development'], ['C', 'Project management'], ['C', 'Law and politics']], listNote: 'S = strength · M = motivator · C = suggested career path' },
   { tab: 'CliftonStrengths', title: 'CliftonStrengths Top 5', note: '4 Relationship Building (blue) and 1 Influencing (orange).', list: [['1', 'Relator: deep, lasting friendships with the right people'], ['2', 'Empathy: senses what others think and feel'], ['3', 'Individualization: sees what makes each person unique'], ['4', 'Developer: spots and grows potential in others'], ['5', 'Communication: brings ideas to life in words']] },
-  { tab: '16Personalities', title: 'ESFJ-T · The Consul', note: 'A Sentinel type.', list: [['E', 'Extraverted: energized by people'], ['S', 'Observant: practical, grounded in the real world'], ['F', 'Feeling: decides with her heart and values'], ['J', 'Judging: loves a plan and structure'], ['T', 'Turbulent: always pushing to be better']] },
+  { tab: '16Personalities', title: 'ESFJ-T · The Consul', note: 'A Sentinel type. Bars show how strong each preference is.', groups: [['Preference strength', [['Extraverted', 73, 100], ['Observant', 57, 100], ['Feeling', 59, 100], ['Judging', 82, 100]]]], quotes: [['Turbulent', 'I hold myself to high standards. When something matters to me, I give it my full attention.'], ['Feeling', 'I remember birthdays, plan gifts months ahead, and pay attention to what makes someone feel known.']], list: [['E', 'Extraverted: energized by people'], ['S', 'Observant: practical, grounded in the real world'], ['F', 'Feeling: decides with her heart and values'], ['J', 'Judging: loves a plan and structure'], ['T', 'Turbulent: always pushing to be better']] },
   { tab: 'Love languages', title: '5 Love Languages', note: 'Her #1 is Receiving Gifts.', groups: [
     ['All five', [['Receiving Gifts', 27, 30], ['Words of Affirmation', 23, 30], ['Quality Time', 23, 30], ['Acts of Service', 20, 30], ['Physical Touch', 7, 30]]]
   ] }
@@ -2113,6 +2139,34 @@ const RECEIPTS = [
 /* what each lens sees, research support (4 strong · 3 moderate · 2 limited · 1 reflective), best use */
 const LENS = {"Big Five": ["broad personality traits", 4, "describing how someone generally thinks, feels, and acts"], "HEXACO": ["broad traits, plus honesty and humility", 4, "trait description, especially integrity"], "VIA strengths": ["character strengths", 3, "naming what someone does at their best"], "Values": ["what motivates her choices", 4, "understanding priorities and trade-offs"], "Career test": ["vocational interests (the RIASEC model)", 3, "exploring careers; the RIASEC model is well-studied, this particular test less so"], "Enneagram": ["core motivations, as a framework", 2, "reflection and conversation"], "DISC": ["behavioral style at work", 2, "team conversations about work style"], "CliftonStrengths": ["natural talents", 3, "developing strengths at school and work"], "16Personalities": ["preferences for energy, information, decisions, and structure", 2, "shared language and self-reflection"], "Love languages": ["preferred ways to give and receive care", 1, "conversations about relationships"]};
 const SUPPORT = ['', 'Reflective framework', 'Limited validation', 'Moderate support', 'Strong research support'];
+/* Big Five as one wave: each score sets its crest (50 at the floor, 100 at the top), from her portfolio */
+const BF = [
+  ['O', 'Openness', 69, 'Selective curiosity.', 'Give me art, ideas and feelings. You can keep the unnecessary chaos.', ['Selective', 'Artistic', 'Emotional', 'Curious', 'Reflective', 'Grounded']],
+  ['C', 'Conscientiousness', 93, 'I have a list for the list.', 'Organized, determined, disciplined… occasionally faster than my own judgment.', ['Organized', 'Disciplined', 'Reliable', 'Determined', 'Structured', 'Fast-moving']],
+  ['E', 'Extraversion', 85, 'People person, not adrenaline person.', "I'll talk to everyone at the party. I simply don't need the party to involve skydiving.", ['Social', 'Assertive', 'Energetic', 'Expressive', 'Outgoing', 'Bold']],
+  ['A', 'Agreeableness', 93, 'Soft heart. Strong opinions.', "I care about people. That does not mean I'm going to agree with you.", ['Empathetic', 'Generous', 'Principled', 'Caring', 'Sincere', 'Strong-willed']]
+];
+const bigFiveWave = () => {
+  const W = 1000, y = sc => 250 - (sc - 50) * 4.2, xs = BF.map((_, i) => 125 + i * 250);
+  const pts = [[0, (y(BF[0][2]) + 250) / 2], ...BF.map((b, i) => [xs[i], y(b[2])]), [W, (y(BF[BF.length - 1][2]) + 250) / 2]];
+  let d = `M${pts[0][0]},${pts[0][1]}`;
+  for (let k = 0; k < pts.length - 1; k++) {
+    const p0 = pts[Math.max(k - 1, 0)], p1 = pts[k], p2 = pts[k + 1], p3 = pts[Math.min(k + 2, pts.length - 1)];
+    d += ` C${p1[0] + (p2[0] - p0[0]) / 6},${p1[1] + (p2[1] - p0[1]) / 6} ${p2[0] - (p3[0] - p1[0]) / 6},${p2[1] - (p3[1] - p1[1]) / 6} ${p2[0]},${p2[1]}`;
+  }
+  return `<div class="bf-wave"><svg viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true"><path class="bf-fill" d="${d} L1000,300 L0,300 Z"/><path class="bf-line" d="${d}"/></svg>
+    ${BF.map(([l, n, sc], i) => `<button class="bf-node" data-i="${i}" style="left:${(xs[i] / 10)}%;top:${y(sc) / 3}%" aria-label="${n}, ${sc}"><i></i><b>${l}<small>${sc}</small></b><span>${n}</span></button>`).join('')}</div>
+    <div class="bf-detail" id="bfDetail"></div>`;
+};
+const bindWave = () => {
+  const show = i => {
+    const [, n, sc, line, aside, words] = BF[i];
+    rpanel.querySelectorAll('.bf-node').forEach((b, j) => b.classList.toggle('on', i === j));
+    swap(document.getElementById('bfDetail'), `<div class="bf-words">${words.map((w, k) => `<span class="w${k}">${w}</span>`).join('')}</div><blockquote>“${line}”</blockquote><p>${aside}</p><small>${n} · ${sc}th percentile · in her words</small>`);
+  };
+  rpanel.querySelectorAll('.bf-node').forEach(b => b.onclick = () => show(+b.dataset.i));
+  show(1);
+};
 const rtabs = document.getElementById('rtabs'), rpanel = document.getElementById('rpanel');
 const fmt = (v, max) => max === 20 ? `${v}/20` : max === 10 ? v.toFixed(2) : max === 30 ? `${v}%` : `${v}%`;
 const renderReceipt = i => {
@@ -2127,7 +2181,10 @@ const renderReceipt = i => {
     `<div class="rrow"><span>${n}</span><span class="bar2"><i style="--w:${Math.min(100, v / max * 100)}%"></i></span><b>${fmt(v, max)}</b></div>`).join('')}</div>`).join('')}</div>`;
   if (r.list) html += `${r.listTitle ? `<h4 class="rgroup" style="margin:22px 0 10px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose)">${r.listTitle}</h4>` : ''}<div class="rlist">${r.list.map(([k, t]) => `<div><b>${k}</b><span>${t}</span></div>`).join('')}</div>`;
   if (r.listNote) html += `<p class="rnote">${r.listNote}</p>`;
+  if (r.quotes) html += `<h4 class="q-h">In her words</h4><div class="her-words">${r.quotes.map(([k, q]) => `<figure><blockquote>“${q}”</blockquote><figcaption>${k} · Suhani</figcaption></figure>`).join('')}</div>`;
+  if (r.wave) html = html.replace('<div class="rgroups">', `${bigFiveWave()}<div class="rgroups">`);
   rpanel.innerHTML = html;
+  if (r.wave) bindWave();
   requestAnimationFrame(() => requestAnimationFrame(() => rpanel.querySelectorAll('.bar2 i').forEach(el => el.style.width = el.style.getPropertyValue('--w'))));
 };
 rtabs.innerHTML = RECEIPTS.map(r => `<button role="tab">${r.tab}</button>`).join('');

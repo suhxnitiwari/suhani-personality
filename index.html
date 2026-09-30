@@ -5,7 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Suhani Tiwari</title>
 <meta name="description" content="Soft heart, strong spirit. A portrait of Suhani Tiwari drawn from eleven personality tests.">
-<script>if (new URLSearchParams(location.search).get('view') === 'quiz') document.documentElement.classList.add('quiz-only');</script>
+<script>/* ?view=<slug> shows one section on its own, for sharing */
+(() => {
+  const MAP = {"name": "top", "strong-spirit": "shell", "soft-heart": "core", "both-and": "both", "the-pattern": "strengths", "in-a-word": "words", "inner-circle": "circle", "love-language": "gifts", "mood-meter": "mood", "icks": "icks", "would-we-click": "match", "values": "values", "photos": "photos", "thrive": "careers", "absolutely-not": "rip", "quiz": "quiz", "style": "palette", "code": "code"};
+  const v = new URLSearchParams(location.search).get('view'), id = MAP[v] || (v && document.getElementById ? v : null);
+  if (!id) return;
+  const h = document.documentElement; h.classList.add('single-view'); h.dataset.view = id;
+  const keep = id === 'strengths' ? `#${id}, #receipts` : `#${id}`;
+  const st = document.createElement('style');
+  st.textContent = `html.single-view body > :is(header, nav, section, footer, .act, #progress):not(${keep}) { display: none !important; }`;
+  document.head.appendChild(st);
+})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,500;1,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -643,14 +653,16 @@
   .combo { min-height: 2.2em; }
   .combo.swap { animation: comboIn .6s ease; }
   @keyframes comboIn { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } }
-  /* ---------- quiz-only view (/quiz/) ---------- */
-  .quiz-bar { display: none; }
-  html.quiz-only body > *:not(#quiz):not(dialog):not(.toast):not(.latte):not(script) { display: none !important; }
-  html.quiz-only #quiz { min-height: 100vh; padding-top: 28px; }
-  html.quiz-only .quiz-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 20px; margin-bottom: 36px; border-bottom: 1px solid var(--line); }
-  html.quiz-only .quiz-bar span { font: italic 700 24px "Playfair Display", serif; color: var(--core-text); }
-  html.quiz-only .quiz-bar a { color: var(--rose); font-weight: 600; font-size: 14px; text-decoration: none; }
-  html.quiz-only #quiz .kicker i { display: none; }
+  /* ---------- single-section view (/quiz/, /name/, /absolutely-not/ ...) ---------- */
+  .view-bar { position: sticky; top: 0; z-index: 30; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 20px; background: rgba(26,9,18,.94); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,79,154,.3); }
+  .view-bar a.vb-name { font: italic 700 22px "Playfair Display", serif; color: #fff; text-decoration: none; }
+  .view-bar div { display: flex; gap: 10px; align-items: center; }
+  .view-bar a.vb-full { color: #ff9dbb; font-size: 14px; font-weight: 600; text-decoration: none; }
+  .view-bar button { background: #ff4f9a; color: #fff; border: 0; border-radius: 99px; padding: 7px 16px; font-size: 13px; font-weight: 600; }
+  html.single-view body > section { min-height: calc(100vh - 60px); }
+  html.single-view .kicker i, html.single-view .share-sec { display: none; }
+  .share-sec { margin-left: 12px; background: none; border: 1px solid currentColor; color: inherit; border-radius: 99px; padding: 2px 10px; font: 700 10px "DM Sans", sans-serif; letter-spacing: .12em; text-transform: uppercase; opacity: .85; vertical-align: middle; }
+  .share-sec:hover { opacity: 1; }
   .share-quiz { margin-top: 18px; }
   .q-share { margin-left: 10px; background: none; color: var(--rose); border: 1px solid var(--rose); }
   /* ---------- anchors (level 1) + evidence drawer (level 3) ---------- */
@@ -694,7 +706,7 @@
   <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
 </div></nav>
 
-<header class="hero">
+<header class="hero" id="top">
   <canvas id="paint" aria-hidden="true"></canvas>
   <div class="orb"></div>
   <div class="wrap">
@@ -1044,7 +1056,6 @@
 
 <section class="core" id="quiz">
   <div class="wrap">
-    <div class="quiz-bar"><span>Suhani Tiwari</span><a href="./">See the full portrait →</a></div>
     <div class="intro reveal">
       <div class="kicker"><i>15</i>Pop quiz</div>
       <h2>What would <em>she do?</em></h2>
@@ -1842,14 +1853,35 @@ document.querySelectorAll('#myLL button').forEach(b => b.onclick = () => {
 });
 
 // quiz
-const QUIZ_URL = location.origin + location.pathname.replace(/[^/]*$/, '') + 'quiz/';
-const shareText = async (text, btn) => {
+const SITE_BASE = location.origin + location.pathname.replace(/[^/]*$/, '');
+const SLUGS = {"name": "top", "strong-spirit": "shell", "soft-heart": "core", "both-and": "both", "the-pattern": "strengths", "in-a-word": "words", "inner-circle": "circle", "love-language": "gifts", "mood-meter": "mood", "icks": "icks", "would-we-click": "match", "values": "values", "photos": "photos", "thrive": "careers", "absolutely-not": "rip", "quiz": "quiz", "style": "palette", "code": "code"};
+const slugFor = id => Object.keys(SLUGS).find(k => SLUGS[k] === id);
+const QUIZ_URL = SITE_BASE + 'quiz/';
+const shareText = async (text, btn, url = QUIZ_URL, title = 'What would she do?') => {
   try {
-    if (navigator.share) { await navigator.share({ title: 'What would she do?', text, url: QUIZ_URL }); return; }
-    await navigator.clipboard.writeText(`${text} ${QUIZ_URL}`);
+    if (navigator.share) { await navigator.share({ title, text, url }); return; }
+    await navigator.clipboard.writeText(`${text} ${url}`);
     const old = btn.textContent; btn.textContent = 'Link copied'; setTimeout(() => btn.textContent = old, 1600);
   } catch {}
 };
+/* a small Share button on every section, copying its own short link */
+document.querySelectorAll('body > section[id]').forEach(sec => {
+  const slug = slugFor(sec.id), k = sec.querySelector('.kicker');
+  if (!slug || !k) return;
+  const b = document.createElement('button');
+  b.className = 'share-sec'; b.textContent = 'Share';
+  b.onclick = () => shareText(k.textContent.replace(/^\d+/, '').trim(), b, SITE_BASE + slug + '/', 'Suhani Tiwari');
+  k.append(b);
+});
+/* single-section view: slim bar with a way back to everything */
+if (document.documentElement.classList.contains('single-view')) {
+  const id = document.documentElement.dataset.view, slug = slugFor(id) || id;
+  const bar = document.createElement('div');
+  bar.className = 'view-bar';
+  bar.innerHTML = `<a class="vb-name" href="${SITE_BASE}">Suhani Tiwari</a><div><a class="vb-full" href="${SITE_BASE}#${id}">See the full portrait →</a><button>Share</button></div>`;
+  bar.querySelector('button').onclick = e => shareText('Suhani Tiwari', e.currentTarget, SITE_BASE + slug + '/', 'Suhani Tiwari');
+  document.body.prepend(bar);
+}
 document.getElementById('shareQuiz').onclick = e => shareText('Ten situations. Predict how Suhani would react.', e.currentTarget);
 /* [question, options, index of the right answer, why] */
 /* every option is plausible; one decoy is nearly right, and the "why" says what gives it away */

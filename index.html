@@ -889,12 +889,54 @@
   .deck-result.right { border-color: var(--rose); }
   .deck-end { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
   .deck-end b { font: 800 44px "Playfair Display", serif; color: var(--rose); }
+  /* ---------- achievements ---------- */
+  .trophy-btn { position: fixed; right: 74px; bottom: 16px; z-index: 35; height: 48px; display: inline-flex; align-items: center; gap: 6px; padding: 0 14px; border-radius: 99px; border: 1px solid #ff4f9a; background: rgba(26,9,18,.92); color: #ff9dbb; font: 700 13px "DM Sans", sans-serif; backdrop-filter: blur(6px); }
+  .trophy-btn .ico { width: 20px; height: 20px; }
+  .trophy-btn:hover { background: #ff4f9a; color: #fff; }
+  .trophy-btn.bump { animation: pop .5s cubic-bezier(.3,1.8,.5,1); }
+  html.single-view .trophy-btn { display: none; }
+  .trophies { border: 0; border-radius: 24px; padding: 24px; background: #1a0912; color: #ffe3ec; width: min(520px, calc(100vw - 24px)); }
+  .trophies::backdrop { background: rgba(26,9,18,.7); backdrop-filter: blur(4px); }
+  .tr-head { display: flex; justify-content: space-between; align-items: center; }
+  .tr-head h3 { font-size: 28px; color: #fff; }
+  .tr-head .x { position: static; }
+  .tr-sub { margin: 4px 0 16px; color: #ff9dbb; font-size: 14px; }
+  .tr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tr-grid div { padding: 10px 12px; border-radius: 12px; border: 1px dashed rgba(255,79,154,.35); }
+  .tr-grid div b { display: block; font: 700 15px "Playfair Display", serif; color: #ff9dbb; }
+  .tr-grid div small { font-size: 12px; color: rgba(255,227,236,.75); }
+  .tr-grid div.got { border-style: solid; border-color: #ff4f9a; background: rgba(255,79,154,.14); }
+  .tr-grid div.got b { color: #fff; }
+  /* ---------- polaroids tucked into sections: drag them around ---------- */
+  body > section > .wrap { position: relative; }
+  .tuck { position: absolute; top: 0; right: 16px; z-index: 4; width: 168px; margin: 0; padding: 9px 9px 0; background: #fff; box-shadow: 0 16px 34px -14px rgba(0,0,0,.55); transform: rotate(var(--r)); cursor: grab; touch-action: none; transition: box-shadow .2s; user-select: none; -webkit-user-select: none; }
+  .tuck:active { cursor: grabbing; box-shadow: 0 26px 44px -12px rgba(0,0,0,.6); }
+  .tuck img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; pointer-events: none; }
+  .tuck figcaption { padding: 8px 2px 10px; text-align: center; font: italic 600 13px "Playfair Display", serif; color: #3a1426; }
+  @media (max-width: 900px) { .tuck { display: none; } }
+  html.single-view .tuck { display: none; }
+  /* ---------- minimal openers: headline first, details on request ---------- */
+  .intro-note { display: none !important; }
+  .intro.noted .intro-note { display: block !important; animation: pop .3s ease; }
+  .intro-q { margin-left: 14px; vertical-align: middle; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid currentColor; background: transparent; color: inherit; font: 700 15px "DM Sans", sans-serif; opacity: .55; transition: opacity .2s, transform .2s; }
+  .intro-q:hover, .intro.noted .intro-q { opacity: 1; transform: rotate(12deg); }
+  /* ---------- hand-drawn underline under each headline's italic word ---------- */
+  .intro h2 em, h2 em { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 14 C 40 6, 80 16, 120 9 S 180 7, 197 12' fill='none' stroke='%23ff4f9a' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 96% / 0% .26em; transition: background-size 1.1s cubic-bezier(.6,.1,.2,1) .35s; padding-bottom: .05em; }
+  .reveal.in h2 em, .in h2 em, h2.in em { background-size: 100% .26em; }
+  /* ---------- break the symmetry a little ---------- */
+  .anchors .anchor:nth-child(2) { margin-top: 46px; }
+  .anchors .anchor:nth-child(3) { margin-top: 18px; }
+  .meets > div:nth-child(3n+2) { transform: translateY(26px); }
+  .meets > div:nth-child(3n) { transform: rotate(-.6deg); }
+  @media (max-width: 760px) { .anchors .anchor:nth-child(n) { margin-top: 0; } .meets > div:nth-child(n) { transform: none; } }
 </style>
 </head>
 <body>
 
 <div id="progress" aria-hidden="true"><i></i><span></span></div>
 <div class="toast" id="toast" role="status"></div>
+<button class="trophy-btn" id="trophyBtn" aria-label="Achievements"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4"/></svg><span id="trophyCount">0/15</span></button>
+<dialog id="trophies" class="trophies"><div class="tr-head"><h3>Achievements</h3><button class="x" id="trClose" aria-label="Close">×</button></div><p class="tr-sub">Play with the page to unlock them all.</p><div class="tr-grid" id="trGrid"></div></dialog>
 <button class="to-top" id="toTop2" aria-label="Back to top">↑</button>
 <button class="rabbit" id="rabbit" aria-label="Take me somewhere interesting">Take me somewhere interesting →</button>
 <div class="latte" id="latte" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><clipPath id="cupClip"><path d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7z"/></clipPath></defs><path class="steam" d="M48 36c-4-6 4-10 0-16M60 36c-4-6 4-10 0-16M72 36c-4-6 4-10 0-16"/><g clip-path="url(#cupClip)"><rect class="fill" x="20" y="104" width="80" height="60"/></g><path class="cup" d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7zM84 56h6a10 10 0 0 1 0 20h-9M22 110h68"/></svg><p>One vanilla latte, coming right up.</p></div>
@@ -934,6 +976,7 @@
 
 <section class="shell alt" id="shell">
   <div class="wrap">
+    <figure class="tuck" style="--r:7deg"><img src="photos/06-blazer.jpg" alt="main character moment" loading="lazy" draggable="false"><figcaption>main character moment</figcaption></figure>
     <div class="head">
       <div class="intro reveal">
         <div class="kicker"><i>01</i>Strong spirit</div>
@@ -961,6 +1004,7 @@
 
 <section class="core" id="core">
   <div class="wrap">
+    <figure class="tuck" style="--r:-6deg"><img src="photos/01-fridge.jpg" alt="the fridge of a loved eldest sister" loading="lazy" draggable="false"><figcaption>the fridge of a loved eldest sister</figcaption></figure>
     <div class="intro reveal">
       <div class="kicker"><i>02</i>Soft heart</div>
       <h2>What her people know</h2>
@@ -1095,6 +1139,7 @@
 
 <section class="core" id="gifts">
   <div class="wrap love">
+    <figure class="tuck" style="--r:-7deg"><img src="photos/10-card.jpg" alt="a gift that meant everything" loading="lazy" draggable="false"><figcaption>a gift that meant everything</figcaption></figure>
     <div class="reveal">
       <div class="kicker"><i>07</i>Her love language</div>
       <h2 style="font-size:clamp(34px,5.5vw,56px);margin:10px 0 12px">Speak her <em>language.</em></h2>
@@ -1122,6 +1167,7 @@
 
 <section class="shell alt" id="mood">
   <div class="wrap">
+    <figure class="tuck" style="--r:5deg"><img src="photos/07-latte.jpg" alt="16 oz hot vanilla latte" loading="lazy" draggable="false"><figcaption>16 oz hot vanilla latte</figcaption></figure>
     <div class="intro reveal">
       <div class="kicker"><i>08</i>Handle with care</div>
       <h2>The mood <em>meter.</em></h2>
@@ -1197,6 +1243,7 @@
 
 <section class="shell" id="values">
   <div class="wrap">
+    <figure class="tuck" style="--r:-5deg"><img src="photos/09-dandiya.jpg" alt="family traditions" loading="lazy" draggable="false"><figcaption>family traditions</figcaption></figure>
     <div class="intro reveal">
       <div class="kicker"><i>11</i>What she lives by</div>
       <h2>Values, in order</h2>
@@ -1233,6 +1280,7 @@
 
 <section class="core" id="careers">
   <div class="wrap careers-top">
+    <figure class="tuck" style="--r:6deg"><img src="photos/02-art.jpg" alt="art that stops me" loading="lazy" draggable="false"><figcaption>art that stops me</figcaption></figure>
     <div class="intro reveal">
       <div class="kicker"><i>13</i>Creates everything</div>
       <h2>Where she'd <em>thrive.</em></h2>
@@ -1474,6 +1522,32 @@
 </dialog>
 
 <script>
+// achievements: small unlocks that turn exploring into a game
+const ACH = [
+  ['gift', 'Unwrapped', 'Open her love language'], ['deck1', 'First swipe', 'Play Ick or green flag'], ['deckPro', 'Knows her values', 'Get 16 of 18 swipes right'],
+  ['tension', 'Both/and', 'See all 8 tensions'], ['quiz', 'Pop quiz', 'Finish "What would she do?"'], ['quizPerfect', 'Called every move', 'Score 10/10 on the quiz'],
+  ['latte', 'Barista', 'Type the secret drink'], ['holi', 'Color thrower', 'Click the hero to throw color'], ['tomb', 'Revived', 'Bring a tombstone back to life'],
+  ['match', 'Would we click?', 'Try the compatibility check'], ['ask', 'Curious', 'Ask the data 3 questions'], ['scenario', 'Scenario builder', 'Build a full scenario'],
+  ['xray', 'X-ray vision', 'Turn on X-ray mode'], ['card', 'Card carrier', 'Get her personality card'], ['polaroid', 'Life in frames', 'Flip through all 10 polaroids']
+];
+let got = new Set();
+try { got = new Set(JSON.parse(localStorage.getItem('suhani-ach') || '[]')); } catch {}
+const paintTrophies = () => {
+  document.getElementById('trophyCount').textContent = `${got.size}/${ACH.length}`;
+  document.getElementById('trGrid').innerHTML = ACH.map(([id, name, how]) => `<div class="${got.has(id) ? 'got' : ''}"><b>${got.has(id) ? name : '???'}</b><small>${how}</small></div>`).join('');
+};
+window.unlock = id => {
+  if (got.has(id) || !ACH.find(a => a[0] === id)) return;
+  got.add(id);
+  try { localStorage.setItem('suhani-ach', JSON.stringify([...got])); } catch {}
+  paintTrophies();
+  const btn = document.getElementById('trophyBtn'); btn.classList.remove('bump'); void btn.offsetWidth; btn.classList.add('bump');
+  window.showToast && showToast(`Achievement unlocked: ${ACH.find(a => a[0] === id)[1]} (${got.size}/${ACH.length})`);
+};
+document.getElementById('trophyBtn').onclick = () => document.getElementById('trophies').showModal();
+document.getElementById('trClose').onclick = () => document.getElementById('trophies').close();
+paintTrophies();
+
 // line drawings
 const ICONS = {
   hourglass: 'M6 3h12M6 21h12M7 3c0 5 10 5 10 9s-10 4-10 9M17 3c0 5-10 5-10 9s10 4 10 9',
@@ -1630,7 +1704,7 @@ const hearts = (x, y) => {
 gift.onclick = () => {
   const r = gift.getBoundingClientRect();
   gift.classList.toggle('open');
-  if (gift.classList.contains('open')) { hearts(r.left + r.width / 2, r.top + r.height / 2); langs.classList.add('go'); pickLang(0); }
+  if (gift.classList.contains('open')) { hearts(r.left + r.width / 2, r.top + r.height / 2); langs.classList.add('go'); pickLang(0); unlock('gift'); }
 };
 [...langs.children].forEach((b, i) => b.onclick = () => { langs.classList.add('go'); pickLang(i); });
 
@@ -1672,7 +1746,7 @@ stackEl.addEventListener('click', () => {
   const top = stackOrder[0];
   top.style.transform = `translate(-50%, -50%) translate(160px, -40px) rotate(24deg)`;
   top.classList.add('fly');
-  setTimeout(() => { stackOrder.push(stackOrder.shift()); top.classList.remove('fly'); seen++; layoutStack(); }, 380);
+  setTimeout(() => { stackOrder.push(stackOrder.shift()); top.classList.remove('fly'); seen++; layoutStack(); if (seen > cards.length) unlock('polaroid'); }, 380);
 });
 layoutStack();
 
@@ -1698,8 +1772,10 @@ const paintTension = () => {
   const html = t < .34 ? lw : t > .66 ? rw : both;
   if (tEl.both.innerHTML !== html) tEl.both.innerHTML = html;
 };
+const seenTensions = new Set();
 const showTension = (i, value = 50) => {
   tI = (i + CONTRAS.length) % CONTRAS.length;
+  seenTensions.add(tI); if (seenTensions.size === CONTRAS.length) unlock('tension');
   const [l, r, , , , src] = CONTRAS[tI];
   tEl.L.textContent = l; tEl.R.textContent = r; tEl.src.textContent = src;
   tEl.count.textContent = `${tI + 1} / ${CONTRAS.length}`;
@@ -1819,7 +1895,7 @@ const renderTombs = list => document.getElementById('tombs').innerHTML = list.ma
   </div></button>`).join('');
 const bindTombs = () => document.querySelectorAll('.tomb').forEach(t => t.onclick = e => {
   t.classList.toggle('on');
-  if (t.classList.contains('on')) hearts(e.clientX, e.clientY);
+  if (t.classList.contains('on')) { hearts(e.clientX, e.clientY); unlock('tomb'); }
 });
 renderTombs(TOMBS.slice(0, 10));
 initCarousel(document.getElementById('ripCarousel')); bindTombs();
@@ -2142,6 +2218,7 @@ const pick = { type: [null, null, null, null], ll: null };
 document.getElementById('mbti').innerHTML = PAIRS.map(([a, an, b, bn], i) => `<div class="pair" data-i="${i}"><button data-v="${a}">${a}<small>${an}</small></button><button data-v="${b}">${b}<small>${bn}</small></button></div>`).join('');
 document.getElementById('myLL').innerHTML = MY_LL.map(([n], i) => `<button data-i="${i}">${n}</button>`).join('');
 const scoreMatch = () => {
+  unlock('match');
   const chosen = pick.type.filter(Boolean);
   if (!chosen.length && pick.ll === null) return;
   const click = chosen.map(v => LETTER[v][0]), clash = chosen.map(v => LETTER[v][1]).filter(Boolean);
@@ -2213,7 +2290,8 @@ const renderQ = () => {
     quizBox.innerHTML = `<div class="q-top">${dots()}<span>Done</span></div><div class="q-final">${qScore}/${QUIZ.length}</div><h3 style="margin-top:10px">${msg}</h3><button class="q-next" id="qAgain">Try again</button><button class="q-next q-share" id="qShare">Share my score</button>`;
     document.getElementById('qAgain').onclick = () => { qi = 0; qScore = 0; renderQ(); };
     document.getElementById('qShare').onclick = e => shareText(`I got ${qScore}/${QUIZ.length} on "What would she do?" Can you beat me?`, e.currentTarget);
-    if (qScore === QUIZ.length) hearts(innerWidth / 2, innerHeight / 2);
+    unlock('quiz');
+    if (qScore === QUIZ.length) { hearts(innerWidth / 2, innerHeight / 2); unlock('quizPerfect'); }
     return;
   }
   const [q, opts] = QUIZ[qi];
@@ -2383,6 +2461,7 @@ document.querySelectorAll('#scnSteps button').forEach(b => b.onclick = () => {
     : score >= 0 ? ['She\'s okay, but she noticed.', 'The repair counted. The first move still registered.']
     : score >= -2 ? ['Polite on the outside. Trust dipped.', 'She won\'t make a scene, but she\'ll plan around them next time.']
     : ['That one is going on the record.', `It isn't really the ${noun}. It's everything after it.`];
+  unlock('scenario');
   swap(scnOut, `<b>${verdict[0]}</b><p>${verdict[1]}</p><p class="scn-val">Triggered value: ${value}</p><p class="scn-ev">${ev}</p>`);
 });
 
@@ -2419,7 +2498,8 @@ const answer = i => {
   askQs.querySelectorAll('button').forEach((b, j) => b.classList.toggle('on', i === j));
   swap(askA, `<h3>${q}</h3><p>${a}</p><p class="cites-h">Based on</p><div class="cites">${cites.map(c => `<span>${c}</span>`).join('')}</div>`);
 };
-askQs.querySelectorAll('button').forEach((b, i) => b.onclick = () => answer(i));
+let asked = 0;
+askQs.querySelectorAll('button').forEach((b, i) => b.onclick = () => { answer(i); if (++asked >= 3) unlock('ask'); });
 answer(1);
 
 // personality card: drawn on a canvas so visitors can save or share it
@@ -2454,6 +2534,7 @@ const drawCard = async () => {
 };
 const cardDialog = document.getElementById('cardDialog');
 document.getElementById('makeCard').onclick = async () => {
+  unlock('card');
   const c = await drawCard(), url = c.toDataURL('image/png');
   document.getElementById('cardImg').src = url;
   document.getElementById('cardDownload').href = url;
@@ -2525,6 +2606,29 @@ addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') document.getElementById('swipeR').click();
 });
 dealDeck();
+
+// tucked polaroids: pick them up and move them anywhere
+document.querySelectorAll('.tuck').forEach(t => {
+  let x0, y0, dx = 0, dy = 0, bx = 0, by = 0;
+  t.addEventListener('pointerdown', e => { x0 = e.clientX; y0 = e.clientY; t.setPointerCapture(e.pointerId); t.style.zIndex = 20; });
+  t.addEventListener('pointermove', e => {
+    if (x0 === undefined) return;
+    dx = bx + e.clientX - x0; dy = by + e.clientY - y0;
+    t.style.transform = `translate(${dx}px, ${dy}px) rotate(calc(var(--r) * .4))`;
+  });
+  t.addEventListener('pointerup', () => { bx = dx; by = dy; x0 = undefined; t.style.transform = `translate(${dx}px, ${dy}px) rotate(var(--r))`; });
+});
+
+// headline-only openers: each section's paragraph hides behind a small "?" next to its headline
+document.querySelectorAll('body > section[id] .intro').forEach(intro => {
+  const h = intro.querySelector('h2'), p = intro.querySelector(':scope > p');
+  if (!h || !p || p.id) return;
+  p.classList.add('intro-note');
+  const q = document.createElement('button');
+  q.className = 'intro-q'; q.textContent = '?'; q.setAttribute('aria-label', 'What is this?'); q.setAttribute('aria-expanded', 'false');
+  q.onclick = () => { const open = intro.classList.toggle('noted'); q.setAttribute('aria-expanded', open); };
+  h.append(q);
+});
 
 // values accordion
 document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));
@@ -2624,7 +2728,7 @@ const hero = document.querySelector('.hero');
   /* easter eggs: type a secret word anywhere */
   const latte = document.getElementById('latte');
   const SECRETS = {
-    latte: () => { latte.classList.add('show'); setTimeout(() => latte.classList.remove('show'), 3800); },
+    latte: () => { unlock('latte'); latte.classList.add('show'); setTimeout(() => latte.classList.remove('show'), 3800); },
     suhani: () => { hearts(innerWidth / 2, innerHeight / 3); showToast("That's her."); },
     holi: () => { const cv = document.getElementById('paint'); scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(() => { for (let i = 0; i < 6; i++) setTimeout(() => cv.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: Math.random() * innerWidth, clientY: Math.random() * innerHeight * .8 })), i * 180); }, 500); }
   };
@@ -2731,7 +2835,7 @@ document.getElementById('toTop2').onclick = () => document.getElementById('toHer
   };
   const pos = e => { const b = cv.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
   hero.addEventListener('pointermove', e => move(...pos(e)));
-  hero.addEventListener('pointerdown', e => { if (!e.target.closest('button, a')) burst(...pos(e)); });
+  hero.addEventListener('pointerdown', e => { if (!e.target.closest('button, a')) { burst(...pos(e)); if (e.isTrusted) window.unlock && unlock('holi'); } });
   hero.addEventListener('pointerleave', () => { last = null; idle = true; });
   const frame = () => {
     ctx.clearRect(0, 0, W, H);
@@ -2894,7 +2998,7 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
 
   // x-ray mode: outline every element, label what's under the cursor
   const label = $('xlabel');
-  const xr = on => { root.classList.toggle('xray', on); $('xray').classList.toggle('on', on); };
+  const xr = on => { root.classList.toggle('xray', on); $('xray').classList.toggle('on', on); if (on) unlock('xray'); };
   $('xray').onclick = () => xr(!root.classList.contains('xray'));
   $('xexit').onclick = () => xr(false);
   addEventListener('keydown', e => { if (e.key === 'Escape') xr(false); });

@@ -766,18 +766,50 @@
   /* a short pulse on whatever a hero chip lands on */
   .ping { animation: ping 1.6s ease; border-radius: 16px; }
   @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(255,79,154,.7); } 60% { box-shadow: 0 0 0 18px rgba(255,79,154,0); } 100% { box-shadow: 0 0 0 0 rgba(255,79,154,0); } }
+  /* ---------- how I built it ---------- */
+  .built-head { margin-top: 44px; }
+  .built-head h3 { font-size: 28px; color: #fff; }
+  .built-head p { margin: 6px 0 0; color: var(--shell-muted); }
+  .big-stats { margin-top: 20px; }
+  .big-stats button { text-align: left; border: 0; background: var(--shell-2); padding: 22px 18px; color: inherit; cursor: pointer; transition: background .2s, transform .2s; position: relative; }
+  .big-stats button:hover { background: #4a1a33; }
+  .big-stats button em { display: block; margin-top: 8px; font-style: normal; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: #ff4f9a; opacity: .75; transition: opacity .2s, transform .2s; }
+  .big-stats button:hover em { opacity: 1; transform: translateX(3px); }
+  .big-stats button.on { background: #ff4f9a; } .big-stats button.on b, .big-stats button.on span, .big-stats button.on em { color: #fff; }
+  .big-stats button.on em { opacity: 1; }
+  .stat-explain { margin-top: 12px; padding: 18px 22px; border-radius: 16px; background: #12060c; border: 1px solid rgba(255,79,154,.35); color: var(--shell-text); animation: pop .3s ease; }
+  .stat-explain h4 { margin: 0 0 6px; font: 700 20px "Playfair Display", serif; color: #ff9dbb; }
+  .stat-explain p { margin: 0 0 8px; font-size: 15px; line-height: 1.6; }
+  .stat-explain .aside { font-size: 13px; color: var(--shell-muted); font-style: italic; margin: 0; }
+  .stat-explain .powers { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .stat-explain .powers button { background: none; border: 1px solid #ff4f9a; color: #ffc2d4; border-radius: 99px; padding: 5px 12px; font-size: 13px; }
+  .stat-explain .powers button:hover { background: #ff4f9a; color: #fff; }
+  .gq { display: none; margin-left: 8px; font: italic 500 12px "Playfair Display", serif; letter-spacing: 0; text-transform: none; color: #ffc2d4; }
+  .ng.on .gq { display: inline; }
+  .act .aq { margin-left: auto; font: italic 500 16px "Playfair Display", serif; color: #ff9dbb; }
+  @media (max-width: 640px) { .act .aq { margin-left: 0; width: 100%; } }
+  .rabbit { position: fixed; left: 16px; bottom: 16px; z-index: 35; background: rgba(26,9,18,.92); color: #ffc2d4; border: 1px solid #ff4f9a; border-radius: 99px; padding: 9px 16px; font-size: 13px; font-weight: 600; backdrop-filter: blur(6px); opacity: 0; transform: translateY(10px); pointer-events: none; transition: .3s; }
+  .rabbit.show { opacity: 1; transform: none; pointer-events: auto; }
+  .rabbit:hover { background: #ff4f9a; color: #fff; }
+  html.single-view .rabbit { display: none; }
+  .q-tested { display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--rose); font-weight: 700; }
+  .q-tested b { color: var(--core-text); }
+  .q-you, .q-her { display: block; font-size: 14px; }
+  .q-you { color: var(--core-muted); } .q-her { color: var(--core-text); font-weight: 600; margin-bottom: 6px; }
+  .q-ev { display: block; margin-top: 8px; font-size: 12px; color: var(--core-text); font-family: ui-monospace, Menlo, monospace; }
 </style>
 </head>
 <body>
 
 <div id="progress" aria-hidden="true"><i></i><span></span></div>
 <div class="toast" id="toast" role="status"></div>
+<button class="rabbit" id="rabbit" aria-label="Take me somewhere interesting">Take me somewhere interesting →</button>
 <div class="latte" id="latte" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><clipPath id="cupClip"><path d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7z"/></clipPath></defs><path class="steam" d="M48 36c-4-6 4-10 0-16M60 36c-4-6 4-10 0-16M72 36c-4-6 4-10 0-16"/><g clip-path="url(#cupClip)"><rect class="fill" x="20" y="104" width="80" height="60"/></g><path class="cup" d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7zM84 56h6a10 10 0 0 1 0 20h-9M22 110h68"/></svg><p>One vanilla latte, coming right up.</p></div>
 <nav id="nav"><div class="wrap">
-  <div class="ng"><a class="gl" id="toHero" href="#top">I · Suhani</a><span class="gs"><a href="#shell"><b>01</b>Spirit</a><a href="#core"><b>02</b>Heart</a><a href="#both"><b>03</b>Both/And</a><a href="#strengths"><b>04</b>The pattern</a><a href="#words"><b>05</b>In a word</a></span></div>
-  <div class="ng"><a class="gl" href="#circle">II · Love</a><span class="gs"><a href="#circle"><b>06</b>Circle</a><a href="#gifts"><b>07</b>Love language</a><a href="#mood"><b>08</b>Mood</a><a href="#icks"><b>09</b>Icks</a><a href="#match"><b>10</b>Match</a></span></div>
-  <div class="ng"><a class="gl" href="#values">III · Mind</a><span class="gs"><a href="#values"><b>11</b>Values</a><a href="#photos"><b>12</b>Photos</a><a href="#careers"><b>13</b>Thrive</a><a href="#rip"><b>14</b>Absolutely not</a><a href="#quiz"><b>15</b>Quiz</a></span></div>
-  <div class="ng"><a class="gl" href="#palette">IV · Built</a><span class="gs"><a href="#palette"><b>16</b>Style</a><a href="#code"><b>17</b>Final test</a></span></div>
+  <div class="ng"><a class="gl" id="toHero" href="#top">I · Suhani<small class="gq">Who is she?</small></a><span class="gs"><a href="#shell"><b>01</b>Spirit</a><a href="#core"><b>02</b>Heart</a><a href="#both"><b>03</b>Both/And</a><a href="#strengths"><b>04</b>The pattern</a><a href="#words"><b>05</b>In a word</a></span></div>
+  <div class="ng"><a class="gl" href="#circle">II · Love<small class="gq">How does she love?</small></a><span class="gs"><a href="#circle"><b>06</b>Circle</a><a href="#gifts"><b>07</b>Love language</a><a href="#mood"><b>08</b>Mood</a><a href="#icks"><b>09</b>Icks</a><a href="#match"><b>10</b>Match</a></span></div>
+  <div class="ng"><a class="gl" href="#values">III · Mind<small class="gq">What drives her?</small></a><span class="gs"><a href="#values"><b>11</b>Values</a><a href="#photos"><b>12</b>Photos</a><a href="#careers"><b>13</b>Thrive</a><a href="#rip"><b>14</b>Absolutely not</a><a href="#quiz"><b>15</b>Quiz</a></span></div>
+  <div class="ng"><a class="gl" href="#palette">IV · Built<small class="gq">What did she build?</small></a><span class="gs"><a href="#palette"><b>16</b>Style</a><a href="#code"><b>17</b>Final test</a></span></div>
   <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
 </div></nav>
 
@@ -799,7 +831,7 @@
   </div>
 </header>
 
-<div class="act" id="actI"><div class="wrap"><span>Act I</span><b>This is Suhani</b></div></div>
+<div class="act" id="actI"><div class="wrap"><span>Act I</span><b>This is Suhani</b><i class="aq">Who is she?</i></div></div>
 
 <section class="shell alt" id="shell">
   <div class="wrap">
@@ -941,7 +973,7 @@
   </div>
 </section>
 
-<div class="act" id="actII"><div class="wrap"><span>Act II</span><b>This is how she loves</b></div></div>
+<div class="act" id="actII"><div class="wrap"><span>Act II</span><b>This is how she loves</b><i class="aq">How does she love?</i></div></div>
 
 <section class="core alt" id="circle">
   <div class="wrap circle-wrap">
@@ -1051,7 +1083,7 @@
   </div>
 </section>
 
-<div class="act" id="actIII"><div class="wrap"><span>Act III</span><b>This is how her mind works</b></div></div>
+<div class="act" id="actIII"><div class="wrap"><span>Act III</span><b>This is how her mind works</b><i class="aq">What drives her?</i></div></div>
 
 <section class="shell" id="values">
   <div class="wrap">
@@ -1169,7 +1201,7 @@
   </div>
 </section>
 
-<div class="act" id="actIV"><div class="wrap"><span>Act IV</span><b>She built a world out of it</b></div></div>
+<div class="act" id="actIV"><div class="wrap"><span>Act IV</span><b>She built a world out of it</b><i class="aq">What did she build?</i></div></div>
 
 <section class="shell" id="palette">
   <div class="wrap">
@@ -1248,14 +1280,15 @@
       <div><b>Detail-minded</b><span>Look at the interactions.</span><small>Orderliness 19/20</small></div>
       <div><b>Communicator</b><span>She turned hundreds of data points into a story.</span><small>Communication, CliftonStrengths #5</small></div>
     </div>
-    <p class="final-how reveal">How she built it: one HTML file. No frameworks, no libraries, no build step. Just HTML, CSS, and vanilla JavaScript talking straight to the browser.</p>
+    <div class="built-head reveal"><h3>How I built it</h3><p>No CS degree required. Click a number and I'll translate.</p></div>
 
-    <div class="big-stats reveal">
-      <div><b>1</b><span>HTML file</span></div>
-      <div><b>0</b><span>Frameworks</span></div>
-      <div><b id="sLines">–</b><span>Lines of JS</span></div>
-      <div><b id="sSize">–</b><span>KB total</span></div>
+    <div class="big-stats reveal" id="bigStats">
+      <button data-stat="file" aria-expanded="false"><b>1</b><span>HTML file</span><em>Explore →</em></button>
+      <button data-stat="fw" aria-expanded="false"><b>0</b><span>Frameworks</span><em>Explore →</em></button>
+      <button data-stat="js" aria-expanded="false"><b id="sLines">–</b><span>Lines of JS</span><em>Explore →</em></button>
+      <button data-stat="kb" aria-expanded="false"><b id="sSize">–</b><span>KB total</span><em>Explore →</em></button>
     </div>
+    <div class="stat-explain" id="statExplain" aria-live="polite" hidden></div>
 
     <div class="term reveal">
       <div class="term-bar mono"><i></i><i></i><i></i><span class="t">suhani@portfolio:~$ monitor --live</span><button id="xray">X-ray mode</button></div>
@@ -1992,15 +2025,6 @@ const shareText = async (text, btn, url = QUIZ_URL, title = 'What would she do?'
     const old = btn.textContent; btn.textContent = 'Link copied'; setTimeout(() => btn.textContent = old, 1600);
   } catch {}
 };
-/* a small Share button on every section, copying its own short link */
-document.querySelectorAll('body > section[id]').forEach(sec => {
-  const slug = slugFor(sec.id), k = sec.querySelector('.kicker');
-  if (!slug || !k) return;
-  const b = document.createElement('button');
-  b.className = 'share-sec'; b.textContent = 'Share';
-  b.onclick = () => shareText(k.textContent.replace(/^\d+/, '').trim(), b, SITE_BASE + slug + '/', 'Suhani Tiwari');
-  k.append(b);
-});
 /* single-section view: slim bar with a way back to everything */
 if (document.documentElement.classList.contains('single-view')) {
   const id = document.documentElement.dataset.view, slug = slugFor(id) || id;
@@ -2027,6 +2051,9 @@ const QUIZ = [
 ];
 /* where on the page each answer was covered, in question order */
 const QUIZ_SRC = ['Icks (the "idk, wherever" friend)', 'Icks (the idea thief)', 'Love language', 'Mood meter', 'Mood meter', 'Icks (the group-project ghost)', 'Mood meter', 'Mood meter', 'Inner circle', 'Strong spirit (Principled)'];
+/* what each question was really testing, and the evidence behind her move */
+const QUIZ_TESTED = ['Decision-making', 'Conflict response', 'How she shows care', 'Handling friction', 'Reliability', 'Leading under pressure', 'Creative process', 'Protectiveness', 'Social style', 'Honesty'];
+const QUIZ_EVIDENCE = ['DISC Dominance · ESFJ (Judging)', 'Honesty #2 · Bravery #6 · Assertiveness 18/20', 'Relator #1 · Receiving Gifts 27%', 'DISC Dominance · Achievement 100%', 'Orderliness 19/20 · Dutifulness 19/20', 'Empathy #2 · DISC Dominance · Leadership #7', 'Creative & Expressive 91.7% · Activity 17/20', 'Enneagram 8 · Bravery #6 · Love #1', 'Extraversion 85 · Relator #1', 'Honesty #2 · Developer'];
 let qi = 0, qScore = 0;
 const quizBox = document.getElementById('quizBox');
 const dots = () => `<div class="q-dots">${QUIZ.map((_, i) => `<i class="${i < qi ? 'done' : ''}"></i>`).join('')}</div>`;
@@ -2045,7 +2072,10 @@ const renderQ = () => {
     const [, , right, why] = QUIZ[qi], picked = +b.dataset.i;
     quizBox.querySelectorAll('.q-opts button').forEach(x => { x.disabled = true; if (+x.dataset.i === right) x.classList.add('right'); });
     if (picked === right) qScore++; else b.classList.add('wrong');
-    quizBox.querySelector('.q-why').innerHTML = `${picked === right ? 'Called it. ' : 'Not her move. '}${why}<span class="q-src">Covered in: ${QUIZ_SRC[qi]}</span>`;
+    const opts = QUIZ[qi][1];
+    quizBox.querySelector('.q-why').innerHTML = `<span class="q-tested">This was testing: <b>${QUIZ_TESTED[qi]}</b></span>` +
+      (picked === right ? `<b>Called it.</b> ` : `<span class="q-you">You guessed: ${opts[picked]}</span><span class="q-her">Her likely first move: ${opts[right]}</span>`) +
+      `${why}<span class="q-ev">Evidence: ${QUIZ_EVIDENCE[qi]}</span><span class="q-src">Covered in: ${QUIZ_SRC[qi]}</span>`;
     const next = document.createElement('button'); next.className = 'q-next'; next.textContent = qi === QUIZ.length - 1 ? 'See my score' : 'Next question';
     next.onclick = () => { qi++; renderQ(); };
     quizBox.append(next);
@@ -2319,6 +2349,28 @@ document.querySelectorAll('.chip[data-go]').forEach(chip => chip.addEventListene
   setTimeout(then, 750);
 }));
 
+// rabbit hole: jump somewhere interesting and set it up
+const RABBIT = [
+  () => { const i = Math.random() * 8 | 0, c = document.querySelector(`.contra[data-c="${i}"]`), inp = c.querySelector('input'); inp.value = 50; inp.dispatchEvent(new Event('input')); return c; },
+  () => { const d = [...document.querySelectorAll('.dilemma')][Math.random() * 4 | 0]; d.classList.add('on'); return d; },
+  () => { const t = [...document.querySelectorAll('.tomb')][Math.random() * 10 | 0]; t.classList.add('on'); return t; },
+  () => { const k = [...document.querySelectorAll('.ick')][Math.random() * 12 | 0]; k.classList.add('on'); ickCount(); return k; },
+  () => { const t = Math.random() * 5 | 0; showTheme(t); return document.getElementById('map'); },
+  () => document.querySelectorAll('.meets > div')[Math.random() * 6 | 0],
+  () => { showHex(Math.random() * 6 | 0); return document.querySelector('.riasec'); },
+  () => document.getElementById('quizBox')
+];
+let lastRabbit = -1;
+document.getElementById('rabbit').onclick = () => {
+  let i; do { i = Math.random() * RABBIT.length | 0; } while (i === lastRabbit);
+  lastRabbit = i;
+  const el = RABBIT[i]();
+  el.closest('section').querySelectorAll('.reveal').forEach(r => r.classList.add('in'));
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => ping(el), 600);
+};
+addEventListener('scroll', () => document.getElementById('rabbit').classList.toggle('show', scrollY > innerHeight * .8), { passive: true });
+
 // paint canvas
 (() => {
   const cv = document.getElementById('paint'), ctx = cv.getContext('2d');
@@ -2377,6 +2429,31 @@ document.querySelectorAll('.chip[data-go]').forEach(chip => chip.addEventListene
   };
   frame();
 })();
+
+// how I built it: each stat translates itself for non-engineers
+const STAT_COPY = {
+  file: () => ['1 HTML file', 'The entire website lives in one file. The structure, the styling, and every interaction are packaged together, instead of spread across a large project.', 'What makes that interesting: this whole interactive experience runs on a very small, dependency-free setup.'],
+  fw: () => ['0 frameworks', "No React, Vue, or other framework is doing the heavy lifting. Translation: I didn't use a pre-built application kit to create the interactions you're using.", 'Think of a framework like a construction kit. This site was built closer to the raw materials.'],
+  js: () => [`${document.getElementById('sLines').textContent} lines of JavaScript`, 'JavaScript is what makes the page react to you. These lines power things like:', null, true],
+  kb: () => [`${document.getElementById('sSize').textContent} KB total`, `The entire page is tiny. At roughly ${document.getElementById('sSize').textContent} KB, the code is light enough to load quickly, without shipping a huge software package to your browser.`, 'For scale: a single phone photo is usually a few thousand KB.']
+};
+const POWERS = [['The quiz', 'quiz'], ['Compatibility', 'match'], ['Mood meter', 'mood'], ['Sliders', 'both'], ['Evidence map', 'strengths'], ['X-ray mode', 'xray']];
+const statExplain = document.getElementById('statExplain');
+document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListener('click', () => {
+  const open = btn.classList.contains('on');
+  document.querySelectorAll('#bigStats button').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-expanded', 'false'); });
+  if (open) { statExplain.hidden = true; return; }
+  btn.classList.add('on'); btn.setAttribute('aria-expanded', 'true');
+  const [title, body, aside, powers] = STAT_COPY[btn.dataset.stat]();
+  statExplain.hidden = false;
+  statExplain.innerHTML = `<h4>${title}</h4><p>${body}</p>` +
+    (powers ? `<div class="powers">${POWERS.map(([n, id]) => `<button data-to="${id}">${n}</button>`).join('')}</div>` : '') +
+    (aside ? `<p class="aside">${aside}</p>` : '');
+  statExplain.querySelectorAll('.powers button').forEach(b => b.onclick = () => {
+    if (b.dataset.to === 'xray') { document.getElementById('xray').click(); return; }
+    document.getElementById(b.dataset.to).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}));
 
 // under the hood
 (() => {

@@ -771,7 +771,7 @@
 <div class="toast" id="toast" role="status"></div>
 <div class="latte" id="latte" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><clipPath id="cupClip"><path d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7z"/></clipPath></defs><path class="steam" d="M48 36c-4-6 4-10 0-16M60 36c-4-6 4-10 0-16M72 36c-4-6 4-10 0-16"/><g clip-path="url(#cupClip)"><rect class="fill" x="20" y="104" width="80" height="60"/></g><path class="cup" d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7zM84 56h6a10 10 0 0 1 0 20h-9M22 110h68"/></svg><p>One vanilla latte, coming right up.</p></div>
 <nav id="nav"><div class="wrap">
-  <div class="ng"><a class="gl" href="#shell">I · Suhani</a><span class="gs"><a href="#shell"><b>01</b>Spirit</a><a href="#core"><b>02</b>Heart</a><a href="#both"><b>03</b>Both/And</a><a href="#strengths"><b>04</b>The pattern</a><a href="#words"><b>05</b>In a word</a></span></div>
+  <div class="ng"><a class="gl" id="toHero" href="#top">I · Suhani</a><span class="gs"><a href="#shell"><b>01</b>Spirit</a><a href="#core"><b>02</b>Heart</a><a href="#both"><b>03</b>Both/And</a><a href="#strengths"><b>04</b>The pattern</a><a href="#words"><b>05</b>In a word</a></span></div>
   <div class="ng"><a class="gl" href="#circle">II · Love</a><span class="gs"><a href="#circle"><b>06</b>Circle</a><a href="#gifts"><b>07</b>Love language</a><a href="#mood"><b>08</b>Mood</a><a href="#icks"><b>09</b>Icks</a><a href="#match"><b>10</b>Match</a></span></div>
   <div class="ng"><a class="gl" href="#values">III · Mind</a><span class="gs"><a href="#values"><b>11</b>Values</a><a href="#photos"><b>12</b>Photos</a><a href="#careers"><b>13</b>Thrive</a><a href="#rip"><b>14</b>Absolutely not</a><a href="#quiz"><b>15</b>Quiz</a></span></div>
   <div class="ng"><a class="gl" href="#palette">IV · Built</a><span class="gs"><a href="#palette"><b>16</b>Style</a><a href="#code"><b>17</b>Final test</a></span></div>
@@ -2261,6 +2261,19 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
       el.style.transform = `perspective(800px) rotateX(${-y * 8}deg) rotateY(${x * 10}deg)`;
     });
   }
+
+  /* "I · Suhani" in the nav: back to the top, with a burst of Holi color */
+  const holiBurst = () => {
+    const cv = document.getElementById('paint');
+    for (let i = 0; i < 6; i++) setTimeout(() => cv.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: innerWidth * (.15 + Math.random() * .7), clientY: innerHeight * (.2 + Math.random() * .6) })), i * 170);
+  };
+  document.getElementById('toHero').addEventListener('click', e => {
+    e.preventDefault();
+    scrollTo({ top: 0, behavior: 'smooth' });
+    history.replaceState(null, '', location.pathname + location.search);
+    const wait = () => scrollY < 5 ? holiBurst() : setTimeout(wait, 60);
+    setTimeout(wait, 100);
+  });
 
   /* easter eggs: type a secret word anywhere */
   const latte = document.getElementById('latte');

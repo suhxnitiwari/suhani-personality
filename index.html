@@ -188,6 +188,7 @@
   footer h4 { margin: 6px 0 14px; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #ff4f9a; }
   .contacts { display: flex; flex-wrap: wrap; gap: 10px; }
   .contacts a { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 99px; border: 1px solid rgba(255,79,154,.5); color: #ffe3ec; text-decoration: none; transition: .2s; }
+  .contacts a .ico { width: 18px; height: 18px; }
   .contacts a:hover { background: #ff4f9a; border-color: #ff4f9a; color: #fff; transform: translateY(-2px); }
   .foot-links { display: grid; gap: 8px; }
   .foot-links a { color: #ffc2d4; text-decoration: none; width: fit-content; }
@@ -1144,36 +1145,24 @@ document.querySelectorAll('.tomb').forEach(t => t.onclick = e => {
 });
 
 // footer
-/* contact links: [label, icon, url] */
+/* the email is assembled at runtime so it never sits in the page source as plain text (fewer spam scrapers) */
+const EMAIL = ['suhanitiwari', 'utexas.edu'].join('@');
+/* [label, icon, url]; fill in LinkedIn and Instagram URLs to show them */
 const CONTACTS = [
-  ['GitHub', '', 'https://github.com/suhxnitiwari']
-];
-document.getElementById('contacts').innerHTML = CONTACTS.map(([label, icon, url]) =>
-  `<a href="${url}" ${url.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>${label} <span>↗</span></a>`).join('');
+  ['Email', 'mail', 'mailto:' + EMAIL],
+  ['LinkedIn', 'linkedin', ''],
+  ['Instagram', 'instagram', ''],
+  ['GitHub', 'github', 'https://github.com/suhxnitiwari']
+].filter(([, , url]) => url);
+Object.assign(ICONS, {
+  mail: 'M3 6h18v12H3zM3 7l9 6 9-6',
+  linkedin: 'M4 4h16v16H4zM8 10v6M8 7.5v.01M12 16v-6M12 13c0-2 1-3 2.5-3S17 11 17 13v3',
+  instagram: 'M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zM8 12a4 4 0 1 0 8 0a4 4 0 1 0-8 0M16.5 7.5v.01',
+  github: 'M9 19c-4 1.5-4-2-6-2.5M15 21v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6.2 0C6.6 2.8 5.6 3.1 5.6 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.2 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21'
+});
+document.getElementById('contacts').innerHTML = CONTACTS.map(([label, ic, url]) =>
+  `<a href="${url}" ${url.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>${icon(ic)}${label}</a>`).join('');
 document.getElementById('toTop').onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
-
-// icks
-/* [what they do, why it's an ick] */
-const ICKS = [
-  ['Being rude to the waiter', 'Kindness is her #4 strength. How you treat people who serve you tells her everything.'],
-  ['Lying, even the small ones', 'Honesty is her #2 strength out of 24. Small lies are still lies.'],
-  ['Showing up late without a text', 'ESFJ planner with Orderliness at 19/20. A heads-up costs nothing.'],
-  ['"Idk, whatever you want"', 'DISC Dominance: she loves decisiveness. Have an opinion.'],
-  ['Being on the phone the whole hang', 'Quality Time is one of her top love languages (23%). Be here.'],
-  ['Talking over people', 'Empathy is in her top 2 CliftonStrengths. She listens, so listen back.'],
-  ['Gossiping about their friends', "Relator #1: loyalty is everything. If you talk about them, you'll talk about her."],
-  ['Forgetting important dates', 'Individualization and Receiving Gifts (27%): she remembers yours.'],
-  ['Taking credit for someone else\'s work', 'Honesty #2 and Fairness. Give credit where it\'s due.'],
-  ['Saying "I\'ll do it later" and never doing it', 'Dutifulness 19/20. Her word is her bond, and yours should be too.']
-];
-const ickGrid = document.getElementById('ickGrid');
-ickGrid.innerHTML = ICKS.map(([what, why]) => `<button class="ick"><span class="stamp">ICK</span><span class="what">${what}</span><span class="why">${why}</span></button>`).join('');
-const ickCount = () => {
-  const n = ickGrid.querySelectorAll('.ick.on').length;
-  document.getElementById('ickCount').textContent = n === ICKS.length ? `All ${n} icks found. You know her well.` : `${n} of ${ICKS.length} icks found`;
-};
-ickGrid.querySelectorAll('.ick').forEach(b => b.onclick = () => { b.classList.toggle('on'); ickCount(); });
-ickCount();
 
 // values accordion
 document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));

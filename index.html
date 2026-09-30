@@ -766,7 +766,7 @@
   /* a short pulse on whatever a hero chip lands on */
   .ping { animation: ping 1.6s ease; border-radius: 16px; }
   @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(255,79,154,.7); } 60% { box-shadow: 0 0 0 18px rgba(255,79,154,0); } 100% { box-shadow: 0 0 0 0 rgba(255,79,154,0); } }
-  /* ---------- how I built it ---------- */
+  /* ---------- under the hood ---------- */
   .built-head { margin-top: 44px; }
   .built-head h3 { font-size: 28px; color: #fff; }
   .built-head p { margin: 6px 0 0; color: var(--shell-muted); }
@@ -1393,7 +1393,7 @@
   </div>
 </section>
 
-<div class="act" id="actIV"><div class="wrap"><span>Act IV</span><b>She built a world out of it</b><i class="aq">What did she build?</i></div></div>
+<div class="act" id="actIV"><div class="wrap"><span>Act IV</span><b>The proof</b><i class="aq">What did she build?</i></div></div>
 
 <section class="shell" id="palette">
   <div class="wrap">
@@ -1468,12 +1468,12 @@
     <div class="final-test reveal">
       <div><b>Creative</b><span>She designed it: the colors, the fonts, the Holi paint.</span><small>Creative &amp; Expressive 91.7%</small></div>
       <div><b>Driven</b><span>She finished it. Every section, one file.</span><small>Achievement 100%</small></div>
-      <div><b>Independent</b><span>No frameworks, no templates. She built it herself.</span><small>Self-Direction 83%</small></div>
+      <div><b>Independent</b><span>No frameworks, no templates. Every line is hers.</span><small>Self-Direction 83%</small></div>
       <div><b>Curious</b><span>She learned what she needed along the way.</span><small>Love of Learning #5</small></div>
       <div><b>Detail-minded</b><span>Look at the interactions.</span><small>Orderliness 19/20</small></div>
       <div><b>Communicator</b><span>She turned hundreds of data points into a story.</span><small>Communication, CliftonStrengths #5</small></div>
     </div>
-    <div class="built-head reveal"><h3>How she built it</h3></div>
+    <div class="built-head reveal"><h3>Under the hood</h3></div>
 
     <div class="big-stats reveal" id="bigStats">
       <button data-stat="file" aria-expanded="false"><b>1</b><span>HTML file</span><em>Explore →</em></button>
@@ -2144,10 +2144,11 @@ const BF = [
   ['O', 'Openness', 69, 'Selective curiosity.', 'Give me art, ideas and feelings. You can keep the unnecessary chaos.', ['Selective', 'Artistic', 'Emotional', 'Curious', 'Reflective', 'Grounded']],
   ['C', 'Conscientiousness', 93, 'I have a list for the list.', 'Organized, determined, disciplined… occasionally faster than my own judgment.', ['Organized', 'Disciplined', 'Reliable', 'Determined', 'Structured', 'Fast-moving']],
   ['E', 'Extraversion', 85, 'People person, not adrenaline person.', "I'll talk to everyone at the party. I simply don't need the party to involve skydiving.", ['Social', 'Assertive', 'Energetic', 'Expressive', 'Outgoing', 'Bold']],
-  ['A', 'Agreeableness', 93, 'Soft heart. Strong opinions.', "I care about people. That does not mean I'm going to agree with you.", ['Empathetic', 'Generous', 'Principled', 'Caring', 'Sincere', 'Strong-willed']]
+  ['A', 'Agreeableness', 93, 'Soft heart. Strong opinions.', "I care about people. That does not mean I'm going to agree with you.", ['Empathetic', 'Generous', 'Principled', 'Caring', 'Sincere', 'Strong-willed']],
+  ['N', 'Emotional Sensitivity', 94, 'I feel things. A lot.', '', ['Sensitive', 'Emotionally aware', 'Passionate', 'Perceptive', 'Expressive', 'Deep-feeling']]
 ];
 const bigFiveWave = () => {
-  const W = 1000, y = sc => 250 - (sc - 50) * 4.2, xs = BF.map((_, i) => 125 + i * 250);
+  const W = 1000, y = sc => 250 - (sc - 50) * 4.2, xs = BF.map((_, i) => W / BF.length * (i + .5));
   const pts = [[0, (y(BF[0][2]) + 250) / 2], ...BF.map((b, i) => [xs[i], y(b[2])]), [W, (y(BF[BF.length - 1][2]) + 250) / 2]];
   let d = `M${pts[0][0]},${pts[0][1]}`;
   for (let k = 0; k < pts.length - 1; k++) {
@@ -2162,7 +2163,7 @@ const bindWave = () => {
   const show = i => {
     const [, n, sc, line, aside, words] = BF[i];
     rpanel.querySelectorAll('.bf-node').forEach((b, j) => b.classList.toggle('on', i === j));
-    swap(document.getElementById('bfDetail'), `<div class="bf-words">${words.map((w, k) => `<span class="w${k}">${w}</span>`).join('')}</div><blockquote>“${line}”</blockquote><p>${aside}</p><small>${n} · ${sc}th percentile · in her words</small>`);
+    swap(document.getElementById('bfDetail'), `<div class="bf-words">${words.map((w, k) => `<span class="w${k}">${w}</span>`).join('')}</div><blockquote>“${line}”</blockquote>${aside ? `<p>${aside}</p>` : ''}<small>${n} · ${sc}th percentile · in her words</small>`);
   };
   rpanel.querySelectorAll('.bf-node').forEach(b => b.onclick = () => show(+b.dataset.i));
   show(1);
@@ -2903,7 +2904,7 @@ document.getElementById('toTop2').onclick = () => document.getElementById('toHer
   frame();
 })();
 
-// how she built it: each stat translates itself for non-engineers
+// under the hood: each stat translates itself for non-engineers
 const STAT_COPY = {
   file: () => ['1 HTML file', 'The entire website lives in one file. The structure, the styling, and every interaction are packaged together, instead of spread across a large project.', 'What makes that interesting: this whole interactive experience runs on a very small, dependency-free setup.'],
   fw: () => ['0 frameworks', "No React, Vue, or other framework is doing the heavy lifting. Translation: she didn't use a pre-built application kit to create the interactions you're using.", 'Think of a framework like a construction kit. This site was built closer to the raw materials.'],

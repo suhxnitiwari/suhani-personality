@@ -52,7 +52,8 @@
     background: radial-gradient(circle, #ff8fb1 0%, var(--rose) 28%, rgba(224,86,127,.22) 55%, transparent 72%);
     filter: blur(8px); z-index: -1; animation: beat 3.2s ease-in-out infinite; }
   @keyframes beat { 0%,100% { transform: scale(.94); opacity: .8; } 12% { transform: scale(1.02); opacity: 1; } 24% { transform: scale(.97); } 36% { transform: scale(1.04); opacity: 1; } }
-  .hero h1 { font-size: clamp(56px, 13vw, 140px); font-weight: 800; letter-spacing: -.02em; pointer-events: none; }
+  .hero h1 { font-size: clamp(56px, 13vw, 140px); font-weight: 800; letter-spacing: -.02em; }
+  .hero h1 .ltr { display: inline-block; transition: transform .5s cubic-bezier(.3,1.8,.5,1); cursor: default; }
   .hero h1 span { display: block; font-style: italic; font-weight: 500; font-size: .42em; letter-spacing: 0; color: #ffe3ec; text-shadow: 0 2px 24px rgba(42,15,30,.75), 0 0 2px rgba(122,31,69,.6); padding: 0 .1em .08em; }
   .hero .tag { font-family: "Playfair Display", serif; font-size: clamp(22px, 3.4vw, 32px); margin: 20px 0 0; pointer-events: none; }
   .hero .tag b { color: #ff9dbb; font-style: italic; }
@@ -551,15 +552,80 @@
   .env .f p { margin: 0; font-size: 14px; color: var(--core-muted); flex: 1; }
   .env .f .ev { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--rose); font-weight: 700; }
   .env .f, .env .b { padding: 22px; border-radius: 22px; }
+  /* ---------- scroll progress ---------- */
+  #progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 40; pointer-events: none; }
+  #progress i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #e0567f, #ff4f9a); box-shadow: 0 0 10px rgba(255,79,154,.7); }
+  #progress span { position: absolute; top: -7px; left: 0; width: 16px; height: 16px; transform: translateX(-50%) scale(0); transition: transform .4s cubic-bezier(.3,1.8,.5,1); background: #ff4f9a; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z'/%3E%3C/svg%3E") center/contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z'/%3E%3C/svg%3E") center/contain no-repeat; }
+  #progress.done span { transform: translateX(-50%) scale(1); }
+
+  /* ---------- cursor ---------- */
+  .cur-dot, .cur-ring { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 9999; border-radius: 50%; opacity: 0; transition: opacity .3s, width .25s, height .25s, background .25s; }
+  .cur-dot { width: 7px; height: 7px; background: #ff4f9a; margin: -3.5px 0 0 -3.5px; }
+  .cur-ring { width: 30px; height: 30px; margin: -15px 0 0 -15px; border: 1.5px solid rgba(255,79,154,.7); }
+  .cur-ring.big { width: 52px; height: 52px; margin: -26px 0 0 -26px; background: rgba(255,79,154,.12); }
+  body.has-cursor .cur-dot, body.has-cursor .cur-ring { opacity: 1; }
+
+  /* ---------- toast + latte ---------- */
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); z-index: 60; background: #ff4f9a; color: #fff; padding: 10px 18px; border-radius: 99px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: .35s; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .latte { position: fixed; inset: 0; z-index: 55; display: grid; place-items: center; align-content: center; background: rgba(26,9,18,.55); backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .latte.show { opacity: 1; }
+  .latte svg { width: 170px; }
+  .latte .cup, .latte .steam { fill: none; stroke: #ffe3ec; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .latte .fill { fill: #e8c9a8; transition: transform 1.6s ease; }
+  .latte.show .fill { transform: translateY(-56px); }
+  .latte .steam { opacity: 0; stroke-dasharray: 30; stroke-dashoffset: 30; }
+  .latte.show .steam { animation: steam 1.4s 1.2s ease forwards; }
+  @keyframes steam { to { opacity: 1; stroke-dashoffset: 0; } }
+  .latte p { margin: 10px 0 0; color: #fff; font: italic 600 22px "Playfair Display", serif; }
+
+  /* ---------- compatibility ---------- */
+  .match { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 32px; }
+  @media (max-width: 760px) { .match { grid-template-columns: 1fr; } }
+  .m-inputs h4 { margin: 0 0 10px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #ff9dbb; }
+  .pairs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 22px; }
+  .pair { display: grid; border: 1px solid rgba(255,79,154,.4); border-radius: 14px; overflow: hidden; }
+  .pair button { background: none; border: 0; color: #ffe3ec; padding: 10px 0; font: 700 18px "Playfair Display", serif; }
+  .pair button + button { border-top: 1px solid rgba(255,79,154,.25); }
+  .pair button.on { background: #ff4f9a; color: #fff; }
+  .pair small { display: block; font: 500 10px "DM Sans", sans-serif; letter-spacing: .06em; opacity: .85; }
+  .ll { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ll button { background: none; border: 1px solid rgba(255,79,154,.4); color: #ffe3ec; border-radius: 99px; padding: 7px 14px; font-size: 13px; }
+  .ll button.on { background: #ff4f9a; border-color: #ff4f9a; color: #fff; }
+  .m-result { background: #12060c; border: 1px solid rgba(255,79,154,.35); border-radius: 22px; padding: 24px; }
+  .m-score { font: 800 72px "Playfair Display", serif; color: #ff4f9a; line-height: 1; }
+  .m-score small { font-size: 28px; }
+  .m-result b { display: block; margin: 8px 0 12px; font: 700 22px "Playfair Display", serif; color: #fff; }
+  .m-result ul { margin: 0; padding-left: 18px; color: #ffc2d4; font-size: 14px; }
+  .m-result li { margin-bottom: 6px; }
+
+  /* ---------- quiz ---------- */
+  .quiz { margin-top: 32px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 28px; max-width: 760px; }
+  .q-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 13px; color: var(--core-muted); }
+  .q-dots { display: flex; gap: 6px; } .q-dots i { width: 22px; height: 5px; border-radius: 9px; background: var(--core-2); } .q-dots i.done { background: var(--rose); }
+  .quiz h3 { font-size: 26px; color: var(--core-text); margin-bottom: 16px; }
+  .q-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 560px) { .q-opts { grid-template-columns: 1fr; } }
+  .q-opts button { text-align: left; background: var(--core); border: 1px solid var(--line); color: var(--core-text); border-radius: 14px; padding: 14px 16px; font-size: 15px; transition: .2s; }
+  .q-opts button:hover:not(:disabled) { border-color: var(--rose); }
+  .q-opts button.right { background: var(--rose); border-color: var(--rose); color: #fff; }
+  .q-opts button.wrong { background: #2a0f1e; border-color: #2a0f1e; color: #ffc2d4; }
+  .q-why { margin: 14px 0 0; min-height: 22px; font-size: 14px; color: var(--core-muted); }
+  .q-next { margin-top: 14px; background: var(--rose); color: #fff; border: 0; border-radius: 99px; padding: 10px 22px; font-weight: 600; }
+  .q-final { font: 800 64px "Playfair Display", serif; color: var(--rose); line-height: 1; }
 </style>
 </head>
 <body>
 
+<div id="progress" aria-hidden="true"><i></i><span></span></div>
+<div class="cur-ring" aria-hidden="true"></div><div class="cur-dot" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status"></div>
+<div class="latte" id="latte" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><clipPath id="cupClip"><path d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7z"/></clipPath></defs><path class="steam" d="M48 36c-4-6 4-10 0-16M60 36c-4-6 4-10 0-16M72 36c-4-6 4-10 0-16"/><g clip-path="url(#cupClip)"><rect class="fill" x="20" y="104" width="80" height="60"/></g><path class="cup" d="M28 46h56l-6 50a8 8 0 0 1-8 7H42a8 8 0 0 1-8-7zM84 56h6a10 10 0 0 1 0 20h-9M22 110h68"/></svg><p>One vanilla latte, coming right up.</p></div>
 <nav id="nav"><div class="wrap">
   <div class="ng"><a class="gl" href="#shell">Me</a><span class="gs"><a href="#shell"><b>01</b>Spirit</a><a href="#core"><b>02</b>Heart</a><a href="#both"><b>03</b>Both/And</a><a href="#words"><b>04</b>In a word</a></span></div>
-  <div class="ng"><a class="gl" href="#circle">People</a><span class="gs"><a href="#circle"><b>05</b>Circle</a><a href="#gifts"><b>06</b>Love language</a><a href="#mood"><b>07</b>Mood</a><a href="#icks"><b>08</b>Icks</a></span></div>
-  <div class="ng"><a class="gl" href="#values">Mind</a><span class="gs"><a href="#values"><b>09</b>Values</a><a href="#photos"><b>10</b>Photos</a><a href="#strengths"><b>11</b>Strengths</a><a href="#careers"><b>12</b>Thrive</a><a href="#rip"><b>13</b>Absolutely not</a></span></div>
-  <div class="ng"><a class="gl" href="#palette">World</a><span class="gs"><a href="#palette"><b>14</b>Style</a><a href="#code"><b>15</b>Code</a></span></div>
+  <div class="ng"><a class="gl" href="#circle">People</a><span class="gs"><a href="#circle"><b>05</b>Circle</a><a href="#gifts"><b>06</b>Love language</a><a href="#mood"><b>07</b>Mood</a><a href="#icks"><b>08</b>Icks</a><a href="#match"><b>09</b>Match</a></span></div>
+  <div class="ng"><a class="gl" href="#values">Mind</a><span class="gs"><a href="#values"><b>10</b>Values</a><a href="#photos"><b>11</b>Photos</a><a href="#strengths"><b>12</b>Strengths</a><a href="#careers"><b>13</b>Thrive</a><a href="#rip"><b>14</b>Absolutely not</a><a href="#quiz"><b>15</b>Quiz</a></span></div>
+  <div class="ng"><a class="gl" href="#palette">World</a><span class="gs"><a href="#palette"><b>16</b>Style</a><a href="#code"><b>17</b>Code</a></span></div>
   <button class="toggle" id="theme" aria-label="Toggle light and dark">◐</button>
 </div></nav>
 
@@ -753,10 +819,33 @@
   </div>
 </section>
 
+<section class="shell alt" id="match">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>09</i>Compatibility check</div>
+      <h2>Would you two <em>click?</em></h2>
+      <p>Pick your personality type and love language. Just for fun, based on how her results read.</p>
+    </div>
+    <div class="match reveal">
+      <div class="m-inputs">
+        <h4>Your type</h4>
+        <div class="pairs" id="mbti"></div>
+        <h4>Your love language</h4>
+        <div class="ll" id="myLL"></div>
+      </div>
+      <div class="m-result" aria-live="polite">
+        <div class="m-score"><span id="mScore">–</span><small>%</small></div>
+        <b id="mVerdict">Pick your type to see.</b>
+        <ul id="mWhy"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="shell" id="values">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>09</i>What she lives by</div>
+      <div class="kicker"><i>10</i>What she lives by</div>
       <h2>Values, in order</h2>
       <p>Tap any value to open it.</p>
     </div>
@@ -775,7 +864,7 @@
 <section class="shell" id="photos">
   <div class="wrap photo-wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>10</i>Snapshots</div>
+      <div class="kicker"><i>11</i>Snapshots</div>
       <h2>Life in <em>frames.</em></h2>
       <p>Tap the stack to shuffle through the polaroids.</p>
       <p class="mono" id="photoCount" style="margin-top:14px;color:#ff9dbb;font-size:13px"></p>
@@ -787,7 +876,7 @@
 <section class="shell alt" id="strengths">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>11</i>Signature strengths</div>
+      <div class="kicker"><i>12</i>Signature strengths</div>
       <h2>A <em>creative traditionalist</em> who leads through people</h2>
       <p>Tap any strength to see what it means for her.</p>
     </div>
@@ -821,7 +910,7 @@
 <section class="core" id="careers">
   <div class="wrap careers-top">
     <div class="intro reveal">
-      <div class="kicker"><i>12</i>Creates everything</div>
+      <div class="kicker"><i>13</i>Creates everything</div>
       <h2>Where she'd <em>thrive.</em></h2>
       <p>Not job titles: the conditions where her personality does its best work. These are interpretations of her results, not predictions. Her Holland code is <b>ASE</b> (Artistic, Social, Enterprising), three types that sit side by side on Holland's hexagon, which makes her profile unusually consistent. Tap a letter to explore. Her career test's ideal settings: design studios, ad agencies, media companies, freelance work, and startups with creative freedom.</p>
     </div>
@@ -862,7 +951,7 @@
 <section class="shell alt compact" id="rip">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>13</i>Do not put her here</div>
+      <div class="kicker"><i>14</i>Do not put her here</div>
       <h2>Absolutely <em>not.</em></h2>
       <p>Real jobs people take in 2026 that she'd likely quit on day one, based on how her results read. Tap a tombstone to bring her back to life.</p>
     </div>
@@ -874,10 +963,21 @@
   </div>
 </section>
 
+<section class="core" id="quiz">
+  <div class="wrap">
+    <div class="intro reveal">
+      <div class="kicker"><i>15</i>Pop quiz</div>
+      <h2>How well do you <em>know her?</em></h2>
+      <p>Five questions. Everything you need is somewhere on this page.</p>
+    </div>
+    <div class="quiz reveal" id="quizBox" aria-live="polite"></div>
+  </div>
+</section>
+
 <section class="shell" id="palette">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>14</i>Her colors &amp; fonts</div>
+      <div class="kicker"><i>16</i>Her colors &amp; fonts</div>
       <h2>Why the page looks like this</h2>
     </div>
     <p class="pal-label">The base: her strongest traits, in color</p>
@@ -939,7 +1039,7 @@
 <section class="shell alt" id="code">
   <div class="wrap">
     <div class="intro reveal">
-      <div class="kicker"><i>15</i>Under the hood</div>
+      <div class="kicker"><i>17</i>Under the hood</div>
       <h2>How this site was built</h2>
       <p>One HTML file. No frameworks, no libraries, no build step. Just HTML, CSS, and vanilla JavaScript talking straight to the browser's APIs.</p>
     </div>
@@ -1593,6 +1693,81 @@ document.querySelectorAll('.more-btn[data-more]').forEach(btn => {
   };
 });
 
+// compatibility check
+const PAIRS = [['E', 'Extraverted', 'I', 'Introverted'], ['S', 'Observant', 'N', 'Intuitive'], ['F', 'Feeling', 'T', 'Thinking'], ['J', 'Judging', 'P', 'Prospecting']];
+const PAIR_WHY = {
+  E: [8, 'You both get energy from people. Expect a packed calendar.'], I: [4, "You'll balance her social battery, and she'll get you out of the house."],
+  S: [6, "You're both practical and grounded."], N: [4, 'You bring big-picture ideas; she makes them real.'],
+  F: [8, 'You both lead with your heart.'], T: [3, 'You bring the logic; she brings the warmth.'],
+  J: [8, 'You both love a plan. The group chat will be organized.'], P: [2, "You keep things spontaneous; she'll handle the itinerary."]
+};
+const MY_LL = [
+  ['Receiving Gifts', 20, 'Same #1 love language. You\'ll both show up with thoughtful little things.'],
+  ['Words of Affirmation', 16, "Words of Affirmation is her #2. Say it out loud."],
+  ['Quality Time', 16, 'Quality Time is tied for her #2. Phones down.'],
+  ['Acts of Service', 12, 'She values Acts of Service too, at 20%.'],
+  ['Physical Touch', 6, 'Her lowest at 7%. Try words, time, or a vanilla latte instead.']
+];
+const pick = { type: [null, null, null, null], ll: null };
+document.getElementById('mbti').innerHTML = PAIRS.map(([a, an, b, bn], i) => `<div class="pair" data-i="${i}"><button data-v="${a}">${a}<small>${an}</small></button><button data-v="${b}">${b}<small>${bn}</small></button></div>`).join('');
+document.getElementById('myLL').innerHTML = MY_LL.map(([n], i) => `<button data-i="${i}">${n}</button>`).join('');
+const scoreMatch = () => {
+  const chosen = pick.type.filter(Boolean);
+  if (!chosen.length && pick.ll === null) return;
+  let score = 50, why = [];
+  chosen.forEach(v => { score += PAIR_WHY[v][0]; why.push(PAIR_WHY[v][1]); });
+  pick.type.forEach((v, i) => { if (!v) score += 5; });
+  if (pick.ll !== null) { score += MY_LL[pick.ll][1]; why.push(MY_LL[pick.ll][2]); } else score += 12;
+  score = Math.min(100, score);
+  const verdict = score >= 95 ? 'Day-one material.' : score >= 85 ? 'Inner circle potential.' : score >= 75 ? 'Great friends, great plans.' : 'Friends who keep it interesting.';
+  const type = pick.type.map(v => v || '_').join('');
+  document.getElementById('mScore').textContent = score;
+  swap(document.getElementById('mVerdict'), `${type} + ESFJ: ${verdict}`);
+  document.getElementById('mWhy').innerHTML = why.map(w => `<li>${w}</li>`).join('');
+};
+document.querySelectorAll('#mbti .pair').forEach(pair => pair.querySelectorAll('button').forEach(b => b.onclick = () => {
+  pair.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+  pick.type[+pair.dataset.i] = b.dataset.v; scoreMatch();
+}));
+document.querySelectorAll('#myLL button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#myLL button').forEach(x => x.classList.toggle('on', x === b));
+  pick.ll = +b.dataset.i; scoreMatch();
+});
+
+// quiz
+/* [question, options, index of the right answer, why] */
+const QUIZ = [
+  ['What is her #1 love language?', ['Quality Time', 'Receiving Gifts', 'Words of Affirmation', 'Acts of Service'], 1, 'Receiving Gifts, at 27%. The red gift box was a hint.'],
+  ['What is her #1 CliftonStrength?', ['Achiever', 'Relator', 'Woo', 'Strategic'], 1, 'Relator: a small circle with deep roots.'],
+  ["What's the fastest way to make her day?", ['A surprise vanilla latte', 'A long meeting', 'A last-minute cancel', 'A one-word text'], 0, 'Straight from her: a vanilla latte never misses.'],
+  ['What is her Holland code?', ['RIC', 'ASE', 'SEC', 'IAS'], 1, 'ASE: Artistic, Social, Enterprising. Three neighbors on the hexagon.'],
+  ['Which one gives her the ick?', ['Showing up with a plan', 'Remembering her birthday', '"I\'ll do it later," and never doing it', 'Saying "that was her idea"'], 2, 'Dutifulness 19/20. Her word is her bond.']
+];
+let qi = 0, qScore = 0;
+const quizBox = document.getElementById('quizBox');
+const dots = () => `<div class="q-dots">${QUIZ.map((_, i) => `<i class="${i < qi ? 'done' : ''}"></i>`).join('')}</div>`;
+const renderQ = () => {
+  if (qi >= QUIZ.length) {
+    const msg = qScore === 5 ? "Perfect. You're definitely in the inner circle." : qScore >= 3 ? 'Solid. You were paying attention.' : 'Scroll back up. She believes in second chances.';
+    quizBox.innerHTML = `<div class="q-top">${dots()}<span>Done</span></div><div class="q-final">${qScore}/5</div><h3 style="margin-top:10px">${msg}</h3><button class="q-next" id="qAgain">Try again</button>`;
+    document.getElementById('qAgain').onclick = () => { qi = 0; qScore = 0; renderQ(); };
+    if (qScore === 5) hearts(innerWidth / 2, innerHeight / 2);
+    return;
+  }
+  const [q, opts] = QUIZ[qi];
+  quizBox.innerHTML = `<div class="q-top">${dots()}<span>Question ${qi + 1} of ${QUIZ.length}</span></div><h3>${q}</h3><div class="q-opts">${opts.map((o, i) => `<button data-i="${i}">${o}</button>`).join('')}</div><p class="q-why"></p>`;
+  quizBox.querySelectorAll('.q-opts button').forEach(b => b.onclick = () => {
+    const [, , right, why] = QUIZ[qi], picked = +b.dataset.i;
+    quizBox.querySelectorAll('.q-opts button').forEach(x => { x.disabled = true; if (+x.dataset.i === right) x.classList.add('right'); });
+    if (picked === right) qScore++; else b.classList.add('wrong');
+    quizBox.querySelector('.q-why').textContent = (picked === right ? 'Correct. ' : 'Not quite. ') + why;
+    const next = document.createElement('button'); next.className = 'q-next'; next.textContent = qi === QUIZ.length - 1 ? 'See my score' : 'Next question';
+    next.onclick = () => { qi++; renderQ(); };
+    quizBox.append(next);
+  });
+};
+renderQ();
+
 // values accordion
 document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));
 
@@ -1627,6 +1802,83 @@ const so = new IntersectionObserver(es => es.forEach(e => {
 document.querySelectorAll('section[id]').forEach(s => so.observe(s));
 const hero = document.querySelector('.hero');
 addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.offsetHeight * .6), { passive: true });
+
+// page-wide touches
+(() => {
+  const fine = matchMedia('(pointer: fine)').matches, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const toast = document.getElementById('toast');
+  window.showToast = msg => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => toast.classList.remove('show'), 2600); };
+
+  /* scroll progress, ending in a heart */
+  const prog = document.getElementById('progress'), bar = prog.querySelector('i'), heart = prog.querySelector('span');
+  const onScroll = () => {
+    const p = Math.min(1, scrollY / (document.documentElement.scrollHeight - innerHeight));
+    bar.style.width = p * 100 + '%'; heart.style.left = p * 100 + '%';
+    prog.classList.toggle('done', p > .995);
+  };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* pink cursor: the dot follows exactly, the ring eases behind */
+  if (fine) {
+    const dot = document.querySelector('.cur-dot'), ring = document.querySelector('.cur-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    addEventListener('pointermove', e => {
+      mx = e.clientX; my = e.clientY; document.body.classList.add('has-cursor');
+      dot.style.transform = `translate(${mx}px, ${my}px)`;
+      ring.classList.toggle('big', !!e.target.closest('a, button, input, [role="button"], .tomb, .flip, .ick, .polaroid'));
+    });
+    addEventListener('mouseout', e => { if (!e.relatedTarget) document.body.classList.remove('has-cursor'); });
+    const loop = () => { rx += (mx - rx) * .18; ry += (my - ry) * .18; ring.style.transform = `translate(${rx}px, ${ry}px)`; requestAnimationFrame(loop); };
+    loop();
+  }
+
+  /* the name reacts: letters jump on hover, scatter on tap */
+  const h1 = document.querySelector('.hero h1'), first = h1.firstChild;
+  const letters = first.textContent.trim().split('').map(c => `<span class="ltr">${c}</span>`).join('');
+  first.replaceWith(document.createRange().createContextualFragment(letters + ' '));
+  const jump = (el, k = 1) => {
+    if (still) return;
+    el.style.transform = `translateY(${-(14 + Math.random() * 24) * k}px) rotate(${(Math.random() - .5) * 30 * k}deg)`;
+    setTimeout(() => el.style.transform = '', 380);
+  };
+  h1.querySelectorAll('.ltr').forEach(l => l.addEventListener('mouseenter', () => jump(l)));
+  h1.addEventListener('click', () => h1.querySelectorAll('.ltr').forEach((l, i) => setTimeout(() => jump(l, 2), i * 40)));
+
+  /* 3D tilt on cards */
+  if (fine && !still) {
+    const TILT = '.ick, .env, .tomb, .slide, .font-card, .sw-flip, .flip, .trait';
+    let cur = null;
+    addEventListener('pointermove', e => {
+      const el = e.target.closest(TILT);
+      if (cur && cur !== el) cur.style.transform = '';
+      cur = el;
+      if (!el) return;
+      const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      el.style.transition = 'transform .12s ease-out';
+      el.style.transform = `perspective(800px) rotateX(${-y * 8}deg) rotateY(${x * 10}deg)`;
+    });
+  }
+
+  /* easter eggs: type a secret word anywhere */
+  const latte = document.getElementById('latte');
+  const SECRETS = {
+    latte: () => { latte.classList.add('show'); setTimeout(() => latte.classList.remove('show'), 3800); },
+    suhani: () => { hearts(innerWidth / 2, innerHeight / 3); showToast("That's her."); },
+    holi: () => { const cv = document.getElementById('paint'); scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(() => { for (let i = 0; i < 6; i++) setTimeout(() => cv.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: Math.random() * innerWidth, clientY: Math.random() * innerHeight * .8 })), i * 180); }, 500); }
+  };
+  const found = new Set();
+  let typed = '';
+  addEventListener('keydown', e => {
+    if (e.target.closest?.('input, textarea') || e.key.length !== 1) return;
+    typed = (typed + e.key.toLowerCase()).slice(-10);
+    for (const word in SECRETS) if (typed.endsWith(word)) {
+      SECRETS[word]();
+      found.add(word);
+      if (word !== 'suhani') setTimeout(() => showToast(`Secret ${found.size} of 3 found`), word === 'latte' ? 3900 : 200);
+      typed = '';
+    }
+  });
+})();
 
 // paint canvas
 (() => {
@@ -1722,6 +1974,9 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     ['swatch flips', 'swatches.js', 'Color swatches', 'Each swatch flips to show its hex code, where that color is used on the site, and why it works. The Copy button uses the Clipboard API and stopPropagation() so copying does not flip the card back.', ['Clipboard API', 'stopPropagation', '3D flip']],
     ['receipts', 'receipts.js', 'The receipts', 'One data array holds every positive and neutral score from all eleven tests. Tabs re-render the panel from that data, and the bars animate by setting their width on the next animation frame.', ['data-driven UI', 'tabs', 'requestAnimationFrame']],
     ['riasec hexagon', 'hexagon.js', 'RIASEC hexagon', 'Holland\'s hexagon drawn in SVG with trigonometry: each vertex sits at -90° + i × 60°. Her six scores become a radar polygon, and her top three letters (A, S, E) are filled in.', ['SVG', 'cos/sin', 'radar chart']],
+    ['compatibility check', 'match.js', 'Compatibility check', 'Each personality letter and love language carries a weight. The score starts at 50 and adds up as you pick, and the reasons list builds itself from the same data. Framed as fun, not science.', ['weighted scoring', 'live updates', 'data-driven copy']],
+    ['quiz', 'quiz.js', 'Pop quiz', 'A small state machine: the question index and score are the only state. Each answer locks the options, reveals the right one, and explains it before moving on.', ['state machine', 'template literals', 'feedback loop']],
+    ['page-wide touches', 'touches.js', 'Page-wide touches', 'A scroll progress line that ends in a heart, a pink cursor whose ring eases behind the dot (lerp: r += (target − r) × 0.18), letters that jump, 3D card tilt from pointer position, and a keystroke buffer that listens for secret words.', ['lerp', 'pointer math', 'keyboard buffer', 'CSS masks']],
     ['under the hood', 'hood.js', 'This panel', 'The panel reads this page\'s own <script> at runtime, splits it at comment markers, and syntax-highlights it with a single-regex tokenizer. Live numbers come from requestAnimationFrame and the Performance API, and it only updates while you can see it.', ['self-reading code', 'regex tokenizer', 'Performance API', 'Clipboard API']]
   ].filter(f => chunks[f[0]]);
 
@@ -1816,7 +2071,7 @@ addEventListener('scroll', () => nav.classList.toggle('show', scrollY > hero.off
     label.style.top = e.clientY + 18 + 'px';
   });
 
-  console.log('%cHey, developer.%c\nThis whole site is one file with zero dependencies. Look around.', 'font: 700 16px Georgia; color: #e0567f', 'color: #ff4f9a');
+  console.log('%cHey, developer.%c\nThis whole site is one file with zero dependencies. Psst: try typing "latte", "suhani", or "holi" anywhere on the page.', 'font: 700 16px Georgia; color: #e0567f', 'color: #ff4f9a');
 })();
 </script>
 </body>

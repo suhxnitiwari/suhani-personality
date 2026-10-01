@@ -216,13 +216,15 @@
   .term-bar .t { margin-left: 8px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .term-bar button { background: none; border: 1px solid rgba(255,79,154,.4); color: var(--pop); font-size: 11px; padding: 3px 10px; border-radius: 99px; }
   .term-bar button.on { background: var(--pop); color: #12060c; }
-  .monitor { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: rgba(255,79,154,.1); }
+  .monitor { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: rgba(255,79,154,.1); }
   .monitor div { background: #12060c; padding: 14px 16px; }
   .monitor small { display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #f08fb0; }
   .monitor b { font-size: 20px; color: #f7e6ec; font-weight: 500; font-variant-numeric: tabular-nums; }
   .monitor b em { font-style: normal; color: #f08fb0; font-size: 12px; margin-left: 3px; }
   .monitor .fps { grid-column: span 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
   .monitor canvas { width: 140px; height: 36px; }
+  @media (max-width: 1100px) { .monitor { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 640px) { .monitor { grid-template-columns: repeat(2, 1fr); } }
   .live::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #ff9dbb; margin-right: 6px; animation: pulse2 1.6s infinite; }
   @keyframes pulse2 { 50% { opacity: .3; } }
   .explorer { display: grid; grid-template-columns: 230px 1fr; margin-top: 28px; border: 1px solid rgba(255,79,154,.25); border-radius: 12px; overflow: hidden; background: #12060c; }
@@ -979,16 +981,23 @@
   .room-track { position: relative; flex: 1; min-height: 0; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
   .room-track::-webkit-scrollbar { display: none; }
   .room-track > section { flex: 0 0 100%; height: 100%; overflow-y: auto; overflow-x: hidden; scroll-snap-align: start; scroll-snap-stop: always; padding: 52px 0 64px; scroll-margin-top: 58px; scrollbar-width: thin; scrollbar-color: rgba(255,79,154,.4) transparent; }
-  .room-next { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; bottom: 18px; z-index: 6; background: #2a0f1e; color: #ffe3ec; border: 1px solid rgba(255,79,154,.5); border-radius: 99px; padding: 9px 16px; font: 500 13px "DM Sans", sans-serif; box-shadow: 0 10px 24px -12px rgba(0,0,0,.6); transition: .2s; }
-  .room-next:hover { background: #ff4f9a; border-color: #ff4f9a; color: #fff; }
-  .room-next b { color: #ff9dbb; font-weight: 600; margin-left: 4px; } .room-next:hover b { color: #fff; }
   @media (max-width: 760px) {
     .room > .act .aq, .room-dots, .room > .act .wrap > span:first-child { display: none; }
     .room > .act b { font-size: 18px; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
     .room-ctl { margin-left: auto; gap: 6px; }
     .room-track > section { padding: 36px 0 96px; }
-    .room-next { display: none; }
   }
+  #guide { position: fixed; left: 50%; bottom: 18px; z-index: 30; transform: translate(-50%, 140%); opacity: 0; display: flex; align-items: center; gap: 12px; background: #ff4f9a; color: #fff; border: 0; border-radius: 99px; padding: 10px 14px 10px 18px; font: 500 14px "DM Sans", sans-serif; box-shadow: 0 14px 30px -12px rgba(255,79,154,.7); transition: transform .35s cubic-bezier(.3,1.4,.5,1), opacity .25s, background .2s; white-space: nowrap; max-width: calc(100vw - 32px); }
+  #guide.show { transform: translate(-50%, 0); opacity: 1; }
+  #guide:hover { background: #e0567f; }
+  #guide b { font-weight: 700; } #guide .g-sub { opacity: .85; }
+  #guide .g-n { font: 700 15px "Playfair Display", serif; padding-right: 12px; border-right: 1px solid rgba(255,255,255,.4); } #guide .g-n small { font: 500 11px "DM Sans", sans-serif; opacity: .8; }
+  #guide i { font-style: normal; width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.22); display: grid; place-items: center; animation: nudge 1.6s ease-in-out infinite; }
+  @keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+  @media (prefers-reduced-motion: reduce) { #guide i { animation: none; } }
+  html.rooms .rabbit { left: 18px; }
+  @media (max-width: 760px) { html.rooms .rabbit { display: none; } #guide { left: 16px; transform: translate(0, 140%); font-size: 13px; padding: 9px 12px 9px 14px; max-width: calc(100vw - 176px); } #guide > span:not(.g-n) { overflow: hidden; text-overflow: ellipsis; min-width: 0; } #guide.show { transform: none; } #guide .g-sub { display: none; } }
+  html.single-view #guide { display: none; }
 </style>
 </head>
 <body>
@@ -1528,6 +1537,9 @@
         <div><small>Viewport</small><b id="mView">–</b></div>
         <div><small>Achievements</small><b id="mTheme">–</b></div>
         <div><small>Dependencies</small><b>0</b></div>
+        <div><small class="live">Stops you visited</small><b id="mStops">–</b></div>
+        <div><small class="live">Time you have spent here</small><b id="mTime">–</b></div>
+        <div><small class="live">Secrets you found</small><b id="mSecrets">0</b><b><em>/ 3</em></b></div>
       </div>
     </div>
 
@@ -2827,6 +2839,7 @@ const hero = document.querySelector('.hero');
     holi: () => { const cv = document.getElementById('paint'); scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(() => { for (let i = 0; i < 6; i++) setTimeout(() => cv.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: Math.random() * innerWidth, clientY: Math.random() * innerHeight * .8 })), i * 180); }, 500); }
   };
   const found = new Set();
+  window.secretsFound = () => found.size;
   let typed = '';
   addEventListener('keydown', e => {
     if (e.target.closest?.('input, textarea') || e.key.length !== 1) return;
@@ -3084,6 +3097,10 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
     $('mScroll').textContent = Math.round(scrollY / (document.documentElement.scrollHeight - innerHeight) * 100);
     $('mView').textContent = `${innerWidth}×${innerHeight}`;
     $('mTheme').textContent = document.getElementById('trophyCount').textContent;
+    const [seen, total] = window.stopsSeen ? stopsSeen() : [0, 18], t = Math.round(performance.now() / 1000);
+    $('mStops').textContent = `${seen}/${total}`;
+    $('mTime').textContent = `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
+    $('mSecrets').textContent = window.secretsFound ? secretsFound() : 0;
     sc.clearRect(0, 0, 280, 72);
     sc.beginPath();
     hist.forEach((v, i) => sc.lineTo(i * 7, 68 - Math.min(v, 120) / 120 * 64));
@@ -3111,14 +3128,14 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
 (() => {
   if (root.classList.contains('single-view')) return;
   root.classList.add('rooms');
-  const name = id => (document.querySelector(`nav .gs a[href="#${id}"]`)?.textContent || '').replace(/^\d+/, '');
-  const roomEls = [];
+  const NAV = 52;
   so.disconnect();
+  const name = id => (document.querySelector(`nav .gs a[href="#${id}"]`)?.textContent || document.querySelector(`#${id} .kicker`)?.textContent || '').replace(/^\d+/, '');
   const markNav = id => {
     links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + id));
     document.querySelectorAll('.ng').forEach(g => g.classList.toggle('on', !!g.querySelector('.gs a.on')));
   };
-  ['actI', 'actII', 'actIII', 'actIV'].forEach((aid, n, all) => {
+  const rooms = ['actI', 'actII', 'actIII', 'actIV'].map((aid, n) => {
     const act = document.getElementById(aid), secs = [];
     for (let el = act.nextElementSibling; el && el.tagName === 'SECTION'; el = el.nextElementSibling) secs.push(el);
     const room = document.createElement('div'), track = document.createElement('div');
@@ -3127,54 +3144,142 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
     const ctl = document.createElement('div'); ctl.className = 'room-ctl';
     ctl.innerHTML = '<span class="room-dots"></span><button class="rp" aria-label="Previous section">‹</button><span class="rc"></span><button class="rn" aria-label="Next section">›</button>';
     act.querySelector('.wrap').append(ctl);
-    const next = document.createElement('button'); next.className = 'room-next'; room.append(next);
-    const live = () => secs.filter(s => !s.hidden);
-    const at = () => Math.round(track.scrollLeft / track.clientWidth);
-    const go = i => { const l = live(); i = Math.max(0, Math.min(l.length - 1, i)); track.scrollTo({ left: l[i].offsetLeft, behavior: 'smooth' }); };
-    const nextRoom = () => {
-      const r = all[n + 1] ? document.getElementById('room' + (n + 2)) : document.getElementById('foot');
-      scrollTo({ top: r.getBoundingClientRect().top + scrollY - (r.id === 'foot' ? 0 : 52), behavior: 'smooth' });
+    const r = { n, act, room, track, ctl };
+    r.live = () => secs.filter(s => !s.hidden);
+    r.at = () => Math.max(0, Math.min(Math.round(track.scrollLeft / track.clientWidth), r.live().length - 1));
+    r.cur = () => r.live()[r.at()];
+    /* going back lands at the bottom of the earlier section, so "up" keeps meaning up */
+    r.go = (i, fromEnd) => {
+      const l = r.live(); i = Math.max(0, Math.min(l.length - 1, i));
+      l[i].scrollTop = fromEnd ? l[i].scrollHeight : 0;
+      l[i].querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+      track.scrollTo({ left: l[i].offsetLeft, behavior: 'smooth' });
     };
-    const update = () => {
-      const l = live(), i = Math.min(at(), l.length - 1);
-      ctl.querySelector('.rc').textContent = `${String(i + 1).padStart(2, '0')} / ${String(l.length).padStart(2, '0')}`;
-      ctl.querySelector('.rp').disabled = i === 0; ctl.querySelector('.rn').disabled = i === l.length - 1;
-      const dots = ctl.querySelector('.room-dots');
-      if (dots.children.length !== l.length) { dots.innerHTML = l.map(() => '<i></i>').join(''); [...dots.children].forEach((d, k) => d.onclick = () => go(k)); }
-      [...dots.children].forEach((d, k) => { d.classList.toggle('on', k === i); d.title = name(l[k].id); });
-      const label = i < l.length - 1 ? `Next<b>${name(l[i + 1].id)} →</b>` : all[n + 1] ? `Next act<b>${document.querySelector('#' + all[n + 1] + ' b').textContent} ↓</b>` : 'Say hi <b>↓</b>';
-      if (next.innerHTML !== label) next.innerHTML = label;
-      next.onclick = () => i < l.length - 1 ? go(i + 1) : nextRoom();
-      const b = room.getBoundingClientRect(); if (b.top < innerHeight * .5 && b.bottom > innerHeight * .5) markNav(l[i].id);
-    };
-    ctl.querySelector('.rp').onclick = () => go(at() - 1);
-    ctl.querySelector('.rn').onclick = () => go(at() + 1);
-    track.addEventListener('scroll', update, { passive: true });
-    addEventListener('resize', update);
-    /* revealing a hidden section (the receipts) adds a slide: show it */
-    new MutationObserver(update).observe(track, { attributes: true, subtree: false, childList: false, attributeFilter: ['hidden'] });
-    secs.forEach(s => new MutationObserver(update).observe(s, { attributes: true, attributeFilter: ['hidden'] }));
-    update();
-    addEventListener('scroll', update, { passive: true });
-    roomEls.push({ room, track, live, at, go });
+    ctl.querySelector('.rp').onclick = () => r.go(r.at() - 1);
+    ctl.querySelector('.rn').onclick = () => r.go(r.at() + 1);
+    return r;
   });
+  const stops = () => rooms.flatMap(r => r.live());
+  const active = () => rooms.find(r => { const b = r.room.getBoundingClientRect(); return b.top < innerHeight * .5 && b.bottom > innerHeight * .5; });
+  const aligned = r => Math.abs(r.room.getBoundingClientRect().top - NAV) < 14;
+  const toRoom = k => {
+    if (!rooms[k]) return scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+    scrollTo({ top: rooms[k].room.getBoundingClientRect().top + scrollY - NAV, behavior: 'smooth' });
+  };
+  const below = sec => sec.scrollTop + sec.clientHeight < sec.scrollHeight - 4;
+
+  /* the one rule: down is forward. Read to the bottom of a stop, then the next stop slides in. */
+  const step = dir => {
+    const r = active();
+    if (!r) { if (dir > 0 && scrollY < rooms[0].room.offsetTop) toRoom(0); return; }
+    const l = r.live(), i = r.at(), sec = l[i];
+    if (dir > 0) {
+      if (below(sec)) return sec.scrollBy({ top: sec.clientHeight * .8, behavior: 'smooth' });
+      i < l.length - 1 ? r.go(i + 1) : toRoom(r.n + 1);
+    } else {
+      if (sec.scrollTop > 4) return sec.scrollBy({ top: -sec.clientHeight * .8, behavior: 'smooth' });
+      if (i > 0) r.go(i - 1, true);
+      else if (r.n > 0) toRoom(r.n - 1);
+      else scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+  /* an inner scroller (code panes, lists) under the pointer gets its own scroll first */
+  const innerCan = (el, sec, down) => {
+    for (; el && el !== sec; el = el.parentElement) {
+      if (el.scrollHeight > el.clientHeight + 2 && /auto|scroll/.test(getComputedStyle(el).overflowY)) {
+        if (down ? el.scrollTop + el.clientHeight < el.scrollHeight - 2 : el.scrollTop > 1) return true;
+      }
+    }
+    return false;
+  };
+  let lockUntil = 0, acc = 0;
+  addEventListener('wheel', e => {
+    if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    const r = active(); if (!r || !aligned(r) || !r.room.contains(e.target) || e.target.closest('dialog')) return;
+    const now = performance.now(), sec = r.cur(), down = e.deltaY > 0;
+    if (now < lockUntil) { e.preventDefault(); lockUntil = Math.max(lockUntil, now + 180); return; }
+    if (innerCan(e.target, sec, down) || (down ? below(sec) : sec.scrollTop > 1)) { acc = 0; return; }
+    e.preventDefault();
+    acc += e.deltaY; if (Math.abs(acc) < 40) return;
+    acc = 0; lockUntil = now + 750; step(down ? 1 : -1);
+  }, { passive: false });
+  /* touch: the same rule, once a stop has been read to its edge */
+  let t0 = null;
+  addEventListener('touchstart', e => {
+    const r = active(), p = e.touches[0];
+    if (!r || !aligned(r) || !r.room.contains(e.target) || e.target.closest('.deck, .tension, input, textarea, dialog')) { t0 = null; return; }
+    const sec = r.cur();
+    t0 = { x: p.clientX, y: p.clientY, end: !below(sec), top: sec.scrollTop <= 1, sec, hit: false };
+  }, { passive: true });
+  addEventListener('touchmove', e => {
+    if (!t0) return;
+    const p = e.touches[0], dy = t0.y - p.clientY, dx = t0.x - p.clientX;
+    if (Math.abs(dx) > Math.abs(dy)) return;
+    if ((dy > 0 && t0.end && !innerCan(e.target, t0.sec, true)) || (dy < 0 && t0.top && !innerCan(e.target, t0.sec, false))) { e.preventDefault(); t0.hit = true; }
+  }, { passive: false });
+  addEventListener('touchend', e => {
+    if (!t0?.hit) { t0 = null; return; }
+    const dy = t0.y - e.changedTouches[0].clientY; t0 = null;
+    if (Math.abs(dy) > 50) step(dy > 0 ? 1 : -1);
+  });
+  /* keys: ↓ PageDown Space go forward, ↑ PageUp go back; ← → still step sideways */
+  addEventListener('keydown', e => {
+    if (e.target.closest?.('input, textarea, select, button, [contenteditable], dialog')) return;
+    const r = active(), fwd = ['ArrowDown', 'PageDown', ' '].includes(e.key), back = ['ArrowUp', 'PageUp'].includes(e.key);
+    if ((fwd || back) && (r ? aligned(r) : fwd && scrollY < 40)) { e.preventDefault(); step(fwd ? 1 : -1); return; }
+    if ((e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') || !r) return;
+    const cur = r.cur(); if (cur?.id === 'icks' || cur?.id === 'both') return;
+    e.preventDefault(); r.go(r.at() + (e.key === 'ArrowRight' ? 1 : -1), e.key === 'ArrowLeft');
+  });
+
+  /* the guide: one button that always says where you are and what comes next */
+  const guide = document.createElement('button'); guide.id = 'guide'; document.body.append(guide);
+  guide.onclick = () => step(1);
+  let told = false;
+  try { told = !!localStorage.getItem('suhani-guided'); } catch (e) {}
+  const seen = new Set();
+  window.stopsSeen = () => [seen.size, stops().length];
+  const render = () => {
+    rooms.forEach(r => {
+      const l = r.live(), i = r.at();
+      r.ctl.querySelector('.rc').textContent = `${String(i + 1).padStart(2, '0')} / ${String(l.length).padStart(2, '0')}`;
+      r.ctl.querySelector('.rp').disabled = i === 0; r.ctl.querySelector('.rn').disabled = i === l.length - 1;
+      const dots = r.ctl.querySelector('.room-dots');
+      if (dots.children.length !== l.length) { dots.innerHTML = l.map(() => '<i></i>').join(''); [...dots.children].forEach((d, k) => d.onclick = () => r.go(k)); }
+      [...dots.children].forEach((d, k) => { d.classList.toggle('on', k === i); d.title = name(l[k].id); });
+    });
+    const r = active(), all = stops();
+    let label;
+    if (scrollY + innerHeight >= document.documentElement.scrollHeight - 6) { guide.classList.remove('show'); return; }
+    if (!r) {
+      if (scrollY > rooms[0].room.offsetTop) { guide.classList.remove('show'); return; }
+      label = `<b>Start here</b><span class="g-sub">${all.length} stops, in order</span><i>↓</i>`;
+    } else {
+      const l = r.live(), i = r.at(), sec = l[i], k = all.indexOf(sec) + 1;
+      markNav(sec.id);
+      if (aligned(r)) seen.add(sec.id);
+      const nxt = i < l.length - 1 ? name(l[i + 1].id) : rooms[r.n + 1] ? `Act ${document.querySelectorAll('nav .ng')[r.n + 1].querySelector('.gl').firstChild.textContent.trim()}` : 'Say hi';
+      label = `<span class="g-n">${k}<small>/${all.length}</small></span>` + (below(sec) ? `<span>Keep scrolling</span><i>↓</i>` : `<span>Next: <b>${nxt}</b></span><i>↓</i>`);
+      if (!told && aligned(r)) { told = true; try { localStorage.setItem('suhani-guided', '1'); } catch (e) {} window.showToast?.('Just keep scrolling down. The page walks you through every stop.'); }
+    }
+    guide.classList.add('show');
+    if (guide.innerHTML !== label) guide.innerHTML = label;
+  };
+  document.addEventListener('scroll', render, { capture: true, passive: true });
+  addEventListener('resize', render);
+  rooms.forEach(r => r.live().forEach(s => new MutationObserver(render).observe(s, { attributes: true, attributeFilter: ['hidden'] })));
+  rooms.forEach(r => [...r.track.children].forEach(s => new MutationObserver(render).observe(s, { attributes: true, attributeFilter: ['hidden'] })));
+  render();
+
   /* carousels inside a slide keep their swipes to themselves */
   document.querySelectorAll('.room-track section *').forEach(el => { const o = getComputedStyle(el).overflowX; if (o === 'auto' || o === 'scroll') el.style.overscrollBehaviorX = 'contain'; });
   /* every in-page link and jump lands on the right slide */
   document.addEventListener('click', e => {
     const a = e.target.closest('a[href^="#"]'); if (!a) return;
     const t = document.getElementById(a.getAttribute('href').slice(1)); if (!t || !t.closest('.room-track') || a.id === 'toHero') return;
-    e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); history.replaceState(null, '', a.getAttribute('href'));
+    e.preventDefault(); t.scrollTop = 0; t.scrollIntoView({ behavior: 'smooth', block: 'start' }); history.replaceState(null, '', a.getAttribute('href'));
   });
   if (location.hash) { const t = document.querySelector(location.hash); if (t?.closest('.room-track')) setTimeout(() => t.scrollIntoView({ block: 'start' }), 60); }
-  /* ← and → move through the act on screen (the swipe deck keeps its own arrows) */
-  addEventListener('keydown', e => {
-    if ((e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') || e.target.closest?.('input, textarea, select, [contenteditable]')) return;
-    const r = roomEls.find(({ room }) => { const b = room.getBoundingClientRect(); return b.top < innerHeight * .5 && b.bottom > innerHeight * .5; });
-    if (!r) return;
-    const cur = r.live()[r.at()]; if (cur?.id === 'icks' || cur?.id === 'both') return;
-    e.preventDefault(); r.go(r.at() + (e.key === 'ArrowRight' ? 1 : -1));
-  });
 })();
 </script>
 </body>

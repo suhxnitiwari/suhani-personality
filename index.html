@@ -383,6 +383,20 @@
   #delight button { background: #ffe3ec; border: 0; color: #3a1426; }
   #delight button:hover { transform: translateY(-3px); background: #fff; }
   .mlist button.hit { animation: shake .4s; }
+  /* photos: real-world objects (never people) that show what a score looks like in her day */
+  .uph { display: block; width: 100%; object-fit: cover; background: rgba(255,157,187,.25); }
+  #delight button { padding: 0; overflow: hidden; gap: 0; }
+  #delight .uph { height: 112px; }
+  #delight button span { padding: 14px 16px 16px; }
+  #delight button:hover .uph { transform: scale(1.04); } #delight .uph { transition: transform .4s; }
+  .env.flip-card .f { padding: 0; overflow: hidden; }
+  .env .f .uph { height: 78px; flex: none; }
+  .env .f .fb { padding: 14px 18px 18px; display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .env .f .fb h3 { margin-top: 6px; }
+  .values .more .uph { float: right; width: 200px; height: 120px; border-radius: 14px; margin: 0 0 16px 20px; }
+  .values li.open .more { max-height: 200px; }
+  @media (max-width: 560px) { .values .more .uph { float: none; width: 100%; height: 120px; margin: 0 0 12px; } .values li.open .more { max-height: 320px; } }
+  .holi .uph { width: 140px; height: 96px; border-radius: 14px; flex: none; }
 
   /* ---------- graveyard ---------- */
   .tombs { margin-top: 0; }
@@ -542,7 +556,7 @@
   /* ---------- environments ---------- */
   .envs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 12px; }
   @media (max-width: 980px) { .envs { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); } }
-  .env.flip-card { height: 300px; perspective: 1000px; cursor: pointer; }
+  .env.flip-card { height: 360px; perspective: 1000px; cursor: pointer; }
   .env .f .n { font: 800 30px "Playfair Display", serif; color: #f4b6c8; line-height: 1; }
   .env .f h3 { font: italic 700 22px "Playfair Display", serif; color: var(--rose); margin: 10px 0 6px; }
   .env .f p { margin: 0; font-size: 14px; color: var(--core-muted); flex: 1; }
@@ -1554,7 +1568,7 @@
       <button class="sig" id="toTop" aria-label="Back to top">Suhani Tiwari <span>↑</span></button>
       <div class="say"><span class="say-hi" id="sayHi"><span id="hiText" aria-live="polite">Say hi</span> <svg class="wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V6a1.5 1.5 0 0 1 3 0v4M10 10V4.5a1.5 1.5 0 0 1 3 0V10M13 10V5.5a1.5 1.5 0 0 1 3 0V11M16 11V8.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-2.7L4 15a1.5 1.5 0 0 1 2.4-1.8L7 14V11"/><path d="M3 5c.5-1.5 1.5-2.5 3-3M19.5 2.5c1.3.7 2 1.8 2.3 3" class="lines"/></svg><span class="hi-bubble" id="hiBubble" role="status"></span></span><div class="contacts" id="contacts"></div></div>
     </div>
-    <div class="legal">© 2026 Suhani Tiwari. All rights reserved.</div>
+    <div class="legal">© 2026 Suhani Tiwari. All rights reserved. Photos of objects and places via Unsplash, credited on hover.</div>
   </div>
 </footer>
 
@@ -1904,9 +1918,12 @@ const setMood = (delta, reaction, why) => {
 };
 const ANNOY_ICONS = ['hourglass', 'eye', 'mask', 'clipboard', 'loop', 'calX', 'trophy', 'shield', 'map', 'bulb'];
 const DELIGHT_ICONS = ['latte', 'bowl', 'gift', 'speech', 'phoneOff', 'brush', 'megaphone', 'calCheck', 'heart', 'house'];
-const fill = (id, list, sign, icons) => list.forEach(([text, reaction, why], i) => {
+/* Unsplash photos of things, never people: what each score looks like in real life. [photo id, photographer] */
+const uph = ([id, by], w, h, alt = '') => `<img class="uph" src="https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&auto=format&q=70" alt="${alt}" title="Photo: ${by} / Unsplash" loading="lazy" decoding="async">`;
+const DELIGHT_PHOTOS = [['photo-1593443320739-77f74939d0da', 'tabitha turner'], ['photo-1633195000232-ca6e3cbcfd41', 'Scott Greer'], ['photo-1513201099705-a9746e1e201f', 'Jess Bailey'], ['photo-1688488496674-e0e5a5ba426b', 'Annie Spratt'], ['photo-1729168411881-5d46ecc5cd04', 'Alexander Jawfox'], ['photo-1658303135227-fcdfb0dab396', 'Jennie Razumnaya'], ['photo-1584890132374-d69d5d01483e', 'Damiano Lingauri'], ['photo-1506784983877-45594efa4cbe', 'Estée Janssens'], ['photo-1599652521984-8bebed0580b7', 'Annie Spratt'], ['photo-1635719373807-7fa1e5a625fe', 'Dan Bucko']];
+const fill = (id, list, sign, icons, photos) => list.forEach(([text, reaction, why], i) => {
   const b = document.createElement('button');
-  b.innerHTML = `${icon(icons[i])}${text}`;
+  b.innerHTML = photos ? `${uph(photos[i], 440, 224)}<span>${text}</span>` : `${icon(icons[i])}${text}`;
   b.onclick = e => {
     setMood(sign * (10 + Math.round(Math.random() * 8)), reaction, why);
     if (sign < 0) { b.classList.remove('hit'); void b.offsetWidth; b.classList.add('hit'); meter.classList.remove('shake'); void meter.offsetWidth; meter.classList.add('shake'); }
@@ -1914,7 +1931,7 @@ const fill = (id, list, sign, icons) => list.forEach(([text, reaction, why], i) 
   };
   document.getElementById(id).append(b);
 });
-fill('annoy', ANNOY, -1, ANNOY_ICONS); fill('delight', DELIGHT, 1, DELIGHT_ICONS);
+fill('annoy', ANNOY, -1, ANNOY_ICONS); fill('delight', DELIGHT, 1, DELIGHT_ICONS, DELIGHT_PHOTOS);
 initCarousel(document.getElementById('annoyC')); initCarousel(document.getElementById('delightC'));
 document.getElementById('moodReset').onclick = () => { mood = 50; setMood(0, 'Waiting to see what you do.', 'Pick something below and see how she\'d react.'); };
 
@@ -2261,8 +2278,9 @@ const ENVS = [
   ['Teaching & Developing', 'Professor, mentor, talent development', 'Developer · Love of Learning #5', 'People to grow, and a subject she loves.', 'Professor / Teacher · Counselor · Talent Development Lead'],
   ['Mission-Driven Work', 'Education, nonprofit, public interest', 'Benevolence 83% · Spirituality #3 · Fairness', 'A mission bigger than herself, and people to fight for.', 'Nonprofit Leader · Public-Interest Lawyer · Educator']
 ];
+const ENV_PHOTOS = [['photo-1561070791-2526d30994b5', 'Balázs Kétyi'], ['photo-1578450671530-5b6a7c9f32a8', 'Nathália Rosa'], ['photo-1532622785990-d2c36a76f5a6', 'Kaleidico'], ['photo-1757192420362-3629ce30d2e3', 'Allen Y'], ['photo-1628243989859-db92e2de1340', 'David Clode']];
 document.getElementById('envs').innerHTML = ENVS.map(([t, focus, ev, need, roles], i) => `<div class="env flip-card" tabindex="0" role="button"><div class="in">
-  <div class="f"><span class="n">0${i + 1}</span><h3>${t}</h3><p>${focus}</p><span class="ev">${ev}</span><span class="hint">Tap to flip</span></div>
+  <div class="f">${uph(ENV_PHOTOS[i], 480, 184)}<div class="fb"><span class="n">0${i + 1}</span><h3>${t}</h3><p>${focus}</p><span class="ev">${ev}</span><span class="hint">Tap to flip</span></div></div>
   <div class="b"><b>What she needs there</b><p>${need}</p><b>Roles to explore</b><p>${roles}</p></div></div></div>`).join('');
 document.querySelectorAll('.env').forEach(c => {
   const toggle = () => c.classList.toggle('on');
@@ -2718,7 +2736,12 @@ document.querySelectorAll('body > section[id] .intro').forEach(intro => {
 });
 
 // values accordion
-document.querySelectorAll('.values li').forEach(li => li.querySelector('button').onclick = () => li.classList.toggle('open'));
+const VALUE_PHOTOS = [['photo-1670974636823-1341d802d5b4', 'Isaac Maffeis'], ['photo-1533090161767-e6ffed986c88', 'Samantha Gades'], ['photo-1564045288780-5c11658fefa3', 'Saiph Muhammad'], ['photo-1734640672449-0d65faceb323', 'Gaétan Marceau Caron'], ['photo-1486673748761-a8d18475c757', 'Karsten Würth'], ['photo-1626785462944-60d2db56c1c5', 'Huma Kabakci'], ['photo-1582789829727-39505f4e6f94', 'Koen Emmers']];
+document.querySelectorAll('.values li').forEach((li, i) => {
+  if (VALUE_PHOTOS[i]) li.querySelector('.more').insertAdjacentHTML('afterbegin', uph(VALUE_PHOTOS[i], 400, 240));
+  li.querySelector('button').onclick = () => li.classList.toggle('open');
+});
+document.querySelector('.holi').insertAdjacentHTML('afterbegin', uph(['photo-1587586291914-bdbe84ec1416', 'Alexander Grey'], 280, 192, 'Holi powder in pink and blue'));
 
 // flip cards
 const flips = [...document.querySelectorAll('.flip')];

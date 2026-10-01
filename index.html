@@ -678,8 +678,6 @@
   .shell .anchor p { color: var(--shell-muted); } .core .anchor p { color: var(--core-muted); }
   .anchor { border-top: 2px solid; padding-top: 16px; }
   .shell .anchor { border-color: rgba(255,79,154,.5); } .core .anchor { border-color: var(--line); }
-  .anchors-more { margin-top: 34px; }
-  .anchors-more[hidden] { display: none; }
   .ll-insight { margin: 18px 0 0; padding: 16px 18px; border-left: 3px solid var(--rose); background: var(--card); border-radius: 0 16px 16px 0; }
   .ll-insight b { font: 700 italic 20px "Playfair Display", serif; color: var(--rose); }
   .ll-insight p { margin: 6px 0 0; font-size: 14px; color: var(--core-muted); }
@@ -1045,9 +1043,17 @@
         <p>Outspoken, driven, and quick to stand up. When something is unfair or someone she loves is threatened, the protector comes out.</p>
       </div>
     </div>
-    <div class="anchors reveal"><div class="anchor"><h3>Protective</h3><p>Enneagram 8, DISC Dominance, and Bravery #6 all point the same way: when someone she loves is threatened, she moves first.</p></div><div class="anchor"><h3>Driven</h3><p>Achievement tops her values at 100%, and her Dutifulness is 19/20. She needs to be moving toward something.</p></div><div class="anchor"><h3>Principled</h3><p>Honesty #2, Morality 20/20, Fairness 6.76. Three different tests, one conclusion: her word means something.</p></div></div>
-    <div id="spiritEv" class="anchors anchors-more" hidden><div class="anchor"><h3>Brave</h3><p>Assertiveness 18/20. She says the thing everyone else in the room is only thinking.</p></div><div class="anchor"><h3>Organized</h3><p>Orderliness 19/20. A plan, a list, and a place for everything, including the list.</p></div><div class="anchor"><h3>A leader</h3><p>Leadership is VIA #7. She leads by knowing her people, not by running a system.</p></div></div>
-    <button class="more-btn reveal" data-more="spiritEv" data-less="Show fewer" aria-expanded="false">See 3 more</button>
+    <div class="carousel reveal">
+      <div class="track">
+        <article class="slide"><span class="n">01</span><h3>Protective</h3><p>Takes charge when a group drifts or someone gets treated badly.</p><span class="ev">Enneagram 8 · DISC Dominance</span></article>
+        <article class="slide"><span class="n">02</span><h3>Driven</h3><p>Sets high standards and delivers on them, every time.</p><span class="ev">Achievement 100% · Diligence top 10%</span></article>
+        <article class="slide"><span class="n">03</span><h3>Principled</h3><p>Honest, fair, and true to her word.</p><span class="ev">VIA Honesty #2 · Morality 20/20</span></article>
+        <article class="slide"><span class="n">04</span><h3>Brave</h3><p>Says the thing other people are only thinking.</p><span class="ev">VIA Bravery #6 · Assertiveness 18/20</span></article>
+        <article class="slide"><span class="n">05</span><h3>Organized</h3><p>Loves structure, a plan, and knowing what's expected. Orderly to the core.</p><span class="ev">Orderliness 19/20 · Dutifulness 19/20</span></article>
+        <article class="slide"><span class="n">06</span><h3>A leader</h3><p>Leads by knowing people, not by running systems.</p><span class="ev">VIA Leadership #7</span></article>
+      </div>
+      <div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div>
+    </div>
   </div>
 </section>
 
@@ -1059,9 +1065,17 @@
       <h2>What her people know</h2>
       <p>Behind the boss energy is someone who remembers what makes each person special and loves wholeheartedly.</p>
     </div>
-    <div class="anchors reveal"><div class="anchor"><h3>Loyal</h3><p>Relator is her #1 strength, and Love is her #1 character strength. A small circle, held onto for life.</p></div><div class="anchor"><h3>Empathic</h3><p>Empathy #2 and 93rd-percentile Agreeableness: she reads a room, and the people in it, fast.</p></div><div class="anchor"><h3>Expressive</h3><p>Creative & Expressive at 91.7% and Artistic 17/20. Feelings come out as things she makes.</p></div></div>
-    <div id="heartEv" class="anchors anchors-more" hidden><div class="anchor"><h3>Devoted</h3><p>Kindness is VIA #4. For her, love is something you do, not just something you feel.</p></div><div class="anchor"><h3>Supportive</h3><p>Developer, CliftonStrengths. The advice-giver and the loudest cheerleader in any room.</p></div><div class="anchor"><h3>Faithful</h3><p>Spirituality is VIA #3 and Tradition sits at 67%. Grounded in something bigger than herself.</p></div></div>
-    <button class="more-btn reveal" data-more="heartEv" data-less="Show fewer" aria-expanded="false">See 3 more</button>
+    <div class="carousel reveal">
+      <div class="track">
+        <article class="slide"><span class="n">01</span><h3>Loyal</h3><p>Once you're in, she's in for good. She'll defend you in rooms you're not in.</p><span class="ev">CliftonStrengths #1 Relator</span></article>
+        <article class="slide"><span class="n">02</span><h3>Empathic</h3><p>Reads a room, and the people in it, instantly.</p><span class="ev">CliftonStrengths #2 Empathy</span></article>
+        <article class="slide"><span class="n">03</span><h3>Devoted</h3><p>Love is her top strength. For her it's something she does, not just something she feels.</p><span class="ev">VIA #1 Love · #4 Kindness</span></article>
+        <article class="slide"><span class="n">04</span><h3>Supportive</h3><p>The advice-giver and biggest cheerleader in every room.</p><span class="ev">CliftonStrengths Developer</span></article>
+        <article class="slide"><span class="n">05</span><h3>Faithful</h3><p>Grounded in meaning, faith, and tradition.</p><span class="ev">VIA Spirituality #3 · Tradition 67%</span></article>
+        <article class="slide"><span class="n">06</span><h3>Artistic</h3><p>Creative in how she makes and expresses things. Art is how she talks.</p><span class="ev">Creative 91.7% · Artistic 17/20</span></article>
+      </div>
+      <div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div>
+    </div>
   </div>
 </section>
 
@@ -2829,8 +2843,8 @@ const hero = document.querySelector('.hero');
 // hero chips: each one jumps to the part of the page that explains it
 const ping = el => { el.classList.remove('ping'); void el.offsetWidth; el.classList.add('ping'); };
 const GO = {
-  esfj: ['core', () => ping(document.querySelectorAll('#core .anchor')[0])],
-  '8w7': ['shell', () => ping(document.querySelectorAll('#shell .anchor')[0])],
+  esfj: ['core', () => ping(document.querySelector('#core .slide'))],
+  '8w7': ['shell', () => ping(document.querySelector('#shell .slide'))],
   disc: ['both', () => {
     showTension(0); let v = 50;
     const step = () => { v -= 3; tEl.range.value = v; paintTension(); if (v > 12) requestAnimationFrame(step); };

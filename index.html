@@ -181,7 +181,7 @@
   .say { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
   .contacts { display: flex; flex-wrap: wrap; gap: 8px; }
   .contacts a { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 99px; border: 1px solid rgba(255,79,154,.5); color: #ffe3ec; text-decoration: none; font-size: 14px; transition: .2s; }
-  .legal { margin-top: 14px; font-size: 12px; color: #ff9dbb; } .legal a { color: #ff4f9a; }
+  .legal { margin-top: 14px; font-size: 12px; color: #ff9dbb; }
   .legal em { font-family: "Playfair Display", serif; }
 
   /* ---------- modal ---------- */
@@ -550,9 +550,6 @@
   /* ---------- view more ---------- */
   .more-btn { display: inline-block; margin-top: 22px; background: none; border: 1px solid #ff4f9a; color: #ff4f9a; border-radius: 99px; padding: 9px 20px; font-size: 14px; font-weight: 500; transition: .2s; }
   .more-btn:hover { background: #ff4f9a; color: #fff; }
-  a.more-btn { text-decoration: none; }
-  nav a.report-link { margin-left: auto; color: #ff9dbb; border: 1px solid rgba(255,79,154,.45); }
-  nav a.report-link:hover { background: #ff4f9a; color: #fff; }
   .core .more-btn { border-color: var(--rose); color: var(--rose); } .core .more-btn:hover { background: var(--rose); color: #fff; }
   #careersAll { grid-column: 1 / -1; margin-top: 8px; }
   .careers-top > .envs, .careers-top > .more-btn { grid-column: 1 / -1; justify-self: start; }
@@ -876,7 +873,7 @@
   /* ---------- ick or green flag: a swipe deck ---------- */
   .deck-game { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; margin-top: 36px; }
   @media (max-width: 760px) { .deck-game { grid-template-columns: 1fr; gap: 24px; } }
-  .deck { position: relative; height: 420px; max-width: 360px; width: 100%; margin: 0 auto; }
+  .deck { position: relative; height: 320px; max-width: 360px; width: 100%; margin: 0 auto; }
   .dcard { position: absolute; inset: 0; background: var(--card); border: 1px solid var(--line); border-radius: 26px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 18px 40px -20px rgba(122,31,69,.55); touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; }
   .dcard:not(:last-child) { pointer-events: none; }
   .dcard .dq { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: var(--rose); }
@@ -990,20 +987,6 @@
     .room-ctl { margin-left: auto; gap: 6px; }
     .room-track > section { padding: 36px 0 96px; }
   }
-  /* photo-first cards: the picture carries the moment, the words stay short */
-  .dcard { overflow: hidden; color: #fff; justify-content: flex-end; gap: 10px; }
-  .dcard .uph { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
-  .dcard::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(42,15,30,.05) 25%, rgba(42,15,30,.88) 78%); }
-  .dcard > span { position: relative; z-index: 2; }
-  .dcard .dq { color: #ff9dbb; } .dcard .dt { color: #fff; } .dcard .dh { color: #ffc2d4; }
-  .dcard .stamp-l, .dcard .stamp-r { position: absolute; z-index: 3; background: rgba(255,255,255,.92); }
-  .q-ph .uph { height: 170px; border-radius: 16px; margin-bottom: 16px; }
-  .tomb { height: 344px; }
-  .tomb .f .tph { position: relative; width: 132px; height: 84px; margin: 10px 0 2px; border-radius: 66px 66px 8px 8px; overflow: hidden; background: #ff4f9a; flex: none; }
-  .tomb .f .tph .uph { height: 100%; filter: grayscale(1) contrast(1.15); mix-blend-mode: multiply; opacity: .9; }
-  .meets > div { overflow: hidden; }
-  .meets .uph { width: calc(100% + 40px); height: 120px; margin: -20px -20px 14px; }
-  @media (max-width: 560px) { .q-ph .uph { height: 130px; } .deck { height: 380px; } }
   #guide { position: fixed; left: 50%; bottom: 18px; z-index: 30; transform: translate(-50%, 140%); opacity: 0; display: flex; align-items: center; gap: 12px; background: #ff4f9a; color: #fff; border: 0; border-radius: 99px; padding: 10px 14px 10px 18px; font: 500 14px "DM Sans", sans-serif; box-shadow: 0 14px 30px -12px rgba(255,79,154,.7); transition: transform .35s cubic-bezier(.3,1.4,.5,1), opacity .25s, background .2s; white-space: nowrap; max-width: calc(100vw - 32px); }
   #guide.show { transform: translate(-50%, 0); opacity: 1; }
   #guide:hover { background: #e0567f; }
@@ -1045,7 +1028,6 @@
   <div class="ng"><a class="gl" href="#circle">II · Love<small class="gq">How does she love?</small></a><span class="gs"><a href="#circle"><b>06</b>Circle</a><a href="#gifts"><b>07</b>Love language</a><a href="#mood"><b>08</b>Mood</a><a href="#icks"><b>09</b>Icks</a><a href="#match"><b>10</b>Match</a></span></div>
   <div class="ng"><a class="gl" href="#values">III · Mind<small class="gq">What drives her?</small></a><span class="gs"><a href="#values"><b>11</b>Values</a><a href="#photos"><b>12</b>Photos</a><a href="#careers"><b>13</b>Thrive</a><a href="#rip"><b>14</b>Absolutely not</a><a href="#ask"><b>15</b>Ask the data</a><a href="#quiz"><b>16</b>Quiz</a></span></div>
   <div class="ng"><a class="gl" href="#palette">IV · Built<small class="gq">What did she build?</small></a><span class="gs"><a href="#palette"><b>17</b>Style</a><a href="#code"><b>18</b>Final test</a></span></div>
-  <a class="report-link" href="report/">Full report</a>
 </div></nav>
 
 <header class="hero" id="top">
@@ -1164,7 +1146,7 @@
         <div><span class="eq">Dominance <i>×</i> Love #1</span><b>The Protector</b><p>Decisive for the people she loves, before they have to ask.</p></div>
       </div>
     </div>
-    <div class="pattern-actions reveal"><a class="more-btn" href="report/#scores">Every score from all 10 tests →</a><button class="more-btn card-btn" id="makeCard">Get her personality card</button></div>
+    <div class="pattern-actions reveal"><button class="more-btn" data-more="receipts" aria-expanded="false">Want the receipts? See all 10 assessments →</button><button class="more-btn card-btn" id="makeCard">Get her personality card</button></div>
   </div>
 </section>
 
@@ -1303,7 +1285,7 @@
         <div class="deck-result" id="deckResult" aria-live="polite"><b>Your call.</b><span>Drag the card, use the buttons, or press ← / →.</span></div>
       </div>
     </div>
-    <a class="more-btn" href="report/#love">All 12 icks, and what to do instead →</a>
+    <button class="more-btn" data-more="ickAll" aria-expanded="false">See all 12 icks</button>
     <div id="ickAll" hidden><p class="ick-count mono" id="ickCount" style="margin-top:18px">0 icks found</p><div class="icks" id="ickGrid"></div></div>
   </div>
 </section>
@@ -1395,7 +1377,7 @@
       <p class="conds-note">Any job with most of these, she'll thrive in. These five environments have all six:</p>
     </div>
     <div class="envs reveal" id="envs"></div>
-    <a class="more-btn reveal" href="report/#work">All 20 careers that fit →</a>
+    <button class="more-btn reveal" data-more="careersAll" aria-expanded="false">See all 20 careers</button>
     <div id="careersAll" hidden>
     <div class="cfilter" id="cFilter"><span>I want to…</span></div>
     <div class="carousel" id="careersCarousel">
@@ -1438,7 +1420,7 @@
       <div class="track tombs" id="tombs"></div>
       <div class="ctrl"><button class="arrow prev" aria-label="Previous">←</button><button class="arrow next" aria-label="Next">→</button><div class="dots"></div></div>
     </div>
-    <a class="more-btn" href="report/#work">10 more, with diagnoses →</a>
+    <button class="more-btn" id="ripMore">See 10 more</button>
   </div>
 </section>
 
@@ -1603,7 +1585,7 @@
       <button class="sig" id="toTop" aria-label="Back to top">Suhani Tiwari <span>↑</span></button>
       <div class="say"><span class="say-hi" id="sayHi"><span id="hiText" aria-live="polite">Say hi</span> <svg class="wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V6a1.5 1.5 0 0 1 3 0v4M10 10V4.5a1.5 1.5 0 0 1 3 0V10M13 10V5.5a1.5 1.5 0 0 1 3 0V11M16 11V8.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-2.7L4 15a1.5 1.5 0 0 1 2.4-1.8L7 14V11"/><path d="M3 5c.5-1.5 1.5-2.5 3-3M19.5 2.5c1.3.7 2 1.8 2.3 3" class="lines"/></svg><span class="hi-bubble" id="hiBubble" role="status"></span></span><div class="contacts" id="contacts"></div></div>
     </div>
-    <div class="legal"><a href="report/">Read the full report</a> · © 2026 Suhani Tiwari. All rights reserved. Photos of objects and places via Unsplash, credited on hover.</div>
+    <div class="legal">© 2026 Suhani Tiwari. All rights reserved. Photos of objects and places via Unsplash, credited on hover.</div>
   </div>
 </footer>
 
@@ -1955,10 +1937,6 @@ const ANNOY_ICONS = ['hourglass', 'eye', 'mask', 'clipboard', 'loop', 'calX', 't
 const DELIGHT_ICONS = ['latte', 'bowl', 'gift', 'speech', 'phoneOff', 'brush', 'megaphone', 'calCheck', 'heart', 'house'];
 /* Unsplash photos of things, never people: what each score looks like in real life. [photo id, photographer] */
 const uph = ([id, by], w, h, alt = '') => `<img class="uph" src="https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&auto=format&q=70" alt="${alt}" title="Photo: ${by} / Unsplash" loading="lazy" decoding="async">`;
-const ICK_PHOTOS = [['photo-1777506549593-c3c5ff0e581e', 'Christopher Stites'], ['photo-1731412235213-678ada5cd36b', 'Annie Spratt'], ['photo-1691256676376-357c3aa66c89', 'personalgraphic.com'], ['photo-1552862750-746b8f6f7f25', 'Johannes Plenio'], ['photo-1688437172390-8788c0ec155a', 'Zac Cain'], ['photo-1563649702130-98030a0fb033', 'Jeffrey Hamilton'], ['photo-1464349153735-7db50ed83c84', 'Annie Spratt'], ['photo-1572509018340-1fc13b5df491', 'Agung Raharja'], ['photo-1745429806387-6224c9940799', 'Fer Troulik'], ['photo-1662974770404-468fd9660389', 'kuu akura'], ['photo-1673201410594-e25b9c6e0223', 'Juan Boche'], ['photo-1567934124115-2eca8953796b', 'Metin Ozer']];
-const QUIZ_PHOTOS = [['photo-1556157382-4e063bb26661', 'Austin Distel'], ['photo-1431540015161-0bf868a2d407', 'Benjamin Child'], ['photo-1508424897381-4fd8755e4b7a', 'kayleigh harrington'], ['photo-1777372307561-38fbe6a2eb02', 'Haberdoedas'], ['photo-1558690625-96d7a11c0215', 'Michał Kubalczyk'], ['photo-1624969862293-b749659ccc4e', 'Towfiqu barbhuiya'], ['photo-1784450441661-3cd09f566809', 'McFollis'], ['photo-1573757747798-62adbde0f981', 'Thalia Ruiz'], ['photo-1508061538535-6effdf9eb6f5', 'CHUTTERSNAP'], ['photo-1736322969168-7105551d1798', 'Egor Myznik']];
-const TOMB_PHOTOS = [['photo-1547394765-185e1e68f34e', 'Christian Wiediger'], ['photo-1510074377623-8cf13fb86c08', 'Annie Spratt'], ['photo-1648201637025-1c77b9be3013', 'Aaron Lefler'], ['photo-1611974789855-9c2a0a7236a3', 'Maxim Hopman'], ['photo-1553775282-20af80779df7', 'Petr Macháček'], ['photo-1754548930574-6a995e5eb5a7', 'Jakub Żerdzicki'], ['photo-1586486855514-8c633cc6fd38', 'Olga DeLawrence'], ['photo-1516409590654-e8d51fc2d25c', 'ron dyar'], ['photo-1789922129938-f02af2785d19', 'Sou Jest'], ['photo-1761446812503-5d9a3d298cd7', 'Clevenider Petit']];
-const MEET_PHOTOS = [['photo-1751011983324-fe9d30fe9efd', 'Julie Mallet'], ['photo-1523772721666-22ad3c3b6f90', 'Erik Witsoe'], ['photo-1688488496687-73e4e98dfc6b', 'Annie Spratt'], ['photo-1706193589333-da530df63ecf', 'Michael Fousert'], ['photo-1581431886288-e216ea4ccf3f', 'Kelly Sikkema'], ['photo-1610029795220-e5afca4dc7ba', 'Nathan Jennings']];
 const DELIGHT_PHOTOS = [['photo-1593443320739-77f74939d0da', 'tabitha turner'], ['photo-1633195000232-ca6e3cbcfd41', 'Scott Greer'], ['photo-1513201099705-a9746e1e201f', 'Jess Bailey'], ['photo-1688488496674-e0e5a5ba426b', 'Annie Spratt'], ['photo-1729168411881-5d46ecc5cd04', 'Alexander Jawfox'], ['photo-1658303135227-fcdfb0dab396', 'Jennie Razumnaya'], ['photo-1584890132374-d69d5d01483e', 'Damiano Lingauri'], ['photo-1506784983877-45594efa4cbe', 'Estée Janssens'], ['photo-1599652521984-8bebed0580b7', 'Annie Spratt'], ['photo-1635719373807-7fa1e5a625fe', 'Dan Bucko']];
 const fill = (id, list, sign, icons, photos) => list.forEach(([text, reaction, why], i) => {
   const b = document.createElement('button');
@@ -2001,7 +1979,7 @@ const TOMBS = [
 const CAUSES = [['creative starvation', 'High repetition · Solo · No creativity'], ['creative starvation', 'High repetition · Solo · Invisible impact'], ['too much routine', 'Detail-heavy · Fixed rules · Little variety'], ['insufficient autonomy', "Rigid hierarchy · Someone else's name · Little ownership"], ['insufficient autonomy', 'Scripted · No ownership · Low variety'], ['insufficient autonomy', 'Watched · No ownership · No voice'], ['too much routine', 'Detail-heavy · Seasonal grind · No creativity'], ['too much routine', 'Repetitive · Detail-heavy · Invisible'], ['not enough people', 'Solo · Detail-heavy · No users'], ['not enough people', 'Solo · Draining · No creativity'], ['too much routine', 'Scripted · Repetitive · Reactive'], ['bureaucracy', 'Red tape · Rules over people · Slow'], ['no room to go for it', 'Solo · Detail-heavy · Risk-averse'], ['too much routine', 'Detail-heavy · Repetitive · Solo'], ['too much routine', 'Repetitive · No creativity · No voice'], ['bureaucracy', 'Red tape · Slow decisions · No ownership'], ['bureaucracy', 'Paperwork · Red tape · No voice'], ['too much routine', 'Detail-heavy · Solo · Repetitive'], ['not enough people', 'Alone · Quiet · No one to lead'], ['no recognition', "Invisible · No credit · Someone else's name"]];
 const renderTombs = list => document.getElementById('tombs').innerHTML = list.map(([job, epitaph, src, revive, fix], i) =>
   `<button class="tomb" aria-label="${job}: tap to revive"><div class="in">
-    <div class="f"><span class="rip">No. ${String(i + 1).padStart(2, '0')}</span>${TOMB_PHOTOS[i] ? `<span class="tph">${uph(TOMB_PHOTOS[i], 280, 180)}</span>` : ''}<h3>${job}</h3><p>${epitaph}</p><span class="cause">Cause of death: ${CAUSES[i][0]}</span></div>
+    <div class="f"><span class="rip">No. ${String(i + 1).padStart(2, '0')}</span><h3>${job}</h3><p>${epitaph}</p><span class="cause">Cause of death: ${CAUSES[i][0]}</span></div>
     <div class="b"><span class="up">${icon('tulip')}</span><b>Revived.</b><span>${revive}</span><span class="diag">${CAUSES[i][1]}</span><span class="src">${src} · ${fix}</span></div>
   </div></button>`).join('');
 const bindTombs = () => document.querySelectorAll('.tomb').forEach(t => t.onclick = e => {
@@ -2010,7 +1988,7 @@ const bindTombs = () => document.querySelectorAll('.tomb').forEach(t => t.onclic
 });
 renderTombs(TOMBS.slice(0, 10));
 initCarousel(document.getElementById('ripCarousel')); bindTombs();
-if (document.getElementById('ripMore')) document.getElementById('ripMore').onclick = e => {
+document.getElementById('ripMore').onclick = e => {
   const rip = document.getElementById('ripCarousel');
   renderTombs(TOMBS); rip.querySelector('.dots').innerHTML = '';
   initCarousel(rip); bindTombs(); e.currentTarget.remove();
@@ -2439,7 +2417,7 @@ const renderQ = () => {
     return;
   }
   const [q, opts] = QUIZ[qi];
-  quizBox.innerHTML = `<div class="q-top">${dots()}<span>Question ${qi + 1} of ${QUIZ.length}</span></div><div class="q-ph">${uph(QUIZ_PHOTOS[qi], 1200, 360)}</div><h3>${q}</h3><div class="q-opts">${opts.map((o, i) => [o, i]).sort(() => Math.random() - .5).map(([o, i]) => `<button data-i="${i}">${o}</button>`).join('')}</div><p class="q-why"></p>`;
+  quizBox.innerHTML = `<div class="q-top">${dots()}<span>Question ${qi + 1} of ${QUIZ.length}</span></div><h3>${q}</h3><div class="q-opts">${opts.map((o, i) => [o, i]).sort(() => Math.random() - .5).map(([o, i]) => `<button data-i="${i}">${o}</button>`).join('')}</div><p class="q-why"></p>`;
   quizBox.querySelectorAll('.q-opts button').forEach(b => b.onclick = () => {
     const [, , right, why] = QUIZ[qi], picked = +b.dataset.i;
     quizBox.querySelectorAll('.q-opts button').forEach(x => { x.disabled = true; if (+x.dataset.i === right) x.classList.add('right'); });
@@ -2694,15 +2672,15 @@ cardDialog.addEventListener('click', e => { if (e.target === cardDialog) cardDia
 
 // ick or green flag: 12 icks and 6 green flags, shuffled into a swipe deck
 const DECK = [
-  ...ICKS.map(([who, what, why, instead], i) => ({ t: what, ick: true, head: who, body: `${why} Instead: ${instead}`, value: 'Crosses: ' + ICK_VALUES[i], ph: ICK_PHOTOS[i] })),
-  ...DELIGHT.slice(0, 6).map(([text, reaction, why], i) => ({ t: text + '.', ick: false, head: 'Green flag', body: `${reaction} ${why}`, value: 'Makes her day', ph: DELIGHT_PHOTOS[i] }))
+  ...ICKS.map(([who, what, why, instead], i) => ({ t: what, ick: true, head: who, body: `${why} Instead: ${instead}`, value: 'Crosses: ' + ICK_VALUES[i] })),
+  ...DELIGHT.slice(0, 6).map(([text, reaction, why]) => ({ t: text + '.', ick: false, head: 'Green flag', body: `${reaction} ${why}`, value: 'Makes her day' }))
 ];
 const deckEl = document.getElementById('deck'), deckResult = document.getElementById('deckResult'), deckScore = document.getElementById('deckScore');
 let deckOrder = [], deckRight = 0, deckDone = 0;
 const dealDeck = () => {
   deckOrder = DECK.map((c, i) => i).sort(() => Math.random() - .5);
   deckRight = 0; deckDone = 0;
-  deckEl.innerHTML = deckOrder.slice().reverse().map(i => `<div class="dcard" data-i="${i}">${uph(DECK[i].ph, 720, 800)}<span class="stamp-l">ICK</span><span class="stamp-r">GREEN</span><span class="dq">Ick or green flag?</span><span class="dt">${DECK[i].t}</span><span class="dh">← ick · green flag →</span></div>`).join('');
+  deckEl.innerHTML = deckOrder.slice().reverse().map(i => `<div class="dcard" data-i="${i}"><span class="stamp-l">ICK</span><span class="stamp-r">GREEN</span><span class="dq">Ick or green flag?</span><span class="dt">${DECK[i].t}</span><span class="dh">← ick · green flag →</span></div>`).join('');
   deckScore.textContent = `0 / ${DECK.length}`;
   deckEl.querySelectorAll('.dcard').forEach((c, k) => c.style.transform = `translateY(${Math.min(deckOrder.length - 1 - k, 3) * 6}px) scale(${1 - Math.min(deckOrder.length - 1 - k, 3) * .03})`);
   bindTop();
@@ -2908,8 +2886,6 @@ document.querySelectorAll('.chip[data-go]').forEach(chip => chip.addEventListene
   target.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
   setTimeout(then, 750);
 }));
-
-document.querySelectorAll('.meets > div').forEach((d, i) => MEET_PHOTOS[i] && d.insertAdjacentHTML('afterbegin', uph(MEET_PHOTOS[i], 640, 260)));
 
 // rabbit hole: jump somewhere interesting and set it up
 const RABBIT = [

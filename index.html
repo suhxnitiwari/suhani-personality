@@ -896,7 +896,7 @@
   .tr-grid div.got { border-style: solid; border-color: #ff4f9a; background: rgba(255,79,154,.14); }
   .tr-grid div.got b { color: #fff; }
   /* ---------- polaroids tucked into sections: drag them around ---------- */
-  body > section > .wrap { position: relative; }
+  section > .wrap { position: relative; }
   .tuck { position: absolute; top: 0; right: 16px; z-index: 4; width: 168px; margin: 0; padding: 9px 9px 0; background: #fff; box-shadow: 0 16px 34px -14px rgba(0,0,0,.55); transform: rotate(var(--r)); cursor: grab; touch-action: none; transition: box-shadow .2s; user-select: none; -webkit-user-select: none; }
   .tuck:active { cursor: grabbing; box-shadow: 0 26px 44px -12px rgba(0,0,0,.6); }
   .tuck img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; pointer-events: none; }
@@ -947,6 +947,35 @@
   .her-words blockquote { margin: 0; font: italic 500 16px/1.45 "Playfair Display", serif; color: var(--core-text); }
   .her-words figcaption { margin-top: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--rose); font-weight: 700; }
   @media (max-width: 560px) { .bf-node b { font-size: 20px; } .bf-node span { display: none; } .bf-wave { height: 170px; } }
+  /* ---------- rooms: each act is one screen, its sections slide sideways ---------- */
+  html.rooms { scroll-snap-type: y proximity; scroll-padding-top: 52px; }
+  .room { height: calc(100vh - 52px); height: calc(100svh - 52px); display: flex; flex-direction: column; scroll-snap-align: start; position: relative; }
+  .room > .act { flex: none; padding: 0; height: 58px; display: flex; align-items: center; }
+  .room > .act .wrap { width: 100%; align-items: center; flex-wrap: nowrap; }
+  .room > .act b { font-size: clamp(18px, 2.4vw, 26px); white-space: nowrap; }
+  .room > .act .aq { font-size: 15px; white-space: nowrap; }
+  .room-ctl { display: flex; align-items: center; gap: 10px; margin-left: 22px; flex: none; }
+  .room > .act .aq + .room-ctl { margin-left: 22px; }
+  .room-ctl button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,79,154,.5); background: transparent; color: #ff9dbb; font-size: 18px; line-height: 1; transition: .2s; }
+  .room-ctl button:hover:not(:disabled) { background: #ff4f9a; border-color: #ff4f9a; color: #fff; }
+  .room-ctl button:disabled { opacity: .3; cursor: default; }
+  .room-ctl .rc { font: 600 12px "DM Sans", sans-serif; letter-spacing: .14em; color: #ffe3ec; min-width: 52px; text-align: center; }
+  .room-dots { display: flex; gap: 6px; }
+  .room-dots i { width: 6px; height: 6px; border-radius: 99px; background: rgba(255,157,187,.35); transition: .3s; cursor: pointer; }
+  .room-dots i.on { width: 20px; background: #ff4f9a; }
+  .room-track { position: relative; flex: 1; min-height: 0; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+  .room-track::-webkit-scrollbar { display: none; }
+  .room-track > section { flex: 0 0 100%; height: 100%; overflow-y: auto; overflow-x: hidden; scroll-snap-align: start; scroll-snap-stop: always; padding: 52px 0 64px; scroll-margin-top: 58px; scrollbar-width: thin; scrollbar-color: rgba(255,79,154,.4) transparent; }
+  .room-next { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; bottom: 18px; z-index: 6; background: #2a0f1e; color: #ffe3ec; border: 1px solid rgba(255,79,154,.5); border-radius: 99px; padding: 9px 16px; font: 500 13px "DM Sans", sans-serif; box-shadow: 0 10px 24px -12px rgba(0,0,0,.6); transition: .2s; }
+  .room-next:hover { background: #ff4f9a; border-color: #ff4f9a; color: #fff; }
+  .room-next b { color: #ff9dbb; font-weight: 600; margin-left: 4px; } .room-next:hover b { color: #fff; }
+  @media (max-width: 760px) {
+    .room > .act .aq, .room-dots, .room > .act .wrap > span:first-child { display: none; }
+    .room > .act b { font-size: 18px; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+    .room-ctl { margin-left: auto; gap: 6px; }
+    .room-track > section { padding: 36px 0 96px; }
+    .room-next { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -2659,7 +2688,7 @@ const bindTop = () => {
 document.getElementById('swipeL').onclick = () => { const c = deckEl.querySelector('.dcard:last-child'); if (c) judge(c, true); };
 document.getElementById('swipeR').onclick = () => { const c = deckEl.querySelector('.dcard:last-child'); if (c) judge(c, false); };
 addEventListener('keydown', e => {
-  const r = deckEl.getBoundingClientRect(); if (r.top > innerHeight || r.bottom < 0 || e.target.closest?.('input, textarea')) return;
+  const r = deckEl.getBoundingClientRect(); if (r.top > innerHeight || r.bottom < 0 || r.left > innerWidth || r.right < 0 || e.target.closest?.('input, textarea')) return;
   if (e.key === 'ArrowLeft') document.getElementById('swipeL').click();
   if (e.key === 'ArrowRight') document.getElementById('swipeR').click();
 });
@@ -2967,6 +2996,7 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
     ['quiz', 'quiz.js', 'Pop quiz', 'Situational predictions instead of trivia. A small state machine: the question index and score are the only state. Each answer locks the options, reveals the right one, and explains it before moving on.', ['state machine', 'template literals', 'feedback loop']],
     ['page-wide touches', 'touches.js', 'Page-wide touches', 'A scroll progress line that ends in a heart, a name that rolls like a wave (each letter animation is delayed by i × 95ms), 3D card tilt from pointer position, and a keystroke buffer that listens for secret words.', ['pointer math', 'keyboard buffer', 'CSS masks']],
     ['signature strengths: evidence map', 'evidence.js', 'Evidence map', 'Five themes, ten assessments. JavaScript measures where each theme and assessment sit on screen, then draws a cubic Bézier curve between every pair that share evidence. Picking a theme lights its curves; picking an assessment lights every theme it feeds. Curves redraw on resize.', ['getBoundingClientRect', 'SVG Bézier curves', 'two-way highlighting']],
+    ['rooms: each act is one screen and its sections slide sideways, so the page is a few screens tall instead of thirty', 'rooms.js', 'Act rooms', 'Each act is one screen-tall stage. Its sections sit side by side in a flex row with CSS scroll-snap, so a swipe, an arrow key or a dot moves one section at a time. A section taller than the screen scrolls inside its own slide. The page itself snaps from act to act.', ['scroll-snap', 'flexbox', 'MutationObserver']],
     ['under the hood', 'hood.js', 'This panel', 'The panel reads this page\'s own <script> at runtime, splits it at comment markers, and syntax-highlights it with a single-regex tokenizer. Live numbers come from requestAnimationFrame and the Performance API, and it only updates while you can see it.', ['self-reading code', 'regex tokenizer', 'Performance API', 'Clipboard API']]
   ].filter(f => chunks[f[0]]);
 
@@ -3062,6 +3092,75 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
   });
 
   console.log('%cHey, developer.%c\nThis whole site is one file with zero dependencies. Psst: try typing "latte", "suhani", or "holi" anywhere on the page.', 'font: 700 16px Georgia; color: #e0567f', 'color: #ff4f9a');
+})();
+// rooms: each act is one screen and its sections slide sideways, so the page is a few screens tall instead of thirty
+(() => {
+  if (root.classList.contains('single-view')) return;
+  root.classList.add('rooms');
+  const name = id => (document.querySelector(`nav .gs a[href="#${id}"]`)?.textContent || '').replace(/^\d+/, '');
+  const roomEls = [];
+  so.disconnect();
+  const markNav = id => {
+    links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + id));
+    document.querySelectorAll('.ng').forEach(g => g.classList.toggle('on', !!g.querySelector('.gs a.on')));
+  };
+  ['actI', 'actII', 'actIII', 'actIV'].forEach((aid, n, all) => {
+    const act = document.getElementById(aid), secs = [];
+    for (let el = act.nextElementSibling; el && el.tagName === 'SECTION'; el = el.nextElementSibling) secs.push(el);
+    const room = document.createElement('div'), track = document.createElement('div');
+    room.className = 'room'; room.id = 'room' + (n + 1); track.className = 'room-track';
+    act.before(room); room.append(act, track); track.append(...secs);
+    const ctl = document.createElement('div'); ctl.className = 'room-ctl';
+    ctl.innerHTML = '<span class="room-dots"></span><button class="rp" aria-label="Previous section">‹</button><span class="rc"></span><button class="rn" aria-label="Next section">›</button>';
+    act.querySelector('.wrap').append(ctl);
+    const next = document.createElement('button'); next.className = 'room-next'; room.append(next);
+    const live = () => secs.filter(s => !s.hidden);
+    const at = () => Math.round(track.scrollLeft / track.clientWidth);
+    const go = i => { const l = live(); i = Math.max(0, Math.min(l.length - 1, i)); track.scrollTo({ left: l[i].offsetLeft, behavior: 'smooth' }); };
+    const nextRoom = () => {
+      const r = all[n + 1] ? document.getElementById('room' + (n + 2)) : document.getElementById('foot');
+      scrollTo({ top: r.getBoundingClientRect().top + scrollY - (r.id === 'foot' ? 0 : 52), behavior: 'smooth' });
+    };
+    const update = () => {
+      const l = live(), i = Math.min(at(), l.length - 1);
+      ctl.querySelector('.rc').textContent = `${String(i + 1).padStart(2, '0')} / ${String(l.length).padStart(2, '0')}`;
+      ctl.querySelector('.rp').disabled = i === 0; ctl.querySelector('.rn').disabled = i === l.length - 1;
+      const dots = ctl.querySelector('.room-dots');
+      if (dots.children.length !== l.length) { dots.innerHTML = l.map(() => '<i></i>').join(''); [...dots.children].forEach((d, k) => d.onclick = () => go(k)); }
+      [...dots.children].forEach((d, k) => { d.classList.toggle('on', k === i); d.title = name(l[k].id); });
+      const label = i < l.length - 1 ? `Next<b>${name(l[i + 1].id)} →</b>` : all[n + 1] ? `Next act<b>${document.querySelector('#' + all[n + 1] + ' b').textContent} ↓</b>` : 'Say hi <b>↓</b>';
+      if (next.innerHTML !== label) next.innerHTML = label;
+      next.onclick = () => i < l.length - 1 ? go(i + 1) : nextRoom();
+      const b = room.getBoundingClientRect(); if (b.top < innerHeight * .5 && b.bottom > innerHeight * .5) markNav(l[i].id);
+    };
+    ctl.querySelector('.rp').onclick = () => go(at() - 1);
+    ctl.querySelector('.rn').onclick = () => go(at() + 1);
+    track.addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+    /* revealing a hidden section (the receipts) adds a slide: show it */
+    new MutationObserver(update).observe(track, { attributes: true, subtree: false, childList: false, attributeFilter: ['hidden'] });
+    secs.forEach(s => new MutationObserver(update).observe(s, { attributes: true, attributeFilter: ['hidden'] }));
+    update();
+    addEventListener('scroll', update, { passive: true });
+    roomEls.push({ room, track, live, at, go });
+  });
+  /* carousels inside a slide keep their swipes to themselves */
+  document.querySelectorAll('.room-track section *').forEach(el => { const o = getComputedStyle(el).overflowX; if (o === 'auto' || o === 'scroll') el.style.overscrollBehaviorX = 'contain'; });
+  /* every in-page link and jump lands on the right slide */
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]'); if (!a) return;
+    const t = document.getElementById(a.getAttribute('href').slice(1)); if (!t || !t.closest('.room-track') || a.id === 'toHero') return;
+    e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); history.replaceState(null, '', a.getAttribute('href'));
+  });
+  if (location.hash) { const t = document.querySelector(location.hash); if (t?.closest('.room-track')) setTimeout(() => t.scrollIntoView({ block: 'start' }), 60); }
+  /* ← and → move through the act on screen (the swipe deck keeps its own arrows) */
+  addEventListener('keydown', e => {
+    if ((e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') || e.target.closest?.('input, textarea, select, [contenteditable]')) return;
+    const r = roomEls.find(({ room }) => { const b = room.getBoundingClientRect(); return b.top < innerHeight * .5 && b.bottom > innerHeight * .5; });
+    if (!r) return;
+    const cur = r.live()[r.at()]; if (cur?.id === 'icks' || cur?.id === 'both') return;
+    e.preventDefault(); r.go(r.at() + (e.key === 'ArrowRight' ? 1 : -1));
+  });
 })();
 </script>
 </body>

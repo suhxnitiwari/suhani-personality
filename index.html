@@ -997,7 +997,21 @@
   @media (prefers-reduced-motion: reduce) { #guide i { animation: none; } }
   html.rooms .rabbit { left: 18px; }
   @media (max-width: 760px) { html.rooms .rabbit { display: none; } #guide { left: 16px; transform: translate(0, 140%); font-size: 13px; padding: 9px 12px 9px 14px; max-width: calc(100vw - 176px); } #guide > span:not(.g-n) { overflow: hidden; text-overflow: ellipsis; min-width: 0; } #guide.show { transform: none; } #guide .g-sub { display: none; } }
-  html.single-view #guide { display: none; }
+  html.single-view #guide, html.single-view #rail { display: none; }
+  .room > .act { position: relative; }
+  .room-read { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,79,154,.15); }
+  .room-read i { display: block; height: 100%; background: linear-gradient(90deg, #e0567f, #ff4f9a); transform-origin: left; transform: scaleX(0); transition: transform .15s linear; }
+  #rail { position: fixed; right: 14px; top: 50%; transform: translate(30px, -50%); opacity: 0; z-index: 25; display: flex; flex-direction: column; gap: 14px; transition: .35s; pointer-events: none; }
+  #rail.show { transform: translate(0, -50%); opacity: 1; pointer-events: auto; }
+  .rail-act { display: flex; flex-direction: column; gap: 5px; align-items: flex-end; }
+  #rail button { position: relative; width: 14px; height: 4px; padding: 0; border: 0; border-radius: 99px; background: rgba(255,157,187,.35); transition: .25s; }
+  #rail button::after { content: ""; position: absolute; inset: -5px -8px; }
+  #rail button.seen { background: rgba(255,79,154,.75); }
+  #rail button.on { width: 26px; background: #ff4f9a; }
+  #rail button:hover { width: 26px; background: #ff9dbb; }
+  #rail button span { position: absolute; right: 36px; top: 50%; transform: translateY(-50%); white-space: nowrap; font: 500 12px "DM Sans", sans-serif; color: #fff; background: #2a0f1e; border: 1px solid rgba(255,79,154,.4); padding: 4px 10px; border-radius: 99px; opacity: 0; pointer-events: none; transition: .2s; }
+  #rail button:hover span { opacity: 1; }
+  @media (max-width: 1100px) { #rail { display: none; } }
 </style>
 </head>
 <body>
@@ -3170,6 +3184,7 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
 
   /* the one rule: down is forward. Read to the bottom of a stop, then the next stop slides in. */
   const step = dir => {
+    lockUntil = Math.max(lockUntil, performance.now() + 600);
     const r = active();
     if (!r) { if (dir > 0 && scrollY < rooms[0].room.offsetTop) toRoom(0); return; }
     const l = r.live(), i = r.at(), sec = l[i];
@@ -3192,16 +3207,29 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
     }
     return false;
   };
-  let lockUntil = 0, acc = 0;
+  /* the page never free-scrolls between screens: every move is one clean step, and a scroll that is
+     still coasting from reading never carries on into the next stop. Pause at the bottom, scroll again. */
+  let lockUntil = 0, acc = 0, coastUntil = 0;
+  const lock = ms => { lockUntil = performance.now() + ms; acc = 0; };
   addEventListener('wheel', e => {
-    if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-    const r = active(); if (!r || !aligned(r) || !r.room.contains(e.target) || e.target.closest('dialog')) return;
-    const now = performance.now(), sec = r.cur(), down = e.deltaY > 0;
-    if (now < lockUntil) { e.preventDefault(); lockUntil = Math.max(lockUntil, now + 180); return; }
-    if (innerCan(e.target, sec, down) || (down ? below(sec) : sec.scrollTop > 1)) { acc = 0; return; }
+    if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.target.closest?.('dialog')) return;
+    const now = performance.now(), down = e.deltaY > 0;
+    if (now < lockUntil) { e.preventDefault(); lockUntil = Math.max(lockUntil, now + 160); return; }
+    const r = active();
+    if (!r || !aligned(r)) {
+      /* opening screen and footer: one scroll lands exactly on the next screen */
+      const first = rooms[0].room.getBoundingClientRect().top + scrollY - NAV, last = rooms[3].room.getBoundingClientRect().top + scrollY - NAV;
+      if (down && scrollY < first - 4) { e.preventDefault(); lock(900); toRoom(0); }
+      else if (!down && scrollY > last + 4) { e.preventDefault(); lock(900); toRoom(3); }
+      else if (r) { e.preventDefault(); lock(700); toRoom(r.n); }
+      return;
+    }
+    const sec = r.cur();
+    if (innerCan(e.target, sec, down) || (down ? below(sec) : sec.scrollTop > 1)) { coastUntil = now + 260; acc = 0; return; }
     e.preventDefault();
-    acc += e.deltaY; if (Math.abs(acc) < 40) return;
-    acc = 0; lockUntil = now + 750; step(down ? 1 : -1);
+    if (now < coastUntil) { coastUntil = now + 260; return; }
+    acc += e.deltaY; if (Math.abs(acc) < 30) return;
+    lock(800); step(down ? 1 : -1);
   }, { passive: false });
   /* touch: the same rule, once a stop has been read to its edge */
   let t0 = null;
@@ -3238,6 +3266,15 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
   let told = false;
   try { told = !!localStorage.getItem('suhani-guided'); } catch (e) {}
   const seen = new Set();
+  /* the stop map: 18 marks in 4 acts, where you are, where you've been, click to jump */
+  const rail = document.createElement('div'); rail.id = 'rail'; rail.setAttribute('role', 'navigation'); rail.setAttribute('aria-label', 'All stops');
+  document.body.append(rail);
+  const buildRail = () => {
+    rail.innerHTML = rooms.map(r => `<div class="rail-act">${r.live().map(sec => `<button data-id="${sec.id}"><span>${name(sec.id)}</span></button>`).join('')}</div>`).join('');
+    rail.querySelectorAll('button').forEach(b => b.onclick = () => { const t = document.getElementById(b.dataset.id); t.scrollTop = 0; lock(900); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  };
+  buildRail();
+  rooms.forEach(r => { const bar = document.createElement('div'); bar.className = 'room-read'; bar.innerHTML = '<i></i>'; r.act.append(bar); r.bar = bar.firstChild; });
   window.stopsSeen = () => [seen.size, stops().length];
   const render = () => {
     rooms.forEach(r => {
@@ -3249,6 +3286,11 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
       [...dots.children].forEach((d, k) => { d.classList.toggle('on', k === i); d.title = name(l[k].id); });
     });
     const r = active(), all = stops();
+    if (rail.querySelectorAll('button').length !== all.length) buildRail();
+    rooms.forEach(x => { const c = x.cur(), max = c.scrollHeight - c.clientHeight; x.bar.style.transform = `scaleX(${max > 8 ? Math.min(1, c.scrollTop / (max - 4)) : 1})`; });
+    const curId = r && r.cur().id;
+    rail.querySelectorAll('button').forEach(b => { b.classList.toggle('on', b.dataset.id === curId); b.classList.toggle('seen', seen.has(b.dataset.id)); });
+    rail.classList.toggle('show', !!r);
     let label;
     if (scrollY + innerHeight >= document.documentElement.scrollHeight - 6) { guide.classList.remove('show'); return; }
     if (!r) {
@@ -3259,7 +3301,7 @@ document.querySelectorAll('#bigStats button').forEach(btn => btn.addEventListene
       markNav(sec.id);
       if (aligned(r)) seen.add(sec.id);
       const nxt = i < l.length - 1 ? name(l[i + 1].id) : rooms[r.n + 1] ? `Act ${document.querySelectorAll('nav .ng')[r.n + 1].querySelector('.gl').firstChild.textContent.trim()}` : 'Say hi';
-      label = `<span class="g-n">${k}<small>/${all.length}</small></span>` + (below(sec) ? `<span>Keep scrolling</span><i>↓</i>` : `<span>Next: <b>${nxt}</b></span><i>↓</i>`);
+      label = `<span class="g-n">${k}<small>/${all.length}</small></span>` + (below(sec) ? `<span>Keep reading</span><i>↓</i>` : `<span>Next: <b>${nxt}</b></span><i>↓</i>`);
       if (!told && aligned(r)) { told = true; try { localStorage.setItem('suhani-guided', '1'); } catch (e) {} window.showToast?.('Just keep scrolling down. The page walks you through every stop.'); }
     }
     guide.classList.add('show');

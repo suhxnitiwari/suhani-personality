@@ -60,6 +60,10 @@
   .hero .tag b { color: #ff9dbb; font-style: italic; }
   .hint { font-size: 13px; color: var(--shell-muted); margin-top: 10px; pointer-events: none; }
   .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 32px; }
+  .house-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; padding: 12px 22px; border-radius: 99px; background: #fff; color: #e0218a; font: 700 15px "DM Sans", sans-serif; text-decoration: none; box-shadow: 0 0 0 3px rgba(255,79,154,.45), 0 10px 30px rgba(224,33,138,.35); transition: transform .2s; }
+  .house-link:hover { transform: translateY(-2px); }
+  .house-link svg { width: 20px; }
+  .house-link span { font-weight: 500; font-size: 12px; opacity: .7; }
   .chip { background: rgba(255,255,255,.06); border: 1px solid rgba(255,79,154,.5); color: var(--shell-text); padding: 8px 18px; border-radius: 99px; font-size: 14px; font-weight: 500; transition: .2s; backdrop-filter: blur(4px); }
   .chip::after { content: " ↓"; color: var(--pop); }
   .chip:hover, .chip:focus-visible { background: var(--pop); color: var(--shell); border-color: var(--pop); transform: translateY(-2px); outline: none; }
@@ -1121,6 +1125,7 @@
       <button class="chip" data-go="ase">Holland ASE · The Creator</button>
       <button class="chip" data-go="guardian">Archetype: Guardian</button>
     </div>
+    <a class="house-link" href="house/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h13V9.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Walk through her house<span>3D · two storeys</span></a>
   </div>
 </header>
 

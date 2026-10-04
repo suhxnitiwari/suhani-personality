@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Suhani House</title>
+<meta name="description" content="A house built out of Suhani Tiwari's personality: her people at the front, her ambition upstairs, the mess of her brain in the attic, and a secret garden behind. Walk through it, or open it like a dollhouse.">
+<meta property="og:title" content="The Suhani House">
+<meta property="og:description" content="A dollhouse you can walk through. Twenty-two stops, one person.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F5EFE3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23394837%22/%3E%3Cpath d=%22M6 15 16 7l10 8M9 13v12h14V13%22 fill=%22none%22 stroke=%22%23F5EFE3%22 stroke-width=%222%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Playfair+Display:ital,wght@0,700;0,800;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="house.css?v=20">
+</head>
+<body>
+
+<div id="sky" aria-hidden="true"></div>
+<div id="scene" aria-hidden="true"><div id="cam"><div id="world"></div></div></div>
+<div id="vignette" aria-hidden="true"></div>
+
+<header class="hud-top">
+  <a class="brand" href="../" aria-label="Back to the full portrait">
+    <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h13V9.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 17.2c-2.6-1.6-3.6-2.8-3.6-4.1 0-1 .8-1.8 1.8-1.8.8 0 1.4.4 1.8 1 .4-.6 1-1 1.8-1 1 0 1.8.8 1.8 1.8 0 1.3-1 2.5-3.6 4.1Z" fill="currentColor"/></svg></span>
+    <span><b>The Suhani House</b><small>a house built from a personality</small></span>
+  </a>
+  <nav class="hud-nav">
+    <button id="mapBtn" aria-expanded="false" aria-controls="mapPanel"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 3.5 5.5 2l5 1.5 4-1.5v10.5l-4 1.5-5-1.5-4 1.5Z M5.5 2v10.5 M10.5 3.5V14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>Rooms</button>
+    <button id="soundBtn" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h2.5L8 3v10L4.5 10H2Z" fill="currentColor"/><path class="wave" d="M10.5 5.5c1 .8 1 4.2 0 5M12.5 3.8c2 1.6 2 6.8 0 8.4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span>Sound</span></button>
+    <a href="../">Full portrait</a>
+  </nav>
+</header>
+
+<div id="caption" aria-live="polite"><span class="cap-k"></span><b class="cap-t"></b></div>
+
+<aside id="panel" aria-live="polite" aria-labelledby="pTitle" hidden>
+  <div class="p-head">
+    <span class="p-kicker" id="pKicker"></span>
+    <button class="p-close" id="pClose" aria-label="Close and keep walking">×</button>
+  </div>
+  <h2 id="pTitle"></h2>
+  <div class="p-body" id="pBody"></div>
+  <div class="p-foot">
+    <button class="pill ghost" id="pPrev">← Back</button>
+    <button class="pill" id="pNext">Next stop →</button>
+  </div>
+</aside>
+
+<div id="mapPanel" hidden>
+  <div class="map-head"><span>Floor plan</span><small id="mapCount">0 of 19 stops</small></div>
+  <svg id="map" role="group" aria-label="Floor plan. Pick a room to walk there."></svg>
+  <ol id="stopList"></ol>
+</div>
+
+<aside class="listing" aria-label="About this house">
+  <small>1 of 1 · not for sale</small>
+  <b>The Suhani House</b>
+  <p class="price">Austin, Texas · est. 2026</p>
+  <p class="facts"><span><b>2</b> floors + attic</span><span><b>25</b> rooms</span><span><b>22</b> stops</span></p>
+  <p class="desc">Tap a room to step inside.</p>
+  <div class="floors" role="group" aria-label="Floors"><button data-f="0" aria-pressed="false">Ground</button><button data-f="1" aria-pressed="false">Upstairs</button><button data-f="2" aria-pressed="true">Attic</button></div>
+</aside>
+
+<footer class="hud-bottom">
+  <div class="hint" id="hint"><span class="h-walk">Drag to look · tap a ring or the floor to walk · <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><span class="h-over">Drag to turn · scroll to zoom · tap a room to step inside</span></div>
+  <div class="modes" role="group" aria-label="View">
+    <button data-m="walk" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="3.2" r="1.6" fill="currentColor"/><path d="M8 5.5v4.2M8 9.7l-2.4 4.3M8 9.7l2.4 4.3M5 7.6h6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Walk-through</button>
+    <button data-m="doll" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 14 5v6.2L8 14.4 2 11.2V5Z M2 5l6 3.2L14 5 M8 8.2v6.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>Dollhouse</button>
+    <button data-m="plan" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2.5h12v11H2Z M2 8h5.5V2.5 M9.5 13.5V8H14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>Floor plan</button>
+  </div>
+  <div class="tour">
+    <div class="dots" id="dots" aria-hidden="true"></div>
+    <button class="pill ghost" id="playBtn" aria-pressed="false"><svg viewBox="0 0 12 12" aria-hidden="true"><path class="pl-play" d="M3 1.8v8.4L10 6Z" fill="currentColor"/><path class="pl-pause" d="M3 2h2v8H3Zm4 0h2v8H7Z" fill="currentColor"/></svg><span>Play tour</span></button>
+    <button class="pill" id="nextBtn">Next stop <span id="nextName"></span> →</button>
+  </div>
+</footer>
+
+<div id="intro">
+  <div class="intro-in">
+    <p class="slug" id="slug"></p>
+    <div class="intro-cta" id="introCta">
+      <button class="pill big" id="knock">Come in</button>
+      <div class="intro-alt"><button class="link" id="tourBtn">Open the dollhouse</button><span>·</span><button class="link" id="skip">Skip to the living room</button></div>
+    </div>
+  </div>
+</div>
+
+<noscript><p class="nojs">This house is built with JavaScript. <a href="../">Visit the full portrait instead.</a></p></noscript>
+
+<script src="data.js?v=20"></script>
+<script src="textures.js?v=20"></script>
+<script src="engine.js?v=20"></script>
+<script src="build.js?v=20"></script>
+<script src="panels.js?v=20"></script>
+<script src="main.js?v=20"></script>
+</body>
+</html>

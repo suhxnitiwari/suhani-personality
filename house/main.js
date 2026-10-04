@@ -38,7 +38,7 @@ function viewpoint(id, withPanel) {
   const px = nx ? t.line : t.along, pz = nx ? t.along : t.line;
   let x = px + nx * dist, z = pz + nz * dist;
   const r = t.room === 'attic' ? { x0: -950, x1: 300, z0: -1300, z1: -60 } : ROOMS[t.room];
-  if (r) { x = clamp(x, r.x0 + 70, r.x1 - 70); z = clamp(z, r.z0 + 70, r.z1 - 70); }
+  if (r) { x = clamp(x, r.x0 + 100, r.x1 - 100); z = clamp(z, r.z0 + 100, r.z1 - 100); }
   else z = Math.max(z, 1000);
   dist = Math.abs(nx ? x - px : z - pz);
   /* some things are best seen from a set spot, at an angle */

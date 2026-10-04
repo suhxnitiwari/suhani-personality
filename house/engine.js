@@ -307,7 +307,8 @@ function mount(parent, face, line, along, up, w, h, cls, html, off = T + 3, lv =
 /* ---------- camera ---------- */
 const cam = { x: 0, y: -EYE, z: 3000, yaw: 0, pitch: .06, pf: 0 };
 let W = innerWidth, VH = innerHeight, P = 800, ox = W / 2, oy = VH / 2, oxT = ox, oyT = oy;
-const layout = () => { W = innerWidth; VH = innerHeight; P = Math.sqrt(W * VH) / 2 / Math.tan(37 * RAD); scene.style.perspective = P + 'px'; };
+/* a wider lens on tall, narrow screens, so a phone or a slim window doesn't feel like a telescope */
+const layout = () => { W = innerWidth; VH = innerHeight; P = Math.min(Math.sqrt(W * VH) / 2 / Math.tan(37 * RAD), W / 2 / Math.tan(33 * RAD)); scene.style.perspective = P + 'px'; };
 let lastT = '';
 function render() {
   const t = `translateZ(${P.toFixed(1)}px) rotateX(${cam.pitch.toFixed(4)}rad) rotateY(${cam.yaw.toFixed(4)}rad) translate3d(${(-cam.x).toFixed(1)}px,${(-cam.y).toFixed(1)}px,${(-cam.z).toFixed(1)}px)`;
@@ -332,7 +333,7 @@ function floorAt(cx, cy, pf = cam.pf) {
 }
 
 /* ---------- collisions ---------- */
-const R = 40;
+const R = 40, WALLR = 58;   // you keep a step back from walls, but can still squeeze past furniture
 const closed = new Set(['front']);
 function doorBlocks() {
   const out = [];
@@ -348,7 +349,7 @@ function collide(x, z, pf = cam.pf) {
       const dx = s.bx - s.ax, dz = s.bz - s.az, L = dx * dx + dz * dz;
       const t = clamp(((x - s.ax) * dx + (z - s.az) * dz) / L, 0, 1);
       const px = s.ax + dx * t, pz = s.az + dz * t, ex = x - px, ez = z - pz, e = Math.hypot(ex, ez);
-      if (e < R + T && e > 1e-6) { x = px + ex / e * (R + T); z = pz + ez / e * (R + T); }
+      if (e < WALLR + T && e > 1e-6) { x = px + ex / e * (WALLR + T); z = pz + ez / e * (WALLR + T); }
     }
     for (const b of SOLIDS) {
       if (!blocks(b, pf)) continue;

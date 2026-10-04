@@ -35,6 +35,27 @@ This site takes my results from CliftonStrengths, VIA, 16Personalities, the Enne
 - **Every color has a source.** The Colors & Fonts section traces each swatch to a test, like Gallup's blue for the domain that holds four of my top five strengths.
 - **Interactive tensions.** A slider morphs the words themselves to show how two opposite results are both true.
 
+## The house: a dollhouse you can walk through
+
+**Live:** https://suhxnitiwari.github.io/suhani-personality/house/
+
+The same personality, built as a house. My people are at the front, my ambition is upstairs, the mess of my brain is in the attic, and there's a secret garden behind. You can walk through it like a Matterport listing, open it like a dollhouse, or read it as a floor plan. The 22 stops live in objects, not posters: the family photos on the built-ins, the ten reports on a library shelf, the latte machine, the rom-com shelf, the mirror with words tucked into the frame.
+
+### How it's built
+
+- **3D with no WebGL and no libraries.** Every wall, floor, chair and book spine is an ordinary `<div>` placed in space with CSS `transform: translate3d() rotateY() rotateX()` inside a `transform-style: preserve-3d` world. The camera is one element: `translateZ(perspective) rotateX(pitch) rotateY(yaw) translate3d(-x, -y, -z)`, so moving the camera moves the whole world the opposite way. About 3,400 planes in total.
+- **A tiny modelling kit.** `plane()` places one flat rectangle. `box()` builds furniture from five planes. `wall()` runs along a room's edge and cuts doorways out of itself, including the curved tops of arches (an SVG `clip-path: path()`). `mount()` hangs things on walls. Sofas, chairs, chandeliers, drapes and window seats are small functions built from those.
+- **The plan is data.** Rooms, doors, bay windows and stairs are plain arrays (`ROOMS`, `DOORS`, `BAYS`, `HELIXES`). The shells, walls, collisions and walking paths are all generated from them, so moving a door moves everything that depends on it.
+- **Walking.** The floor is a list of surfaces, each a rectangle with a height function. `heightAt()` picks the surface nearest your feet, which is how you climb stairs without falling through floors. Walls are line segments with a height band, and you're pushed back from them in a circle. Furniture is a box you slide around.
+- **Three spiral staircases.** Each is a helix: one surface per turn, with the height computed from the angle around the centre pole. The floors above get a hole cut out (a small rectangle-subtraction routine), so you climb up through them. The library spiral goes up two storeys (library → study → music room), and you can step off at either floor.
+- **Tap to go anywhere.** A graph of points (a node in every room, one on each side of every doorway, one every eighth of a turn up each staircase) is searched with Dijkstra's algorithm. Tap a stop on the other side of the house and you walk there through the doors and up the stairs, with your feet following each step.
+- **Picking with my own ray.** Browsers can't reliably tell which 3D `<div>` you tapped from far away, so in dollhouse and plan views I cast a ray from the camera through the pixel and march it into the house to find the room.
+- **Drawing only what you can see.** Browsers keep roughly 1,500 3D planes sharp at once, and the house has more than twice that. So only your room, the rooms next door and the stair you're on are drawn, and the moment you start walking, everything along your route loads ahead of you.
+- **Every texture is code.** The wallpapers, rugs, herringbone floors, slate roof and bouquets are SVG generated in JavaScript (seeded random, so they're the same every visit) and stored as CSS variables. There are no image files except my own photos.
+- **Dollhouse mode.** The fronts of the house are on hinges: one CSS class swings them open with a `rotateY` transition and lifts the roof off.
+- **Toys.** Click the closet doors, the coffee machine, the rolling ladder, the attic trunk or the garage doors and they move (CSS transitions on a `data-play` attribute). The basement door opens onto a dark stair.
+- **Sound** is synthesized with the Web Audio API, like the main site's.
+
 ## Run it locally
 
 ```bash
@@ -42,7 +63,7 @@ git clone https://github.com/suhxnitiwari/suhani-personality.git
 cd suhani-personality && python3 -m http.server
 ```
 
-Then open http://localhost:8000.
+Then open http://localhost:8000 (and http://localhost:8000/house/ for the house).
 
 ---
 

@@ -1,4 +1,4 @@
-/* The words the stops use, lifted from the classic house so both versions say the same thing */
+/* The words the stops use */
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const strip = s => String(s).replace(/<[^>]+>/g, '');

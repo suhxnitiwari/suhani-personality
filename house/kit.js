@@ -113,6 +113,26 @@ export function run(layer, ax, az, bx, bz, y0, y1, t, color, o = {}) {
   }
 }
 
+/* flowers: a scatter of stems over a w-by-d patch, each with a leaf and a bloom in one of the given colours */
+export const BLOOMS = { front: ['#E7C3C1', '#B97979', '#F5EFE3', '#EBC5C7', '#C99B98'], wine: ['#6B2C3A', '#B97979', '#EBC5C7', '#F5EFE3'], sun: ['#D99A2B', '#E2B45A', '#F5EFE3', '#C8913A'], cool: ['#C9B6CE', '#D8C4D6', '#F5EFE3', '#B97979'] };
+export function flowers(layer, x, y, z, w, d, n, cols = BLOOMS.front, h = 34, bed = false) {
+  /* a bed on the ground is something you walk round, not through */
+  if (bed) collider(x - w / 2, x + w / 2, y, y + 64, z - d / 2, z + d / 2, layer, { cam: false });
+  for (let i = 0; i < n; i++) {
+    const px = x + (rnd() - .5) * w, pz = z + (rnd() - .5) * d, ph = h * (.55 + rnd() * .6);
+    cyl(layer, px, y, pz, .9, 1.1, ph, '#6F7A50', { seg: 3, jitter: 0 });
+    ball(layer, px + 3, y + ph * .45, pz, 3.2, '#7B8659', { detail: 0, sy: .5 });
+    const c = cols[(rnd() * cols.length) | 0], r = 3.6 + rnd() * 3.2;
+    ball(layer, px, y + ph, pz, r, c, { detail: 0, jitter: .08 });
+    if (rnd() > .55) ball(layer, px + r * .6, y + ph - r * .5, pz + r * .3, r * .7, c, { detail: 0 });
+  }
+}
+/* a vase of them, for tables and mantels */
+export function vase(layer, x, y, z, s = 1, cols = BLOOMS.front, pot = '#F5EFE3') {
+  cyl(layer, x, y, z, 7 * s, 9 * s, 20 * s, pot, { seg: 10 });
+  flowers(layer, x, y + 18 * s, z, 22 * s, 22 * s, Math.round(9 * s), cols, 26 * s);
+}
+
 /* ---------- materials, and turning the buckets into meshes ---------- */
 export function materials() {
   return {

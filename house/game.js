@@ -52,7 +52,7 @@ const SUN = new THREE.Vector3(-1500, 2300, 1000).normalize();
 sun.castShadow = true;
 sun.shadow.mapSize.set(touch ? 2048 : 4096, touch ? 2048 : 4096);
 Object.assign(sun.shadow.camera, { left: -3000, right: 3000, top: 3000, bottom: -3000, near: 100, far: 12000 });
-sun.shadow.bias = -.0004; sun.shadow.normalBias = 3;
+sun.shadow.bias = -.0006; sun.shadow.normalBias = 6;
 sun.target.position.set(-200, 0, -900); sun.position.copy(SUN).multiplyScalar(5000).add(sun.target.position);
 scene.add(sun, sun.target);
 
@@ -116,7 +116,7 @@ function groundAt(x, z, y) {
 
 /* ---------- the stops: a small brass diamond floats over each, gold until you've opened it, sage after ---------- */
 function clearSpot(x, z, floor, tx, tz) {
-  const free = (x, z) => { for (const c of grid.near(x - R - 6, x + R + 6, z - R - 6, z + R + 6)) { if (c.y1 <= floor + STEP || c.y0 >= floor + HEIGHT) continue; if (x + R + 6 > c.x0 && x - R - 6 < c.x1 && z + R + 6 > c.z0 && z - R - 6 < c.z1) return false; } return Math.abs(groundAt(x, z, floor) - floor) < 4; };
+  const m = R + 22, free = (x, z) => { for (const c of grid.near(x - m, x + m, z - m, z + m)) { if (c.y1 <= floor + STEP || c.y0 >= floor + HEIGHT) continue; if (x + m > c.x0 && x - m < c.x1 && z + m > c.z0 && z - m < c.z1) return false; } return Math.abs(groundAt(x, z, floor) - floor) < 4; };
   if (free(x, z)) return [x, z];
   for (let r = 30; r < 400; r += 30) for (let k = 0; k < 16; k++) {
     const a = k / 16 * Math.PI * 2, px = x + Math.cos(a) * r, pz = z + Math.sin(a) * r;
@@ -162,10 +162,10 @@ function standPose(w) {
 const camera = new THREE.PerspectiveCamera(60, 1, 10, 40000);
 const fwd = (yaw, pitch) => [Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), -Math.cos(yaw) * Math.cos(pitch)];
 const HOUSE = [-150, 520, -600];
-const orbit = { yaw: .38, pitch: -.36, r: 5200, want: 5200 };
+const orbit = { yaw: .22, pitch: -.13, r: 5200, want: 5200 };
 let floorShown = 3;                     // 3: the whole house, roof on. 0-2: that storey and everything below it
 const view = { x: 0, y: 0, z: 0, yaw: 0, pitch: 0, fov: 34 };
-let mode = 'doll', flight = null;
+let mode = 'front', flight = null;               // front: the finished house from outside. doll: opened up. walk: inside
 const look = { yaw: Math.PI, pitch: -.04 };          // where your eyes point when you're inside
 const fitR = () => { const a = innerWidth / innerHeight, wide = narrow() ? 1 : (innerWidth - 320) / innerWidth; return Math.max(4300 / (2 * Math.tan(17 * Math.PI / 180) * a * wide), 2600 / (2 * Math.tan(17 * Math.PI / 180))) * (floorShown < 3 ? .82 : 1); };
 const dollPose = () => {
@@ -195,14 +195,14 @@ function placeCamera(dt) {
   const f = fwd(view.yaw, view.pitch);
   camera.lookAt(view.x + f[0], view.y + f[1], view.z + f[2]);
   const panelIn = document.body.classList.contains('has-panel');
-  const wantX = panelIn && !narrow() ? 235 : mode === 'doll' && !narrow() ? -150 : 0, wantY = panelIn && narrow() ? innerHeight * .22 : 0;
+  const wantX = panelIn && !narrow() ? 235 : mode !== 'walk' && !narrow() ? -150 : 0, wantY = panelIn && narrow() ? innerHeight * .22 : 0;
   const k = Math.min(1, dt * 5);
   offX += (wantX - offX) * k; offY += (wantY - offY) * k;
   if (Math.abs(offX) > .5 || Math.abs(offY) > .5) camera.setViewOffset(innerWidth, innerHeight, offX, offY, innerWidth, innerHeight); else camera.clearViewOffset();
   if (Math.abs(camera.fov - view.fov) > .01) camera.fov = view.fov;
   camera.updateProjectionMatrix();
 }
-const resize = () => { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); if (mode === 'doll' && !flight) orbit.r = orbit.want = fitR(); };
+const resize = () => { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); if (mode !== 'walk' && !flight) orbit.r = orbit.want = fitR(); };
 addEventListener('resize', resize); resize();
 
 /* ---------- what's drawn: inside you see everything; outside, the walls facing you swing away like a dollhouse front ---------- */
@@ -264,16 +264,17 @@ function freeAt(x, z, pf, r = R + 3) {
   }
   return Math.abs(groundAt(x, z, pf) - pf) < 6;
 }
-function legClear(a, b, pf) {
+const ROOMY = R + 26;                    // how much room a path leaves round the furniture, so you never brush past a lamp
+function legClear(a, b, pf, r = ROOMY) {
   const n = Math.max(1, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 18));
-  for (let i = 1; i < n; i++) if (!freeAt(a[0] + (b[0] - a[0]) * i / n, a[1] + (b[1] - a[1]) * i / n, pf)) return false;
+  for (let i = 1; i < n; i++) if (!freeAt(a[0] + (b[0] - a[0]) * i / n, a[1] + (b[1] - a[1]) * i / n, pf, r)) return false;
   return true;
 }
-function gridPath(a, b, pf) {
+function gridPath(a, b, pf, room = ROOMY) {
   const S = 14, pad = 480, x0 = Math.min(a[0], b[0]) - pad, z0 = Math.min(a[1], b[1]) - pad;
   const W = Math.ceil((Math.max(a[0], b[0]) + pad - x0) / S), H2 = Math.ceil((Math.max(a[1], b[1]) + pad - z0) / S);
   const cell = (x, z) => [Math.round((x - x0) / S), Math.round((z - z0) / S)], at = (i, k) => [x0 + i * S, z0 + k * S];
-  const ok = new Map(), free = (i, k) => { const key = i * 4096 + k; if (!ok.has(key)) { const [x, z] = at(i, k); ok.set(key, i >= 0 && k >= 0 && i <= W && k <= H2 && freeAt(x, z, pf, R + 1)); } return ok.get(key); };
+  const ok = new Map(), free = (i, k) => { const key = i * 4096 + k; if (!ok.has(key)) { const [x, z] = at(i, k); ok.set(key, i >= 0 && k >= 0 && i <= W && k <= H2 && freeAt(x, z, pf, room)); } return ok.get(key); };
   const [si, sk] = cell(a[0], a[1]), [ti, tk] = cell(b[0], b[1]);
   const open = [[0, si, sk]], g = new Map([[si * 4096 + sk, 0]]), from = new Map();
   let found = false, guard = 0;
@@ -293,7 +294,7 @@ function gridPath(a, b, pf) {
   for (let key = ti * 4096 + tk; key != null && key !== si * 4096 + sk; key = from.get(key)) pts.unshift(at(Math.floor(key / 4096), key % 4096));
   /* pull the string tight: keep only the corners you can't see past */
   const out = [a]; let cur = a;
-  for (let j = 0; j < pts.length; j++) if (!legClear(cur, pts[j + 1] || b, pf)) { out.push(pts[j]); cur = pts[j]; }
+  for (let j = 0; j < pts.length; j++) if (!legClear(cur, pts[j + 1] || b, pf, room)) { out.push(pts[j]); cur = pts[j]; }
   out.push(b);
   return out.slice(1);
 }
@@ -304,7 +305,7 @@ function plan(x, z, pf) {
   let prev = [P.x, P.z], prevPf = P.y;
   for (const p of raw) {
     const ppf = p[2] ?? prevPf, flat = Math.abs(ppf - prevPf) < 20 && !onStair(prev[0], prev[1]) && !onStair(p[0], p[1]);
-    if (flat && !legClear(prev, p, ppf)) { const g = gridPath(prev, p, ppf); if (g) { path.push(...g.slice(0, -1)); } }
+    if (flat && !legClear(prev, p, ppf)) { const g = gridPath(prev, p, ppf) || gridPath(prev, p, ppf, R + 1); if (g) { path.push(...g.slice(0, -1)); } }
     path.push([p[0], p[1]]);
     prev = p; prevPf = ppf;
   }
@@ -353,7 +354,7 @@ function teleport(pose, then) {
   }, still ? 0 : 260);
 }
 
-/* ---------- the panels: the same stops, words and games as the classic house ---------- */
+/* ---------- the panels: the stops, their words and their little games ---------- */
 const panel = $('#panel'), pBody = $('#pBody');
 let cur = -1, panelTick = null, panelTimer = null, autoplay = false, autoT = null;
 let seen = new Set();
@@ -407,7 +408,7 @@ function closePanel() {
   clearTimeout(panelTimer);
   panelTimer = setTimeout(() => { if (!panel.classList.contains('in')) panel.hidden = true; }, 350);
 }
-let welcomed = false;
+let welcomed = false, exploring = false;
 const isOpen = () => !panel.hidden && panel.classList.contains('in');
 /* go to a stop: from the dollhouse, swoop in; inside, walk if it's near and blink if it's across the house */
 function goTo(i, sub) {
@@ -418,7 +419,7 @@ function goTo(i, sub) {
   if (w.id === 'door' || w.t.lv === 0) openFront();
   const open = () => openPanel(i, sub);
   const arrive = () => { open(); if (w.id === 'door' && !welcomed) { welcomed = true; setTimeout(() => caption('Welcome in', 'Take your shoes off.', 4200), 500); } };
-  if (mode === 'doll') return swoopIn(pose, arrive);
+  if (mode !== 'walk') return swoopIn(pose, arrive);
   walkTo(pose.x, pose.z, pose.pf, arrive, pose);
 }
 $('#pClose').onclick = () => closePanel();
@@ -473,7 +474,8 @@ const modeBtns = [...document.querySelectorAll('.modes button')], floorBtns = [.
 function paintMode() {
   modeBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.m === mode));
   floorBtns.forEach(b => b.setAttribute('aria-pressed', +b.dataset.f === floorShown));
-  document.body.classList.toggle('overhead', mode === 'doll');
+  document.body.classList.toggle('overhead', mode !== 'walk');
+  $('#hint .h-over').textContent = mode === 'front' ? 'Drag to walk round it · tap the house to open it up' : 'Drag to turn · scroll to zoom · tap a room to step inside';
 }
 function toDoll() {
   if (mode === 'doll' && !flight) return;
@@ -484,6 +486,17 @@ function toDoll() {
   /* rise straight up out of the room, the storeys above lifted away, then drift back to see the whole house */
   const steps = outside ? [] : [{ to: { ...view, y: P.y + 1150, pitch: -1.2, fov: 40 }, dur: 2.2, lv, noCull: true }];
   steps.push({ to: dollPose(), dur: 2.6 });
+  flySeq(steps);
+}
+/* back outside to the finished house, walls and roof on, seen from the front walk */
+function toFront() {
+  if (mode === 'front' && !flight) return;
+  start(); closePanel(); toggleMap(false); auto = null; setAuto(false);
+  const inside = mode === 'walk' && !['out', 'garden'].includes(areaAt(P.x, P.z, P.y)), lv = clampN(Math.round(P.y / LH), 0, 2);
+  mode = 'front'; floorShown = 3; paintMode();
+  orbit.yaw = .22; orbit.pitch = -.13; orbit.r = orbit.want = fitR();
+  const steps = inside ? [{ to: { ...view, y: P.y + 1150, pitch: -1.2, fov: 40 }, dur: 2.2, lv, noCull: true }] : [];
+  steps.push({ to: dollPose(), dur: 2.8 });
   flySeq(steps);
 }
 /* into the house: the camera swoops down from the dollhouse to your own eye level */
@@ -499,14 +512,14 @@ function swoopIn(pose, done) {
   ], land);
 }
 function enterRoom(id) {
-  const i = STOPS.findIndex(s => TARGETS[s.id].room === id);
+  const i = exploring ? -1 : STOPS.findIndex(s => TARGETS[s.id].room === id);
   if (i >= 0) return goTo(i);
   const r = ROOMS[id]; if (!r) return;
   start(); toggleMap(false); closePanel();
   let x = (r.x0 + r.x1) / 2, z = (r.z0 + r.z1) / 2;
   [x, z] = clearSpot(x, z, r.lv * LH, 1e9, 1e9);
   const pose = { x, z, pf: r.lv * LH, y: r.lv * LH + EYEH, yaw: view.yaw, pitch: -.08 };
-  if (mode === 'doll') swoopIn(pose); else walkTo(pose.x, pose.z, pose.pf);
+  if (mode !== 'walk') swoopIn(pose); else walkTo(pose.x, pose.z, pose.pf);
 }
 function setFloor(f) {
   floorShown = f; paintMode();
@@ -514,12 +527,12 @@ function setFloor(f) {
   orbit.pitch = f < 3 ? -.72 : -.36; orbit.r = orbit.want = fitR();
   fly(dollPose(), .9);
 }
-modeBtns.forEach(b => b.onclick = () => { setAuto(false); if (b.dataset.m === 'doll') toDoll(); else if (mode === 'doll') goTo(cur >= 0 ? cur : 1); });
+modeBtns.forEach(b => b.onclick = () => { setAuto(false); const m = b.dataset.m; if (m === 'doll') toDoll(); else if (m === 'front') toFront(); else if (mode !== 'walk') goTo(cur >= 0 ? cur : 1); });
 floorBtns.forEach(b => b.onclick = () => setFloor(+b.dataset.f));
 
 /* ---------- the prompt: walk up to a marker inside, or point at a room from outside ---------- */
 const prompt = $('#prompt');
-let near = null, hoverRoom = null;
+let near = null, hoverRoom = null, hoverHouse = false;
 function nearest() {
   let best = null, bd = 340;
   for (const w of stopsW) {
@@ -531,8 +544,9 @@ function nearest() {
 }
 function paintPrompt() {
   let key = null, title = '', kicker = '';
-  if (mode === 'doll' && !flight && hoverRoom) { key = 'room:' + hoverRoom; const r = ROOMS[hoverRoom]; title = r.name; kicker = r.sub + ' · tap to step inside'; }
-  else if (mode === 'walk' && !flight && !isOpen() && !auto) { const n = nearest(); if (n) { key = n.id; const s = STOPS[STOPI[n.id]]; title = s.title; kicker = s.kicker; } }
+  if (mode === 'front' && !flight && hoverHouse) { key = 'house'; title = 'The Suhani House'; kicker = 'Tap to open it up like a dollhouse'; }
+  else if (mode === 'doll' && !flight && hoverRoom) { key = 'room:' + hoverRoom; const r = ROOMS[hoverRoom]; title = r.name; kicker = r.sub + ' · tap to step inside'; }
+  else if (mode === 'walk' && !flight && !isOpen() && !auto && !exploring) { const n = nearest(); if (n) { key = n.id; const s = STOPS[STOPI[n.id]]; title = s.title; kicker = s.kicker; } }
   if (key === near) return;
   near = key;
   if (!key) { prompt.classList.remove('on'); return; }
@@ -541,7 +555,7 @@ function paintPrompt() {
   prompt.classList.toggle('room', key.startsWith('room:'));
   prompt.classList.add('on');
 }
-const use = () => { if (!near) return; if (near.startsWith('room:')) return enterRoom(near.slice(5)); const w = stopsW[STOPI[near]], p = standPose(w); faceTo = p; openPanel(STOPI[near]); };
+const use = () => { if (!near) return; if (near === 'house') return toDoll(); if (near.startsWith('room:')) return enterRoom(near.slice(5)); const w = stopsW[STOPI[near]], p = standPose(w); faceTo = p; openPanel(STOPI[near]); };
 prompt.onclick = () => use();
 
 /* ---------- the front door swings in when you come close ---------- */
@@ -594,7 +608,7 @@ canvas.addEventListener('pointermove', e => {
   drag.moved += Math.abs(dx) + Math.abs(dy); drag.x = e.clientX; drag.y = e.clientY;
   if (drag.moved < 6) return;
   canvas.classList.add('dragging');
-  if (mode === 'doll') { if (flight) return; orbit.yaw -= dx * .005; orbit.pitch = clampN(orbit.pitch - dy * .004, -1.45, -.06); return; }
+  if (mode !== 'walk') { if (flight) return; orbit.yaw -= dx * .005; orbit.pitch = clampN(orbit.pitch - dy * .004, mode === 'front' ? -.7 : -1.45, mode === 'front' ? -.03 : -.06); return; }
   auto = null;
   const k = 1.2 / (innerHeight / (2 * Math.tan(camera.fov * Math.PI / 360)));
   look.yaw -= dx * k; look.pitch = clampN(look.pitch + dy * k, -1.1, 1.1);
@@ -611,7 +625,7 @@ canvas.addEventListener('pointercancel', endPointer);
 canvas.addEventListener('wheel', e => {
   if (!started) return;
   e.preventDefault();
-  if (mode === 'doll') { const f = fitR(); orbit.want = clampN(orbit.want * Math.exp(e.deltaY * .0011), f * .35, f * 1.6); return; }
+  if (mode !== 'walk') { const f = fitR(); orbit.want = clampN(orbit.want * Math.exp(e.deltaY * .0011), f * .35, f * 1.6); return; }
   auto = null;
   const s = clampN(-e.deltaY, -120, 120) * 1.6, [nx, nz] = push(P.x + Math.sin(look.yaw) * s, P.z - Math.cos(look.yaw) * s, P.y);
   P.x = nx; P.z = nz;
@@ -622,9 +636,9 @@ function rayFrom(cx, cy) { ndc.set(cx / innerWidth * 2 - 1, -cy / innerHeight * 
 function pickStop(o, d, maxT) {
   let best = null, bt = maxT;
   for (const w of stopsW) {
-    if (!shown[w.layer]) continue;
+    if (!shown[w.layer] || exploring) continue;
     const m = w.mk.position, s = mode === 'doll' ? 70 : 40, mb = { x0: m.x - s, x1: m.x + s, y0: m.y - s, y1: m.y + s, z0: m.z - s, z1: m.z + s };
-    for (const b of mode === 'doll' ? (w.mk.visible ? [mb] : []) : [w.hit]) { const h = rayBox(o, d, b, bt); if (h && h.t < bt) { bt = h.t; best = w; } }
+    for (const b of mode !== 'walk' ? (w.mk.visible ? [mb] : []) : [w.hit]) { const h = rayBox(o, d, b, bt); if (h && h.t < bt) { bt = h.t; best = w; } }
   }
   return best;
 }
@@ -651,11 +665,13 @@ function hover(e) {
   const now = performance.now(); if (now - hoverT < 50) return; hoverT = now;
   const [o, d] = rayFrom(e.clientX, e.clientY), f = pickSolid(o, d), s = pickStop(o, d, f ? f.t + 1 : 40000);
   hoverRoom = mode === 'doll' && !s ? roomUnder(e.clientX, e.clientY) : null;
-  canvas.classList.toggle('hot', !!s || !!hoverRoom);
+  hoverHouse = mode === 'front' && !!f && (inFoot(f.x, f.z) || f.y > 40) && Math.hypot(f.x + 200, f.z + 300) < 2600;
+  canvas.classList.toggle('hot', !!s || !!hoverRoom || hoverHouse);
 }
 function tap(cx, cy) {
   const [o, d] = rayFrom(cx, cy), f = pickSolid(o, d), s = pickStop(o, d, f ? f.t + 1 : 40000);
   if (s) return goTo(STOPI[s.id]);
+  if (mode === 'front') { if (f && (inFoot(f.x, f.z) || f.y > 40) && Math.hypot(f.x + 200, f.z + 300) < 2600) toDoll(); return; }
   if (mode === 'doll') { const r = roomUnder(cx, cy); if (r) enterRoom(r); return; }
   if (f && f.floor && Math.abs(f.y - P.y) < 260) {
     if (isOpen()) closePanel();
@@ -695,7 +711,17 @@ function start() {
 }
 function knock() { start(); chime([392, 392], .09); setTimeout(() => goTo(0), 300); }
 $('#knock').onclick = knock;
-$('#tourBtn').onclick = () => { start(); paintMode(); orbit.r = orbit.want = fitR(); fly(dollPose(), 2.4); };
+/* just explore: the stops, panels and tour step aside, and you're left inside the front door to wander */
+const exploreBtn = $('#exploreBtn');
+function setExplore(on) {
+  exploring = on; exploreBtn.setAttribute('aria-pressed', on); document.body.classList.toggle('explore', on);
+  if (!on) return;
+  start(); setAuto(false); closePanel(); toggleMap(false); openFront();
+  if (mode !== 'walk') swoopIn({ x: -1050, z: -170, pf: 0, y: EYEH, yaw: 0, pitch: -.04 }, () => caption('Who she makes room for', 'The Living Room'));
+}
+exploreBtn.onclick = () => setExplore(!exploring);
+$('#exploreIntro').onclick = () => setExplore(true);
+$('#tourBtn').onclick = () => { start(); toDoll(); };
 $('#skip').onclick = () => { start(); openFront(); goTo(STOPI.circle); };
 {
   const slug = $('#slug'), text = 'Austin, Texas · golden hour';
@@ -715,10 +741,10 @@ const loop = now => {
   if (++frames, now - fpsT > 1000) {
     fps = Math.round(frames * 1000 / (now - fpsT)); frames = 0; fpsT = now;
     /* if the device is struggling, draw at a lower resolution rather than stutter */
-    slowFor = fps < 45 ? slowFor + 1 : 0;
-    if (slowFor >= 2 && pixelRatio > 1) { pixelRatio = Math.max(1, pixelRatio - .25); renderer.setPixelRatio(pixelRatio); resize(); slowFor = 0; }
+    slowFor = fps < 38 ? slowFor + 1 : 0;
+    if (slowFor >= 4 && pixelRatio > Math.min(devicePixelRatio, 1.5)) { pixelRatio = Math.max(Math.min(devicePixelRatio, 1.5), pixelRatio - .25); renderer.setPixelRatio(pixelRatio); resize(); slowFor = 0; }
   }
-  if (!started) orbit.yaw = .38 + Math.sin(now / 9000) * .3;
+  if (!started) orbit.yaw = .22 + Math.sin(now / 9000) * .18;
   if (mode === 'walk' && !flight) {
     for (let s = 0, n = Math.ceil(dt / (1 / 120)); s < n; s++) physics(dt / n);
     autoWatch(dt);
@@ -730,7 +756,7 @@ const loop = now => {
     Object.assign(view, walkPose());
   }
   if (flight) stepFlight(dt);
-  else if (mode === 'doll') {
+  else if (mode !== 'walk') {
     if (started && !drag && !still) orbit.yaw += 0;
     orbit.r += (orbit.want - orbit.r) * Math.min(1, dt * 6);
     Object.assign(view, dollPose());
@@ -743,7 +769,7 @@ const loop = now => {
   /* the markers bob and turn, a little larger from outside so you can find them */
   const ms = mode === 'doll' && !flight ? 2.4 : .8;
   /* markers only from outside, and only for the stops you haven't opened yet: inside, a stop offers itself as you walk up */
-  for (const w of stopsW) { w.mk.visible = mode === 'doll' && !flight && !seen.has(w.id); w.mk.position.y = w.base + (still ? 0 : Math.sin(tClock * 2 + w.base) * 8) + (ms > 1 ? 40 : 0); w.mk.rotation.y = still ? 0 : tClock * 1.4; w.mk.scale.set(ms, ms * 1.5, ms); }
+  for (const w of stopsW) { w.mk.visible = mode === 'doll' && !flight && !seen.has(w.id) && !exploring; w.mk.position.y = w.base + (still ? 0 : Math.sin(tClock * 2 + w.base) * 8) + (ms > 1 ? 40 : 0); w.mk.rotation.y = still ? 0 : tClock * 1.4; w.mk.scale.set(ms, ms * 1.5, ms); }
   mMe.setAttribute('transform', `translate(${(P.x + MO(clampN(Math.floor((P.y + 40) / LH), 0, 2))[0]).toFixed(0)} ${P.z.toFixed(0)}) rotate(${(look.yaw * 180 / Math.PI).toFixed(1)})`);
   renderer.render(scene, camera);
 };

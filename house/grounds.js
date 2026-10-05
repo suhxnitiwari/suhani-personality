@@ -1,7 +1,7 @@
 /* The grounds: a front lawn and a flagstone walk, the street, her trees, and the secret garden behind,
    walled in hedge, with roses, a fountain, a swing, and the path out to the glass sunroom. */
 import * as THREE from 'three';
-import { PAL, blk, piece, cyl, ball, cone, shape, run, collider } from './kit.js';
+import { PAL, blk, piece, cyl, ball, cone, shape, run, collider, flowers, BLOOMS } from './kit.js';
 
 const rnd = (() => { let s = 11; return () => (s = (s * 16807) % 2147483647) / 2147483647; })();
 const O = 'out';
@@ -45,13 +45,13 @@ export function buildGrounds() {
   blk(O, 420, 1180, -2, 1, 900, 1600, '#C9BCA4', { collide: false, jitter: 0 });
   for (let z = 940; z < 1600; z += 90) blk(O, 420, 1180, 1, 2, z, z + 4, '#B9AC94', { collide: false });
   /* the hedge line and flower beds along the front */
-  for (const [a, b] of [[-1700, -1580], [-1220, -1170], [-930, -880], [-520, -40]]) {
+  for (const [a, b] of [[-1700, -1580], [-520, -40]]) {
     blk(O, a, b, 0, 70, 196, 260, PAL.moss, { round: 14 });
     for (let x = a + 30; x < b - 10; x += 60) ball(O, x, 74, 228, 13, ['#E7C3C1', PAL.rose, '#F1DEDB', PAL.ivory][(x / 60 | 0) % 4], { detail: 0 });
   }
   for (const [x, z] of [[-1700, 360], [-300, 340], [-2400, 900], [2000, 600], [2300, -800], [-2500, -900]]) tree(x, z, 1 + rnd() * .25, x < -1000 && z > 0 ? 'blossom' : 'leaf');
   tree(-2200, 1200, 1.15, 'blossom'); tree(2400, 1250, 1.1, 'olive'); tree(-3200, 300, 1.3); tree(3000, -200, 1.2, 'olive');
-  for (const x of [-1240, -860]) { cyl(O, x, 0, 230, 26, 20, 50, PAL.terracotta, { collide: true }); ball(O, x, 80, 230, 34, PAL.leaf, { detail: 1 }); }
+  for (const x of [-1240, -860]) { cyl(O, x, 0, 230, 30, 22, 46, PAL.ivory, { collide: true, seg: 14 }); ball(O, x, 62, 230, 26, PAL.leaf, { detail: 1, sy: .6 }); flowers(O, x, 50, 230, 54, 54, 34, BLOOMS.front, 34); }
   lamp(-1250, 1560); lamp(-850, 1560); lamp(300, 1560); lamp(1300, 1560);
   /* a mailbox by the walk, brass flag up */
   cyl(O, -1250, 0, 1500, 5, 5, 110, PAL.walnut, {}); blk(O, -1275, -1225, 110, 150, 1480, 1530, PAL.forest, { round: 8 }); blk(O, -1222, -1218, 120, 150, 1505, 1515, PAL.oxblood, { collide: false });
@@ -93,6 +93,21 @@ export function buildGrounds() {
   piece(O, -900, 46, -2905, 260, 70, 12, PAL.walnut, { round: 4 });
   for (const dx of [-110, 110]) blk(O, -900 + dx - 8, -900 + dx + 8, 0, 46, -2905, -2860, PAL.charcoal, { collide: false });
   lamp(-300, -2600); lamp(1000, -1700); lamp(-1300, -2900);
+
+  /* ---------- flowers, everywhere they'd really be ---------- */
+  /* the front beds, in front of the low hedges, either side of the door */
+  for (const [a, b] of [[-1690, -1130], [-970, -60]]) flowers(O, (a + b) / 2, 0, 300, b - a, 64, Math.round((b - a) / 5), BLOOMS.front, 40, true);
+  /* borders down both sides of the front walk, roses one side and lavender-ish the other */
+  for (const [x, cols] of [[-1180, BLOOMS.front], [-920, BLOOMS.cool]]) flowers(O, x, 0, 960, 46, 1240, 260, cols, 34, true);
+  /* the side of the house, and the beds either side of the drive */
+  flowers(O, -1760, 0, -700, 60, 1300, 220, BLOOMS.cool, 40, true);
+  flowers(O, 1760, 0, -100, 60, 500, 90, BLOOMS.sun, 36, true);
+  for (const x of [360, 1240]) flowers(O, x, 0, 1250, 90, 640, 120, BLOOMS.sun, 32, true);
+  /* the secret garden: a ring round the fountain, beds along the paths, wildflowers in the lawn */
+  for (let k = 0; k < 40; k++) { const a = k / 40 * Math.PI * 2; flowers(O, 500 + Math.cos(a) * 240, 0, -2350 + Math.sin(a) * 240, 40, 40, 4, BLOOMS.front, 30, true); }
+  flowers(O, -500, 0, -1745, 1700, 80, 260, BLOOMS.front, 38, true);
+  flowers(O, 200, 0, -3020, 2400, 70, 300, BLOOMS.wine, 34, true);
+  for (const [x, z, cols] of [[150, -2650, BLOOMS.sun], [850, -2050, BLOOMS.cool], [-450, -2250, BLOOMS.front], [1000, -2600, BLOOMS.front], [-200, -2850, BLOOMS.cool]]) flowers(O, x, 0, z, 260, 200, 70, cols, 30, true);
   /* a wheelbarrow of marigolds by the sunroom */
   blk(O, -700, -600, 30, 80, -2760, -2700, PAL.terracotta, { round: 8 });
   for (let i = 0; i < 6; i++) ball(O, -680 + i * 14, 88, -2730 + (i % 2) * 14, 13, PAL.marigold, { detail: 0 });

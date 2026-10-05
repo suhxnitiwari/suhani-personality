@@ -1,7 +1,7 @@
 /* The furniture, room by room, and the 22 stops: each one an object you can walk up to,
    not a poster. Furniture faces +z in its own frame; ry turns it. */
 import * as THREE from 'three';
-import { PAL, blk, piece, cyl, ball, cone, shape, run, collider } from './kit.js';
+import { PAL, blk, piece, cyl, ball, cone, shape, run, collider, flowers, vase, BLOOMS } from './kit.js';
 
 const rnd = (() => { let s = 23; return () => (s = (s * 16807) % 2147483647) / 2147483647; })();
 const pick = a => a[(rnd() * a.length) | 0];
@@ -108,12 +108,13 @@ function rug(l, y, x, z, w, d, c, border = PAL.cream, motif) {
 }
 function plant(l, y, x, z, s = 1, pot = PAL.terracotta, kind) {
   cyl(l, x, y, z, 22 * s, 16 * s, 38 * s, pot, { seg: 10, collide: true });
-  if (kind === 'tall') { cyl(l, x, y + 38 * s, z, 3, 4, 90 * s, PAL.walnutLt, { seg: 5 }); for (let i = 0; i < 5; i++) ball(l, x + (rnd() - .5) * 50 * s, y + (120 + rnd() * 60) * s, z + (rnd() - .5) * 50 * s, (28 + rnd() * 10) * s, pick([PAL.leaf, PAL.moss, PAL.sage]), { detail: 1 }); return; }
+  if (kind === 'tall') { collider(x - 44 * s, x + 44 * s, y, y + 210 * s, z - 44 * s, z + 44 * s, l, { cam: false }); cyl(l, x, y + 38 * s, z, 3, 4, 90 * s, PAL.walnutLt, { seg: 5 }); for (let i = 0; i < 5; i++) ball(l, x + (rnd() - .5) * 50 * s, y + (120 + rnd() * 60) * s, z + (rnd() - .5) * 50 * s, (28 + rnd() * 10) * s, pick([PAL.leaf, PAL.moss, PAL.sage]), { detail: 1 }); return; }
   for (let i = 0; i < 5; i++) { const a = i / 5 * Math.PI * 2; ball(l, x + Math.cos(a) * 14 * s, y + (52 + rnd() * 20) * s, z + Math.sin(a) * 14 * s, (18 + rnd() * 8) * s, pick([PAL.leaf, PAL.moss, '#8E9A6C']), { detail: 1, sy: 1.3 }); }
 }
 function floorLamp(l, y, x, z) {
   cyl(l, x, y, z, 16, 18, 4, PAL.brass, { kind: 'metal' });
-  cyl(l, x, y, z, 2.5, 2.5, 150, PAL.brass, { kind: 'metal', collide: true });
+  cyl(l, x, y, z, 2.5, 2.5, 150, PAL.brass, { kind: 'metal' });
+  collider(x - 26, x + 26, y, y + 182, z - 26, z + 26, l, { cam: false });
   cyl(l, x, y + 146, z, 16, 26, 34, GLOW, { kind: 'glow', seg: 12 });
 }
 function tableLamp(l, y, x, z) {
@@ -178,7 +179,7 @@ export function furnish() {
     sofa(l, y, -870, -400, -Math.PI / 2, PAL.forest);
     table(l, y, -1060, -400, 170, 100, 42, PAL.walnut);
     giftBox(l, -1090, 42, -420, 26, PAL.ivory, PAL.brass);
-    ball(l, -1030, 52, -390, 12, PAL.rose, { detail: 0 }); cyl(l, -1030, 42, -390, 8, 6, 14, PAL.ivory, {});
+    vase(l, -1030, 42, -390, 1.1, BLOOMS.front);
     META.both = { top: 140, at: [-1060, -110] };
     /* stop: would you two click? a round tufted ottoman with a game on it */
     cyl(l, -1430, y, -230, 52, 48, 42, PAL.blush, { seg: 16, collide: true });
@@ -197,6 +198,7 @@ export function furnish() {
     cyl(l, -30, 76, -320, 7, 5, 26, PAL.ivory, {}); ball(l, -30, 108, -320, 14, PAL.rose, { detail: 1 });
     chandelier(l, -120, -330, 440, 95);
     chandelier(l, -1060, -400, 440, 115);
+    vase(l, -120, 76, -330, 1.5, BLOOMS.wine);
     META.gift = { top: 210 };
     /* the hearth on the north wall, a mirror above it */
     blk(l, -1060, -820, 0, 150, -812, -772, PAL.stone, { faces: { py: PAL.walnut } });
@@ -232,6 +234,7 @@ export function furnish() {
     for (const [dx, dy, dz, r] of [[-10, 18, 0, 20], [10, 20, 2, 19], [0, 30, -6, 17], [-14, 10, -8, 13], [14, 10, -8, 12], [0, 8, 10, 15]]) ball(l, -1235 + dx, 98 + dy, -1167 + dz, r, PAL.clay, { detail: 1, jitter: .08 });
     ball(l, -1235, 128, -1167, 44, '#F3EEE6', { kind: 'glass', detail: 's', sy: 1.25 });
     META.brain = { top: 190 };
+    vase(l, -1100, 40, -1640, 1, BLOOMS.cool);
     chandelier(l, -1235, -1060, 440, 85);
     /* shelves on the north wall either side of the bay, and on the east wall */
     shelf(l, y, -1010, -1468, 0, 100, 420, 44, { rows: 5 });
@@ -256,6 +259,7 @@ export function furnish() {
     cyl(l, -855, 98, -775, 10, 8, 14, PAL.ivory, {}); cyl(l, -790, 98, -778, 10, 8, 14, PAL.wine, {});
     for (const [x, c] of [[-720, PAL.walnut], [-680, PAL.ochre], [-650, PAL.ivory]]) cyl(l, x, 98, -790, 14, 14, 30, c, {});
     META.mood = { top: 230 };
+    for (const [x, z] of [[-760, -1150], [-560, -1000]]) vase(l, x, 76, z, .6, BLOOMS.front);
     /* a menu board, a pastry case, two little tables */
     frame(l, 'W', -400, -1380, 260, 200, 140, PAL.walnut, PAL.charcoal, i => { for (let k = 0; k < 5; k++) dab(l, i, .5, .2 + k * .15, 120 - k * 10, 4, PAL.cream); });
     blk(l, -940, -760, 0, 92, -1488, -1428, PAL.walnut, { faces: { py: PAL.ivory } });
@@ -301,6 +305,7 @@ export function furnish() {
     blk(l, 600, 1000, 0, 92, -680, -540, PAL.forest, { faces: { py: PAL.white } });
     blk(l, 594, 1006, 92, 98, -686, -534, PAL.white);
     for (const x of [680, 800, 920]) { cyl(l, x, 0, -480, 3, 3, 70, PAL.brass, { kind: 'metal' }); cyl(l, x, 70, -480, 20, 20, 8, PAL.walnut, { seg: 12, collide: true }); }
+    vase(l, 900, 98, -610, 1.3, BLOOMS.sun);
     ball(l, 740, 112, -610, 26, PAL.ivory, { detail: 1, sy: .5 }); for (let k = 0; k < 5; k++) ball(l, 730 + k * 6, 120, -615 + (k % 2) * 8, 8, k % 2 ? PAL.marigold : '#9AA34A', { detail: 0 });
     chandelier(l, 800, -610, 440, 100);
     /* stop: ask her personality, the breakfast table in the bay window, a deck of cards on it */
@@ -367,6 +372,7 @@ export function furnish() {
     piece(l, -1000, 90, -2396, 120, 100, 6, PAL.white, {});
     for (const [u, v, c] of [[-20, 120, PAL.rose], [20, 150, PAL.sage], [0, 110, PAL.brass]]) ball(l, -1000 + u, v, -2391, 14, c, { detail: 0, sz: .2 });
     roundTable(l, y, -1050, -2150, 80, 74, PAL.walnut, PAL.ivory);
+    vase(l, -1050, 74, -2150, 1.3, BLOOMS.sun, PAL.terracotta);
     for (let k = 0; k < 4; k++) { const a = k / 4 * Math.PI * 2; chair(l, y, -1050 + Math.cos(a) * 120, -2150 + Math.sin(a) * 120, -a - Math.PI / 2, PAL.ochre, PAL.cream); }
     for (const [x, z] of [[-1600, -2620], [-800, -2620], [-1600, -1950], [-800, -1950]]) plant(l, y, x, z, 1.3, PAL.terracotta, 'tall');
     rug(l, y, -1100, -2280, 520, 420, PAL.sage, PAL.cream, PAL.blush);
@@ -391,6 +397,7 @@ export function furnish() {
     rug(l, y, -1090, -420, 700, 300, PAL.olive, PAL.cream, PAL.blush);
     chandelier(l, -1090, -420, y + H, 90);
     blk(l, -1688, -1640, y, y + 100, -380, -180, PAL.walnut, { faces: { py: PAL.walnutLt } });
+    vase(l, -1664, y + 100, -230, .9, BLOOMS.front);
     frame(l, 'E', -1700, -280, y + 200, 120, 100, PAL.brass, '#DDE4E2');
     for (const b of BAYS.filter(b => b.room === 'guest')) { blk(l, b.x0 + 14, b.x1 - 14, y, y + 46, b.z1 - 70, b.z1 - 14, PAL.walnut); blk(l, b.x0 + 16, b.x1 - 16, y + 46, y + 60, b.z1 - 68, b.z1 - 16, PAL.cream, { round: 5 }); }
     plant(l, y, -460, -60, 1, PAL.ivory, 'tall');
@@ -410,6 +417,7 @@ export function furnish() {
     blk(l, -1220, -1150, y + 76, y + 80, -1318, -1294, PAL.ivory, { collide: false });
     tableLamp(l, y + 76, -1080, -1350); cyl(l, -1280, y + 76, -1330, 8, 7, 18, PAL.wine, {});
     chair(l, y, -1180, -1240, Math.PI, PAL.walnut, PAL.oxblood);
+    vase(l, -1290, y + 76, -1350, .7, BLOOMS.cool);
     META.built = { top: Y(1) + 250 };
     /* stop: where she'd thrive, the world map on the east wall */
     frame(l, 'W', -950, -1350, y + 260, 260, 190, PAL.walnut, '#DCE3DE', i => { for (const [u, v, w, h] of [[.22, .62, 50, 40], [.28, .32, 30, 50], [.5, .66, 40, 36], [.52, .35, 30, 60], [.75, .6, 70, 40], [.82, .3, 30, 24]]) dab(l, i, u, v, w, h, PAL.sage); dab(l, i, .52, .62, 10, 10, PAL.wine, 2.5); });
@@ -476,6 +484,7 @@ export function furnish() {
     collider(1240, 1288, y, y + 900, -1090, -360, l, { cam: false });
     /* the jewellery island, glass-topped, with a blush ottoman and a crystal chandelier above */
     blk(l, 560, 820, y, y + 90, -980, -840, PAL.walnut, { faces: { py: PAL.ivory } });
+    vase(l, 790, y + 104, -950, 1, BLOOMS.front);
     blk(l, 570, 810, y + 90, y + 104, -970, -850, PAL.glass, { kind: 'glass' });
     for (let k = 0; k < 8; k++) ball(l, 590 + k * 28, y + 94, -910 + (k % 2) * 20, 5, k % 2 ? PAL.brassLt : PAL.white, { kind: 'metal', detail: 0 });
     cyl(l, 690, y, -760, 40, 40, 44, PAL.blush, { seg: 14, collide: true });
@@ -494,6 +503,7 @@ export function furnish() {
     rug(l, y, 800, 560, 520, 380, PAL.wine, PAL.cream, PAL.blush);
     chandelier(l, 800, 420, y + H, 105);
     blk(l, 312, 362, y, y + 76, 480, 700, PAL.ivory, { faces: { py: PAL.walnutLt } });
+    vase(l, 337, y + 76, 670, .9, BLOOMS.front);
     frame(l, 'E', 300, 590, y + 190, 110, 140, PAL.brass, '#E6ECEB');
     for (let k = 0; k < 4; k++) cyl(l, 334, y + 76, 520 + k * 40, 6, 6, 18, pick([PAL.rose, PAL.brass, PAL.ivory, PAL.wine]), {});
     armchair(l, y, 1160, 760, -Math.PI * .75, PAL.sage); floorLamp(l, y, 1240, 860);
@@ -508,6 +518,7 @@ export function furnish() {
     blk(l, 1574, 1674, y + 56, y + 70, -290, -70, '#CFE0E0', { collide: false });
     for (const [x, z] of [[1570, -290], [1676, -290], [1570, -70], [1676, -70]]) ball(l, x, y + 8, z, 8, PAL.brass, { kind: 'metal', detail: 0 });
     blk(l, 1320, 1520, y, y + 86, -338, -276, PAL.sage, { faces: { py: PAL.white } });
+    vase(l, 1490, y + 86, -306, .8, BLOOMS.front);
     for (const x of [1370, 1470]) frame(l, 'S', -350, x, y + 200, 70, 90, PAL.brass, '#DDE4E2');
     plant(l, y, 1660, 110, 1, PAL.ivory, 'tall');
     rug(l, y, 1500, -100, 200, 140, PAL.blush, PAL.cream);
@@ -516,7 +527,8 @@ export function furnish() {
     roundTable(b, y, 1500, 420, 44, 72, PAL.charcoal, PAL.ivory);
     for (const a of [0, Math.PI]) chair(b, y, 1500 + Math.cos(a) * 80, 420, a === 0 ? -Math.PI / 2 : Math.PI / 2, PAL.charcoal, PAL.olive);
     cyl(b, 1500, y + 72, 410, 7, 6, 12, PAL.ivory, {});
-    for (const [x, z] of [[1650, 200], [1650, 600], [1350, 600]]) plant(b, y, x, z, 1.1);
+    for (const [x, z] of [[1650, 200], [1650, 600], [1350, 600]]) { cyl(b, x, y, z, 26, 20, 40, PAL.terracotta, { collide: true }); flowers(b, x, y + 38, z, 44, 44, 26, BLOOMS.front, 34); }
+    for (const [x0, x1, z0, z1] of [[1340, 1660, 628, 646]]) { blk(b, x0, x1, y, y + 30, z0, z1, PAL.forest, { collide: false }); flowers(b, (x0 + x1) / 2, y + 30, (z0 + z1) / 2, x1 - x0, 14, 50, BLOOMS.wine, 28); }
   }
 
   /* ===== the reading nook, in the turret ===== */

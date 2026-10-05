@@ -1,7 +1,7 @@
 /* The shell: floors with holes where the stairs come through, walls with their doorways and windows,
    the three spiral stairs, the turret, the bays, the roofs, and the grounds around it all. */
 import * as THREE from 'three';
-import { PAL, blk, piece, cyl, ball, cone, shape, run, collider } from './kit.js';
+import { PAL, blk, piece, cyl, ball, cone, shape, run, collider, flowers, BLOOMS } from './kit.js';
 
 const WT = 12;
 /* a storey's floor is cut where a stair passes up through it or arrives at it, never where one starts */
@@ -60,6 +60,7 @@ function side(layer, s, lv, y0, tall, inner, o = {}) {
 }
 /* a window: a pane of glass in a walnut frame, with a sill; outside it glows a little, like golden hour reflecting */
 function window_(layer, [ax, az], [bx, bz], n, y0, y1) {
+  if (/:[SN]$/.test(layer) && y0 < 2 * LH) windowBox(layer, Math.min(ax, bx), Math.max(ax, bx), az, -n[1], y0);
   const mx = (ax + bx) / 2, mz = (az + bz) / 2, w = Math.hypot(bx - ax, bz - az), along = Math.abs(bx - ax) > 1;
   const cx = mx + n[0] * WT / 2, cz = mz + n[1] * WT / 2;
   if (along) {
@@ -74,14 +75,20 @@ function window_(layer, [ax, az], [bx, bz], n, y0, y1) {
     blk(layer, cx - 14, cx + 14, y0 - 8, y0, Math.min(az, bz) - 8, Math.max(az, bz) + 8, TRIM, { collide: false });
   }
 }
-/* a walnut casing round a doorway */
+/* a window box under a front or garden window, spilling flowers */
+function windowBox(layer, x0, x1, z, out, sill) {
+  const zf = z + out * 2, zb = z + out * 34, lo = Math.min(zf, zb), hi = Math.max(zf, zb);
+  blk(layer, x0 - 6, x1 + 6, sill - 44, sill - 14, lo, hi, PAL.forest, { collide: false });
+  blk(layer, x0 - 2, x1 + 2, sill - 16, sill - 12, lo + 2, hi - 2, '#6E5A44', { collide: false });
+  flowers(layer, (x0 + x1) / 2, sill - 14, (lo + hi) / 2, x1 - x0, 22, Math.round((x1 - x0) / 9), out > 0 ? BLOOMS.front : BLOOMS.wine, 30);
+}
+/* a walnut casing round a doorway: a thin frame standing just proud of the wall's face, never inside it, so no two surfaces fight */
 function trimAround(layer, ax, az, bx, bz, n, y0, y1) {
   const along = Math.abs(bx - ax) > 1, a = along ? Math.min(ax, bx) : Math.min(az, bz), b = along ? Math.max(ax, bx) : Math.max(az, bz);
-  const line = along ? az : ax, lo = line - 2, hi = line + 2 + WT * 2;
-  const L = Math.min(lo, line + (along ? n[1] : n[0]) * (WT + 2)), R = Math.max(lo, line + (along ? n[1] : n[0]) * (WT + 2));
-  for (const [p0, p1] of [[a - 10, a], [b, b + 10]]) along ? blk(layer, p0, p1, y0, y1 + 10, L, R, PAL.walnutLt, { collide: false }) : blk(layer, L, R, y0, y1 + 10, p0, p1, PAL.walnutLt, { collide: false });
-  along ? blk(layer, a - 10, b + 10, y1, y1 + 10, L, R, PAL.walnutLt, { collide: false }) : blk(layer, L, R, y1, y1 + 10, a - 10, b + 10, PAL.walnutLt, { collide: false });
-  void hi;
+  const line = along ? az : ax, nn = along ? n[1] : n[0], f0 = line + nn * (WT + .6), f1 = line + nn * (WT + 4);
+  const L = Math.min(f0, f1), R = Math.max(f0, f1), o = { collide: false, jitter: 0 };
+  for (const [p0, p1] of [[a - 12, a], [b, b + 12]]) along ? blk(layer, p0, p1, y0, y1 + 12, L, R, PAL.walnutLt, o) : blk(layer, L, R, y0, y1 + 12, p0, p1, PAL.walnutLt, o);
+  along ? blk(layer, a - 12, b + 12, y1, y1 + 12, L, R, PAL.walnutLt, o) : blk(layer, L, R, y1, y1 + 12, a - 12, b + 12, PAL.walnutLt, o);
 }
 /* a floor slab, with holes cut for the stairs, edged in trim */
 function slab(layer, r, top, thick, color, holes = []) {

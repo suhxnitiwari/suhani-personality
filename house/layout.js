@@ -1,4 +1,4 @@
-/* The plan of the house: rooms, doorways, stairs and the stops, in world units (1 unit = 1 css px of the classic house).
+/* The plan of the house: rooms, doorways, stairs and the stops, in world units (roughly a centimetre).
    x runs east, z runs south toward the street. Heights are measured up from the ground floor. */
 const H = 440, LH = 480, EYE = 215, DH = 300, T = 8;        // room height, storey height, eye, door height, half wall
 const ATTIC = 2 * LH, EAVE = ATTIC + 200, RIDGE = EAVE + 720;   // two full storeys, then an attic under a steep roof

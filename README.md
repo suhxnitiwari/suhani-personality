@@ -43,7 +43,7 @@ The same personality, built as a house. My people are at the front, my ambition 
 
 ### How it's built
 
-- **Three.js for the drawing, everything else by hand.** The first version was about 3,400 `<div>`s placed in 3D with CSS transforms. It looked lovely and ran at 3 to 5 frames a second, because the browser had to composite every plane as its own layer. The house is now drawn with WebGL through Three.js and runs at 60. The original CSS house is kept at [`/house/classic/`](https://suhxnitiwari.github.io/suhani-personality/house/classic/).
+- **Three.js for the drawing, everything else by hand.** The first version was about 3,400 `<div>`s placed in 3D with CSS transforms. It looked lovely and ran at 3 to 5 frames a second, because the browser had to composite every plane as its own layer. The house is now drawn with WebGL through Three.js and runs at 60.
 - **A tiny modelling kit** (`kit.js`). Every wall, stair tread, book spine and rose bush is a soft block with its colour painted onto its vertices, then merged with the others on its storey into a handful of meshes, so a whole floor costs the GPU one draw call. Every solid block also leaves behind a box to bump into.
 - **The plan is data.** Rooms, doors, bay windows and stairs are plain arrays (`ROOMS`, `DOORS`, `BAYS`, `HELIXES` in `layout.js`). The shell, walls with their doorways and windows, the stair holes and the walking paths are all generated from them, so moving a door moves everything that depends on it.
 - **A real dollhouse front.** Outside walls are grouped by the way they face. Whichever side is turned toward you opens up, so you can look straight into every room, and picking a floor lifts the storeys above it away.

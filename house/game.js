@@ -492,24 +492,22 @@ function toDoll() {
 function toFront() {
   if (mode === 'front' && !flight) return;
   start(); closePanel(); toggleMap(false); auto = null; setAuto(false);
-  const inside = mode === 'walk' && !['out', 'garden'].includes(areaAt(P.x, P.z, P.y)), lv = clampN(Math.round(P.y / LH), 0, 2);
-  mode = 'front'; floorShown = 3; paintMode();
-  orbit.yaw = .22; orbit.pitch = -.13; orbit.r = orbit.want = fitR();
-  const steps = inside ? [{ to: { ...view, y: P.y + 1150, pitch: -1.2, fov: 40 }, dur: 2.2, lv, noCull: true }] : [];
-  steps.push({ to: dollPose(), dur: 2.8 });
-  flySeq(steps);
+  const back = () => { mode = 'front'; floorShown = 3; paintMode(); orbit.yaw = .22; orbit.pitch = -.13; orbit.r = orbit.want = fitR(); fly(dollPose(), 3); };
+  /* from inside, you walk back out through the front door and down the path before stepping back to look at it */
+  if (mode === 'walk' && !['out', 'garden'].includes(areaAt(P.x, P.z, P.y))) { openFront(); walkTo(-1050, 900, 0, back); return; }
+  back();
 }
-/* into the house: the camera swoops down from the dollhouse to your own eye level */
+/* into the house, the way a person arrives: the house closes back up, you come down to the front walk at eye level,
+   and walk up the path and in through the front door, then on through the house to wherever you were going */
 function swoopIn(pose, done) {
   auto = null;
-  const land = () => { mode = 'walk'; Object.assign(P, { x: pose.x, z: pose.z, y: pose.pf, vx: 0, vz: 0, vy: 0 }); look.yaw = pose.yaw; look.pitch = pose.pitch; paintMode(); done && done(); };
-  const eye = { ...pose, fov: walkPose().fov }, lv = clampN(Math.round(pose.pf / LH), 0, 2);
-  if (['out', 'garden'].includes(areaAt(pose.x, pose.z, pose.pf))) return flySeq([{ to: { ...eye, y: pose.y + 260, pitch: -.3 }, dur: 3 }, { to: eye, dur: 1.8 }], land);
-  /* glide over the room with the storeys above it lifted off, then sink gently down into it: never through a wall */
-  flySeq([
-    { to: { x: pose.x, y: pose.pf + 1150, z: pose.z, yaw: pose.yaw, pitch: -1.2, fov: 40 }, dur: 2.8, lv },
-    { to: eye, dur: 2.6, lv, noCull: true }
-  ], land);
+  if (mode === 'doll') { mode = 'front'; floorShown = 3; paintMode(); }
+  const street = { x: -1050, y: EYEH, z: 1180, yaw: 0, pitch: -.03, fov: walkPose().fov };
+  const land = () => {
+    mode = 'walk'; Object.assign(P, { x: street.x, z: street.z, y: 0, vx: 0, vz: 0, vy: 0 }); look.yaw = 0; look.pitch = -.03; paintMode();
+    if (pose) walkTo(pose.x, pose.z, pose.pf, done, pose); else done && done();
+  };
+  fly(street, 3.4, land);
 }
 function enterRoom(id) {
   const i = exploring ? -1 : STOPS.findIndex(s => TARGETS[s.id].room === id);

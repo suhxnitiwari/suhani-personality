@@ -93,7 +93,7 @@ The outside walls are sorted into layers by the direction they face (`L0:N`, `L1
 
 ### Camera
 
-- **Flights.** Moves are chained cosine-eased flights over position, pitch and field of view, with yaw taking the shortest way around. Going into a room, the camera glides over it with the storeys above lifted off, then sinks straight down to eye level.
+- **Flights.** Moves are chained cosine-eased flights over position, pitch and field of view, with yaw taking the shortest way around. Going inside, the camera comes down to the front walk at eye level and you walk in through the front door, the way a guest arrives; leaving with Outside walks you back out the door before the view steps back.
 - **Eyes that lead.** On the way somewhere, your view looks a little ahead along the path and turns slowly at the end to face the stop.
 - **Room for the panel.** When a stop's panel opens on the right, `setViewOffset` slides the view sideways so the stop stays in frame.
 

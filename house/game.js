@@ -95,10 +95,10 @@ const P = { x: -1050, y: 0, z: 700, vx: 0, vz: 0, vy: 0, grounded: true };
 const R = 30, HEIGHT = 186, STEP = 38, G = 2600, WALK = 250, RUN = 460, TOUR = 270, EYEH = 160;
 
 function nearCols(x0, x1, z0, z1) { const s = grid.near(x0, x1, z0, z1); for (const c of grid2.near(x0, x1, z0, z1)) s.add(c); return s; }
-function push(x, z, y) {
+function push(x, z, y, step = STEP) {
   for (let it = 0; it < 3; it++) {
     for (const c of nearCols(x - R - 2, x + R + 2, z - R - 2, z + R + 2)) {
-      if (c.off || c.y1 <= y + STEP || c.y0 >= y + HEIGHT) continue;
+      if (c.off || c.y1 <= y + step || c.y0 >= y + HEIGHT) continue;
       const px = Math.max(c.x0, Math.min(x, c.x1)), pz = Math.max(c.z0, Math.min(z, c.z1)), dx = x - px, dz = z - pz, d2 = dx * dx + dz * dz;
       if (d2 >= R * R) continue;
       if (d2 > 1e-6) { const d = Math.sqrt(d2); x = px + dx / d * R; z = pz + dz / d * R; }
@@ -110,11 +110,11 @@ function push(x, z, y) {
   }
   return [clampN(x, -6000, 6000), clampN(z, -6000, 6000)];
 }
-function groundAt(x, z, y) {
+function groundAt(x, z, y, step = STEP) {
   let g = 0;
   const r = R * .55;
   for (const c of nearCols(x - r, x + r, z - r, z + r)) {
-    if (c.off || c.y1 > y + STEP + .5 || c.y1 <= g) continue;
+    if (c.off || c.y1 > y + step + .5 || c.y1 <= g) continue;
     if (x + r < c.x0 || x - r > c.x1 || z + r < c.z0 || z - r > c.z1) continue;
     g = c.y1;
   }
@@ -254,11 +254,13 @@ function physics(dt) {
   const speed = (auto ? TOUR : running ? RUN : WALK) * mag;
   P.vx += (fx * speed - P.vx) * Math.min(1, 5 * dt);
   P.vz += (fz * speed - P.vz) * Math.min(1, 5 * dt);
-  const [nx, nz] = push(P.x + P.vx * dt, P.z + P.vz * dt, P.y);
+  /* in a stairwell you can always step up out onto the floor, so a step off the stair's edge never traps you */
+  const step = inWell(P.x, P.z) ? HEIGHT - 10 : STEP;
+  const [nx, nz] = push(P.x + P.vx * dt, P.z + P.vz * dt, P.y, step);
   P.x = nx; P.z = nz;
   const yPrev = P.y;
   P.vy -= G * dt; P.y += P.vy * dt;
-  const g = groundAt(P.x, P.z, Math.max(yPrev, P.y));
+  const g = groundAt(P.x, P.z, Math.max(yPrev, P.y), step);
   if (P.y <= g) { P.y = g; P.vy = 0; P.grounded = true; }
   else if (P.grounded && yPrev - g <= STEP + 2) { P.y = g; P.vy = 0; }
   else P.grounded = false;
@@ -266,6 +268,7 @@ function physics(dt) {
 }
 /* the route graph knows the doors and stairs; between two of its waypoints on the same floor,
    a fine grid finds the way round the furniture */
+const inWell = (x, z) => HELIXES.some(h => Math.abs(x - h.cx) < h.r + R + 10 && Math.abs(z - h.cz) < h.r + R + 10);
 const onStair = (x, z) => HELIXES.some(h => Math.hypot(x - h.cx, z - h.cz) < h.r + 30);
 function freeAt(x, z, pf, r = R + 3) {
   for (const c of grid.near(x - r, x + r, z - r, z + r)) {
@@ -431,6 +434,7 @@ function goTo(i, sub) {
   const open = () => openPanel(i, sub);
   const arrive = () => { open(); if (w.id === 'door' && !welcomed) { welcomed = true; setTimeout(() => caption('Welcome in', 'Take your shoes off.', 4200), 500); } };
   if (mode !== 'walk') return swoopIn(pose, arrive);
+  if (Math.round(pose.pf / LH) !== walkLv() || Math.hypot(pose.x - P.x, pose.z - P.z) > 1400) { auto = null; return teleport(pose, arrive); }
   walkTo(pose.x, pose.z, pose.pf, arrive, pose);
 }
 $('#pClose').onclick = () => closePanel();
@@ -544,7 +548,10 @@ function enterRoom(id) {
   const r = ROOMS[id]; if (!r) return;
   start(); toggleMap(false); closePanel();
   const pose = roomPose(id);
-  if (mode !== 'walk') swoopIn(pose); else walkTo(pose.x, pose.z, pose.pf);
+  if (mode !== 'walk') return swoopIn(pose);
+  /* another floor, or the far side of the house: blink there, the way the stops do, rather than a long walk */
+  if (r.lv !== walkLv() || Math.hypot(pose.x - P.x, pose.z - P.z) > 1400) { auto = null; return teleport(pose, () => caption(r.sub, r.name)); }
+  walkTo(pose.x, pose.z, pose.pf);
 }
 /* rooms whose length isn't the best view: the attic wraps round the music room, so you arrive at its open east end */
 const ARRIVE_AT = { attic: { x: 150, z: -450, yaw: -Math.PI / 2 } };
@@ -565,7 +572,7 @@ function setFloor(f) {
 }
 modeBtns.forEach(b => b.onclick = () => { setAuto(false); const m = b.dataset.m; if (m === 'doll') toDoll(); else if (m === 'plan') toDoll(planLv()); else if (m === 'front') toFront(); else if (mode !== 'walk') goTo(cur >= 0 ? cur : 1); });
 /* the floors, like a lift's buttons: inside they take you straight to that storey; from above they show it */
-const ARRIVE = ['living', 'landing', 'attic'];
+const ARRIVE = ['living', 'uphall', 'attic'];         // upstairs, the hall: the landing's arrival spot is the stairwell's edge
 function goFloor(f) {
   if (f > 2 || f === walkLv() && !auto) return;
   auto = null; closePanel();

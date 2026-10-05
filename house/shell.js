@@ -334,7 +334,7 @@ export function buildShell() {
     for (const sg of [-1, 1]) { const r = new THREE.BoxGeometry(Math.hypot(206, 112) + 10, 10, 216); r.rotateZ(-sg * Math.atan2(108, 200)); r.translate(-1050 + sg * 101, 448, 94); shape(PO, r, ROOF); }
     cyl(PO, -1050, 430, 195, 26, 26, 3, PAL.brassLt, { rx: Math.PI / 2, seg: 20, kind: 'glow' }); }
   for (const px of [-1170, -930]) { cyl('L0', px, 200, 18, 10, 10, 30, PAL.walnutDk, {}); ball('L0', px, 240, 18, 13, PAL.warm, { kind: 'glow', detail: 's' }); }
-  { const w = new THREE.TorusGeometry(32, 9, 6, 20); w.translate(-1050, 236, 8); shape(PO, w, PAL.moss); for (let k = 0; k < 9; k++) { const a = k / 9 * Math.PI * 2; ball(PO, -1050 + Math.cos(a) * 32, 236 + Math.sin(a) * 32, 16, 5, k % 3 ? PAL.blush : PAL.ivory, { detail: 0 }); } }
+  /* the wreath hangs on the door itself (game.js), so it swings in with it */
   /* two dormers on the front of the main roof, warm light in their windows */
   for (const x of [-1400, -700]) {
     const z0 = -400, z1 = -170, yb = EAVE + 60, yt = RIDGE - (750 + z1) * (RIDGE - EAVE) / 750 + 150;

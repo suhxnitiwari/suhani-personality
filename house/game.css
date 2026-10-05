@@ -59,3 +59,31 @@ body.explore .tour, body.explore #prompt, body.explore .listing, body.explore #h
 .intro-t { margin: 6px 0 0; }
 .intro-alt .link, .intro-alt a { background: none; border: 0; padding: 0; color: #EFE5D3; font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 body:not(.live) .hud-bottom, body:not(.live) #prompt, body:not(.live) #stick, body.overhead #stick, body:not(.live) .listing { opacity: 0; pointer-events: none; }
+
+/* the floors, like a lift's buttons, down the right edge: inside, the dollhouse and the floor plan */
+.levels { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 5; display: flex; flex-direction: column; gap: 3px; padding: 4px; border-radius: 22px; background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 6px 20px rgba(59, 39, 31, .12); transition: opacity .4s; }
+.levels button { padding: 9px 14px; border: 0; border-radius: 999px; background: none; font: 500 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); cursor: pointer; }
+.levels button:hover { color: var(--walnut); }
+.levels button[aria-pressed="true"] { background: var(--walnut); color: var(--ivory); }
+.levels button[data-f="3"] { display: none; }
+body[data-mode="doll"]:not(.planview) .levels button[data-f="3"] { display: block; }
+body:not(.live) .levels, body[data-mode="front"] .levels, body.has-panel .levels { opacity: 0; pointer-events: none; }
+
+/* the floor plan: the listing steps aside, and every room on the storey wears its name */
+body.planview .listing { opacity: 0; pointer-events: none; }
+#planLabels { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: 0; transition: opacity .35s; }
+#planLabels.on { opacity: 1; }
+#planLabels button { position: absolute; left: 0; top: 0; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--line); background: rgba(251, 247, 239, .9); color: var(--walnut); font: italic 600 13px var(--serif); white-space: nowrap; cursor: pointer; pointer-events: auto; box-shadow: 0 4px 12px rgba(59, 39, 31, .14); transition: background .2s, color .2s; }
+#planLabels:not(.on) button { pointer-events: none; }
+#planLabels button:hover, #planLabels button:focus-visible { background: var(--forest); color: var(--ivory); outline: none; }
+@media (max-width: 720px) {
+  /* on a phone the bottom is free, so the floors become a row there instead of covering the plan */
+  .levels { right: auto; left: 50%; top: auto; bottom: calc(16px + env(safe-area-inset-bottom)); transform: translateX(-50%); flex-direction: row; }
+  .levels button { padding: 8px 12px; font-size: 9.5px; }
+  /* walking, the joystick has the bottom left, so the floors stack in the bottom right */
+  body[data-mode="walk"] .levels { left: auto; right: max(16px, env(safe-area-inset-right)); bottom: max(26px, env(safe-area-inset-bottom)); transform: none; flex-direction: column; }
+  .modes { gap: 0; }
+  .modes button { padding: 8px 8px; letter-spacing: .06em; }
+  .modes button svg { display: none; }
+  #planLabels button { font-size: 11px; padding: 4px 8px; }
+}

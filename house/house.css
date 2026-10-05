@@ -639,6 +639,14 @@ blockquote small { display: block; font: 500 9px var(--mono); font-style: normal
 #intro.t2 .intro-cta { opacity: 1; transform: none; pointer-events: auto; }
 #intro .pill { background: var(--ivory); color: var(--walnut); }
 #intro .pill:hover { background: #fff; }
+.intro-pick { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.pick { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 220px; padding: 15px 26px; border-radius: 16px; border: 1px solid var(--ivory); background: var(--ivory); color: var(--walnut); cursor: pointer; transition: transform .2s, background .2s; }
+.pick b { font: 500 12.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+.pick span { font: 400 13px var(--sans, inherit); opacity: .75; }
+.pick:hover { background: #fff; transform: translateY(-1px); }
+.pick.solo { background: rgba(245, 239, 227, .08); color: var(--ivory); border-color: rgba(245, 239, 227, .7); }
+.pick.solo:hover { background: rgba(245, 239, 227, .18); }
+@media (max-width: 520px) { .intro-pick { flex-direction: column; align-items: stretch; } .pick { min-width: 0; } }
 .intro-alt { display: flex; gap: 10px; align-items: center; color: #EFE5D3; }
 .link { border: 0; background: none; font: 500 11px var(--mono); letter-spacing: .12em; color: #EFE5D3; text-decoration: underline; text-underline-offset: 4px; }
 .nojs { position: fixed; inset: 0; display: grid; place-items: center; z-index: 20; background: var(--ivory); margin: 0; }

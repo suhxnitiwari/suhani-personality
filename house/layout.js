@@ -13,7 +13,7 @@ const WING = { x0: 300, x1: 1300, z0: -1500, z1: 900 };
 const EAST = { x0: 1300, x1: 1700, z0: -350, z1: 150 };       // the pantry, and her bathroom above it
 const BAYS = [
   { room: 'living', lv: 0, x0: -1550, x1: -1250, z0: 0, z1: 180 }, { room: 'living', lv: 0, x0: -850, x1: -550, z0: 0, z1: 180 },
-  { room: 'guest', lv: 1, x0: -1550, x1: -1250, z0: 0, z1: 180 }, { room: 'guest', lv: 1, x0: -850, x1: -550, z0: 0, z1: 180 },
+  { room: 'guest', lv: 1, x0: -1550, x1: -1250, z0: 0, z1: 180 }, { room: 'dressing', lv: 1, x0: -850, x1: -550, z0: 0, z1: 180 },
   { room: 'library', lv: 0, x0: -1450, x1: -1050, z0: -1680, z1: -1500 }, { room: 'study', lv: 1, x0: -1450, x1: -1050, z0: -1680, z1: -1500 },
   { room: 'music', lv: 2, x0: -1450, x1: -1050, z0: -1680, z1: -1500 },
   { room: 'cafe', lv: 0, x0: -880, x1: -480, z0: -1680, z1: -1500 },
@@ -35,20 +35,23 @@ const ROOMS = {
   garage: { lv: 0, x0: 300, x1: 1300, z0: 200, z1: 900, name: 'The Garage', sub: 'Independence' },
   sunroom: { lv: 0, x0: -1640, x1: -760, z0: -2660, z1: -1900, name: 'The Sunroom', sub: 'Making things, with friends', glass: true },
   garden: { lv: 0, x0: -1700, x1: 1300, z0: -3150, z1: -1500, name: 'The Secret Garden', sub: 'Behind the house', open: true },
-  guest: { lv: 1, x0: -1700, x1: -400, z0: -800, z1: 0, name: 'The Guest Room', sub: 'Two beds, for her people' },
+  guest: { lv: 1, x0: -1700, x1: -900, z0: -800, z1: 0, name: 'The Guest Room', sub: 'Two beds, for her people' },
+  dressing: { lv: 1, x0: -900, x1: -400, z0: -480, z1: 0, name: 'The Dressing Room', sub: 'A vanity each, for the girls' },
+  walkin: { lv: 1, x0: -900, x1: -400, z0: -800, z1: -480, name: 'The Walk-in', sub: 'Theirs to share' },
   study: { lv: 1, x0: -1700, x1: -950, z0: -1500, z1: -800, name: 'The Study', sub: 'Ambition' },
   hall: { lv: 1, x0: -950, x1: -400, z0: -1100, z1: -800, name: 'The Back Hall', sub: 'Upstairs' },
   gbath: { lv: 1, x0: -950, x1: -400, z0: -1500, z1: -1100, name: 'The Guest Bath', sub: 'Fresh towels' },
   landing: { lv: 1, x0: -400, x1: 300, z0: -1500, z1: -800, name: 'The Landing', sub: 'Upstairs', nav: [[100, -900], [-250, -1200]] },
   uphall: { lv: 1, x0: -400, x1: 300, z0: -800, z1: 0, name: 'The Upstairs Hall', sub: 'Linen and light' },
-  closet: { lv: 1, x0: 300, x1: 1300, z0: -1500, z1: -300, name: 'Her Closet', sub: 'Her happy place', tall: LH + H },
-  bedroom: { lv: 1, x0: 300, x1: 1300, z0: -300, z1: 900, name: 'Her Bedroom', sub: 'Private softness' },
+  closet: { lv: 1, x0: 300, x1: 1300, z0: -1500, z1: -300, name: 'Her Closet · Downstairs', sub: 'Her happy place', tall: LH + H },
+  bedroom: { lv: 1, x0: 300, x1: 1300, z0: -300, z1: 500, name: 'Her Bedroom', sub: 'Private softness' },
+  sitting: { lv: 1, x0: 300, x1: 1300, z0: 500, z1: 900, name: 'Her Sitting Room', sub: 'Curled up by the big window' },
   bath: { lv: 1, x0: 1300, x1: 1700, z0: -350, z1: 150, name: 'Her Bathroom', sub: 'Ritual' },
   balcony: { lv: 1, x0: 1300, x1: 1700, z0: 150, z1: 650, name: 'Her Balcony', sub: 'Coffee, outside', open: true },
   nook: { lv: 1, x0: 0, x1: 300, z0: 10, z1: 310, name: 'The Reading Nook', sub: 'In the turret', special: true },
   music: { lv: 2, x0: -1700, x1: -950, z0: -1500, z1: -800, name: 'The Music Room', sub: 'Piano, drums, guitar, violin', special: true },
   attic: { lv: 2, x0: -1700, x1: 300, z0: -1500, z1: 0, name: 'The Attic', sub: 'The mess of her brain', special: true },
-  gallery: { lv: 2, x0: 300, x1: 1300, z0: -1500, z1: -300, name: 'The Closet Gallery', sub: 'Shelves to the sky', special: true }
+  gallery: { lv: 2, x0: 300, x1: 1300, z0: -1500, z1: -300, name: 'Her Closet · Upstairs', sub: 'Up the spiral, shelves to the sky', special: true }
 };
 const FLOORS = ['Ground', 'Upstairs', 'Attic'];
 
@@ -80,7 +83,9 @@ const DOORS = [
   { bay: true, dir: 'h', x: -1250, z: -1500, w: 400, dh: H, lv: 0, a: 'garden', b: 'library' },
   { bay: true, dir: 'h', x: -680, z: -1500, w: 400, dh: H, lv: 0, a: 'garden', b: 'cafe' },
   { bay: true, dir: 'v', x: 1300, z: -650, w: 460, dh: H, lv: 0, a: 'kitchen', b: 'out' },
-  { dir: 'v', x: -400, z: -400, w: 180, lv: 1, a: 'guest', b: 'uphall' },
+  { dir: 'v', x: -400, z: -240, w: 170, lv: 1, a: 'dressing', b: 'uphall' },
+  { dir: 'v', x: -900, z: -240, w: 170, lv: 1, a: 'guest', b: 'dressing' },
+  { dir: 'h', x: -650, z: -480, w: 140, lv: 1, a: 'walkin', b: 'dressing' },
   { dir: 'v', x: -400, z: -950, w: 160, lv: 1, a: 'hall', b: 'landing' },
   { dir: 'v', x: -950, z: -950, w: 180, lv: 1, a: 'study', b: 'hall' },
   { dir: 'h', x: -680, z: -1100, w: 160, lv: 1, a: 'gbath', b: 'hall' },
@@ -90,8 +95,9 @@ const DOORS = [
   { dir: 'v', x: 1300, z: -100, w: 180, lv: 1, a: 'bedroom', b: 'bath' },
   { dir: 'v', x: 1300, z: 400, w: 200, dh: 340, french: true, lv: 1, a: 'bedroom', b: 'balcony' },
   { dir: 'v', x: 300, z: 160, w: 140, dh: 300, arch: true, lv: 1, a: 'nook', b: 'bedroom' },
+  { dir: 'h', x: 1150, z: 500, w: 200, dh: 340, arch: true, lv: 1, a: 'bedroom', b: 'sitting' },
   { bay: true, dir: 'h', x: -1400, z: 0, w: 300, dh: H, lv: 1, a: 'out', b: 'guest' },
-  { bay: true, dir: 'h', x: -700, z: 0, w: 300, dh: H, lv: 1, a: 'out', b: 'guest' },
+  { bay: true, dir: 'h', x: -700, z: 0, w: 300, dh: H, lv: 1, a: 'out', b: 'dressing' },
   { bay: true, dir: 'h', x: -1250, z: -1500, w: 400, dh: H, lv: 1, a: 'garden', b: 'study' },
   { dir: 'h', x: -1300, z: -800, w: 200, dh: 300, lv: 2, a: 'music', b: 'attic', manual: true }
 ];

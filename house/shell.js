@@ -8,11 +8,11 @@ const WT = 12;
 const holesIn = lv => HELIXES.filter(h => lv * LH > h.pf0 && lv * LH <= h.pf0 + h.rise).map(HSQ);                                   // each room's half of a wall
 const LV = lv => 'L' + lv;
 export const WALL = { living: PAL.linen, library: PAL.forest, cafe: PAL.blush, halfbath: PAL.paper, stairs: PAL.ivory, kitchen: PAL.linen, movie: PAL.plum, laundry: PAL.paper,
-  mudroom: PAL.linen, pantry: PAL.paper, garage: '#CFC6B6', sunroom: PAL.ivory, guest: PAL.sage, study: PAL.olive, hall: PAL.ivory, gbath: PAL.mint, landing: PAL.ivory,
-  uphall: PAL.ivory, closet: PAL.shell, bedroom: PAL.shell, bath: PAL.mint, music: PAL.wine, attic: '#D9C6A8', nook: PAL.cream, gallery: PAL.shell };
+  mudroom: PAL.linen, pantry: PAL.paper, garage: '#CFC6B6', sunroom: PAL.ivory, guest: PAL.sage, dressing: PAL.shell, walkin: PAL.cream, study: PAL.olive, hall: PAL.ivory, gbath: PAL.mint, landing: PAL.ivory,
+  uphall: PAL.ivory, closet: PAL.shell, bedroom: PAL.shell, sitting: PAL.shell, bath: PAL.mint, music: PAL.wine, attic: '#D9C6A8', nook: PAL.cream, gallery: PAL.shell };
 export const FLOORC = { living: PAL.honey, library: PAL.honey, cafe: PAL.oak, halfbath: PAL.tile, stairs: PAL.honey, kitchen: PAL.oak, movie: '#6E4A55', laundry: PAL.tile,
-  mudroom: '#B7A58A', pantry: PAL.oak, garage: '#B9B1A3', sunroom: PAL.oak, guest: PAL.plank, study: PAL.honey, hall: PAL.plank, gbath: PAL.tile, landing: PAL.honey,
-  uphall: PAL.honey, closet: PAL.plank, bedroom: '#C9AA86', bath: PAL.tile, balcony: PAL.stone, music: PAL.walnutLt, attic: '#9C7A57', gallery: PAL.plank, nook: PAL.plank };
+  mudroom: '#B7A58A', pantry: PAL.oak, garage: '#B9B1A3', sunroom: PAL.oak, guest: PAL.plank, dressing: PAL.plank, walkin: PAL.plank, study: PAL.honey, hall: PAL.plank, gbath: PAL.tile, landing: PAL.honey,
+  uphall: PAL.honey, closet: PAL.plank, bedroom: '#C9AA86', sitting: '#C9AA86', bath: PAL.tile, balcony: PAL.stone, music: PAL.walnutLt, attic: '#9C7A57', gallery: PAL.plank, nook: PAL.plank };
 const EXT = PAL.limestone, TRIM = PAL.ivory, ROOF = PAL.slate;
 
 /* which rooms enclose a point on a storey (the garden and the balcony are outdoors) */
@@ -247,7 +247,7 @@ const windowStyle = (id, s) => (i, k, [x]) => {
   switch (id) {
     case 'guest': return front && x > -1150 && x < -950 ? { kind: 'round', w: 130, sill: 200 } : { kind: 'arch', w: 116, sill: 90, head: 390 };
     case 'uphall': return { kind: 'arch', w: 108, sill: 100, head: 390 };
-    case 'bedroom': return front ? (i === Math.floor(k / 2) ? { kind: 'arch', w: 230, sill: 46, head: 420 } : { kind: 'tall', w: 82, sill: 70, head: 380 }) : { kind: 'tall', w: 96, sill: 60, head: 390 };
+    case 'bedroom': case 'sitting': return front ? (i === Math.floor(k / 2) ? { kind: 'arch', w: 230, sill: 46, head: 420 } : { kind: 'tall', w: 82, sill: 70, head: 380 }) : { kind: 'tall', w: 96, sill: 60, head: 390 };
     case 'closet': return { kind: 'arch', w: 92, sill: 160, head: 820 };
     case 'kitchen': case 'living': return { kind: 'tall', w: 120, sill: 40, head: 392 };
     case 'laundry': case 'mudroom': case 'pantry': case 'gbath': case 'halfbath': case 'garage': return { kind: 'small', w: 84, sill: 220, head: 304 };
@@ -272,7 +272,7 @@ export function buildShell() {
     }
     if (id === 'sunroom') { sunroom(r); continue; }
     slab(layer, r, y0 + (lv ? 0 : 1), lv ? 40 : 22, FLOORC[id] || PAL.oak, holesIn(lv));
-    for (const s of sidesOf(r)) side(layer, s, lv, y0, r.tall || H, WALL[id] || PAL.linen, { windows: !(id === 'garage' && s.k === 's'), style: windowStyle(id, s), step: id === 'bedroom' && s.k === 's' ? 260 : id === 'closet' ? 240 : undefined });
+    for (const s of sidesOf(r)) side(layer, s, lv, y0, r.tall || H, WALL[id] || PAL.linen, { windows: !(id === 'garage' && s.k === 's'), style: windowStyle(id, s), step: (id === 'bedroom' || id === 'sitting') && s.k === 's' ? 260 : id === 'closet' ? 240 : undefined });
     baseboards(layer, r, lv, y0);
   }
   /* the bays: little glass rooms pushed out of the walls */

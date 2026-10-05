@@ -553,8 +553,9 @@ function enterRoom(id) {
   if (r.lv !== walkLv() || Math.hypot(pose.x - P.x, pose.z - P.z) > 1400) { auto = null; return teleport(pose, () => caption(r.sub, r.name)); }
   walkTo(pose.x, pose.z, pose.pf);
 }
-/* rooms whose length isn't the best view: the attic wraps round the music room, so you arrive at its open east end */
-const ARRIVE_AT = { attic: { x: 150, z: -450, yaw: -Math.PI / 2 } };
+/* rooms whose length isn't the best view: the attic wraps round the music room, so you arrive at its open east end;
+   the closet's upstairs is a walkway round a two-storey void, so you land on it looking down */
+const ARRIVE_AT = { attic: { x: 150, z: -450, yaw: -Math.PI / 2 }, gallery: { x: 760, z: -1400, yaw: Math.PI } };
 function roomPose(id) {
   const r = ROOMS[id], a = ARRIVE_AT[id];
   if (a) { const [x, z] = clearSpot(a.x, a.z, r.lv * LH, 1e9, 1e9); return { x, z, pf: r.lv * LH, y: r.lv * LH + EYEH, yaw: a.yaw, pitch: -.08 }; }

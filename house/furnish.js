@@ -393,14 +393,65 @@ export function furnish() {
   /* ===== upstairs: the guest room, two beds for her people ===== */
   {
     const l = 'L1', y = Y(1);
-    for (const x of [-1420, -760]) { bed(l, y, x, -660, 0, 170, 230, x < -1000 ? PAL.sage : PAL.blush); blk(l, x + 100, x + 150, y, y + 58, -790, -740, PAL.walnut); tableLamp(l, y + 58, x + 125, -765); }
-    rug(l, y, -1090, -420, 700, 300, PAL.olive, PAL.cream, PAL.blush);
-    chandelier(l, -1090, -420, y + H, 90);
+    for (const [x, c] of [[-1560, PAL.sage], [-1150, PAL.blush]]) {
+      bed(l, y, x, -664, 0, 170, 230, c);
+      /* a little bench at the foot of each bed, for the suitcase */
+      blk(l, x - 70, x + 70, y, y + 40, -510, -468, PAL.walnut, { faces: { py: lighten(c, .25) } });
+    }
+    blk(l, -1385, -1325, y, y + 58, -790, -740, PAL.walnut); tableLamp(l, y + 58, -1355, -765);
+    blk(l, -1048, -992, y, y + 58, -790, -740, PAL.walnut); tableLamp(l, y + 58, -1020, -765);
+    rug(l, y, -1300, -330, 600, 280, PAL.olive, PAL.cream, PAL.blush);
+    chandelier(l, -1300, -400, y + H, 80);
     blk(l, -1688, -1640, y, y + 100, -380, -180, PAL.walnut, { faces: { py: PAL.walnutLt } });
     vase(l, -1664, y + 100, -230, .9, BLOOMS.front);
     frame(l, 'E', -1700, -280, y + 200, 120, 100, PAL.brass, '#DDE4E2');
     for (const b of BAYS.filter(b => b.room === 'guest')) { blk(l, b.x0 + 14, b.x1 - 14, y, y + 46, b.z1 - 70, b.z1 - 14, PAL.walnut); blk(l, b.x0 + 16, b.x1 - 16, y + 46, y + 60, b.z1 - 68, b.z1 - 16, PAL.cream, { round: 5 }); }
-    plant(l, y, -460, -60, 1, PAL.ivory, 'tall');
+    plant(l, y, -960, -50, 1, PAL.ivory, 'tall');
+  }
+
+  /* ===== the dressing room: a vanity each for the girls staying over, either side of their walk-in ===== */
+  {
+    const l = 'L1', y = Y(1);
+    for (const [x, stool] of [[-815, PAL.blush], [-485, PAL.sage]]) {
+      blk(l, x - 65, x + 65, y, y + 76, -472, -416, PAL.ivory, { faces: { py: PAL.walnutLt } });
+      for (const dx of [-32, 32]) blk(l, x + dx - 26, x + dx + 26, y + 30, y + 64, -416, -414, PAL.cream, { collide: false });
+      /* the mirror, ringed in warm bulbs */
+      blk(l, x - 52, x + 52, y + 130, y + 290, -468, -462, PAL.brass, { kind: 'metal', collide: false });
+      blk(l, x - 44, x + 44, y + 138, y + 282, -462, -461, '#EEF2F1', { kind: 'glow', collide: false });
+      for (let k = 0; k < 4; k++) for (const dx of [-60, 60]) ball(l, x + dx, y + 150 + k * 40, -458, 5, GLOW, { kind: 'glow', detail: 0 });
+      /* perfume, a jewellery dish and a little vase */
+      for (let k = 0; k < 3; k++) cyl(l, x - 44 + k * 14, y + 76, -440, 5, 5, 14 + k * 4, pick([PAL.blush, PAL.brassLt, PAL.ivory, PAL.rose]), { seg: 8 });
+      cyl(l, x + 10, y + 76, -438, 14, 12, 3, PAL.brass, { kind: 'metal', seg: 12 });
+      vase(l, x + 44, y + 76, -440, .5, BLOOMS.front);
+      cyl(l, x, y, -360, 24, 22, 44, stool, { seg: 14, collide: true });
+    }
+    for (const b of BAYS.filter(b => b.room === 'dressing')) { blk(l, b.x0 + 14, b.x1 - 14, y, y + 46, b.z1 - 70, b.z1 - 14, PAL.walnut); blk(l, b.x0 + 16, b.x1 - 16, y + 46, y + 60, b.z1 - 68, b.z1 - 16, PAL.blush, { round: 5 }); }
+    rug(l, y, -650, -200, 360, 220, PAL.blush, PAL.cream, PAL.ivory);
+    chandelier(l, -650, -230, y + H, 60);
+  }
+
+  /* ===== their walk-in: small, shared, and already full ===== */
+  {
+    const l = 'L1', y = Y(1);
+    for (const [x0, x1] of [[-894, -846], [-454, -406]]) {
+      const cx = (x0 + x1) / 2;
+      cyl(l, cx, y + 200, -640, 2, 2, 290, PAL.brass, { rx: Math.PI / 2, kind: 'metal' });
+      cyl(l, cx, y + 340, -640, 2, 2, 290, PAL.brass, { rx: Math.PI / 2, kind: 'metal' });
+      for (let k = 0; k < 13; k++) {
+        const z = -782 + k * 22;
+        blk(l, x0, x1, y + 60 + rnd() * 40, y + 196, z, z + 16, pick([PAL.wine, PAL.cream, PAL.blush, PAL.ivory, PAL.olive, PAL.sage, PAL.rose, PAL.shell]), { collide: false, round: 3 });
+        blk(l, x0 + 4, x1 - 4, y + 250 + rnd() * 30, y + 336, z, z + 16, pick([PAL.cream, PAL.blush, PAL.ivory, PAL.sage]), { collide: false, round: 3 });
+      }
+      collider(x0 - 4, x1 + 4, y, y + 360, -790, -490, l, { cam: false });
+    }
+    /* shoes and folded jumpers along the back wall */
+    for (let k = 0; k < 5; k++) {
+      blk(l, -840, -460, y + 30 + k * 72, y + 36 + k * 72, -792, -750, PAL.ivory);
+      for (let j = 0; j < 7; j++) { const x = -830 + j * 52; blk(l, x, x + 38, y + 36 + k * 72, y + 62 + k * 72, -786, -758, pick([PAL.wine, PAL.cream, PAL.blush, PAL.walnut, PAL.sage, PAL.ivory]), { collide: false, round: k < 2 ? 8 : 3 }); }
+    }
+    collider(-840, -460, y, y + 400, -792, -750, l, { cam: false });
+    cyl(l, -650, y, -630, 30, 30, 40, PAL.blush, { seg: 14, collide: true });
+    chandelier(l, -650, -640, y + H, 40);
   }
 
   /* ===== the study: ambition ===== */
@@ -492,23 +543,40 @@ export function furnish() {
     rug(l, y, 690, -900, 520, 600, PAL.shell, PAL.cream, PAL.blush);
   }
 
-  /* ===== her bedroom: private softness ===== */
+  /* ===== her bedroom: private softness, the canopy bed against the sitting room wall ===== */
   {
-    const l = 'L1', y = Y(1);
-    bed(l, y, 800, 770, Math.PI, 220, 240, PAL.blush, PAL.cream);
-    for (const [dx, dz] of [[-118, 650], [118, 650], [-118, 886], [118, 886]]) cyl(l, 800 + dx, y, dz, 4, 4, 360, PAL.brass, { kind: 'metal' });
-    for (const [x0, x1, z0, z1] of [[680, 920, 646, 652], [680, 920, 884, 890], [680, 686, 646, 890], [914, 920, 646, 890]]) blk(l, x0, x1, y + 356, y + 362, z0, z1, PAL.brass, { kind: 'metal', collide: false });
-    for (const dx of [-118, 118]) blk(l, 800 + dx - 2, 800 + dx + 2, y + 120, y + 356, 860, 888, PAL.ivory, { collide: false });
-    for (const dx of [-170, 170]) { blk(l, 800 + dx - 28, 800 + dx + 28, y, y + 56, 830, 886, PAL.walnut); tableLamp(l, y + 56, 800 + dx, 858); }
-    rug(l, y, 800, 560, 520, 380, PAL.wine, PAL.cream, PAL.blush);
-    chandelier(l, 800, 420, y + H, 105);
-    blk(l, 312, 362, y, y + 76, 480, 700, PAL.ivory, { faces: { py: PAL.walnutLt } });
-    vase(l, 337, y + 76, 670, .9, BLOOMS.front);
-    frame(l, 'E', 300, 590, y + 190, 110, 140, PAL.brass, '#E6ECEB');
-    for (let k = 0; k < 4; k++) cyl(l, 334, y + 76, 520 + k * 40, 6, 6, 18, pick([PAL.rose, PAL.brass, PAL.ivory, PAL.wine]), {});
-    armchair(l, y, 1160, 760, -Math.PI * .75, PAL.sage); floorLamp(l, y, 1240, 860);
+    const l = 'L1', y = Y(1), bz = 360;
+    bed(l, y, 800, bz, Math.PI, 220, 240, PAL.blush, PAL.cream);
+    for (const [dx, dz] of [[-118, -120], [118, -120], [-118, 116], [118, 116]]) cyl(l, 800 + dx, y, bz + dz, 4, 4, 360, PAL.brass, { kind: 'metal' });
+    for (const [x0, x1, z0, z1] of [[680, 920, -124, -118], [680, 920, 114, 120], [680, 686, -124, 120], [914, 920, -124, 120]]) blk(l, x0, x1, y + 356, y + 362, bz + z0, bz + z1, PAL.brass, { kind: 'metal', collide: false });
+    for (const dx of [-118, 118]) blk(l, 800 + dx - 2, 800 + dx + 2, y + 120, y + 356, bz + 90, bz + 118, PAL.ivory, { collide: false });
+    for (const dx of [-170, 170]) { blk(l, 800 + dx - 28, 800 + dx + 28, y, y + 56, bz + 60, bz + 116, PAL.walnut); tableLamp(l, y + 56, 800 + dx, bz + 88); }
+    blk(l, 700, 900, y, y + 42, 190, 230, PAL.walnut, { faces: { py: PAL.blush } });
+    rug(l, y, 800, 120, 520, 360, PAL.wine, PAL.cream, PAL.blush);
+    chandelier(l, 800, 120, y + H, 90);
+    /* a dresser and her mirror on the west wall, between the nook and the sitting room */
+    blk(l, 312, 370, y, y + 92, 280, 460, PAL.ivory, { faces: { py: PAL.walnutLt } });
+    frame(l, 'E', 300, 370, y + 220, 120, 150, PAL.brass, '#EEF2F1');
+    for (let k = 0; k < 4; k++) cyl(l, 340, y + 92, 300 + k * 40, 6, 6, 18, pick([PAL.rose, PAL.brass, PAL.ivory, PAL.wine]), {});
     plant(l, y, 1240, 0, 1, PAL.ivory, 'tall');
     frame(l, 'S', -300, 900, y + 230, 220, 140, PAL.walnut, PAL.cream, i => { dab(l, i, .3, .5, 50, 60, PAL.rose); dab(l, i, .65, .45, 70, 50, PAL.sage); });
+  }
+
+  /* ===== her sitting room: the big arched window, a loveseat, tea ===== */
+  {
+    const l = 'L1', y = Y(1);
+    sofa(l, y, 640, 580, 0, PAL.sage, 220);
+    roundTable(l, y, 640, 730, 40, 44, PAL.walnut, PAL.ivory);
+    for (const dx of [-14, 12]) cyl(l, 640 + dx, y + 44, 728, 6, 5, 9, PAL.ivory, { seg: 8 });
+    armchair(l, y, 900, 760, -Math.PI * .6, PAL.blush); floorLamp(l, y, 1000, 850);
+    blk(l, 312, 362, y, y + 76, 620, 820, PAL.ivory, { faces: { py: PAL.walnutLt } });
+    vase(l, 337, y + 76, 790, .9, BLOOMS.front);
+    frame(l, 'E', 300, 720, y + 200, 110, 140, PAL.brass, '#E6ECEB');
+    for (let k = 0; k < 3; k++) cyl(l, 334, y + 76, 650 + k * 40, 6, 6, 18, pick([PAL.rose, PAL.brass, PAL.ivory, PAL.wine]), {});
+    shelf(l, y, 1240, 700, -Math.PI / 2, 220, 260, 40, { rows: 4 });
+    plant(l, y, 1240, 860, 1, PAL.ivory);
+    rug(l, y, 720, 700, 560, 300, PAL.blush, PAL.cream, PAL.wine);
+    chandelier(l, 760, 700, y + H, 70);
   }
 
   /* ===== her bathroom, her balcony ===== */

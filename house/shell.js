@@ -28,18 +28,21 @@ function side(layer, s, lv, y0, tall, inner, o = {}) {
   const ops = [];
   for (const [a, b, d] of openingsOn(s, lv)) ops.push({ a, b, y0: 0, y1: d.bay ? tall : d.dh || DH, bay: d.bay });
   const out = t => { const p = [s.A[0] + s.u[0] * t - s.n[0] * 40, s.A[1] + s.u[1] * t - s.n[1] * 40]; return !enclosed(lv, p[0], p[1]); };
+  const pt = t => [s.A[0] + s.u[0] * t, s.A[1] + s.u[1] * t];
   if (o.windows !== false) {
-    const step = o.step || 300, half = (o.winW || 120) / 2, margin = o.margin ?? 70;
+    /* each room picks its own kind of window: arched, round, tall, small, or plain */
+    const step = o.step || 300, margin = o.margin ?? 70, style = o.style || (() => ({}));
     const k = Math.max(1, Math.floor((s.len - 2 * margin) / step + 1e-6)), t0 = (s.len - (k - 1) * step) / 2;
     for (let i = 0; i < k; i++) {
-      const t = t0 + i * step, a = t - half, b = t + half;
-      if (a < margin - 1 || b > s.len - margin + 1 || ops.some(p => b > p.a - 50 && a < p.b + 50) || !out(t)) continue;
-      ops.push({ a, b, y0: o.sill ?? 120, y1: Math.min(tall - 50, o.head ?? 350), win: true, shutters: o.shutters !== false });
+      const t = t0 + i * step, st = style(i, k, pt(t)) || {}, kind = st.kind || 'rect', half = (st.w || o.winW || 120) / 2, a = t - half, b = t + half;
+      if (a < Math.min(margin, 20) - 1 || b > s.len - Math.min(margin, 20) + 1 || ops.some(p => b > p.a - 50 && a < p.b + 50) || !out(t)) continue;
+      const sill = st.sill ?? o.sill ?? 120;
+      ops.push({ a, b, y0: sill, y1: Math.min(tall - 40, kind === 'round' ? sill + half * 2 : st.head ?? o.head ?? 350), win: true, kind,
+        shutters: o.shutters !== false && (kind === 'rect' || kind === 'tall'), box: kind !== 'round' && kind !== 'small' });
     }
   }
   ops.sort((p, q) => p.a - q.a);
   const extLayer = layer + ':' + outward(s.n);
-  const pt = t => [s.A[0] + s.u[0] * t, s.A[1] + s.u[1] * t];
   const seg = (t0, t1, h0, h1, ext) => {
     const [ax, az] = pt(t0), [bx, bz] = pt(t1), nx = s.n[0] * WT, nz = s.n[1] * WT;
     const faces = { [faceKey(s.n)]: inner, [backKey(s.n)]: ext ? EXT : inner, py: TRIM, ny: TRIM };
@@ -53,35 +56,66 @@ function side(layer, s, lv, y0, tall, inner, o = {}) {
     const ext = out((p.a + p.b) / 2);
     if (p.y0 > 0) seg(p.a, p.b, 0, p.y0, ext);
     if (p.y1 < tall) seg(p.a, p.b, p.y1, tall, ext);
-    if (p.win) window_(extLayer, pt(p.a), pt(p.b), s.n, y0 + p.y0, y0 + p.y1, p.shutters);
+    if (p.win) {
+      window_(extLayer, pt(p.a), pt(p.b), s.n, y0 + p.y0, y0 + p.y1, p);
+      const w = p.b - p.a, r = w / 2 - 1, L = ext ? extLayer : layer, outC = ext ? EXT : inner;
+      if (p.kind === 'arch') spandrel(L, s, p.a, w, y0 + p.y1 - r - 12, r + 12, r, false, outC, inner);
+      if (p.kind === 'round') { spandrel(L, s, p.a, w, y0 + p.y0 + w / 2, w / 2, r, false, outC, inner); spandrel(L, s, p.a, w, y0 + p.y0 + w / 2, w / 2, r, true, outC, inner); }
+    }
     else if (!p.bay && p.y1 < tall) { const [ax, az] = pt(p.a), [bx, bz] = pt(p.b); trimAround(layer, ax, az, bx, bz, s.n, y0, y0 + p.y1); }
     c = Math.max(c, p.b);
   }
   if (c < s.len) seg(c, s.len, 0, tall, out((c + s.len) / 2));
 }
-/* a window: a pane of glass in a walnut frame, with a sill; outside it glows a little, like golden hour reflecting */
-function window_(layer, [ax, az], [bx, bz], n, y0, y1, shutters = true) {
-  if (/:[SN]$/.test(layer) && y0 < 2 * LH) {
+/* the solid wall left in the top of an arched window, or round a round one: the opening's corners with a curve cut out.
+   Built in the wall's own frame (along it, up, into it), outside half in the facade colour, inside half in the room's */
+function spandrel(layer, s, a, w, yBase, h, r, down, outC, inC) {
+  const sh = new THREE.Shape(), d = down ? -1 : 1;
+  sh.moveTo(0, 0); sh.lineTo(0, d * h); sh.lineTo(w, d * h); sh.lineTo(w, 0);
+  sh.absarc(w / 2, 0, r, 0, d * Math.PI, down);
+  sh.closePath();
+  for (const [d0, d1, c] of [[0, WT / 2, outC], [WT / 2, WT, inC]]) {
+    const g = new THREE.ExtrudeGeometry(sh, { depth: d1 - d0, bevelEnabled: false, curveSegments: 14 });
+    g.applyMatrix4(new THREE.Matrix4().set(s.u[0], 0, s.n[0], s.A[0] + s.u[0] * a + s.n[0] * d0, 0, 1, 0, yBase, s.u[1], 0, s.n[1], s.A[1] + s.u[1] * a + s.n[1] * d0, 0, 0, 0, 1));
+    shape(layer, g, c, { jitter: 0 });
+  }
+}
+/* a ring of walnut round an arch or a round window, on the outside face */
+function ringTrim(layer, [ax, az], [bx, bz], n, cy, r, half) {
+  const g = new THREE.TorusGeometry(r + 4, 4, 5, 20, half ? Math.PI : Math.PI * 2);
+  const u = [(bx - ax) / Math.hypot(bx - ax, bz - az), (bz - az) / Math.hypot(bx - ax, bz - az)];
+  g.applyMatrix4(new THREE.Matrix4().set(u[0], 0, n[0], (ax + bx) / 2 - n[0] * 3, 0, 1, 0, cy, u[1], 0, n[1], (az + bz) / 2 - n[1] * 3, 0, 0, 0, 1));
+  shape(layer, g, PAL.walnutLt, { jitter: 0 });
+}
+/* a window: a pane of glass in a walnut frame, with a sill. Arched and round ones get a ring of trim; tall ones a transom */
+function window_(layer, [ax, az], [bx, bz], n, y0, y1, p = {}) {
+  const kind = p.kind || 'rect', w = Math.hypot(bx - ax, bz - az), r = w / 2 - 1;
+  if (kind === 'arch') ringTrim(layer, [ax, az], [bx, bz], n, y1 - r - 12, r, true);
+  if (kind === 'round') ringTrim(layer, [ax, az], [bx, bz], n, y0 + w / 2, r, false);
+  if (/:[SN]$/.test(layer) && y0 < 2 * LH && p.box !== false) {
     windowBox(layer, Math.min(ax, bx), Math.max(ax, bx), az, -n[1], y0);
     /* louvred shutters in forest green, either side */
-    if (shutters) for (const [x0, x1] of [[Math.min(ax, bx) - 44, Math.min(ax, bx) - 6], [Math.max(ax, bx) + 6, Math.max(ax, bx) + 44]]) {
+    if (p.shutters) for (const [x0, x1] of [[Math.min(ax, bx) - 44, Math.min(ax, bx) - 6], [Math.max(ax, bx) + 6, Math.max(ax, bx) + 44]]) {
       const z0 = az - n[1] * 2, z1 = az - n[1] * 8, lo = Math.min(z0, z1), hi = Math.max(z0, z1);
       blk(layer, x0, x1, y0 - 6, y1 + 6, lo, hi, PAL.forest, { collide: false });
       for (let y = y0 + 14; y < y1 - 6; y += 18) blk(layer, x0 + 5, x1 - 5, y, y + 4, lo - (n[1] > 0 ? 1.5 : 0), hi + (n[1] < 0 ? 1.5 : 0), '#2E3B2C', { collide: false });
     }
   }
-  const mx = (ax + bx) / 2, mz = (az + bz) / 2, w = Math.hypot(bx - ax, bz - az), along = Math.abs(bx - ax) > 1;
+  const mx = (ax + bx) / 2, mz = (az + bz) / 2, along = Math.abs(bx - ax) > 1;
   const cx = mx + n[0] * WT / 2, cz = mz + n[1] * WT / 2;
+  /* glazing bars: a cross for most, a transom high up on tall ones, one for the spring of an arch */
+  const bars = kind === 'tall' ? [y0 + (y1 - y0) * .72] : kind === 'arch' ? [y1 - r - 12] : kind === 'round' ? [y0 + w / 2] : [(y0 + y1) / 2];
+  const sillOn = kind !== 'round';
   if (along) {
     blk(layer, Math.min(ax, bx), Math.max(ax, bx), y0, y1, cz - 2, cz + 2, PAL.glass, { kind: 'glass', cam: false });
     blk(layer, mx - 3, mx + 3, y0, y1, cz - 4, cz + 4, PAL.walnut, { collide: false });
-    blk(layer, Math.min(ax, bx), Math.max(ax, bx), (y0 + y1) / 2 - 3, (y0 + y1) / 2 + 3, cz - 4, cz + 4, PAL.walnut, { collide: false });
-    blk(layer, Math.min(ax, bx) - 8, Math.max(ax, bx) + 8, y0 - 8, y0, cz - 14, cz + 14, TRIM, { collide: false });
+    for (const y of bars) blk(layer, Math.min(ax, bx), Math.max(ax, bx), y - 3, y + 3, cz - 4, cz + 4, PAL.walnut, { collide: false });
+    if (sillOn) blk(layer, Math.min(ax, bx) - 8, Math.max(ax, bx) + 8, y0 - 8, y0, cz - 14, cz + 14, TRIM, { collide: false });
   } else {
     blk(layer, cx - 2, cx + 2, y0, y1, Math.min(az, bz), Math.max(az, bz), PAL.glass, { kind: 'glass', cam: false });
     blk(layer, cx - 4, cx + 4, y0, y1, mz - 3, mz + 3, PAL.walnut, { collide: false });
-    blk(layer, cx - 4, cx + 4, (y0 + y1) / 2 - 3, (y0 + y1) / 2 + 3, Math.min(az, bz), Math.max(az, bz), PAL.walnut, { collide: false });
-    blk(layer, cx - 14, cx + 14, y0 - 8, y0, Math.min(az, bz) - 8, Math.max(az, bz) + 8, TRIM, { collide: false });
+    for (const y of bars) blk(layer, cx - 4, cx + 4, y - 3, y + 3, Math.min(az, bz), Math.max(az, bz), PAL.walnut, { collide: false });
+    if (sillOn) blk(layer, cx - 14, cx + 14, y0 - 8, y0, Math.min(az, bz) - 8, Math.max(az, bz) + 8, TRIM, { collide: false });
   }
 }
 /* a window box under a front or garden window, spilling flowers */
@@ -207,6 +241,23 @@ function gableRoof(x0, x1, z0, z1, eave, ridge, alongX, over = 70) {
   }
 }
 
+/* the windows, room by room: so the house reads as rooms with lives, not a grid of identical rectangles */
+const windowStyle = (id, s) => (i, k, [x]) => {
+  const front = s.k === 's';
+  switch (id) {
+    case 'guest': return front && x > -1150 && x < -950 ? { kind: 'round', w: 130, sill: 200 } : { kind: 'arch', w: 116, sill: 90, head: 390 };
+    case 'uphall': return { kind: 'arch', w: 108, sill: 100, head: 390 };
+    case 'bedroom': return front ? (i === Math.floor(k / 2) ? { kind: 'arch', w: 230, sill: 46, head: 420 } : { kind: 'tall', w: 82, sill: 70, head: 380 }) : { kind: 'tall', w: 96, sill: 60, head: 390 };
+    case 'closet': return { kind: 'arch', w: 92, sill: 160, head: 820 };
+    case 'kitchen': case 'living': return { kind: 'tall', w: 120, sill: 40, head: 392 };
+    case 'laundry': case 'mudroom': case 'pantry': case 'gbath': case 'halfbath': case 'garage': return { kind: 'small', w: 84, sill: 220, head: 304 };
+    case 'movie': return { kind: 'small', w: 96, sill: 236, head: 332 };
+    case 'bath': return { kind: 'round', w: 112, sill: 196 };
+    case 'library': case 'study': case 'cafe': case 'stairs': case 'landing': case 'hall': return { kind: 'arch', w: 108, sill: 110, head: 396 };
+  }
+  return {};
+};
+
 export function buildShell() {
   /* floors and walls, storey by storey */
   for (const id in ROOMS) {
@@ -221,7 +272,7 @@ export function buildShell() {
     }
     if (id === 'sunroom') { sunroom(r); continue; }
     slab(layer, r, y0 + (lv ? 0 : 1), lv ? 40 : 22, FLOORC[id] || PAL.oak, holesIn(lv));
-    for (const s of sidesOf(r)) side(layer, s, lv, y0, r.tall || H, WALL[id] || PAL.linen, { windows: !(id === 'garage' && s.k === 's') });
+    for (const s of sidesOf(r)) side(layer, s, lv, y0, r.tall || H, WALL[id] || PAL.linen, { windows: !(id === 'garage' && s.k === 's'), style: windowStyle(id, s), step: id === 'bedroom' && s.k === 's' ? 260 : id === 'closet' ? 240 : undefined });
     baseboards(layer, r, lv, y0);
   }
   /* the bays: little glass rooms pushed out of the walls */
@@ -254,7 +305,8 @@ export function buildShell() {
   /* her wing above the closet: a gallery walkway round a two-storey void, under its own tall roof */
   for (const g of GALLERY) slab('L2', g, A, 40, FLOORC.gallery, holesIn(2));
   blk('L2', 300, 1300, A - 40, A, -300, 900, FLOORC.gallery, { faces: { ny: PAL.white } });
-  for (const s of sidesOf(WING)) side('L2', s, 2, A, WEAVE - A, WALL.gallery, { step: 360 });
+  /* her closet's own walls already rise the full two storeys; the attic storey's walls only go above her bedroom */
+  for (const s of sidesOf({ x0: 300, x1: 1300, z0: -300, z1: 900 })) side('L2', s, 2, A, WEAVE - A, WALL.gallery, { step: 360, style: () => ({ kind: 'round', w: s.k === 's' ? 170 : 120, sill: 140 }) });
   galleryRail();
   /* the east wing: pantry and her bathroom under a little gable */
   gableRoof(EAST.x0, EAST.x1 + 20, EAST.z0, EAST.z1, LH + H, LH + H + 230, true, 40);

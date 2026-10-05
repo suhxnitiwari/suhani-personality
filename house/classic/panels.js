@@ -165,7 +165,7 @@ const STOPS = [
   },
   {
     id: 'heart', kicker: 'The kitchen · the fridge', title: 'What her people know',
-    build: () => `<figure class="photo"><img src="../photos/01-fridge.jpg" alt="Suhani's fridge, covered in photos and notes"><figcaption>the fridge of a loved eldest sister</figcaption></figure>
+    build: () => `<figure class="photo"><img src="../../photos/01-fridge.jpg" alt="Suhani's fridge, covered in photos and notes"><figcaption>the fridge of a loved eldest sister</figcaption></figure>
       <p class="lede">Behind the boss energy is someone who remembers what makes each person special and loves wholeheartedly.</p>
       <div class="traits soft">${HEART.map(([t, d, ev], i) => `<div class="trait on"><small>0${i + 1}</small><b>${t}</b><span>${d}</span><em>${ev}</em></div>`).join('')}</div>`
   },
@@ -224,15 +224,15 @@ const STOPS = [
   },
   {
     id: 'built', kicker: 'The study · the desk', title: 'She built <em>this.</em>',
-    build: () => `<p class="lede">Every test in this house is self-report. This one isn't. The house itself is the last piece of evidence: one drawing library, Three.js, and everything else is code she wrote. Every wall, every stair, every rose bush, and the little Suhani you're walking around in.</p>
+    build: () => `<p class="lede">Every test in this house is self-report. This one isn't. The house itself is the last piece of evidence: no WebGL, no 3D library, no framework. Every wall, every painted riser, every peony on the mural is code.</p>
       <div class="stats">
-        <p><b id="sNodes">–</b><span>solid blocks</span></p><p><b>1</b><span>dependency</span></p>
+        <p><b id="sNodes">–</b><span>pieces of house</span></p><p><b>0</b><span>dependencies</span></p>
         <p><b id="sFps">–</b><span>frames a second</span></p><p><b id="sSeen">–</b><span>stops you've seen</span></p>
-        <p><b id="sTime">–</b><span>time you've spent here</span></p><p><b>25</b><span>rooms</span></p></div>
+        <p><b id="sTime">–</b><span>time you've spent here</span></p><p><b>11</b><span>rooms</span></p></div>
 `,
     init: (root, sub, api) => {
       const tick = () => {
-        root.querySelector('#sNodes').textContent = window.HOUSE_STATS ? HOUSE_STATS().blocks.toLocaleString() : '–';
+        root.querySelector('#sNodes').textContent = world.querySelectorAll('.pl').length;
         root.querySelector('#sFps').textContent = api.fps();
         root.querySelector('#sSeen').textContent = `${api.seen()} of ${STOPS.length}`;
         const s = Math.round(performance.now() / 1000);
@@ -322,14 +322,14 @@ const STOPS = [
   },
   {
     id: 'photos', kicker: 'The attic · the open trunk', title: 'Life in <em>frames.</em>', next: 'Back to the door',
-    build: sub => `<figure class="photo big"><img id="phImg" src="../${PHOTOS[sub ?? 0].src}" alt=""><figcaption id="phCap">${esc(PHOTOS[sub ?? 0].cap)}</figcaption></figure>
+    build: sub => `<figure class="photo big"><img id="phImg" src="../../${PHOTOS[sub ?? 0].src}" alt=""><figcaption id="phCap">${esc(PHOTOS[sub ?? 0].cap)}</figcaption></figure>
       <div class="row"><button class="pill ghost sm" id="phPrev">←</button><span class="count" id="phN"></span><button class="pill ghost sm" id="phNext">→</button></div>
-      <div class="thumbs">${PHOTOS.map(p => `<button><img src="../${p.src}" alt="${esc(p.cap)}" loading="lazy"></button>`).join('')}</div>`,
+      <div class="thumbs">${PHOTOS.map(p => `<button><img src="../../${p.src}" alt="${esc(p.cap)}" loading="lazy"></button>`).join('')}</div>`,
     init: (root, sub, api) => {
       let i = sub ?? 0;
       const show = (k, move) => {
         i = (k + PHOTOS.length) % PHOTOS.length;
-        root.querySelector('#phImg').src = '../' + PHOTOS[i].src; root.querySelector('#phCap').textContent = PHOTOS[i].cap;
+        root.querySelector('#phImg').src = '../../' + PHOTOS[i].src; root.querySelector('#phCap').textContent = PHOTOS[i].cap;
         root.querySelector('#phN').textContent = `${i + 1} / ${PHOTOS.length}`;
         root.querySelectorAll('.thumbs button').forEach((b, j) => b.classList.toggle('on', i === j));
         

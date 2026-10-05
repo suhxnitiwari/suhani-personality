@@ -160,7 +160,7 @@ const lowCase = (g, x, z, w, h, ry, base, seed, extra = {}) => box(g, { x, z, w,
   for (const z of [-470, -330]) box(g, { x: -1612, z, w: 14, d: 14, h: 40, lift: 182, cls: 'm-candle', solid: false });
   pool(g, -1520, -400, 560, 0, 'fire');
   for (const [z, seed, half] of [[-695, 3, 0], [-105, 9, 1]]) {
-    tag(box(g, { x: -1672, z, w: 190, d: 56, h: H, ry: 90, cls: 'm-walnut', front: `<div class="case lit">${shelfRows(5, 5, seed, { 1: `<span class="fr">${PHOTOS.slice(half * 3, half * 3 + 2).map(p => `<img src="../${p.src}" alt="">`).join('')}</span>`, 3: objs(2, seed) + books(3, seed + 1) })}</div>` }), 'circle');
+    tag(box(g, { x: -1672, z, w: 190, d: 56, h: H, ry: 90, cls: 'm-walnut', front: `<div class="case lit">${shelfRows(5, 5, seed, { 1: `<span class="fr">${PHOTOS.slice(half * 3, half * 3 + 2).map(p => `<img src="../../${p.src}" alt="">`).join('')}</span>`, 3: objs(2, seed) + books(3, seed + 1) })}</div>` }), 'circle');
   }
   target('circle', 'living', 'E', -1644, -400, 230, 640, 420, { minDist: 520 });
   for (const z of [-575, -225]) sconce(g, 'E', -1598, z, 300, 0);
@@ -315,7 +315,7 @@ const lowCase = (g, x, z, w, h, ry, base, seed, extra = {}) => box(g, { x, z, w,
   box(g, { x: 900, z: -1012, w: 350, d: 76, h: 8, lift: 90, cls: 'm-marble', solid: false });
   mount(g, 'S', -1050, 690, 160, 760, 140, 'zellige', '', T + 1);
   for (const x of [480, 975]) box(g, { x, z: -1030, w: x === 480 ? 300 : 190, d: 40, h: 120, lift: 310, cls: 'm-sage', solid: false, front: '<i class="glassfront"><b></b><b></b><b></b></i>' });
-  tag(box(g, { x: 1210, z: -1015, w: 160, d: 70, h: 400, cls: 'm-panel', front: `<i class="seam"></i><i class="pull a"></i><i class="pull b"></i><span class="ledge"><img src="../photos/01-fridge.jpg" alt=""><i class="note n1"></i><i class="note n2"></i></span>` }), 'heart');
+  tag(box(g, { x: 1210, z: -1015, w: 160, d: 70, h: 400, cls: 'm-panel', front: `<i class="seam"></i><i class="pull a"></i><i class="pull b"></i><span class="ledge"><img src="../../photos/01-fridge.jpg" alt=""><i class="note n1"></i><i class="note n2"></i></span>` }), 'heart');
   target('heart', 'kitchen', 'S', -980, 1210, 200, 180, 400, { minDist: 340 });
   /* the tiny island: black base, butcher-block top, two stools */
   box(g, { x: 760, z: -620, w: 230, d: 100, h: 84, cls: 'm-ink', front: '<i class="shaker"></i>' });
@@ -694,7 +694,7 @@ const ROOFH = z => z > -750 ? EAVE + (40 - z) * (720 / 790) : EAVE + (z + 1540) 
   box(pj, { x: -200, z: -580, w: 50, d: 70, h: 28, lift: 72, base: A, ry: 10, cls: 'm-ideas', solid: false, top: '<i class="ideas">IDEAS</i>' });
   tag(pj, 'quiz');
   target('quiz', 'attic', 'S', -485, -300, 90, 320, 180, { minDist: 300 });
-  const tr = box(g, { x: 0, z: -1150, w: 160, d: 90, h: 70, base: A, cls: 'm-trunk-chest', top: `<div class="photos-in">${PHOTOS.slice(0, 5).map(p => `<img src="../${p.src}" alt="">`).join('')}</div>` });
+  const tr = box(g, { x: 0, z: -1150, w: 160, d: 90, h: 70, base: A, cls: 'm-trunk-chest', top: `<div class="photos-in">${PHOTOS.slice(0, 5).map(p => `<img src="../../${p.src}" alt="">`).join('')}</div>` });
   tag(tr, 'photos'); play(tr, 'photos');
   target('photos', 'attic', 'S', -1105, 0, 80, 260, 160, { minDist: 300 });
   for (const [x, z, lbl] of [[150, -1250, 'Dallas'], [210, -1150, 'Austin'], [160, -1050, 'India']]) box(g, { x, z, w: 90, d: 70, h: 56, base: A, cls: 'm-archive', front: `<i class="lbl">${lbl}</i>` });
@@ -952,11 +952,8 @@ const extWin = (g, face, line, along, up, w, h, kind) => mount(g, face, line, al
   flowers(ge, 1710, -730, 0, 70, 'rose', .7);
   plane(ge, 680, 330, 1935, -165, -730, -90, 0, 'rain two');
   box(ge, { x: 1935, z: -730, w: 40, d: 700, h: 8, cls: 'm-limestone', solid: false, top: '<i class="water"></i>' });
-  /* the front garden: a winding stone path, layered beds, a flowering arch, a bench, a birdbath */
+  /* the front garden: a winding stone path, layered beds, a bench, a birdbath */
   for (let i = 0; i < 9; i++) { const t = i / 8, x = -1050 + Math.sin(t * Math.PI * 1.2) * 180, z = 260 + t * 1500; plane(ge, 110, 80, x, -1.5, z, t * 30, 90, 'stepstone'); }
-  const fa = group(ge, 0, 0, 0, 0, 'front-arch');
-  for (const sx of [-1, 1]) box(fa, { x: -1010 + sx * 120, z: 640, w: 10, d: 10, h: 320, cls: 'm-iron', solid: false });
-  plane(fa, 280, 180, -1010, -320, 640, 0, 0, 'arch-roses two');
   for (const [x, z, k, s] of [[-1600, 380, 'hyd', 1.2], [-1300, 330, 'rose', 1], [-750, 330, 'hyd', 1], [-450, 380, 'rose', 1], [-120, 330, 'hyd', .9], [-1550, 700, 'rose', 1], [-500, 900, 'hyd', 1]]) for (const ry of [0, 70]) plane(ge, 220 * s, 150 * s, x, -75 * s, z, ry, 0, 'bush ' + k);
   plane(ge, 1650, 60, -850, -2, 280, 0, 90, 'boxwood-edge');
   box(ge, { x: -1400, z: 1000, w: 200, d: 60, h: 44, cls: 'm-teak' });
